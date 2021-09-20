@@ -26,4 +26,6 @@ filename vased outcomes can also be found in the output files
 
 'filewise' option is generally used for debug purposes only
 
+'checkMetadata' for zip file, 'isMetadata' for CSV files can be made True if _metadata_ type files need to be processed
+
 check validate_spec.py for example invokations

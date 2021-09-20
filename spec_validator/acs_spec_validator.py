@@ -251,8 +251,8 @@ def testSpec(columnNameList, specDict):
 	return tempList
 
 # run all the tests on a single csv file
-# tests data overlay by default, isMetadataFile = True parses assuming csv file is metadata file
-def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadataFile = False):
+# tests data overlay by default, isMetadata = True parses assuming csv file is metadata file
+def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadata = False):
 	# clean the file paths
 	csvPath = os.path.expanduser(csvPath)
 	specPath = os.path.expanduser(specPath)
@@ -269,7 +269,7 @@ def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadataFile = Fal
 	# create csv reader
 	csvReader = csv.reader(open(csvPath, 'r'))
 	# compile list of columns
-	allColumns = columnsFromCSVReader(csvReader, isMetadataFile)
+	allColumns = columnsFromCSVReader(csvReader, isMetadata)
 
 	# run the tests
 	testResults = {}
