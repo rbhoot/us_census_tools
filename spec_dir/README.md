@@ -1,0 +1,1 @@
+This directory contains all the generated specs that can be used for autogenerating a new spec
