@@ -36,13 +36,23 @@ def getTokensListFromZip(zipFilePath, checkMetadata = False, printDetails=False,
                 with zf.open(filename, 'r') as data_f:
                     csv_reader = csv.reader(io.TextIOWrapper(data_f, 'utf-8'))
                     for row in csv_reader:
-                        if csv_reader.line_num > 2:
+                        if checkMetadata:
                             for tok in row[1].split(delimiter):
                                 # tokens.add(tok)
                                 if tok not in tokens:
                                     tokens.append(tok)
                                     if printDetails:
                                         print(tok)
+                        else:
+                            if csv_reader.line_num == 2:
+                                for column_name in row:
+                                    for tok in column_name.split(delimiter):
+                                        # tokens.add(tok)
+                                        if tok not in tokens:
+                                            tokens.append(tok)
+                                            if printDetails:
+                                                print(tok)
+
     # return list(tokens)
     return tokens
 
@@ -166,7 +176,7 @@ def columnsFromZipFile(zipPath, checkMetadata = False):
             if tempFlag:
                 with zf.open(filename, 'r') as data_f:
                     csvReader = csv.reader(io.TextIOWrapper(data_f, 'utf-8'))
-                    curColumns = columnsFromCSVReader(csvReader, False)
+                    curColumns = columnsFromCSVReader(csvReader, checkMetadata)
                     allColumns.extend(curColumns)
 
     allColumns = list(set(allColumns))

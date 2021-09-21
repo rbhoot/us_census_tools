@@ -11,7 +11,7 @@ from common_utils.common_util import request_url_json
 
 # fetch pvs from dc, enums from dc
 
-def fetch_dcid_properties_enums(class_dcid, output_path='./prefetched_outputs', force_fetch=False):
+def fetch_dcid_properties_enums(class_dcid, output_path=module_dir_+'/prefetched_outputs', force_fetch=False):
 	output_path = os.path.expanduser(output_path)
 	if not os.path.exists(output_path):
 		os.makedirs(output_path, exist_ok=True)
