@@ -17,7 +17,7 @@ def request_url_json(url):
             #TODO
     return response_data
 
-def getTokensListFromZip(zipFilePath, checkMetadata = False, printDetails=False):
+def getTokensListFromZip(zipFilePath, checkMetadata = False, printDetails=False, delimiter='!!'):
     # tokens = set()
     tokens = []
     with zipfile.ZipFile(zipFilePath) as zf:
@@ -37,7 +37,7 @@ def getTokensListFromZip(zipFilePath, checkMetadata = False, printDetails=False)
                     csv_reader = csv.reader(io.TextIOWrapper(data_f, 'utf-8'))
                     for row in csv_reader:
                         if csv_reader.line_num > 2:
-                            for tok in row[1].split('!!'):
+                            for tok in row[1].split(delimiter):
                                 # tokens.add(tok)
                                 if tok not in tokens:
                                     tokens.append(tok)
@@ -58,13 +58,13 @@ def tokenNotInListIgnoreCase(token, list_check):
             return False
     return True
 
-def columnToBeIgnored(columnName, specDict):
+def columnToBeIgnored(columnName, specDict, delimiter='!!'):
     retValue = False
     if 'ignoreColumns' in specDict:
         for ignoreToken in specDict['ignoreColumns']:
-            if '!!' in ignoreToken and ignoreToken == columnName:
+            if delimiter in ignoreToken and ignoreToken == columnName:
                 retValue = True
-            elif tokenInListIgnoreCase(ignoreToken, columnName.split('!!')):
+            elif tokenInListIgnoreCase(ignoreToken, columnName.split(delimiter)):
                 retValue = True
     return retValue
 
@@ -83,11 +83,11 @@ def ignoredColumns(columnNameList, specDict):
     return retList
 
 # assumes columnNameList does not contain columns to be ignored
-def getTokensListFromColumnList(columnNameList):
+def getTokensListFromColumnList(columnNameList, delimiter='!!'):
     # tokens = set()
     tokens = []
     for columnName in columnNameList:
-        for tok in columnName.split('!!'):
+        for tok in columnName.split(delimiter):
             # tokens.add(tok)
             if tok not in tokens:
                 tokens.append(tok)

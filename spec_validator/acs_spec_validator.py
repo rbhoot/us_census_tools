@@ -13,7 +13,7 @@ from common_utils.common_util import *
 
 # finds any extra tokens that appear in the spec as a lookup but not as a part of any of the column names
 # requires column list before ignored columns are removed
-def findExtraTokens(columnNameList, specDict):
+def findExtraTokens(columnNameList, specDict, delimiter='!!'):
 	retList = []
 	# get list of unique tokens across all columns 
 	tokenList = getTokensListFromColumnList(columnNameList)
@@ -45,7 +45,7 @@ def findExtraTokens(columnNameList, specDict):
 	#check if the column name appears as ignore column or if a token appears in ignoreColumns
 	if 'ignoreColumns' in specDict:
 		for token in specDict['ignoreColumns']:
-			if '!!' in token:
+			if delimiter in token:
 				if token not in columnNameList:
 					retList.append(token)
 			elif tokenNotInListIgnoreCase(token, tokenList):
@@ -74,7 +74,7 @@ def findExtraTokens(columnNameList, specDict):
 	for token in tokensCopy:
 		if token.startswith('_'):
 			retList.remove(token)
-		if '!!' in token:
+		if delimiter in token:
 			if token in columnNameList:
 				retList.remove(token)
 	return retList
@@ -82,12 +82,12 @@ def findExtraTokens(columnNameList, specDict):
 
 # finds all columns that do not assign any property a value
 # assumes columnNameList does not contain columns to be ignored
-def findColumnsWithNoProperties(columnNameList, specDict):
+def findColumnsWithNoProperties(columnNameList, specDict, delimiter='!!'):
 	retList = []
 	for columnName in columnNameList:
 		noPropFlag = True
 		# get token list of the column
-		for token in columnName.split('!!'):
+		for token in columnName.split(delimiter):
 			for prop in specDict['pvs'].keys():
 				if tokenInListIgnoreCase(token, specDict['pvs'][prop].keys()):
 					# clear the flag when some property gets assigned a value
@@ -99,11 +99,11 @@ def findColumnsWithNoProperties(columnNameList, specDict):
 
 # returns list of tokens that appear in ignoreColumn as well as a PV
 # checks only tokens, ignores long column names
-def findIgnoreConflicts(specDict):
+def findIgnoreConflicts(specDict, delimiter='!!'):
 	retList = []
 	if 'ignoreColumns' in specDict:
 		for ignoreToken in specDict['ignoreColumns']:
-			if '!!' not in ignoreToken:
+			if delimiter not in ignoreToken:
 				for prop in specDict['pvs'].keys():
 					if tokenInListIgnoreCase(ignoreToken, specDict['pvs'][prop].keys()):
 						retList.append(ignoreToken)
@@ -112,12 +112,12 @@ def findIgnoreConflicts(specDict):
 # if multiple tokens match same property, they should appear as enumspecialisation
 # the token that appears later in the name should be the specialisation of one one encountered before
 # assumes columnNameList does not contain columns to be ignored
-def findMissingEnumSpecialisation(columnNameList, specDict):
+def findMissingEnumSpecialisation(columnNameList, specDict, delimiter='!!'):
 	retDict = {}
 	for columnName in columnNameList:
 		tempDict = {}
 		# populate a dictionary containing properties and all the values assigned to it
-		for token in columnName.split('!!'):
+		for token in columnName.split(delimiter):
 			for prop in specDict['pvs'].keys():
 				if tokenInListIgnoreCase(token, specDict['pvs'][prop].keys()):
 					if prop in tempDict:
