@@ -1,0 +1,78 @@
+{
+  "workStatus": [
+    "USC_WorkStatusEnum"
+  ],
+  "vehiclesAvailable": [
+    "QuantityRange",
+    "Quantity"
+  ],
+  "occupancyTenure": [
+    "OccupancyTenureEnum"
+  ],
+  "numberOfVehicles": [
+    "Quantity"
+  ],
+  "memberStatus": [
+    "HousingMemberStatusEnum"
+  ],
+  "literacyStatus": [
+    "LiteracyStatusEnum"
+  ],
+  "internetSubscriptionType": [
+    "USC_InternetSubscriptionTypeEnum"
+  ],
+  "internetAccessStatus": [
+    "USC_InternetAccessStatusEnum"
+  ],
+  "incomeDeficit": [
+    "Number"
+  ],
+  "income": [
+    "Quantity",
+    "Percentile",
+    "Number"
+  ],
+  "householderWorkStatus": [
+    "USC_WorkStatusEnum"
+  ],
+  "householderRelatedChildrenUnder18Years": [
+    "QuantityRange",
+    "Quantity"
+  ],
+  "householderRace": [
+    "RaceCodeEnum"
+  ],
+  "householderOwnChildrenUnder18Years": [
+    "QuantityRange",
+    "Quantity"
+  ],
+  "householderGender": [
+    "GenderType"
+  ],
+  "householderEducationalAttainment": [
+    "USC_EducationalAttainmentEnum"
+  ],
+  "householderAge": [
+    "Quantity",
+    "Number"
+  ],
+  "householdWorkerSize": [
+    "QuantityRange",
+    "Quantity"
+  ],
+  "householdType": [
+    "HouseholdTypeEnum"
+  ],
+  "hasComputer": [
+    "Boolean"
+  ],
+  "hasChildren": [
+    "HasChildrenStatusEnum"
+  ],
+  "childSchoolEnrollment": [
+    "USC_SchoolEnrollmentEnum"
+  ],
+  "benefitsStatus": [
+    "BenefitsStatusEnum"
+  ]
+}
