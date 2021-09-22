@@ -1,0 +1,18 @@
+{
+    "010" : {
+                "urlStr" : "us:*",
+                "needsStateID" : false
+            },
+    "040" : {
+                "urlStr" : "state:*",
+                "needsStateID" : false
+            },
+    "050" : {
+                "urlStr" : "county:*",
+                "needsStateID" : false
+            },
+    "160" : {
+                "urlStr" : "place:*",
+                "needsStateID" : false
+            }
+}
