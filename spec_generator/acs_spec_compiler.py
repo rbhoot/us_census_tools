@@ -4,6 +4,8 @@ import requests
 import ast
 import copy
 import sys
+from absl import app
+from absl import flags
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
@@ -12,10 +14,18 @@ from common_utils.common_util import getTokensListFromZip, columnsFromZipFile, t
 from dc_api_tools.dc_utils import fetch_dcid_properties_enums
 from spec_validator.acs_spec_validator import findColumnsWithNoProperties, findMissingTokens
 
+FLAGS = flags.FLAGS
 
-spec_dir = '../spec_dir/'
-expected_populations = ['Person', 'Household']
-expected_pvs = ['age', 'gender', 'race', 'nativity', 'citizenship', 'maritalStatus', 'residentStatus', 'educationalAttainment', 'income', 'povertyStatus', 'occupancyTenure']
+flags.DEFINE_string('spec_dir', None, 'Path to folder containing all previous config spec JSON file')
+
+flags.DEFINE_boolean('create_compiled_spec', False, 'Produce compiled_spec.json which had combination of all previous specs')
+flags.DEFINE_boolean('guess_new_spec', False, 'Produces a guessed spec from zip file and specs from the spec_dir folder')
+flags.DEFINE_boolean('get_combined_property_list', False, 'Get list of properties available in previous specs')
+
+flags.DEFINE_boolean('check_metadata', False, 'Parses the metadata files in zip rather than data files')
+
+flags.DEFINE_list('expected_populations', ['Person'], 'List of expected population types')
+flags.DEFINE_list('expected_properties', [], 'list of expected properties')
 
 # TODO might have to change this if invocation from elsewhere is to be allowed
 def get_spec_list(spec_dir='../spec_dir/'):
@@ -28,18 +38,6 @@ def get_spec_list(spec_dir='../spec_dir/'):
 			with open(spec_dir+filename, 'r') as fp:
 				spec_list.append(json.load(fp))
 	return spec_list
-
-# print list of available pvs
-def get_available_pvs_spec(all_specs):
-	ret_list = []
-	# TODO store the source file name
-	for cur_spec in all_specs:
-		ret_list.extend(cur_spec['pvs'].keys())
-	return list(set(ret_list))
-
-# print(get_available_pvs(spec_list))
-
-# TODO print available pvs from dc
 
 # create megaspec
 def create_combined_spec(all_specs):
@@ -118,7 +116,7 @@ def create_combined_spec(all_specs):
 				if column_name not in out_spec['ignoreColumns']:
 					out_spec['ignoreColumns'].append(column_name)
 
-	with open('universal_spec.json', 'w') as fp:
+	with open('compiled_spec.json', 'w') as fp:
 		json.dump(out_spec, fp, indent=2)
 
 	return out_spec
@@ -126,12 +124,12 @@ def create_combined_spec(all_specs):
 
 
 # go through megaspec creating output and discarded spec
-def create_new_spec(zip_path, universal_spec, expected_populations=['Person'], expected_pvs=[]):
+def create_new_spec(zip_path, compiled_spec, expected_populations=['Person'], expected_pvs=[], checkMetadata=False, delimiter='!!'):
 	zip_path = os.path.expanduser(zip_path)
 
 	# read zip file for tokens
-	all_tokens = getTokensListFromZip(zip_path)
-	all_columns = columnsFromZipFile(zip_path)
+	all_tokens = getTokensListFromZip(zip_path, checkMetadata=checkMetadata, delimiter=delimiter)
+	all_columns = columnsFromZipFile(zip_path, checkMetadata=checkMetadata)
 
 	out_spec = {}
 	# assign expected_population[0] to default if present
@@ -156,50 +154,50 @@ def create_new_spec(zip_path, universal_spec, expected_populations=['Person'], e
 	discarded_spec['ignoreColumns'] = []
 	discarded_spec['ignoreTokens'] = []
 
-	for population_token in universal_spec['populationType']:
+	for population_token in compiled_spec['populationType']:
 		if  population_token.startswith('_'):
-			out_spec['populationType'][population_token] = universal_spec['populationType'][population_token]
+			out_spec['populationType'][population_token] = compiled_spec['populationType'][population_token]
 		elif tokenInListIgnoreCase(population_token, all_tokens):
-			out_spec['populationType'][population_token] = universal_spec['populationType'][population_token]
+			out_spec['populationType'][population_token] = compiled_spec['populationType'][population_token]
 		else:
-			discarded_spec['populationType'][population_token] = universal_spec['populationType'][population_token]
+			discarded_spec['populationType'][population_token] = compiled_spec['populationType'][population_token]
 	
 	out_spec['populationType'] = {'_DEFAULT': expected_populations[0]}
 
-	for measurement_token in universal_spec['measurement']:
+	for measurement_token in compiled_spec['measurement']:
 		if  measurement_token.startswith('_'):
-			out_spec['measurement'][measurement_token] = universal_spec['measurement'][measurement_token]
+			out_spec['measurement'][measurement_token] = compiled_spec['measurement'][measurement_token]
 		elif tokenInListIgnoreCase(measurement_token, all_tokens):
-			out_spec['measurement'][measurement_token] = universal_spec['measurement'][measurement_token]
+			out_spec['measurement'][measurement_token] = compiled_spec['measurement'][measurement_token]
 		elif measurement_token in all_columns:
-			out_spec['measurement'][measurement_token] = universal_spec['measurement'][measurement_token]
+			out_spec['measurement'][measurement_token] = compiled_spec['measurement'][measurement_token]
 		else:
-			discarded_spec['measurement'][measurement_token] = universal_spec['measurement'][measurement_token]
+			discarded_spec['measurement'][measurement_token] = compiled_spec['measurement'][measurement_token]
 
-	for enum_token in universal_spec['enumSpecializations']:
+	for enum_token in compiled_spec['enumSpecializations']:
 		if tokenInListIgnoreCase(enum_token, all_tokens):
-			out_spec['enumSpecializations'][enum_token] = universal_spec['enumSpecializations'][enum_token]
+			out_spec['enumSpecializations'][enum_token] = compiled_spec['enumSpecializations'][enum_token]
 		else:
-			discarded_spec['enumSpecializations'][enum_token] = universal_spec['enumSpecializations'][enum_token]
+			discarded_spec['enumSpecializations'][enum_token] = compiled_spec['enumSpecializations'][enum_token]
 
-	for prop in universal_spec['pvs']:
-		for property_token in universal_spec['pvs'][prop]:
+	for prop in compiled_spec['pvs']:
+		for property_token in compiled_spec['pvs'][prop]:
 			if tokenInListIgnoreCase(property_token, all_tokens):
 				if prop not in out_spec['pvs']:
 					out_spec['pvs'][prop] = {}
-				out_spec['pvs'][prop][property_token] = universal_spec['pvs'][prop][property_token]
+				out_spec['pvs'][prop][property_token] = compiled_spec['pvs'][prop][property_token]
 			else:
 				if prop not in discarded_spec['pvs']:
 					discarded_spec['pvs'][prop] = {}
-				discarded_spec['pvs'][prop][property_token] = universal_spec['pvs'][prop][property_token]
+				discarded_spec['pvs'][prop][property_token] = compiled_spec['pvs'][prop][property_token]
 
-	for prop in universal_spec['inferredSpec']:
+	for prop in compiled_spec['inferredSpec']:
 		if prop in out_spec['pvs']:
-			out_spec['inferredSpec'].update({prop:universal_spec['inferredSpec'][prop]})
+			out_spec['inferredSpec'].update({prop:compiled_spec['inferredSpec'][prop]})
 		else:
-			discarded_spec['inferredSpec'].update({prop:universal_spec['inferredSpec'][prop]})
+			discarded_spec['inferredSpec'].update({prop:compiled_spec['inferredSpec'][prop]})
 
-	for cur_universe in universal_spec['universePVs']:
+	for cur_universe in compiled_spec['universePVs']:
 		population_flag = False
 		for population_token in out_spec['populationType']:
 			if out_spec['populationType'][population_token] == cur_universe['populationType']:
@@ -214,7 +212,7 @@ def create_new_spec(zip_path, universal_spec, expected_populations=['Person'], e
 			out_spec['universePVs'].append(cur_universe)
 
 	# ignoreColumns
-	for token_name in universal_spec['ignoreColumns']:
+	for token_name in compiled_spec['ignoreColumns']:
 		if tokenInListIgnoreCase(token_name, all_tokens) or token_name in all_columns:
 			if token_name not in out_spec['ignoreColumns XXXXX']:
 				out_spec['ignoreColumns XXXXX'].append(token_name)
@@ -269,5 +267,25 @@ def create_new_spec(zip_path, universal_spec, expected_populations=['Person'], e
 		json.dump({'columns_missing_pv':columns_missing_pv, 'missing_tokens':missing_tokens}, fp, indent=2)
 
 	return out_spec
+
+def main(argv):
+	combined_spec_out = create_combined_spec(get_spec_list('../spec_dir/'))
+
+	if FLAGS.create_compiled_spec:
+		print(json.dumps(combined_spec_out, indent=2))
+	if FLAGS.get_combined_property_list:
+		print(json.dumps(sorted(list(combined_spec_out['pvs'].keys())), indent=2))
+	if FLAGS.guess_new_spec:
+		if not FLAGS.zip_path:
+			print('ERROR: zip file required to guess the new spec')
+		else:
+			guess_spec = create_new_spec(FLAGS.zip_path, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.check_metadata, FLAGS.delimiter)
+			print(json.dumps(guess_spec, indent=2))
+
+if __name__ == '__main__':
+    flags.mark_bool_flags_as_mutual_exclusive(['create_compiled_spec', 'guess_new_spec', 'get_combined_property_list'], required=True)
+    app.run(main)
+
+
 
 

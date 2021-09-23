@@ -3,9 +3,17 @@ import ast
 import json
 import os
 import sys
+from absl import app
+from absl import flags
+
+FLAGS = flags.FLAGS
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
+
+flags.DEFINE_string('dcid', None, 'Path to zip file downloaded from US Census')
+flags.DEFINE_string('dc_output_path', './prefetched_outputs/', 'Path to zip file downloaded from US Census')
+flags.DEFINE_boolean('force_fetch', False, 'Produce a list of tokens from the input file/s')
 
 from common_utils.common_util import request_url_json
 
@@ -74,4 +82,14 @@ def fetch_dcid_properties_enums(class_dcid, output_path=module_dir_+'/prefetched
 
 	return dc_props
 	
+
+
+def main(argv):
+    print(json.dumps(fetch_dcid_properties_enums(FLAGS.dcid, FLAGS.dc_output_path, FLAGS.force_fetch), indent=2))
+
+if __name__ == '__main__':
+    flags.mark_flags_as_required(['dcid'])
+    app.run(main)
+
+
 
