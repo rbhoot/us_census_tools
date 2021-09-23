@@ -259,12 +259,12 @@ def getSpecDictFromPath(specPath):
     return specDict
 
 def main(argv):
-    if FLAGS.ignore_columns:
-        if not FLAGS.spec_path:
+    if not FLAGS.spec_path:
+        if FLAGS.ignore_columns:
             print('ERROR: Path to spec JSON required to ignore columns')
             return
-        else:
-            spec_dict = getSpecDictFromPath(FLAGS.spec_path)
+    else:
+        spec_dict = getSpecDictFromPath(FLAGS.spec_path)
 
     all_columns = []
     print_columns = []
@@ -294,7 +294,7 @@ def main(argv):
         print(json.dumps(print_columns, indent=2))
 
     if FLAGS.get_ignored_columns:
-        print(json.dumps(ignoredColumns(print_columns, spec_dict, FLAGS.delimiter), indent=2))
+        print(json.dumps(list(set(ignoredColumns(all_columns, spec_dict, FLAGS.delimiter))), indent=2))
 
 if __name__ == '__main__':
     flags.mark_flags_as_mutual_exclusive(['zip_path', 'csv_path', 'csv_path_list'], required=True)
