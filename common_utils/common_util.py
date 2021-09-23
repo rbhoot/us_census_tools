@@ -126,7 +126,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
     # check if the token appears in any of the pvs
     for prop in specDict['pvs'].keys():
         for token in specDict['pvs'][prop]:
-            if token in retList:
+            if token in retList and not token.startswith('_'):
                 print("Warning:", token, "appears multiple times")
             else:   
                 retList.append(token)
@@ -134,7 +134,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
     # check if the token appears in any of the population type
     if 'populationType' in specDict:
         for token in specDict['populationType'].keys():
-            if token in retList:
+            if token in retList and not token.startswith('_'):
                 print("Warning:", token, "appears multiple times")
             else:   
                 retList.append(token)
@@ -142,7 +142,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
     # check if the token appears in measurement
     if 'measurement' in specDict:
         for token in specDict['measurement'].keys():
-            if token in retList:
+            if token in retList and not token.startswith('_'):
                 print("Warning:", token, "appears multiple times")
             else:   
                 retList.append(token)
@@ -150,7 +150,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
     #check if the token is to be ignored
     if 'ignoreTokens' in specDict:
         for token in specDict['ignoreTokens']:
-            if token in retList:
+            if token in retList and not token.startswith('_'):
                 print("Warning:", token, "appears multiple times")
             else:   
                 retList.append(token)
@@ -158,7 +158,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
     #check if the column name appears as ignore column or if a token appears in ignoreColumns
     if 'ignoreColumns' in specDict:
         for token in specDict['ignoreColumns']:
-            if token in retList:
+            if token in retList and not token.startswith('_'):
                 print("Warning:", token, "appears multiple times")
             else:   
                 retList.append(token)
@@ -177,7 +177,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
             else:   
                 retList.append(column)
             for token in specDict['denominators'][column]:
-                if token in retList:
+                if token in retList and not token.startswith('_'):
                     print("Warning:", token, "appears multiple times")
             else:   
                 retList.append(token)

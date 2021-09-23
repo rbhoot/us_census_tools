@@ -5,74 +5,35 @@ import pprint
 import json
 import sys
 import os
+from absl import app
+from absl import flags
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
 
 from common_utils.common_util import *
 
+FLAGS = flags.FLAGS
+
+flags.DEFINE_string('validator_output_path', './outputs/', 'Path to store the output files')
+
 # finds any extra tokens that appear in the spec as a lookup but not as a part of any of the column names
 # requires column list before ignored columns are removed
+
 def findExtraTokens(columnNameList, specDict, delimiter='!!'):
 	retList = []
 	# get list of unique tokens across all columns 
-	tokenList = getTokensListFromColumnList(columnNameList)
+	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
 	
-	# check if the token appears in any of the pvs
-	for prop in specDict['pvs'].keys():
-		for token in specDict['pvs'][prop]:
-			if tokenNotInListIgnoreCase(token, tokenList):
-				retList.append(token)
-	
-	# check if the token appears in any of the population type
-	if 'populationType' in specDict:
-		for token in specDict['populationType'].keys():
-			if tokenNotInListIgnoreCase(token, tokenList):
-				retList.append(token)
-	
-	# check if the token appears in measurement
-	if 'measurement' in specDict:
-		for token in specDict['measurement'].keys():
-			if tokenNotInListIgnoreCase(token, tokenList):
-				retList.append(token)
-	
-	#check if the token is to be ignored
-	if 'ignoreTokens' in specDict:
-		for token in specDict['ignoreTokens']:
-			if tokenNotInListIgnoreCase(token, tokenList):
-				retList.append(token)
-	
-	#check if the column name appears as ignore column or if a token appears in ignoreColumns
-	if 'ignoreColumns' in specDict:
-		for token in specDict['ignoreColumns']:
-			if delimiter in token:
-				if token not in columnNameList:
-					retList.append(token)
-			elif tokenNotInListIgnoreCase(token, tokenList):
-				retList.append(token)
-	
-	#check if the token appears on any side of the enumspecialisation
-	if 'enumSpecializations' in specDict:
-		for token in specDict['enumSpecializations'].keys():
-			if tokenNotInListIgnoreCase(token, tokenList):
-				retList.append(token)
-			if tokenNotInListIgnoreCase(specDict['enumSpecializations'][token], tokenList):
-				retList.append(specDict['enumSpecializations'][token])
-	
-	#check if the total clomn is present and tokens in right side of denominator appear
-	if 'denominators' in specDict:
-		for column in specDict['denominators']:
-			if column not in columnNameList:
-				retList.append(column)
-			for token in specDict['denominators'][column]:
-				if tokenNotInListIgnoreCase(token, tokenList):
-					retList.append(token)
+	retList = getSpecTokenList(specDict, delimiter)
 	
 	tokensCopy = retList.copy()
 	
 	# ignore tokens beginning with an underscore or if token is a column name and appears in columnNameList
 	for token in tokensCopy:
 		if token.startswith('_'):
+			retList.remove(token)
+		elif tokenInListIgnoreCase(token, tokenList):
 			retList.remove(token)
 		if delimiter in token:
 			if token in columnNameList:
@@ -154,16 +115,46 @@ def findMissingEnumSpecialisation(columnNameList, specDict, delimiter='!!'):
 
 # check if all the columns that appear as total exist
 # assumes columnNameList does not contain columns to be ignored
-def findMissingDenominatorTotalColumn(columnNameList, specDict):
+def findMissingDenominatorTotalColumn(columnNameList, specDict, delimiter = '!!'):
 	retList = []
+	
+	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+
 	if 'denominators' in specDict:
 		for totalColumn in specDict['denominators'].keys():
-			tempFlag = True
-			for col in columnNameList:
-				if totalColumn in col:
-					tempFlag = False
-			if tempFlag:
+			if delimiter in totalColumn and totalColumn in columnNameList:
 				retList.append(totalColumn)
+			elif tokenInListIgnoreCase(totalColumn, tokenList):
+				retList.append(totalColumn)
+	return retList
+
+def findMissingDenominators(columnNameList, specDict, delimiter = '!!'):
+	retList = []
+	
+	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+
+	if 'denominators' in specDict:
+		for totalColumn in specDict['denominators'].keys():
+			for curDenominator in specDict['denominators'][totalColumn]:
+				if delimiter in curDenominator and curDenominator in columnNameList:
+					retList.append(curDenominator)
+				elif tokenInListIgnoreCase(curDenominator, tokenList):
+					retList.append(curDenominator)
+	return retList
+
+def findRepeatingDenominators(columnNameList, specDict, delimiter = '!!'):
+	retList = []
+	appearedList = []
+
+	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+
+	if 'denominators' in specDict:
+		for totalColumn in specDict['denominators'].keys():
+			for curDenominator in specDict['denominators'][totalColumn]:
+				if tokenInListIgnoreCase(curDenominator, appearedList):
+					retList.append(curDenominator)
+				else:
+					appearedList.append(curDenominator)
 	return retList
 
 # assumes columnNameList does not contain columns to be ignored
@@ -173,13 +164,13 @@ def findMissingDenominatorTotalColumn(columnNameList, specDict):
 # runs all the tests related to tokens and columns and prints relevant output
 # requires column list before ignored columns are removed
 # raiseWarningsOnly is used mainly in case of yearwise processing, it prevents raising of false errors
-def testColumnNameList(columnNameList, specDict, raiseWarningsOnly = False):
+def testColumnNameList(columnNameList, specDict, raiseWarningsOnly = False, delimiter = '!!'):
 	retDict = {}
 
 	# remove ignore columns
-	columnNameList = removeColumnsToBeIgnored(columnNameList, specDict)
+	columnNameList = removeColumnsToBeIgnored(columnNameList, specDict, delimiter)
 	
-	tokenList = getTokensListFromColumnList(columnNameList)
+	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
 
 	tempList = findMissingTokens(tokenList, specDict)
 	retDict['missing_tokens'] = []
@@ -252,7 +243,7 @@ def testSpec(columnNameList, specDict):
 
 # run all the tests on a single csv file
 # tests data overlay by default, isMetadata = True parses assuming csv file is metadata file
-def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadata = False):
+def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadata = False, delimiter='!!'):
 	# clean the file paths
 	csvPath = os.path.expanduser(csvPath)
 	specPath = os.path.expanduser(specPath)
@@ -279,9 +270,9 @@ def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadata = False):
 
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
-	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict)
-	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict)
-	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'])
+	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
 	columnsDict['all']['column_list_count'] = len(allColumns)
 	columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
 	columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
@@ -301,7 +292,7 @@ def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadata = False):
 
 	
 # assumes all files are metadata type if not flagged	
-def testCSVFileList(csvPathList, specPath, outputPath='./outputs/', isMetadata = [False], filewise=False, showSummary=False):
+def testCSVFileList(csvPathList, specPath, outputPath='./outputs/', filewise=False, showSummary=False, isMetadata = [False], delimiter='!!'):
 	# clean the file paths
 	specPath = os.path.expanduser(specPath)
 	outputPath = os.path.expanduser(outputPath)
@@ -333,9 +324,9 @@ def testCSVFileList(csvPathList, specPath, outputPath='./outputs/', isMetadata =
 
 		columnsDict[filename] = {}
 		columnsDict[filename]['column_list'] = curColumns
-		columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict)
-		columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict)
-		columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'])
+		columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
+		columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
+		columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
 		columnsDict[filename]['column_list_count'] = len(curColumns)
 		columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
 		columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
@@ -359,9 +350,9 @@ def testCSVFileList(csvPathList, specPath, outputPath='./outputs/', isMetadata =
 
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
-	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict)
-	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict)
-	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'])
+	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
 	columnsDict['all']['column_list_count'] = len(allColumns)
 	columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
 	columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
@@ -380,7 +371,7 @@ def testCSVFileList(csvPathList, specPath, outputPath='./outputs/', isMetadata =
 	print("End of test")
 	
 
-def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, showSummary=False, checkMetadata = False):
+def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, showSummary=False, checkMetadata = False, delimiter='!!'):
 	# clean the file paths
 	zipPath = os.path.expanduser(zipPath)
 	specPath = os.path.expanduser(specPath)
@@ -414,9 +405,9 @@ def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, show
 					
 					columnsDict[filename] = {}
 					columnsDict[filename]['column_list'] = curColumns
-					columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict)
-					columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict)
-					columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'])
+					columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
+					columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
+					columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
 					columnsDict[filename]['column_list_count'] = len(curColumns)
 					columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
 					columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
@@ -439,9 +430,9 @@ def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, show
 
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
-	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict)
-	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict)
-	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'])
+	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
 	columnsDict['all']['column_list_count'] = len(allColumns)
 	columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
 	columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
@@ -458,3 +449,19 @@ def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, show
 		json.dump(testResults, fp, indent=2)
 
 	print("End of test")
+
+
+def main(argv):
+    if FLAGS.zip_path:
+    	testZipFile(FLAGS.zip_path, FLAGS.spec_path, FLAGS.validator_output_path, False, False, FLAGS.is_metadata, FLAGS.delimiter)
+    if FLAGS.csv_path_list:
+    	testCSVFileList(FLAGS.csv_path_list, FLAGS.spec_path, FLAGS.validator_output_path, False, False, [FLAGS.is_metadata], FLAGS.delimiter)
+    if FLAGS.csv_path:
+    	testCSVFile(FLAGS.csv_path, FLAGS.spec_path, FLAGS.validator_output_path, FLAGS.is_metadata, FLAGS.delimiter)
+
+
+if __name__ == '__main__':
+	flags.mark_flags_as_required(['spec_path'])
+	flags.mark_flags_as_mutual_exclusive(['zip_path', 'csv_path', 'csv_path_list'], required=True)
+	app.run(main)
+
