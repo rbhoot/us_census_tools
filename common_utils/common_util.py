@@ -187,7 +187,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
 def findMissingTokens(tokenList, specDict, delimiter='!!'):
     specTokens = getSpecTokenList(specDict, delimiter)
     tokensCopy = tokenList.copy()
-    for token in tokensCopy:
+    for token in tokenList:
         if tokenInListIgnoreCase(token, specTokens):
             tokensCopy.remove(token)
     return tokensCopy

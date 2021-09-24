@@ -48,4 +48,5 @@ python acs_spec_compiler.py --get_combined_property_list
 Other available flags from common_utils:
 - is_metadata
 - delimiter
+
 Refer to README in the common_utils folder for description
