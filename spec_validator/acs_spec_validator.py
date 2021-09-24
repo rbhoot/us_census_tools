@@ -7,6 +7,7 @@ import sys
 import os
 from absl import app
 from absl import flags
+import copy 
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
@@ -16,6 +17,7 @@ from common_utils.common_util import *
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string('validator_output_path', './outputs/', 'Path to store the output files')
+flags.DEFINE_multi_enum('tests', ['all'], ['all', 'extra_tokens', 'missing_tokens', 'column_no_pv', 'ignore_conflicts', 'enum_specialialisations', 'denominators'], 'List of tests to run')
 
 # finds any extra tokens that appear in the spec as a lookup but not as a part of any of the column names
 # requires column list before ignored columns are removed
@@ -62,12 +64,23 @@ def findColumnsWithNoProperties(columnNameList, specDict, delimiter='!!'):
 # checks only tokens, ignores long column names
 def findIgnoreConflicts(specDict, delimiter='!!'):
 	retList = []
+	
+	newDict = copy.deepcopy(specDict)
+	newDict.pop('ignoreColumns', None)
+	newDict.pop('ignoreTokens', None)
+
+	specTokens = getSpecTokenList(newDict, delimiter)
+
 	if 'ignoreColumns' in specDict:
 		for ignoreToken in specDict['ignoreColumns']:
-			if delimiter not in ignoreToken:
-				for prop in specDict['pvs'].keys():
-					if tokenInListIgnoreCase(ignoreToken, specDict['pvs'][prop].keys()):
-						retList.append(ignoreToken)
+			if ignoreToken in specTokens:
+				retList.append(ignoreToken)
+
+	if 'ignoreTokens' in specDict:
+		for ignoreToken in specDict['ignoreTokens']:
+			if ignoreToken in specTokens:
+				retList.append(ignoreToken)
+
 	return retList
 
 # if multiple tokens match same property, they should appear as enumspecialisation
@@ -137,9 +150,10 @@ def findMissingDenominators(columnNameList, specDict, delimiter = '!!'):
 	if 'denominators' in specDict:
 		for totalColumn in specDict['denominators'].keys():
 			for curDenominator in specDict['denominators'][totalColumn]:
-				if delimiter in curDenominator and curDenominator not in columnNameList:
-					retList.append(curDenominator)
-				elif not  tokenInListIgnoreCase(curDenominator, tokenList):
+				if delimiter in curDenominator:
+					if curDenominator not in columnNameList:
+						retList.append(curDenominator)
+				elif not tokenInListIgnoreCase(curDenominator, tokenList):
 					retList.append(curDenominator)
 	return retList
 
@@ -152,99 +166,128 @@ def findRepeatingDenominators(columnNameList, specDict, delimiter = '!!'):
 	if 'denominators' in specDict:
 		for totalColumn in specDict['denominators'].keys():
 			for curDenominator in specDict['denominators'][totalColumn]:
-				if not tokenInListIgnoreCase(curDenominator, appearedList):
+				if tokenInListIgnoreCase(curDenominator, appearedList):
 					retList.append(curDenominator)
 				else:
 					appearedList.append(curDenominator)
 	return retList
-
-# assumes columnNameList does not contain columns to be ignored
-# def findMissingDenominators(columnNameList, specDict):
 	
 
 # runs all the tests related to tokens and columns and prints relevant output
 # requires column list before ignored columns are removed
 # raiseWarningsOnly is used mainly in case of yearwise processing, it prevents raising of false errors
-def testColumnNameList(columnNameList, specDict, raiseWarningsOnly = False, delimiter = '!!'):
+def testColumnNameList(columnNameList, specDict, test_list=['all'], raiseWarningsOnly = False, delimiter = '!!'):
 	retDict = {}
 
 	# remove ignore columns
 	columnNameList = removeColumnsToBeIgnored(columnNameList, specDict, delimiter)
 	
 	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
-
-	tempList = findMissingTokens(tokenList, specDict)
-	retDict['missing_tokens'] = []
-	if len(tempList) > 0:
-		print("\nWarning: Following tokens are missing in the spec")
-		tempList = list(set(tempList))
-		print(json.dumps(tempList, indent=2))
-		retDict['missing_tokens'] = tempList
-	else:
-		print("All token in spec or ignored")
 	
-	tempList = findColumnsWithNoProperties(columnNameList, specDict)
-	retDict['no_pv_columns'] = []
-	if len(tempList) > 0:
-		print("\nWarning: Following columns do not have any property assigned")
-		tempList = list(set(tempList))
-		print(json.dumps(tempList, indent=2))
-		retDict['no_pv_columns'] = tempList
-	else:
-		print("All columns have PV assignment")
-	
-	tempList = findIgnoreConflicts(specDict)
-	retDict['ignore_conflicts_token'] = []
-	if len(tempList) > 0:
-		if raiseWarningsOnly:
-			print("\nWarning: Following tokens appear in ignore list as well as property value")
+	if 'all' in test_list or 'missing_tokens' in test_list:
+		tempList = findMissingTokens(tokenList, specDict)
+		retDict['missing_tokens'] = []
+		if len(tempList) > 0:
+			print("\nWarning: Following tokens are missing in the spec")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+			retDict['missing_tokens'] = tempList
 		else:
-			print("\nError: Following tokens appear in ignore list as well as property value")
-		tempList = list(set(tempList))
-		print(json.dumps(tempList, indent=2))
-		retDict['ignore_conflicts_token'] = tempList
-	else:
-		print("No conflicting token assigned")
+			print("All token in spec or ignored")
 	
-	retDict['enum_specializations_missing'] = {}
-	tempDict = findMissingEnumSpecialisation(columnNameList, specDict)
-	if len(tempDict) > 0:
-		print("\nWarning: Following tokens should have an enumSpecialization")
-		print(json.dumps(tempDict, indent=2))
-		retDict['enum_specializations_missing'] = tempDict
-	else:
-		print("All tokens in enumSpecialization found")
-
-	tempList = findMissingDenominatorTotalColumn(columnNameList, specDict)
-	retDict['missing_denominator_totals'] = []
-	if len(tempList) > 0:
-		if raiseWarningsOnly:
-			print("\nWarning: Following denominator total columns not found")
+	if 'all' in test_list or 'column_no_pv' in test_list:
+		tempList = findColumnsWithNoProperties(columnNameList, specDict)
+		retDict['no_pv_columns'] = []
+		if len(tempList) > 0:
+			print("\nWarning: Following columns do not have any property assigned")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+			retDict['no_pv_columns'] = tempList
 		else:
-			print("\nError: Following denominator total columns not found")
-		tempList = list(set(tempList))
-		print(json.dumps(tempList, indent=2))
-		retDict['missing_denominator_totals'] = tempList
-	else:
-		print("All denominator total columns found")
+			print("All columns have PV assignment")
+	
+	if 'all' in test_list or 'ignore_conflicts' in test_list:
+		tempList = findIgnoreConflicts(specDict)
+		retDict['ignore_conflicts_token'] = []
+		if len(tempList) > 0:
+			if raiseWarningsOnly:
+				print("\nWarning: Following tokens appear in ignore list as well as property value")
+			else:
+				print("\nError: Following tokens appear in ignore list as well as property value")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+			retDict['ignore_conflicts_token'] = tempList
+		else:
+			print("No conflicting token assigned")
+	
+	if 'all' in test_list or 'enum_specialialisations' in test_list:
+		retDict['enum_specializations_missing'] = {}
+		tempDict = findMissingEnumSpecialisation(columnNameList, specDict)
+		if len(tempDict) > 0:
+			print("\nWarning: Following tokens should have an enumSpecialization")
+			print(json.dumps(tempDict, indent=2))
+			retDict['enum_specializations_missing'] = tempDict
+		else:
+			print("All tokens in enumSpecialization found")
+
+	if 'all' in test_list or 'denominators' in test_list:
+		tempList = findMissingDenominatorTotalColumn(columnNameList, specDict, delimiter)
+		retDict['missing_denominator_totals'] = []
+		if len(tempList) > 0:
+			if raiseWarningsOnly:
+				print("\nWarning: Following denominator total columns not found")
+			else:
+				print("\nError: Following denominator total columns not found")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+			retDict['missing_denominator_totals'] = tempList
+		else:
+			print("All denominator total columns found")
+
+		tempList = findMissingDenominators(columnNameList, specDict, delimiter)
+		retDict['missing_denominator'] = []
+		if len(tempList) > 0:
+			if raiseWarningsOnly:
+				print("\nWarning: Following denominator were not found")
+			else:
+				print("\nError: Following denominator were not found")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+			retDict['missing_denominator'] = tempList
+		else:
+			print("All denominators were found")
+
+		tempList = findRepeatingDenominators(columnNameList, specDict, delimiter)
+		retDict['repeating_denominator'] = []
+		if len(tempList) > 0:
+			if raiseWarningsOnly:
+				print("\nWarning: Following denominator were repeated")
+			else:
+				print("\nError: Following denominator were repeated")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+			retDict['repeating_denominator'] = tempList
+		else:
+			print("No denominators were repeated")
 
 	return retDict
 
 # calls all methods to check the spec 
-def testSpec(columnNameList, specDict):
-	tempList = findExtraTokens(columnNameList, specDict)
-	if len(tempList) > 0:
-		print("\nError: Following tokens appear in the spec but not in csv")
-		tempList = list(set(tempList))
-		print(json.dumps(tempList, indent=2))
-	else:
-		print("No extra tokens in spec")
+def testSpec(columnNameList, specDict, test_list=['all']):
+	if 'all' in test_list or 'extra_tokens' in test_list:
+		tempList = findExtraTokens(columnNameList, specDict)
+		if len(tempList) > 0:
+			print("\nError: Following tokens appear in the spec but not in csv")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+		else:
+			print("No extra tokens in spec")
 
 	return tempList
 
 # run all the tests on a single csv file
 # tests data overlay by default, isMetadata = True parses assuming csv file is metadata file
-def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadata = False, delimiter='!!'):
+def testCSVFile(csvPath, specPath, test_list=['all'], outputPath='./outputs/', isMetadata = False, delimiter='!!'):
 	# clean the file paths
 	csvPath = os.path.expanduser(csvPath)
 	specPath = os.path.expanduser(specPath)
@@ -267,7 +310,7 @@ def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadata = False, 
 	testResults = {}
 	testResults['all'] = testColumnNameList(allColumns, specDict)
 
-	testResults['all']['extra_tokens'] = testSpec(allColumns, specDict)
+	testResults['all']['extra_tokens'] = testSpec(allColumns, specDict, test_list)
 
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
@@ -293,7 +336,7 @@ def testCSVFile(csvPath, specPath, outputPath='./outputs/', isMetadata = False, 
 
 	
 # assumes all files are metadata type if not flagged	
-def testCSVFileList(csvPathList, specPath, outputPath='./outputs/', filewise=False, showSummary=False, isMetadata = [False], delimiter='!!'):
+def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, isMetadata = [False], delimiter='!!'):
 	# clean the file paths
 	specPath = os.path.expanduser(specPath)
 	outputPath = os.path.expanduser(outputPath)
@@ -337,7 +380,7 @@ def testCSVFileList(csvPathList, specPath, outputPath='./outputs/', filewise=Fal
 			print('----------------------------------------------------')
 			print(filename)
 			print('----------------------------------------------------')
-			testResults[filename] = testColumnNameList(curColumns, specDict, True)
+			testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True)
 			print('Total Number of Columns', columnsDict[filename]['column_list_count'])
 			print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
 			print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
@@ -346,8 +389,8 @@ def testCSVFileList(csvPathList, specPath, outputPath='./outputs/', filewise=Fal
 
 	# if filewise outputs have not been shown or summary is requested
 	if not filewise or showSummary:
-		testResults['all'] = testColumnNameList(allColumns, specDict)
-	testResults['all']['extra_tokens'] = testSpec(allColumns, specDict)
+		testResults['all'] = testColumnNameList(allColumns, specDict, test_list)
+	testResults['all']['extra_tokens'] = testSpec(allColumns, specDict, test_list)
 
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
@@ -372,7 +415,7 @@ def testCSVFileList(csvPathList, specPath, outputPath='./outputs/', filewise=Fal
 	print("End of test")
 	
 
-def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, showSummary=False, checkMetadata = False, delimiter='!!'):
+def testZipFile(zipPath, specPath, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, checkMetadata = False, delimiter='!!'):
 	# clean the file paths
 	zipPath = os.path.expanduser(zipPath)
 	specPath = os.path.expanduser(specPath)
@@ -418,7 +461,7 @@ def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, show
 						print('----------------------------------------------------')
 						print(filename)
 						print('----------------------------------------------------')
-						testResults[filename] = testColumnNameList(curColumns, specDict, True)
+						testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True)
 						print('Total Number of Columns', columnsDict[filename]['column_list_count'])
 						print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
 						print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
@@ -426,8 +469,8 @@ def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, show
 	allColumns = list(set(allColumns))
 	# if filewise outputs have not been shown or summary is requested
 	if not filewise or showSummary:
-		testResults['all'] = testColumnNameList(allColumns, specDict)
-	testResults['all']['extra_tokens'] = testSpec(allColumns, specDict)
+		testResults['all'] = testColumnNameList(allColumns, specDict, test_list)
+	testResults['all']['extra_tokens'] = testSpec(allColumns, specDict, test_list)
 
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
@@ -441,6 +484,7 @@ def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, show
 	print('Total Number of Columns', columnsDict['all']['column_list_count'])
 	print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
 	print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
+	print('Total Number of unique Accepted Column Names', len(list(set(columnsDict['all']['accepted_column_list']))))
 
 	print('creating output files')
 
@@ -454,11 +498,11 @@ def testZipFile(zipPath, specPath, outputPath='./outputs/', filewise=False, show
 
 def main(argv):
     if FLAGS.zip_path:
-    	testZipFile(FLAGS.zip_path, FLAGS.spec_path, FLAGS.validator_output_path, False, False, FLAGS.is_metadata, FLAGS.delimiter)
+    	testZipFile(FLAGS.zip_path, FLAGS.spec_path, FLAGS.tests , FLAGS.validator_output_path, False, False, FLAGS.is_metadata, FLAGS.delimiter)
     if FLAGS.csv_path_list:
-    	testCSVFileList(FLAGS.csv_path_list, FLAGS.spec_path, FLAGS.validator_output_path, False, False, [FLAGS.is_metadata], FLAGS.delimiter)
+    	testCSVFileList(FLAGS.csv_path_list, FLAGS.spec_path, FLAGS.tests, FLAGS.validator_output_path, False, False, [FLAGS.is_metadata], FLAGS.delimiter)
     if FLAGS.csv_path:
-    	testCSVFile(FLAGS.csv_path, FLAGS.spec_path, FLAGS.validator_output_path, FLAGS.is_metadata, FLAGS.delimiter)
+    	testCSVFile(FLAGS.csv_path, FLAGS.spec_path, FLAGS.tests, FLAGS.validator_output_path, FLAGS.is_metadata, FLAGS.delimiter)
 
 
 if __name__ == '__main__':

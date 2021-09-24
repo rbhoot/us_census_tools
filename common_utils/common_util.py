@@ -184,6 +184,29 @@ def getSpecTokenList(specDict, delimiter='!!'):
 
     return list(set(retList))
 
+def getSpecDCIDList(specDict):
+    retList = []
+    
+    # check if the token appears in any of the pvs
+    for prop in specDict['pvs'].keys():
+        for token in specDict['pvs'][prop]:
+            if '[' not in specDict['pvs'][prop][token]:
+                retList.append(specDict['pvs'][prop][token])
+    
+    # check if the token appears in any of the population type
+    if 'populationType' in specDict:
+        for token in specDict['populationType'].keys():   
+            retList.append(specDict['populationType'][token])
+    
+    # TODO check if the token appears in measurement
+    # if 'measurement' in specDict:
+        # for token in specDict['measurement'].keys():
+            # retList.append(token)
+    # TODO
+    # inferredPV, universePV
+    
+    return list(set(retList))
+
 def findMissingTokens(tokenList, specDict, delimiter='!!'):
     specTokens = getSpecTokenList(specDict, delimiter)
     tokensCopy = tokenList.copy()

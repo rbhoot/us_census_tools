@@ -49,6 +49,7 @@ def create_combined_spec(all_specs):
 	out_spec['inferredSpec'] = {}
 	out_spec['universePVs'] = []
 	out_spec['ignoreColumns'] = []
+	out_spec['ignoreTokens'] = []
 
 	for cur_spec in all_specs:
 		out_spec['populationType']['_DEFAULT'] = "Person XXXXX"
@@ -116,6 +117,11 @@ def create_combined_spec(all_specs):
 				if column_name not in out_spec['ignoreColumns']:
 					out_spec['ignoreColumns'].append(column_name)
 
+		if 'ignoreTokens' in cur_spec:
+			for cur_token in cur_spec['ignoreTokens']:
+				if cur_token not in out_spec['ignoreTokens']:
+					out_spec['ignoreTokens'].append(cur_token)
+
 	with open('union_spec.json', 'w') as fp:
 		json.dump(out_spec, fp, indent=2)
 
@@ -141,7 +147,7 @@ def create_new_spec(zip_path, union_spec, expected_populations=['Person'], expec
 	out_spec['universePVs'] = []
 	out_spec['denominators'] = {}
 	out_spec['ignoreColumns XXXXX'] = []
-	out_spec['ignoreTokens'] = []
+	out_spec['ignoreTokens XXXXX'] = []
 
 	discarded_spec = {}
 	discarded_spec['populationType'] = {}
@@ -163,6 +169,14 @@ def create_new_spec(zip_path, union_spec, expected_populations=['Person'], expec
 			discarded_spec['populationType'][population_token] = union_spec['populationType'][population_token]
 	
 	out_spec['populationType'] = {'_DEFAULT': expected_populations[0]}
+
+	for i, new_population in enumerate(expected_populations):
+		population_not_found = True
+		for population_token in out_spec['populationType']:
+			if out_spec['populationType'][population_token] == new_population:
+				population_not_found = False
+		if population_not_found:
+			out_spec['populationType']['XXXXX'+str(i)] = new_population
 
 	for measurement_token in union_spec['measurement']:
 		if  measurement_token.startswith('_'):
@@ -210,13 +224,24 @@ def create_new_spec(zip_path, union_spec, expected_populations=['Person'], expec
 
 		if property_flag and population_flag:
 			out_spec['universePVs'].append(cur_universe)
+		else:
+			discarded_spec['universePVs'].append(cur_universe)
 
 	# ignoreColumns
 	for token_name in union_spec['ignoreColumns']:
 		if tokenInListIgnoreCase(token_name, all_tokens) or token_name in all_columns:
 			if token_name not in out_spec['ignoreColumns XXXXX']:
 				out_spec['ignoreColumns XXXXX'].append(token_name)
+		else:
+			discarded_spec['ignoreColumns'].append(token_name)
 
+	# ignoreTokens
+	for token_name in union_spec['ignoreTokens']:
+		if tokenInListIgnoreCase(token_name, all_tokens) or token_name in all_columns:
+			if token_name not in out_spec['ignoreTokens XXXXX']:
+				out_spec['ignoreTokens XXXXX'].append(token_name)
+		else:
+			discarded_spec['ignoreTokens'].append(token_name)
 
 	# TODO denominators, allow column checks
 
@@ -252,7 +277,7 @@ def create_new_spec(zip_path, union_spec, expected_populations=['Person'], expec
 	print('missing tokens')
 	print('---------------------')
 	missing_tokens = findMissingTokens(all_tokens, out_spec)
-	print(missing_tokens)
+	print(json.dumps(missing_tokens, indent=2))
 
 	# ?TODO check properties appearing in both specs 
 
