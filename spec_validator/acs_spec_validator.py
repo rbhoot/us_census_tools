@@ -122,9 +122,10 @@ def findMissingDenominatorTotalColumn(columnNameList, specDict, delimiter = '!!'
 
 	if 'denominators' in specDict:
 		for totalColumn in specDict['denominators'].keys():
-			if delimiter in totalColumn and totalColumn in columnNameList:
-				retList.append(totalColumn)
-			elif tokenInListIgnoreCase(totalColumn, tokenList):
+			if delimiter in totalColumn:
+				if totalColumn not in columnNameList:
+					retList.append(totalColumn)
+			elif not tokenInListIgnoreCase(totalColumn, tokenList):
 				retList.append(totalColumn)
 	return retList
 
@@ -136,9 +137,9 @@ def findMissingDenominators(columnNameList, specDict, delimiter = '!!'):
 	if 'denominators' in specDict:
 		for totalColumn in specDict['denominators'].keys():
 			for curDenominator in specDict['denominators'][totalColumn]:
-				if delimiter in curDenominator and curDenominator in columnNameList:
+				if delimiter in curDenominator and curDenominator not in columnNameList:
 					retList.append(curDenominator)
-				elif tokenInListIgnoreCase(curDenominator, tokenList):
+				elif not  tokenInListIgnoreCase(curDenominator, tokenList):
 					retList.append(curDenominator)
 	return retList
 
@@ -151,7 +152,7 @@ def findRepeatingDenominators(columnNameList, specDict, delimiter = '!!'):
 	if 'denominators' in specDict:
 		for totalColumn in specDict['denominators'].keys():
 			for curDenominator in specDict['denominators'][totalColumn]:
-				if tokenInListIgnoreCase(curDenominator, appearedList):
+				if not tokenInListIgnoreCase(curDenominator, appearedList):
 					retList.append(curDenominator)
 				else:
 					appearedList.append(curDenominator)
