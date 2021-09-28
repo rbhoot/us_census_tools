@@ -17,7 +17,7 @@ from common_utils.common_util import *
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string('validator_output_path', './outputs/', 'Path to store the output files')
-flags.DEFINE_multi_enum('tests', ['all'], ['all', 'extra_tokens', 'missing_tokens', 'column_no_pv', 'ignore_conflicts', 'enum_specialialisations', 'denominators'], 'List of tests to run')
+flags.DEFINE_multi_enum('tests', ['all'], ['all', 'extra_tokens', 'missing_tokens', 'column_no_pv', 'ignore_conflicts', 'enum_specialialisations', 'denominators', 'extra_inferred'], 'List of tests to run')
 
 # finds any extra tokens that appear in the spec as a lookup but not as a part of any of the column names
 # requires column list before ignored columns are removed
@@ -27,7 +27,7 @@ def findExtraTokens(columnNameList, specDict, delimiter='!!'):
 	# get list of unique tokens across all columns 
 	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
 	
-	retList = getSpecTokenList(specDict, delimiter)
+	retList = getSpecTokenList(specDict, delimiter)['token_list']
 	
 	tokensCopy = retList.copy()
 	
@@ -69,7 +69,7 @@ def findIgnoreConflicts(specDict, delimiter='!!'):
 	newDict.pop('ignoreColumns', None)
 	newDict.pop('ignoreTokens', None)
 
-	specTokens = getSpecTokenList(newDict, delimiter)
+	specTokens = getSpecTokenList(newDict, delimiter)['token_list']
 
 	if 'ignoreColumns' in specDict:
 		for ignoreToken in specDict['ignoreColumns']:
@@ -123,6 +123,9 @@ def findMissingEnumSpecialisation(columnNameList, specDict, delimiter='!!'):
 						else:
 							retDict[propToken]['column'].append(columnName)
 							retDict[propToken]['possibleParents'].extend(tempDict[prop][:j])
+	
+	for propToken in retDict:
+		retDict[propToken]['possibleParents'] = list(set(retDict[propToken]['possibleParents']))
 
 	return retDict
 
@@ -193,7 +196,7 @@ def testColumnNameList(columnNameList, specDict, test_list=['all'], raiseWarning
 			print(json.dumps(tempList, indent=2))
 			retDict['missing_tokens'] = tempList
 		else:
-			print("All token in spec or ignored")
+			print("All tokens present in spec or ignored")
 	
 	if 'all' in test_list or 'column_no_pv' in test_list:
 		tempList = findColumnsWithNoProperties(columnNameList, specDict)
@@ -272,10 +275,20 @@ def testColumnNameList(columnNameList, specDict, test_list=['all'], raiseWarning
 
 	return retDict
 
+def findExtraInferredProperties(specDict):
+	retList = []
+	if 'inferredSpec' in specDict:
+		for property_name in specDict['inferredSpec']:
+			if property_name not in specDict['pvs']:
+				retList.append(property_name)
+	return retList
+
 # calls all methods to check the spec 
-def testSpec(columnNameList, specDict, test_list=['all']):
+def testSpec(columnNameList, specDict, test_list=['all'], delimiter='!!'):
+	retDict = {}
 	if 'all' in test_list or 'extra_tokens' in test_list:
 		tempList = findExtraTokens(columnNameList, specDict)
+		retDict['extra_tokens'] = tempList
 		if len(tempList) > 0:
 			print("\nError: Following tokens appear in the spec but not in csv")
 			tempList = list(set(tempList))
@@ -283,7 +296,26 @@ def testSpec(columnNameList, specDict, test_list=['all']):
 		else:
 			print("No extra tokens in spec")
 
-	return tempList
+		tempList = getSpecTokenList(specDict, delimiter)['repeated_list']
+		retDict['repeat_tokens'] = tempList
+		if len(tempList) > 0:
+			print("\nWarning: Following tokens appear in the spec multiple times")
+			tempList = (tempList)
+			print(json.dumps(tempList, indent=2))
+		else:
+			print("No tokens were reapeted in spec")
+	
+	if 'all' in test_list or 'extra_inferred' in test_list:
+		tempList = findExtraInferredProperties(specDict)
+		retDict['extra_inferred'] = tempList
+		if len(tempList) > 0:
+			print("\nError: Following properties appear in inferredSpec section but not in pvs")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+		else:
+			print("No extra inferredSpec")
+
+	return retDict
 
 # run all the tests on a single csv file
 # tests data overlay by default, isMetadata = True parses assuming csv file is metadata file
@@ -308,9 +340,9 @@ def testCSVFile(csvPath, specPath, test_list=['all'], outputPath='./outputs/', i
 
 	# run the tests
 	testResults = {}
-	testResults['all'] = testColumnNameList(allColumns, specDict)
+	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
 
-	testResults['all']['extra_tokens'] = testSpec(allColumns, specDict, test_list)
+	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
 
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
@@ -380,7 +412,7 @@ def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='./outp
 			print('----------------------------------------------------')
 			print(filename)
 			print('----------------------------------------------------')
-			testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True)
+			testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
 			print('Total Number of Columns', columnsDict[filename]['column_list_count'])
 			print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
 			print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
@@ -389,8 +421,8 @@ def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='./outp
 
 	# if filewise outputs have not been shown or summary is requested
 	if not filewise or showSummary:
-		testResults['all'] = testColumnNameList(allColumns, specDict, test_list)
-	testResults['all']['extra_tokens'] = testSpec(allColumns, specDict, test_list)
+		testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
+	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
 
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
@@ -461,7 +493,7 @@ def testZipFile(zipPath, specPath, test_list=['all'], outputPath='./outputs/', f
 						print('----------------------------------------------------')
 						print(filename)
 						print('----------------------------------------------------')
-						testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True)
+						testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
 						print('Total Number of Columns', columnsDict[filename]['column_list_count'])
 						print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
 						print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
@@ -469,8 +501,8 @@ def testZipFile(zipPath, specPath, test_list=['all'], outputPath='./outputs/', f
 	allColumns = list(set(allColumns))
 	# if filewise outputs have not been shown or summary is requested
 	if not filewise or showSummary:
-		testResults['all'] = testColumnNameList(allColumns, specDict, test_list)
-	testResults['all']['extra_tokens'] = testSpec(allColumns, specDict, test_list)
+		testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
+	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
 
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
@@ -484,7 +516,6 @@ def testZipFile(zipPath, specPath, test_list=['all'], outputPath='./outputs/', f
 	print('Total Number of Columns', columnsDict['all']['column_list_count'])
 	print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
 	print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
-	print('Total Number of unique Accepted Column Names', len(list(set(columnsDict['all']['accepted_column_list']))))
 
 	print('creating output files')
 
