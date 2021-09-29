@@ -2056,5 +2056,26 @@
             "Female householder, no husband present!!Percent below poverty level!!Estimate!!Householder worked full-time, year-round in the past 12 months",
             "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!Householder worked full-time, year-round in the past 12 months"
         ]
-    }
+    },
+    "ignoreTokens": [
+        "Families with a householder who is--",
+        "Family received",
+        "EDUCATIONAL ATTAINMENT OF HOUSEHOLDER",
+        "Total MOE",
+        "TENURE",
+        "Families",
+        "Family received --",
+        "Families with a householder who is",
+        "RACE AND HISPANIC OR LATINO ORIGIN",
+        "NUMBER OF RELATED CHILDREN UNDER 18 YEARS",
+        "Householder worked",
+        "Total",
+        "NUMBER OF OWN CHILDREN OF THE HOUSEHOLDER UNDER 18 YEARS",
+        "Estimate",
+        "NUMBER OF WORKERS IN FAMILY",
+        "Mean income deficit for families (dollars)",
+        "NUMBER OF RELATED CHILDREN OF THE HOUSEHOLDER UNDER 18 YEARS",
+        "NUMBER OF PEOPLE IN FAMILY",
+        "ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS"
+    ]
 }

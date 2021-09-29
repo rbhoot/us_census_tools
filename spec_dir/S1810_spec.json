@@ -6,6 +6,10 @@
     "_DEFAULT": {
       "measuredProperty": "count",
       "statType": "measuredValue"
+    },
+    "Margin of Error": {
+      "measuredProperty": "count",
+      "statType": "marginOfError"
     }
   },
   "pvs": {
@@ -53,25 +57,20 @@
       "Female": "Female"
     }
   },
-  "enumSpecializations": {
-    
-  },
+  "enumSpecializations": {},
   "inferredSpec": {},
   "universePVs": [
     {
       "populationType": "Person",
-      "defaultPVs": {
-        "armedForceStatus": "Civilian",
-        "institutionalization": "USC_NonInstitutionalized"
-      },
-      "constraintProperties": ["WithDisability"],
+      "constraintProperties": [
+        "WithDisability"
+      ],
       "dependentPVs": {
         "armedForceStatus": "Civilian",
         "institutionalization": "USC_NonInstitutionalized"
       }
     }
   ],
-  "defaultPVs": {},
   "denominators": {},
   "ignoreColumns": [
     "id",
@@ -88,6 +87,8 @@
     "SEX",
     "AGE",
     "RACE AND HISPANIC OR LATINO ORIGIN",
-    "Subject"
+    "Subject",
+    "Estimate",
+    "Total civilian noninstitutionalized population"
   ]
 }
