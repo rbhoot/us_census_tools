@@ -3,6 +3,7 @@ import json
 import zipfile
 import csv
 import io
+import os
 from absl import app
 from absl import flags
 
@@ -34,6 +35,7 @@ def request_url_json(url):
 
 def getTokensListFromZip(zipFilePath, checkMetadata = False, printDetails=False, delimiter='!!'):
     # tokens = set()
+    zipFilePath = os.path.expanduser(zipFilePath)
     tokens = []
     with zipfile.ZipFile(zipFilePath) as zf:
         for filename in zf.namelist():
@@ -122,12 +124,13 @@ def getTokensListFromColumnList(columnNameList, delimiter='!!'):
 
 def getSpecTokenList(specDict, delimiter='!!'):
     retList = []
-    
+    repeatedList = []
     # check if the token appears in any of the pvs
     for prop in specDict['pvs'].keys():
         for token in specDict['pvs'][prop]:
             if token in retList and not token.startswith('_'):
-                print("Warning:", token, "appears multiple times")
+
+                repeatedList.append(token)
             else:   
                 retList.append(token)
     
@@ -135,7 +138,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
     if 'populationType' in specDict:
         for token in specDict['populationType'].keys():
             if token in retList and not token.startswith('_'):
-                print("Warning:", token, "appears multiple times")
+                repeatedList.append(token)
             else:   
                 retList.append(token)
     
@@ -143,7 +146,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
     if 'measurement' in specDict:
         for token in specDict['measurement'].keys():
             if token in retList and not token.startswith('_'):
-                print("Warning:", token, "appears multiple times")
+                repeatedList.append(token)
             else:   
                 retList.append(token)
     
@@ -151,7 +154,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
     if 'ignoreTokens' in specDict:
         for token in specDict['ignoreTokens']:
             if token in retList and not token.startswith('_'):
-                print("Warning:", token, "appears multiple times")
+                repeatedList.append(token)
             else:   
                 retList.append(token)
     
@@ -159,7 +162,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
     if 'ignoreColumns' in specDict:
         for token in specDict['ignoreColumns']:
             if token in retList and not token.startswith('_'):
-                print("Warning:", token, "appears multiple times")
+                repeatedList.append(token)
             else:   
                 retList.append(token)
     
@@ -172,17 +175,11 @@ def getSpecTokenList(specDict, delimiter='!!'):
     #check if the total clomn is present and tokens in right side of denominator appear
     if 'denominators' in specDict:
         for column in specDict['denominators']:
-            if column in retList:
-                print("Warning:", column, "appears multiple times")
-            else:   
-                retList.append(column)
+            retList.append(column)
             for token in specDict['denominators'][column]:
-                if token in retList and not token.startswith('_'):
-                    print("Warning:", token, "appears multiple times")
-            else:   
                 retList.append(token)
 
-    return list(set(retList))
+    return {'token_list':list(set(retList)), 'repeated_list':list(set(repeatedList))}
 
 def getSpecDCIDList(specDict):
     retList = []
@@ -208,7 +205,7 @@ def getSpecDCIDList(specDict):
     return list(set(retList))
 
 def findMissingTokens(tokenList, specDict, delimiter='!!'):
-    specTokens = getSpecTokenList(specDict, delimiter)
+    specTokens = getSpecTokenList(specDict, delimiter)['token_list']
     tokensCopy = tokenList.copy()
     for token in tokenList:
         if tokenInListIgnoreCase(token, specTokens):
@@ -229,6 +226,7 @@ def columnsFromCSVReader(csvReader, isMetadataFile = False):
 
 # assumes metadata file or data with overlays file
 def columnsFromCSVFile(csvPath, isMetadataFile = False):
+    csvPath = os.path.expanduser(csvPath)
     csvReader = csv.reader(open(csvPath, 'r'))
     allColumns = columnsFromCSVReader(csvReader, isMetadataFile)
 
@@ -244,7 +242,8 @@ def columnsFromCSVFileList(csvPathList, isMetadata = [False]):
 
     for i, curFile in enumerate(csvPathList):
         # create csv reader
-        csvReader = csv.reader(open(csvPath, 'r'))
+        curFile = os.path.expanduser(curFile)
+        csvReader = csv.reader(open(curFile, 'r'))
         curColumns = columnsFromCSVReader(csvReader, isMetadata[i])
         allColumns.extend(curColumns)
 
@@ -254,6 +253,7 @@ def columnsFromCSVFileList(csvPathList, isMetadata = [False]):
 
 # assumes metadata file or data with overlays file
 def columnsFromZipFile(zipPath, checkMetadata = False):
+    zipPath = os.path.expanduser(zipPath)
     allColumns = []
 
     with zipfile.ZipFile(zipPath) as zf:
@@ -277,6 +277,7 @@ def columnsFromZipFile(zipPath, checkMetadata = False):
 
 
 def getSpecDictFromPath(specPath):
+    specPath = os.path.expanduser(specPath)
     with open(specPath, 'r') as fp:
         specDict = json.load(fp)
     return specDict
