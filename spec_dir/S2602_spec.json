@@ -1,0 +1,194 @@
+{
+  "populationType": {
+    "_DEFAULT": "Person"
+  },
+  "measurement": {
+    "_DEFAULT": {
+      "measuredProperty": "count",
+      "statType": "measuredValue"
+    },
+    "Median age (years)": {
+      "measuredProperty": "age",
+      "statType": "medianValue",
+      "unit": "Years"
+    },
+    "Median earnings (dollars)": {
+      "measuredProperty": "income",
+      "statType": "medianValue",
+      "unit": "USDollar"
+    }
+  },
+  "enumSpecializations": {},
+  "pvs": {
+    "statType": {
+      "Margin of Error": "marginOfError"
+    },
+    "age": {
+      "Under 15 years": "[- 15 Years]",
+      "15 to 17 years": "[15 17 Years]",
+      "Under 18 years": "[- 18 Years]",
+      "18 to 24 years": "[18 24 Years]",
+      "25 to 34 years": "[25 34 Years]",
+      "35 to 44 years": "[35 44 Years]",
+      "45 to 54 years": "[45 54 Years]",
+      "55 to 64 years": "[55 64 Years]",
+      "65 to 74 years": "[65 74 Years]",
+      "75 to 84 years": "[75 84 Years]",
+      "65 years and over": "[65 - Years]",
+      "85 years and over": "[85 - Years]",
+      "Population 1 year and over": "[1 - Years]",
+      "Population 25 years and over": "[25 - Years]",
+      "Population 15 years and over": "[15 - Years]",
+      "Population 18 to 64 years": "[18 64 Years]",
+      "Population 65 years and over": "[65 - Years]",
+      "Civilian population 18 years and over": "[18 - Years]"
+    },
+    "gender": {
+      "Male": "Male",
+      "Female": "Female"
+    },
+    "race": {
+      "One race": "OneRace",
+      "Two or more races": "TwoOrMoreRaces",
+      "Hispanic or Latino (of any race)": "HispanicOrLatino",
+      "White alone, not Hispanic or Latino": "WhiteAloneNotHispanicOrLatino",
+      "White": "WhiteAlone",
+      "Black or African American": "BlackOrAfricanAmericanAlone",
+      "American Indian and Alaska Native": "AmericanIndianOrAlaskaNativeAlone",
+      "Asian": "AsianAlone",
+      "Native Hawaiian and Other Pacific Islander": "NativeHawaiianOrOtherPacificIslanderAlone",
+      "Some other race": "SomeOtherRaceAlone"
+    },
+    "citizenship": {
+      "Naturalized U.S. citizen": "USCitizenByNaturalization",
+      "Native": "USCitizenBornInTheUnitedStates",
+      "Not a U.S. citizen": "NotAUSCitizen"
+    },
+    "nativity": {
+      "Foreign born": "USC_ForeignBorn",
+      "Native": "USC_Native"
+    },
+    "disabilityStatus": {
+      "With a disability": "WithDisability",
+      "No disability": "NoDisability"
+    },
+    "residentStatus": {
+      "Same county": "DifferentHouseInSameCounty",
+      "Different county": "DifferentHouseInDifferentCounty",
+      "Same state": "DifferentHouseInDifferentCountySameState",
+      "Different state": "DifferentHouseInDifferentCountyDifferentState",
+      "Abroad": "DifferentHouseAbroad",
+      "Different address in the United States": "DifferentHouseInTheUS",
+      "Same address": "SameHouse1YearAgo"
+    },
+    "educationalAttainment": {
+      "Bachelor's degree or higher": "BachelorsDegreeOrHigher",
+      "High school graduate or higher": "HighSchoolGraduateOrHigher"
+    },
+    "employmentStatus": {
+      "In labor force": "BLS_InLaborForce",
+      "Civilian labor force": "BLS_InLaborForce",
+      "Not in labor force": "BLS_NotInLaborForce"
+    },
+    "employment": {
+      "Employed": "BLS_Employed",
+      "Unemployed": "BLS_Unemployed"
+    },
+    "occupation": {
+      "Management, business, science, and arts occupations": "SOCv2018/highLevelAggregation-1",
+      "Service occupations": "SOCv2018/highLevelAggregation-2",
+      "Sales and office occupations": "SOCv2018/highLevelAggregation-3",
+      "Natural resources, construction, extraction, and maintenance occupations": "SOCv2018/highLevelAggregation-4",
+      "Production, transportation, and material moving occupations": "SOCv2018/highLevelAggregation-5"
+    },
+    "maritalStatus": {
+      "Widowed": "Widowed",
+      "Never married": "NeverMarried",
+      "Now married, except separated": "MarriedAndNotSeparated",
+      "Separated": "Separated",
+      "Divorced": "Divorced"
+    },
+    "schoolEnrollment XXXXX": {
+      "Population 3 years and over enrolled in school": "EnrolledInSchool",
+      "Nursery school through 12th grade": "XXXXXEnrolledInSchool"
+    },
+    "collegeOrGraduateSchoolEnrollment XXXXX": {
+      "College or graduate school": "EnrolledInCollegeOrGraduateSchool"
+    },
+    "veteranStatus": {
+      "Civilian veteran": "Veteran"
+    },
+    "languageSpokenAtHome": {
+      "English only": "OnlyEnglish",
+      "Language other than English": "LanguageOtherThanEnglish"
+    },
+    "armedForcesStatus": {
+      "Civilian population 18 years and over": "Civilian",
+      "Civilian labor force": "Civilian",
+      "Armed Forces": "InArmedForces",
+      "Civilian veteran": "Civilian"
+    },
+    "abilityToSpeakEnglish": {
+      "Speak English less than \"very well\"": "SpeakEnglishLessThanVeryWell"
+    },
+    "benefitsStatus": {
+      "With Food Stamp/SNAP benefits": "WithFoodStampsInThePast12Months"
+    },
+    "incomeStatus": {
+      "With earnings:": "WithEarnings"
+    },
+    "residentType": {
+      "Total group quarters population": "XXXXX",
+      "Adult correctional facilities": "XXXXX",
+      "Nursing facilities/skilled nursing facilities": "XXXXX",
+      "College/university housing": "XXXXX",
+      "Total group quarters population MOE": "XXXXX",
+      "Adult correctional facilities MOE": "XXXXX",
+      "Nursing facilities/skilled nursing facilities MOE": "XXXXX",
+      "College/university housing MOE": "XXXXX"
+    }
+  },
+  "inferredSpec": {
+    "residentStatus": {
+      "residenceType": "Household",
+      "age": "[1 - Years]"
+    },
+    "educationalAttainment": {
+      "age": "[25 - Years]"
+    },
+    "employmentStatus": {
+      "age": "[16 - Years]"
+    },
+    "employment": {
+      "employmentStatus": "BLS_InLaborForce",
+      "age": "[16 - Years]"
+    },
+    "occupation": {
+      "age": "[16 - Years]",
+      "workerStatus": "Worker"
+    },
+    "maritalStatus": {
+      "age": "[15 - Years]"
+    }
+  },
+  "universePVs": [],
+  "denominators": {},
+  "ignoreColumns": [
+    "id",
+    "Geographic Area Name"
+  ],
+  "ignoreTokens": [
+    "DISABILITY STATUS",
+    "Estimate",
+    "OCCUPATION",
+    "MARITAL STATUS",
+    "EDUCATIONAL ATTAINMENT",
+    "LANGUAGE SPOKEN AT HOME AND ABILITY TO SPEAK ENGLISH",
+    "EARNINGS AND BENEFITS IN THE PAST 12 MONTHS (IN 2018 INFLATION-ADJUSTED DOLLARS)",
+    "EARNINGS AND BENEFITS IN THE PAST 12 MONTHS (IN 2017 INFLATION-ADJUSTED DOLLARS)",
+    "EARNINGS AND BENEFITS IN THE PAST 12 MONTHS (IN 2019 INFLATION-ADJUSTED DOLLARS)",
+    "VETERAN STATUS"
+
+
+  ]
+}

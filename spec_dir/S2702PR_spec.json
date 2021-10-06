@@ -1,15 +1,15 @@
 {
-	"#TODO":"In the current import, we do not generate the statvars for both estimate and margin of error for the data on Household income between $50,000 and $74,999, since we could generated these statvars only for 2019 and not for the remaining years (2013-2018).",
+	"#TODO": "In the current import, we do not generate the statvars for both estimate and margin of error for the data on Household income between $50,000 and $74,999, since we could generated these statvars only for 2019 and not for the remaining years (2013-2018).",
 	"preprocess": {
 		"find_and_replace": {
-			"$1 to $4,999 or loss": "Civilian noninstitutionalized population 16 years and over with earnings!!$1 to $4,999 or loss",
-			"$5,000 to $14,999": "Civilian noninstitutionalized population 16 years and over with earnings!!$5,000 to $14,999",
-			"$15,000 to $24,999": "Civilian noninstitutionalized population 16 years and over with earnings!!$15,000 to $24,999",
-			"$25,000 to $34,999": "Civilian noninstitutionalized population 16 years and over with earnings!!$25,000 to $34,999",
-			"$35,000 to $49,999": "Civilian noninstitutionalized population 16 years and over with earnings!!$35,000 to $49,999",
-			"$50,000 to $74,999": "Civilian noninstitutionalized population 16 years and over with earnings!!$50,000 to $74,999",
-			"$75,000 or more": "Civilian noninstitutionalized population 16 years and over with earnings!!$75,000 or more",
-			"Median earnings (dollars)": "Civilian noninstitutionalized population 16 years and over with earnings!!Median earnings (dollars)",
+			"$1 to $4,999 or loss": "Civilian noninstitutionalized population 16 years and older with earnings!!$1 to $4,999 or loss",
+			"$5,000 to $14,999": "Civilian noninstitutionalized population 16 years and older with earnings!!$5,000 to $14,999",
+			"$15,000 to $24,999": "Civilian noninstitutionalized population 16 years and older with earnings!!$15,000 to $24,999",
+			"$25,000 to $34,999": "Civilian noninstitutionalized population 16 years and older with earnings!!$25,000 to $34,999",
+			"$35,000 to $49,999": "Civilian noninstitutionalized population 16 years and older with earnings!!$35,000 to $49,999",
+			"$50,000 to $74,999": "Civilian noninstitutionalized population 16 years and older with earnings!!$50,000 to $74,999",
+			"$75,000 or more": "Civilian noninstitutionalized population 16 years and older with earnings!!$75,000 or more",
+			"Median earnings (dollars)": "Civilian noninstitutionalized population 16 years and older with earnings!!Median earnings (dollars)",
 			"Under $25,000": "Total household population!!Under $25,000",
 			"$25,000 to $49,999": "Total household population!!$25,000 to $49,999",
 			"$75,000 to $99,999": "Total household population!!$75,000 to $99,999",
@@ -60,7 +60,7 @@
 	"pvs": {
 		"armedForcesStatus": {
 			"Total civilian noninstitutionalized population": "Civilian",
-			"Civilian noninstitutionalized population 16 years and over with earnings": "Civilian",
+			"Civilian noninstitutionalized population 16 years and older with earnings": "Civilian",
 			"Civilian noninstitutionalized workers 16 years and over": "Civilian",
 			"Civilian noninstitutionalized population 1 year and over": "Civilian",
 			"Civilian noninstitutionalized population 25 years and over": "Civilian",
@@ -69,7 +69,7 @@
 		},
 		"institutionalization": {
 			"Total civilian noninstitutionalized population": "USC_NonInstitutionalized",
-			"Civilian noninstitutionalized population 16 years and over with earnings": "USC_NonInstitutionalized",
+			"Civilian noninstitutionalized population 16 years and older with earnings": "USC_NonInstitutionalized",
 			"Civilian noninstitutionalized workers 16 years and over": "USC_NonInstitutionalized",
 			"Civilian noninstitutionalized population 1 year and over": "USC_NonInstitutionalized",
 			"Civilian noninstitutionalized population 25 years and over": "USC_NonInstitutionalized",
@@ -104,7 +104,7 @@
 			"Civilian noninstitutionalized population 16 years and over": "[16 - Years]",
 			"Civilian noninstitutionalized population 16 to 64 years": "[16 64 Years]",
 			"Civilian noninstitutionalized workers 16 years and over": "[16 - Years]",
-			"Civilian noninstitutionalized population 16 years and over with earnings": "[16 - Years]"
+			"Civilian noninstitutionalized population 16 years and older with earnings": "[16 - Years]"
 		},
 		"gender": {
 			"Male": "Male",
@@ -140,12 +140,12 @@
 		},
 		"residentStatus": {
 			"Same house": "SameHouse1YearAgo",
-			"Different House in the U.S.": "DifferentHouseInTheUS",
-			"Same county": "DifferentHouseInSameCounty",
-			"Different county": "DifferentHouseInDifferentCounty",
-			"Same state": "DifferentHouseInDifferentCountySameState",
-			"Different state": "DifferentHouseInDifferentCountyDifferentState",
-			"Abroad": "DifferentHouseAbroad"
+			"Different House in Puerto Rico or the United States": "DifferentHouseInTheUS",
+			"Same municipio": "DifferentHouseInSameCounty",
+			"Different municipio": "DifferentHouseInDifferentCounty",
+			"In Puerto Rico": "DifferentHouseInDifferentCountySameState",
+			"In the United States": "DifferentHouseInDifferentCountyDifferentState",
+			"Elsewhere": "DifferentHouseAbroad"
 		},
 		"educationalAttainment": {
 			"Less than high school graduate": "LessThanHighSchoolGraduate",
@@ -214,7 +214,7 @@
 			"Production, transportation, and material moving occupations": "SOCv2018/highLevelAggregation-5"
 		},
 		"incomeStatus": {
-			"Civilian noninstitutionalized population 16 years and over with earnings": "WithEarnings"
+			"Civilian noninstitutionalized population 16 years and older with earnings": "WithEarnings"
 		},
 		"income": {
 			"$1 to $4,999 or loss": "[- 4999 USDollar]",
@@ -287,11 +287,11 @@
 		"Uninsured Population!!Margin of Error!!Median age (years)",
 		"Margin of Error!!Total Uninsured MOE!!Median age (years)",
 		"Margin of Error!!Total Uninsured!!Total civilian noninstitutionalized population!!AGE!!Median age (years)",
-		"Uninsured Population!!Margin of Error!!Civilian noninstitutionalized population 16 years and over with earnings!!Median earnings (dollars)",
-		"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!Civilian noninstitutionalized population 16 years and over with earnings!!Median earnings (dollars)",
-		"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!Median earnings (dollars)",
+		"Uninsured Population!!Margin of Error!!Civilian noninstitutionalized population 16 years and older with earnings!!Median earnings (dollars)",
+		"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!Civilian noninstitutionalized population 16 years and older with earnings!!Median earnings (dollars)",
 		"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!Median earnings (dollars)",
-		"Margin of Error!!Total Uninsured MOE!!Civilian noninstitutionalized population 16 years and over with earnings!!Median earnings (dollars)",
+		"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!Median earnings (dollars)",
+		"Margin of Error!!Total Uninsured MOE!!Civilian noninstitutionalized population 16 years and older with earnings!!Median earnings (dollars)",
 		"Margin of Error!!Total Uninsured MOE!!Median earnings (dollars)",
 		"Uninsured Population!!Margin of Error!!Median earnings (dollars)",
 		"Uninsured Population!!Margin of Error!!Median household income of householders",
@@ -365,19 +365,19 @@
 		],
 		"Uninsured Population!!Estimate!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over": [
 			"Uninsured Population!!Estimate!!Same house",
-			"Uninsured Population!!Estimate!!Different House in the U.S.",
-			"Uninsured Population!!Estimate!!Different House in the U.S.!!Same county",
-			"Uninsured Population!!Estimate!!Different House in the U.S.!!Different county",
-			"Uninsured Population!!Estimate!!Different House in the U.S.!!Different county!!Same state",
-			"Uninsured Population!!Estimate!!Different House in the U.S.!!Different county!!Different state",
-			"Uninsured Population!!Estimate!!Abroad",
+			"Uninsured Population!!Estimate!!Different House in Puerto Rico or the United States",
+			"Uninsured Population!!Estimate!!Different House in Puerto Rico or the United States!!In Puerto Rico",
+			"Uninsured Population!!Estimate!!Different House in Puerto Rico or the United States!!Same municipio",
+			"Uninsured Population!!Estimate!!Different House in Puerto Rico or the United States!!Same municipio!!Different municipio",
+			"Uninsured Population!!Estimate!!Different House in Puerto Rico or the United States!!Same municipio!!In the United States",
+			"Uninsured Population!!Estimate!!Elsewhere",
 			"Uninsured Population!!Margin of Error!!Same house",
-			"Uninsured Population!!Margin of Error!!Different House in the U.S.",
-			"Uninsured Population!!Margin of Error!!Different House in the U.S.!!Same county",
-			"Uninsured Population!!Margin of Error!!Different House in the U.S.!!Different county",
-			"Uninsured Population!!Margin of Error!!Different House in the U.S.!!Different county!!Same state",
-			"Uninsured Population!!Margin of Error!!Different House in the U.S.!!Different county!!Different state",
-			"Uninsured Population!!Margin of Error!!Abroad"
+			"Uninsured Population!!Margin of Error!!Different House in Puerto Rico or the United States",
+			"Uninsured Population!!Margin of Error!!Different House in Puerto Rico or the United States!!In Puerto Rico",
+			"Uninsured Population!!Margin of Error!!Different House in Puerto Rico or the United States!!Same municipio",
+			"Uninsured Population!!Margin of Error!!Different House in Puerto Rico or the United States!!Same municipio!!Different municipio",
+			"Uninsured Population!!Margin of Error!!Different House in Puerto Rico or the United States!!Same municipio!!In the United States",
+			"Uninsured Population!!Margin of Error!!Elsewhere"
 		],
 		"Uninsured Population!!Estimate!!EDUCATIONAL ATTAINMENT!!Civilian noninstitutionalized population 25 years and over": [
 			"Uninsured Population!!Estimate!!Less than high school graduate",
@@ -463,7 +463,7 @@
 			"Uninsured Population!!Margin of Error!!OCCUPATION!!Natural resources, construction, and maintenance occupations",
 			"Uninsured Population!!Margin of Error!!OCCUPATION!!Production, transportation, and material moving occupations"
 		],
-		"Uninsured Population!!Estimate!!EARNINGS IN THE PAST 12 MONTHS (IN 2013 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings": [
+		"Uninsured Population!!Estimate!!EARNINGS IN THE PAST 12 MONTHS (IN 2013 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings": [
 			"Uninsured Population!!Estimate!!$1 to $4,999 or loss",
 			"Uninsured Population!!Estimate!!$5,000 to $14,999",
 			"Uninsured Population!!Estimate!!$15,000 to $24,999",
@@ -479,7 +479,7 @@
 			"Uninsured Population!!Margin of Error!!$50,000 to $74,999",
 			"Uninsured Population!!Margin of Error!!$75,000 or more"
 		],
-		"Uninsured Population!!Estimate!!EARNINGS IN THE PAST 12 MONTHS (IN 2014 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings": [
+		"Uninsured Population!!Estimate!!EARNINGS IN THE PAST 12 MONTHS (IN 2014 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings": [
 			"Uninsured Population!!Estimate!!$1 to $4,999 or loss",
 			"Uninsured Population!!Estimate!!$5,000 to $14,999",
 			"Uninsured Population!!Estimate!!$15,000 to $24,999",
@@ -495,7 +495,7 @@
 			"Uninsured Population!!Margin of Error!!$50,000 to $74,999",
 			"Uninsured Population!!Margin of Error!!$75,000 or more"
 		],
-		"Uninsured Population!!Estimate!!EARNINGS IN THE PAST 12 MONTHS (IN 2015 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings": [
+		"Uninsured Population!!Estimate!!EARNINGS IN THE PAST 12 MONTHS (IN 2015 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings": [
 			"Uninsured Population!!Estimate!!$1 to $4,999 or loss",
 			"Uninsured Population!!Estimate!!$5,000 to $14,999",
 			"Uninsured Population!!Estimate!!$15,000 to $24,999",
@@ -511,7 +511,7 @@
 			"Uninsured Population!!Margin of Error!!$50,000 to $74,999",
 			"Uninsured Population!!Margin of Error!!$75,000 or more"
 		],
-		"Uninsured Population!!Estimate!!EARNINGS IN THE PAST 12 MONTHS (IN 2016 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings": [
+		"Uninsured Population!!Estimate!!EARNINGS IN THE PAST 12 MONTHS (IN 2016 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings": [
 			"Uninsured Population!!Estimate!!$1 to $4,999 or loss",
 			"Uninsured Population!!Estimate!!$5,000 to $14,999",
 			"Uninsured Population!!Estimate!!$15,000 to $24,999",
@@ -709,8 +709,7 @@
 			"Margin of Error!!Total Uninsured MOE!!Natural resources, construction, and maintenance occupations",
 			"Margin of Error!!Total Uninsured MOE!!Production, transportation, and material moving occupations"
 		],
-
-		"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2017 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings": [
+		"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2017 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings": [
 			"Estimate!!Total Uninsured!!$1 to $4,999 or loss",
 			"Estimate!!Total Uninsured!!$5,000 to $14,999",
 			"Estimate!!Total Uninsured!!$15,000 to $24,999",
@@ -726,7 +725,7 @@
 			"Margin of Error!!Total Uninsured MOE!!$50,000 to $74,999",
 			"Margin of Error!!Total Uninsured MOE!!$75,000 or more"
 		],
-		"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2018 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings": [
+		"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2018 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings": [
 			"Estimate!!Total Uninsured!!$1 to $4,999 or loss",
 			"Estimate!!Total Uninsured!!$5,000 to $14,999",
 			"Estimate!!Total Uninsured!!$15,000 to $24,999",
@@ -830,33 +829,33 @@
 		],
 		"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over": [
 			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Same house",
-			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.",
-			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.!!Same county",
-			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.!!Different county",
-			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.!!Different county!!Same state",
-			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.!!Different county!!Different state",
-			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Abroad",
+			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States",
+			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States!!In Puerto Rico",
+			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States!!Same municipio",
+			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States!!Same municipio!!Different municipio",
+			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States!!Same municipio!!In the United States",
+			"Estimate!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Elsewhere",
 			"Estimate!!Total Uninsured!!Same house",
-			"Estimate!!Total Uninsured!!Different House in the U.S.",
-			"Estimate!!Total Uninsured!!Different House in the U.S.!!Same county",
-			"Estimate!!Total Uninsured!!Different House in the U.S.!!Different county",
-			"Estimate!!Total Uninsured!!Different House in the U.S.!!Different county!!Same state",
-			"Estimate!!Total Uninsured!!Different House in the U.S.!!Different county!!Different state",
-			"Estimate!!Total Uninsured!!Abroad",
+			"Estimate!!Total Uninsured!!Different House in Puerto Rico or the United States",
+			"Estimate!!Total Uninsured!!Different House in Puerto Rico or the United States!!In Puerto Rico",
+			"Estimate!!Total Uninsured!!Different House in Puerto Rico or the United States!!Same municipio",
+			"Estimate!!Total Uninsured!!Different House in Puerto Rico or the United States!!Same municipio!!Different municipio",
+			"Estimate!!Total Uninsured!!Different House in Puerto Rico or the United States!!Same municipio!!In the United States",
+			"Estimate!!Total Uninsured!!Elsewhere",
 			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Same house",
-			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.",
-			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.!!Same county",
-			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.!!Different county",
-			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.!!Different county!!Same state",
-			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in the U.S.!!Different county!!Different state",
-			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Abroad",
+			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States",
+			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States!!In Puerto Rico",
+			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States!!Same municipio",
+			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States!!Same municipio!!Different municipio",
+			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Different House in Puerto Rico or the United States!!Same municipio!!In the United States",
+			"Margin of Error!!Total Uninsured!!RESIDENCE 1 YEAR AGO!!Civilian noninstitutionalized population 1 year and over!!Elsewhere",
 			"Margin of Error!!Total Uninsured MOE!!Same house",
-			"Margin of Error!!Total Uninsured MOE!!Different House in the U.S.",
-			"Margin of Error!!Total Uninsured MOE!!Different House in the U.S.!!Same county",
-			"Margin of Error!!Total Uninsured MOE!!Different House in the U.S.!!Different county",
-			"Margin of Error!!Total Uninsured MOE!!Different House in the U.S.!!Different county!!Same state",
-			"Margin of Error!!Total Uninsured MOE!!Different House in the U.S.!!Different county!!Different state",
-			"Margin of Error!!Total Uninsured MOE!!Abroad"
+			"Margin of Error!!Total Uninsured MOE!!Different House in Puerto Rico or the United States",
+			"Margin of Error!!Total Uninsured MOE!!Different House in Puerto Rico or the United States!!In Puerto Rico",
+			"Margin of Error!!Total Uninsured MOE!!Different House in Puerto Rico or the United States!!Same municipio",
+			"Margin of Error!!Total Uninsured MOE!!Different House in Puerto Rico or the United States!!Same municipio!!Different municipio",
+			"Margin of Error!!Total Uninsured MOE!!Different House in Puerto Rico or the United States!!Same municipio!!In the United States",
+			"Margin of Error!!Total Uninsured MOE!!Elsewhere"
 		],
 		"Estimate!!Total Uninsured!!EDUCATIONAL ATTAINMENT!!Civilian noninstitutionalized population 25 years and over": [
 			"Estimate!!Total Uninsured!!EDUCATIONAL ATTAINMENT!!Civilian noninstitutionalized population 25 years and over!!Less than high school graduate",
@@ -964,21 +963,21 @@
 			"Margin of Error!!Total Uninsured!!Civilian noninstitutionalized workers 16 years and over!!OCCUPATION!!Natural resources, construction, and maintenance occupations",
 			"Margin of Error!!Total Uninsured!!Civilian noninstitutionalized workers 16 years and over!!OCCUPATION!!Production, transportation, and material moving occupations"
 		],
-		"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings": [
-			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$1 to $4,999 or loss",
-			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$5,000 to $14,999",
-			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$15,000 to $24,999",
-			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$25,000 to $34,999",
-			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$35,000 to $49,999",
-			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$50,000 to $74,999",
-			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$75,000 or more",
-			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$1 to $4,999 or loss",
-			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$5,000 to $14,999",
-			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$15,000 to $24,999",
-			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$25,000 to $34,999",
-			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$35,000 to $49,999",
-			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$50,000 to $74,999",
-			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and over with earnings!!$75,000 or more"
+		"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings": [
+			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$1 to $4,999 or loss",
+			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$5,000 to $14,999",
+			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$15,000 to $24,999",
+			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$25,000 to $34,999",
+			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$35,000 to $49,999",
+			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$50,000 to $74,999",
+			"Estimate!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$75,000 or more",
+			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$1 to $4,999 or loss",
+			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$5,000 to $14,999",
+			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$15,000 to $24,999",
+			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$25,000 to $34,999",
+			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$35,000 to $49,999",
+			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$50,000 to $74,999",
+			"Margin of Error!!Total Uninsured!!EARNINGS IN THE PAST 12 MONTHS (IN 2019 INFLATION ADJUSTED DOLLARS)!!Civilian noninstitutionalized population 16 years and older with earnings!!$75,000 or more"
 		],
 		"Estimate!!Total Uninsured!!HOUSEHOLD INCOME (IN 2019 INFLATION ADJUSTED DOLLARS)!!Total household population": [
 			"Estimate!!Total Uninsured!!HOUSEHOLD INCOME (IN 2019 INFLATION ADJUSTED DOLLARS)!!Total household population!!Under $25,000",
@@ -1005,18 +1004,18 @@
 			"Estimate!!Total Uninsured!!150 to 199 percent of the poverty level",
 			"Estimate!!Total Uninsured!!200 to 299 percent of the poverty level",
 			"Estimate!!Total Uninsured!!At or above 300 percent of the poverty level",
-			"Margin of Error!!Total Uninsured MOE!!Below 50 percent of the poverty level",
-			"Margin of Error!!Total Uninsured MOE!!50 to 99 percent of the poverty level",
-			"Margin of Error!!Total Uninsured MOE!!100 to 149 percent of the poverty level",
-			"Margin of Error!!Total Uninsured MOE!!150 to 199 percent of the poverty level",
-			"Margin of Error!!Total Uninsured MOE!!200 to 299 percent of the poverty level",
-			"Margin of Error!!Total Uninsured MOE!!At or above 300 percent of the poverty level",
 			"Margin of Error!!Total Uninsured!!RATIO OF INCOME TO POVERTY LEVEL IN THE PAST 12 MONTHS!!Civilian noninstitutionalized population for whom poverty status is determined!!Below 50 percent of the poverty level",
 			"Margin of Error!!Total Uninsured!!RATIO OF INCOME TO POVERTY LEVEL IN THE PAST 12 MONTHS!!Civilian noninstitutionalized population for whom poverty status is determined!!50 to 99 percent of the poverty level",
 			"Margin of Error!!Total Uninsured!!RATIO OF INCOME TO POVERTY LEVEL IN THE PAST 12 MONTHS!!Civilian noninstitutionalized population for whom poverty status is determined!!100 to 149 percent of the poverty level",
 			"Margin of Error!!Total Uninsured!!RATIO OF INCOME TO POVERTY LEVEL IN THE PAST 12 MONTHS!!Civilian noninstitutionalized population for whom poverty status is determined!!150 to 199 percent of the poverty level",
 			"Margin of Error!!Total Uninsured!!RATIO OF INCOME TO POVERTY LEVEL IN THE PAST 12 MONTHS!!Civilian noninstitutionalized population for whom poverty status is determined!!200 to 299 percent of the poverty level",
-			"Margin of Error!!Total Uninsured!!RATIO OF INCOME TO POVERTY LEVEL IN THE PAST 12 MONTHS!!Civilian noninstitutionalized population for whom poverty status is determined!!At or above 300 percent of the poverty level"
+			"Margin of Error!!Total Uninsured!!RATIO OF INCOME TO POVERTY LEVEL IN THE PAST 12 MONTHS!!Civilian noninstitutionalized population for whom poverty status is determined!!At or above 300 percent of the poverty level",
+			"Margin of Error!!Total Uninsured MOE!!Below 50 percent of the poverty level",
+			"Margin of Error!!Total Uninsured MOE!!50 to 99 percent of the poverty level",
+			"Margin of Error!!Total Uninsured MOE!!100 to 149 percent of the poverty level",
+			"Margin of Error!!Total Uninsured MOE!!150 to 199 percent of the poverty level",
+			"Margin of Error!!Total Uninsured MOE!!200 to 299 percent of the poverty level",
+			"Margin of Error!!Total Uninsured MOE!!At or above 300 percent of the poverty level"
 		]
 
 	}
