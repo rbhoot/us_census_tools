@@ -1,7 +1,9 @@
 import json
 import os
 
-column_map_path = '../spec_dir/column_maps/column_map.json'
+table_id = 'S0701'
+table_dir = os.path.expanduser(f'~/Documents/acs_tables/{table_id}/')
+column_map_path = os.path.join(table_dir, 'column_map.json')
 
 os.path.expanduser(column_map_path)
 column_map = json.load(open(column_map_path, 'r'))
@@ -44,5 +46,5 @@ for year in column_map:
 print(json.dumps(list(set(dcid_list_all['2016'])-set(dcid_list_all['2019'])), indent=2))
 
 
-json.dump(stat_dir, open('./outputs/column_map_stats.json', 'w'), indent=2)
+json.dump(stat_dir, open(os.path.join(table_dir+'column_map_stats.json'), 'w'), indent=2)
 # print(json.dumps(stat_dir, indent=2))
