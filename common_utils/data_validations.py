@@ -19,10 +19,9 @@ for row in csv_reader:
 		try:
 			float(row[3])
 			csv_writer.writerow(row)
-			log_csv_writer.writerow(row)
 		except ValueError:
 			print(','.join(row))
+			log_csv_writer.writerow(row)
 			row[3] = re.sub("[^0-9.]", "", row[3])
 			csv_writer.writerow(row)
-			log_csv_writer.writerow(row)
 			# print(row[3])
