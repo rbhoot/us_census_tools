@@ -125,7 +125,8 @@
   },
   "inferredSpec": {
     "occupancyTenure": {
-      "residenceType": "HousingUnit"
+      "residenceType": "HousingUnit",
+      "age": "[1 - Years]"
     },
     "gender": {
       "age": "[1 - Years]"
@@ -140,9 +141,6 @@
       "age": "[1 - Years]"
     },
     "povertyStatus": {
-      "age": "[1 - Years]"
-    },
-    "occupancyTenure": {
       "age": "[1 - Years]"
     },
     "residenceType": {
