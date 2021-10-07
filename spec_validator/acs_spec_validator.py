@@ -105,18 +105,22 @@ def findMissingEnumSpecialisation(columnNameList, specDict, delimiter='!!'):
 				# retDict.append(tempDict[prop])
 				for i, propToken in enumerate(reversed(tempDict[prop])):
 					j = len(tempDict[prop])-1-i
+
+					tempFlag = True
 					# if token appears as a specialisation but it's base doesn't appear before it
-					if tokenInListIgnoreCase(propToken, specDict['enumSpecializations']):
-						if specDict['enumSpecializations'][propToken] not in tempDict[prop][:j]:
-							if propToken not in retDict:
-								retDict[propToken] = {}
-								retDict[propToken]['column'] = [columnName]
-								retDict[propToken]['possibleParents'] = tempDict[prop][:j]
-							else:
-								retDict[propToken]['column'].append(columnName)
-								retDict[propToken]['possibleParents'].extend(tempDict[prop][:j])
+					if 'enumSpecializations' in specDict:
+						if tokenInListIgnoreCase(propToken, specDict['enumSpecializations']):
+							tempFlag = False
+							if specDict['enumSpecializations'][propToken] not in tempDict[prop][:j]:
+								if propToken not in retDict:
+									retDict[propToken] = {}
+									retDict[propToken]['column'] = [columnName]
+									retDict[propToken]['possibleParents'] = tempDict[prop][:j]
+								else:
+									retDict[propToken]['column'].append(columnName)
+									retDict[propToken]['possibleParents'].extend(tempDict[prop][:j])
 					# if the token is near the leaf but not used as a specialisation, it potentially has a base value
-					elif j > 0:
+					if j > 0 and tempFlag:
 						if propToken not in retDict:
 							retDict[propToken] = {}
 							retDict[propToken]['column'] = [columnName]
@@ -543,6 +547,7 @@ def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='./outp
 	testResults = {}
 
 	for zipPath in zipPathList:
+		zipPath = os.path.expanduser(zipPath)
 		print("Testing ", zipPath, "against spec at", specPath)
 		with zipfile.ZipFile(zipPath) as zf:
 			# compile list of columns and run tests on individual files if flag set
