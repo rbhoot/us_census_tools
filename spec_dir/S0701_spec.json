@@ -1,10 +1,10 @@
 {
   "overwrite_dcids": {
-    "Median_Income_Person_15OrMoreYears": "Median_Income_Person",
-    "Median_Income_Person_15OrMoreYears_DifferentHouseAbroad": "Median_Income_Person_DifferentHouseAbroad",
-    "Median_Income_Person_15OrMoreYears_DifferentHouseInDifferentCountyDifferentState": "Median_Income_Person_DifferentHouseInDifferentCountyDifferentState",
-    "Median_Income_Person_15OrMoreYears_DifferentHouseInDifferentCountySameState": "Median_Income_Person_DifferentHouseInDifferentCountySameState",
-    "Median_Income_Person_15OrMoreYears_DifferentHouseInSameCounty": "Median_Income_Person_DifferentHouseInSameCounty"
+    "Median_Income_Person_15OrMoreYears_WithIncome": "Median_Income_Person",
+    "Median_Income_Person_15OrMoreYears_WithIncome_DifferentHouseAbroad": "Median_Income_Person_DifferentHouseAbroad",
+    "Median_Income_Person_15OrMoreYears_WithIncome_DifferentHouseInDifferentCountyDifferentState": "Median_Income_Person_DifferentHouseInDifferentCountyDifferentState",
+    "Median_Income_Person_15OrMoreYears_WithIncome_DifferentHouseInDifferentCountySameState": "Median_Income_Person_DifferentHouseInDifferentCountySameState",
+    "Median_Income_Person_15OrMoreYears_WithIncome_DifferentHouseInSameCounty": "Median_Income_Person_DifferentHouseInSameCounty"
   },
   "populationType": {
     "_DEFAULT": "Person"
@@ -24,6 +24,7 @@
       "measuredProperty": "income",
       "statType": "medianValue",
       "age": "[15 - Years]",
+      "incomeStatus": "WithIncome",
       "unit": "USDollar"
     }
   },
@@ -166,7 +167,8 @@
       "populationType": "Person",
       "constraintProperties": ["income"],
       "dependentPVs": {
-        "age": "[15 - Years]"
+        "age": "[15 - Years]",
+        "incomeStatus": "WithIncome"
       }
     }
   ],
