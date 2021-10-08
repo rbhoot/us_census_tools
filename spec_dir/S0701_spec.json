@@ -4,7 +4,8 @@
     "Median_Income_Person_15OrMoreYears_WithIncome_DifferentHouseAbroad": "Median_Income_Person_DifferentHouseAbroad",
     "Median_Income_Person_15OrMoreYears_WithIncome_DifferentHouseInDifferentCountyDifferentState": "Median_Income_Person_DifferentHouseInDifferentCountyDifferentState",
     "Median_Income_Person_15OrMoreYears_WithIncome_DifferentHouseInDifferentCountySameState": "Median_Income_Person_DifferentHouseInDifferentCountySameState",
-    "Median_Income_Person_15OrMoreYears_WithIncome_DifferentHouseInSameCounty": "Median_Income_Person_DifferentHouseInSameCounty"
+    "Median_Income_Person_15OrMoreYears_WithIncome_DifferentHouseInSameCounty": "Median_Income_Person_DifferentHouseInSameCounty",
+    "Count_Person_IncomeOf9999OrLessUSDollar": "Count_Person_IncomeOfUpto9999USDollar"
   },
   "populationType": {
     "_DEFAULT": "Person"
@@ -169,6 +170,13 @@
       "dependentPVs": {
         "age": "[15 - Years]",
         "incomeStatus": "WithIncome"
+      }
+    },
+    {
+      "populationType": "Person",
+      "constraintProperties": ["residentStatus"],
+      "dependentPVs": {
+        "age": "[1 - Years]"
       }
     }
   ],
