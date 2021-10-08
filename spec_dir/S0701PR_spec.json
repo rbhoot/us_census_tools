@@ -144,6 +144,9 @@
     },
     "povertyStatus": {
       "age": "[1 - Years]"
+    },
+    "residenceType": {
+      "age": "[1 - Years]"
     }
   },
   "universePVs": [
