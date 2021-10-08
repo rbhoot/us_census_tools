@@ -171,13 +171,6 @@
         "age": "[15 - Years]",
         "incomeStatus": "WithIncome"
       }
-    },
-    {
-      "populationType": "Person",
-      "constraintProperties": ["residentStatus"],
-      "dependentPVs": {
-        "age": "[1 - Years]"
-      }
     }
   ],
   "ignoreColumns": [
