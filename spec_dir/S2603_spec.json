@@ -189,7 +189,11 @@
 
     }
   },
-  "inferredSpec": {},
+  "inferredSpec": {
+    "citizenship": {
+      "age": "[15 - Years]"
+    }
+  },
   "universePVs": [
     {
       "populationType": "Person",
@@ -200,17 +204,9 @@
     },
     {
       "populationType": "Person",
-      "constraintProperties": ["employmentStatus"],
-      "dependentPVs": {
-        "age": "[16 - Years]"
-      }
-    },
-    {
-      "populationType": "Person",
       "constraintProperties": ["employment"],
       "dependentPVs": {
         "age": "[16 - Years]",
-        "employmentStatus": "BLS_InLaborForce"
       }
     },
     {
@@ -270,13 +266,6 @@
       "constraintProperties": ["residentStatus"],
       "dependentPVs": {
         "age": "[1 - Years]"
-      }
-    },
-    {
-      "populationType": "Person",
-      "constraintProperties": ["citizenship"],
-      "dependentPVs": {
-        "age": "[15 - Years]"
       }
     },
     {
