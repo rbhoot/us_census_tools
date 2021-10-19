@@ -43,8 +43,8 @@
         },
         "usualHoursWorked": {
             "Usually worked 35 or more hours per week": "[35 - Hour]",
-	        "Usually worked 15 to 34 hours per week": "[15 34 Hour]",
-	        "Usually worked 1 to 14 hours per week": "[1 14 Hour]"
+            "Usually worked 15 to 34 hours per week": "[15 34 Hour]",
+            "Usually worked 1 to 14 hours per week": "[1 14 Hour]"
         },
         "workStatus": {
             "WEEKS WORKED": "WorkedInThePast12Months",
@@ -52,7 +52,7 @@
             "Mean usual hours worked for workers": "WorkedInThePast12Months",
             "Median age of workers 16 to 64 years": "WorkedInThePast12Months",
             "Workers 16 to 64 years who worked full-time, year-round": "USC_FullTimeYearRoundWorker",
-	        "Did not work": "DidNotWork"
+            "Did not work": "DidNotWork"
         },
         "gender": {
             "Male": "Male",
@@ -65,9 +65,9 @@
     "inferredSpec": {},
     "universePVs": [{
         "populationType": "Person",
-		"constraintProperties": ["workStatus"],
-		"dependentPVs": {
-			"age": "[16 64 Years]"
+        "constraintProperties": ["workStatus"],
+        "dependentPVs": {
+            "age": "[16 64 Years]"
         }
     }],
     "ignoreColumns": [
@@ -81,7 +81,7 @@
         "Percent Female MOE",
         "Percent Total",
         "PERCENT IMPUTED",
-     	"Estimate!!Total!!Population 16 to 64 years!!USUAL HOURS WORKED!!Did not work",
+        "Estimate!!Total!!Population 16 to 64 years!!USUAL HOURS WORKED!!Did not work",
         "Margin of Error!!Total!!Population 16 to 64 years!!USUAL HOURS WORKED!!Did not work",
         "Estimate!!Female!!Population 16 to 64 years!!USUAL HOURS WORKED!!Did not work",
         "Margin of Error!!Female!!Population 16 to 64 years!!USUAL HOURS WORKED!!Did not work",

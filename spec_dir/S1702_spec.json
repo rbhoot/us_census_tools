@@ -1,4 +1,3 @@
-
 {
     "populationType": {
         "_DEFAULT": "Household"
@@ -726,7 +725,8 @@
             "Margin of Error!!Percent below poverty level!!All families!!Families!!NUMBER OF WORKERS IN FAMILY!!3 or more workers"
         ],
         "Estimate!!Total!!All families!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)": [
-            "Estimate!!Percent below poverty level!!All families!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
+            "Estimate!!Percent below poverty level!!All families!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)",
+            "Margin of Error!!Percent below poverty level!!All families!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
         ],
         "Estimate!!Total!!All families!!Families!!TENURE!!Owner occupied": [
             "Estimate!!Percent below poverty level!!All families!!Families!!TENURE!!Owner occupied",
@@ -735,6 +735,38 @@
         "Estimate!!Total!!All families!!Families!!TENURE!!Renter Occupied": [
             "Estimate!!Percent below poverty level!!All families!!Families!!TENURE!!Renter Occupied",
             "Margin of Error!!Percent below poverty level!!All families!!Families!!TENURE!!Renter Occupied"
+        ],
+        "Estimate!!Total!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level"
+        ],
+        "Estimate!!Total!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level"
+        ],
+        "Estimate!!Total!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level"
+        ],
+        "Estimate!!Total!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level"
+        ],
+        "Estimate!!Total!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level"
+        ],
+        "Estimate!!Total!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level"
+        ],
+        "Estimate!!Total!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level"
+        ],
+        "Estimate!!Total!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!All families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level"
         ],
         "Estimate!!Total!!Married-couple families!!Families": [
             "Estimate!!Percent below poverty level!!Married-couple families!!Families",
@@ -873,7 +905,8 @@
             "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!NUMBER OF WORKERS IN FAMILY!!3 or more workers"
         ],
         "Estimate!!Total!!Married-couple families!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)": [
-            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
+            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)",
+            "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
         ],
         "Estimate!!Total!!Married-couple families!!Families!!TENURE!!Owner occupied": [
             "Estimate!!Percent below poverty level!!Married-couple families!!Families!!TENURE!!Owner occupied",
@@ -882,6 +915,38 @@
         "Estimate!!Total!!Married-couple families!!Families!!TENURE!!Renter Occupied": [
             "Estimate!!Percent below poverty level!!Married-couple families!!Families!!TENURE!!Renter Occupied",
             "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!TENURE!!Renter Occupied"
+        ],
+        "Estimate!!Total!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level"
+        ],
+        "Estimate!!Total!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level"
+        ],
+        "Estimate!!Total!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level"
+        ],
+        "Estimate!!Total!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level"
+        ],
+        "Estimate!!Total!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level"
+        ],
+        "Estimate!!Total!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level"
+        ],
+        "Estimate!!Total!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level"
+        ],
+        "Estimate!!Total!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Married-couple families!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level"
         ],
         "Estimate!!Total!!Female householder, no spouse present!!Families": [
             "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families",
@@ -1020,7 +1085,8 @@
             "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!NUMBER OF WORKERS IN FAMILY!!3 or more workers"
         ],
         "Estimate!!Total!!Female householder, no spouse present!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)": [
-            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
+            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)",
+            "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
         ],
         "Estimate!!Total!!Female householder, no spouse present!!Families!!TENURE!!Owner occupied": [
             "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!TENURE!!Owner occupied",
@@ -1029,6 +1095,38 @@
         "Estimate!!Total!!Female householder, no spouse present!!Families!!TENURE!!Renter Occupied": [
             "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!TENURE!!Renter Occupied",
             "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!TENURE!!Renter Occupied"
+        ],
+        "Estimate!!Total!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level"
+        ],
+        "Estimate!!Total!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level"
+        ],
+        "Estimate!!Total!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level"
+        ],
+        "Estimate!!Total!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level"
+        ],
+        "Estimate!!Total!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level"
+        ],
+        "Estimate!!Total!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level"
+        ],
+        "Estimate!!Total!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level"
+        ],
+        "Estimate!!Total!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level": [
+            "Estimate!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level",
+            "Margin of Error!!Percent below poverty level!!Female householder, no spouse present!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level"
         ],
         "Estimate!!All families!!Total!!Families": [
             "Estimate!!All families!!Percent below poverty level!!Families",
@@ -1167,7 +1265,8 @@
             "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!NUMBER OF WORKERS IN FAMILY!!3 or more workers"
         ],
         "Estimate!!All families!!Total!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)": [
-            "Estimate!!All families!!Percent below poverty level!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
+            "Estimate!!All families!!Percent below poverty level!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)",
+            "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
         ],
         "Estimate!!All families!!Total!!Families!!TENURE!!Owner occupied": [
             "Estimate!!All families!!Percent below poverty level!!Families!!TENURE!!Owner occupied",
@@ -1176,6 +1275,38 @@
         "Estimate!!All families!!Total!!Families!!TENURE!!Renter Occupied": [
             "Estimate!!All families!!Percent below poverty level!!Families!!TENURE!!Renter Occupied",
             "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!TENURE!!Renter Occupied"
+        ],
+        "Estimate!!All families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level": [
+            "Estimate!!All families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level",
+            "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level"
+        ],
+        "Estimate!!All families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level": [
+            "Estimate!!All families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level",
+            "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level"
+        ],
+        "Estimate!!All families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level": [
+            "Estimate!!All families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level",
+            "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level"
+        ],
+        "Estimate!!All families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level": [
+            "Estimate!!All families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level",
+            "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level"
+        ],
+        "Estimate!!All families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level": [
+            "Estimate!!All families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level",
+            "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level"
+        ],
+        "Estimate!!All families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level": [
+            "Estimate!!All families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level",
+            "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level"
+        ],
+        "Estimate!!All families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level": [
+            "Estimate!!All families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level",
+            "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level"
+        ],
+        "Estimate!!All families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level": [
+            "Estimate!!All families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level",
+            "Margin of Error!!All families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level"
         ],
         "Estimate!!Married-couple families!!Total!!Families": [
             "Estimate!!Married-couple families!!Percent below poverty level!!Families",
@@ -1314,7 +1445,8 @@
             "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!NUMBER OF WORKERS IN FAMILY!!3 or more workers"
         ],
         "Estimate!!Married-couple families!!Total!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)": [
-            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
+            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)",
+            "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
         ],
         "Estimate!!Married-couple families!!Total!!Families!!TENURE!!Owner occupied": [
             "Estimate!!Married-couple families!!Percent below poverty level!!Families!!TENURE!!Owner occupied",
@@ -1323,6 +1455,38 @@
         "Estimate!!Married-couple families!!Total!!Families!!TENURE!!Renter Occupied": [
             "Estimate!!Married-couple families!!Percent below poverty level!!Families!!TENURE!!Renter Occupied",
             "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!TENURE!!Renter Occupied"
+        ],
+        "Estimate!!Married-couple families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level": [
+            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level",
+            "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level"
+        ],
+        "Estimate!!Married-couple families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level": [
+            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level",
+            "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level"
+        ],
+        "Estimate!!Married-couple families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level": [
+            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level",
+            "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level"
+        ],
+        "Estimate!!Married-couple families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level": [
+            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level",
+            "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level"
+        ],
+        "Estimate!!Married-couple families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level": [
+            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level",
+            "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level"
+        ],
+        "Estimate!!Married-couple families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level": [
+            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level",
+            "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level"
+        ],
+        "Estimate!!Married-couple families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level": [
+            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level",
+            "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level"
+        ],
+        "Estimate!!Married-couple families!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level": [
+            "Estimate!!Married-couple families!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level",
+            "Margin of Error!!Married-couple families!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level"
         ],
         "Estimate!!Female householder, no husband present!!Total!!Families": [
             "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families",
@@ -1461,7 +1625,8 @@
             "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!NUMBER OF WORKERS IN FAMILY!!3 or more workers"
         ],
         "Estimate!!Female householder, no husband present!!Total!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)": [
-            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
+            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)",
+            "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
         ],
         "Estimate!!Female householder, no husband present!!Total!!Families!!TENURE!!Owner occupied": [
             "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!TENURE!!Owner occupied",
@@ -1470,6 +1635,38 @@
         "Estimate!!Female householder, no husband present!!Total!!Families!!TENURE!!Renter Occupied": [
             "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!TENURE!!Renter Occupied",
             "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!TENURE!!Renter Occupied"
+        ],
+        "Estimate!!Female householder, no husband present!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level": [
+            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level",
+            "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level"
+        ],
+        "Estimate!!Female householder, no husband present!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level": [
+            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level",
+            "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level"
+        ],
+        "Estimate!!Female householder, no husband present!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level": [
+            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level",
+            "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level"
+        ],
+        "Estimate!!Female householder, no husband present!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level": [
+            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level",
+            "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level"
+        ],
+        "Estimate!!Female householder, no husband present!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level": [
+            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level",
+            "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level"
+        ],
+        "Estimate!!Female householder, no husband present!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level": [
+            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level",
+            "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level"
+        ],
+        "Estimate!!Female householder, no husband present!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level": [
+            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level",
+            "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level"
+        ],
+        "Estimate!!Female householder, no husband present!!Total!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level": [
+            "Estimate!!Female householder, no husband present!!Percent below poverty level!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level",
+            "Margin of Error!!Female householder, no husband present!!Percent below poverty level MOE!!Families!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level"
         ],
         "All families!!Total!!Estimate!!RACE AND HISPANIC OR LATINO ORIGIN!!Families with a householder who is!!White alone": [
             "All families!!Percent below poverty level!!Estimate!!RACE AND HISPANIC OR LATINO ORIGIN!!Families with a householder who is!!White alone",
@@ -1535,6 +1732,38 @@
             "All families!!Percent below poverty level!!Estimate!!TENURE!!Renter Occupied",
             "All families!!Percent below poverty level!!Margin of Error!!TENURE!!Renter Occupied"
         ],
+        "All families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level": [
+            "All families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level",
+            "All families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level"
+        ],
+        "All families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level": [
+            "All families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level",
+            "All families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level"
+        ],
+        "All families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level": [
+            "All families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level",
+            "All families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level"
+        ],
+        "All families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level": [
+            "All families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level",
+            "All families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level"
+        ],
+        "All families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level": [
+            "All families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level",
+            "All families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level"
+        ],
+        "All families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level": [
+            "All families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level",
+            "All families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level"
+        ],
+        "All families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level": [
+            "All families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level",
+            "All families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level"
+        ],
+        "All families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level": [
+            "All families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level",
+            "All families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level"
+        ],
         "Married-couple families!!Total!!Estimate!!RACE AND HISPANIC OR LATINO ORIGIN!!Families with a householder who is!!White alone": [
             "Married-couple families!!Percent below poverty level!!Estimate!!RACE AND HISPANIC OR LATINO ORIGIN!!Families with a householder who is!!White alone",
             "Married-couple families!!Percent below poverty level!!Margin of Error!!RACE AND HISPANIC OR LATINO ORIGIN!!Families with a householder who is!!White alone"
@@ -1599,6 +1828,38 @@
             "Married-couple families!!Percent below poverty level!!Estimate!!TENURE!!Renter Occupied",
             "Married-couple families!!Percent below poverty level!!Margin of Error!!TENURE!!Renter Occupied"
         ],
+        "Married-couple families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level": [
+            "Married-couple families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level",
+            "Married-couple families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level"
+        ],
+        "Married-couple families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level": [
+            "Married-couple families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level",
+            "Married-couple families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level"
+        ],
+        "Married-couple families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level": [
+            "Married-couple families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level",
+            "Married-couple families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level"
+        ],
+        "Married-couple families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level": [
+            "Married-couple families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level",
+            "Married-couple families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level"
+        ],
+        "Married-couple families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level": [
+            "Married-couple families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level",
+            "Married-couple families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level"
+        ],
+        "Married-couple families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level": [
+            "Married-couple families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level",
+            "Married-couple families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level"
+        ],
+        "Married-couple families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level": [
+            "Married-couple families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level",
+            "Married-couple families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level"
+        ],
+        "Married-couple families!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level": [
+            "Married-couple families!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level",
+            "Married-couple families!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level"
+        ],
         "Female householder, no husband present!!Total!!Estimate!!RACE AND HISPANIC OR LATINO ORIGIN!!Families with a householder who is!!White alone": [
             "Female householder, no husband present!!Percent below poverty level!!Estimate!!RACE AND HISPANIC OR LATINO ORIGIN!!Families with a householder who is!!White alone",
             "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!RACE AND HISPANIC OR LATINO ORIGIN!!Families with a householder who is!!White alone"
@@ -1662,6 +1923,38 @@
         "Female householder, no husband present!!Total!!Estimate!!TENURE!!Renter Occupied": [
             "Female householder, no husband present!!Percent below poverty level!!Estimate!!TENURE!!Renter Occupied",
             "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!TENURE!!Renter Occupied"
+        ],
+        "Female householder, no husband present!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level": [
+            "Female householder, no husband present!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level",
+            "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!50 percent of poverty level"
+        ],
+        "Female householder, no husband present!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level": [
+            "Female householder, no husband present!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level",
+            "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!125 percent of poverty level"
+        ],
+        "Female householder, no husband present!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level": [
+            "Female householder, no husband present!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level",
+            "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!150 percent of poverty level"
+        ],
+        "Female householder, no husband present!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level": [
+            "Female householder, no husband present!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level",
+            "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!185 percent of poverty level"
+        ],
+        "Female householder, no husband present!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level": [
+            "Female householder, no husband present!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level",
+            "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!200 percent of poverty level"
+        ],
+        "Female householder, no husband present!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level": [
+            "Female householder, no husband present!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level",
+            "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!300 percent of poverty level"
+        ],
+        "Female householder, no husband present!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level": [
+            "Female householder, no husband present!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level",
+            "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!400 percent of poverty level"
+        ],
+        "Female householder, no husband present!!Total!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level": [
+            "Female householder, no husband present!!Percent below poverty level!!Estimate!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level",
+            "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS!!500 percent of poverty level"
         ],
         "All families!!Total!!Estimate!!Families": [
             "All families!!Percent below poverty level!!Estimate!!Families",
@@ -1788,7 +2081,8 @@
             "All families!!Percent below poverty level!!Margin of Error!!NUMBER OF WORKERS IN FAMILY!!3 or more workers"
         ],
         "All families!!Total!!Estimate!!INCOME DEFICIT!!Mean income deficit for families (dollars)": [
-            "All families!!Percent below poverty level!!Estimate!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
+            "All families!!Percent below poverty level!!Estimate!!INCOME DEFICIT!!Mean income deficit for families (dollars)",
+            "All families!!Percent below poverty level!!Margin of Error!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
         ],
         "Married-couple families!!Total!!Estimate!!Families": [
             "Married-couple families!!Percent below poverty level!!Estimate!!Families",
@@ -1915,7 +2209,8 @@
             "Married-couple families!!Percent below poverty level!!Margin of Error!!NUMBER OF WORKERS IN FAMILY!!3 or more workers"
         ],
         "Married-couple families!!Total!!Estimate!!INCOME DEFICIT!!Mean income deficit for families (dollars)": [
-            "Married-couple families!!Percent below poverty level!!Estimate!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
+            "Married-couple families!!Percent below poverty level!!Estimate!!INCOME DEFICIT!!Mean income deficit for families (dollars)",
+            "Married-couple families!!Percent below poverty level!!Margin of Error!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
         ],
         "Female householder, no husband present!!Total!!Estimate!!Families": [
             "Female householder, no husband present!!Percent below poverty level!!Estimate!!Families",
@@ -2046,7 +2341,8 @@
             "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!INCOME DEFICIT!!Mean income deficit for families (dollars)"
         ],
         "All families!!Total!!Estimate!!Householder worked full-time, year-round in the past 12 months": [
-            "All families!!Percent below poverty level!!Estimate!!Householder worked full-time, year-round in the past 12 months"
+            "All families!!Percent below poverty level!!Estimate!!Householder worked full-time, year-round in the past 12 months",
+            "All families!!Percent below poverty level!!Margin of Error!!Householder worked full-time, year-round in the past 12 months"
         ],
         "Married-couple families!!Total!!Estimate!!Householder worked full-time, year-round in the past 12 months": [
             "Married-couple families!!Percent below poverty level!!Estimate!!Householder worked full-time, year-round in the past 12 months",
@@ -2056,26 +2352,5 @@
             "Female householder, no husband present!!Percent below poverty level!!Estimate!!Householder worked full-time, year-round in the past 12 months",
             "Female householder, no husband present!!Percent below poverty level!!Margin of Error!!Householder worked full-time, year-round in the past 12 months"
         ]
-    },
-    "ignoreTokens": [
-        "Families with a householder who is--",
-        "Family received",
-        "EDUCATIONAL ATTAINMENT OF HOUSEHOLDER",
-        "Total MOE",
-        "TENURE",
-        "Families",
-        "Family received --",
-        "Families with a householder who is",
-        "RACE AND HISPANIC OR LATINO ORIGIN",
-        "NUMBER OF RELATED CHILDREN UNDER 18 YEARS",
-        "Householder worked",
-        "Total",
-        "NUMBER OF OWN CHILDREN OF THE HOUSEHOLDER UNDER 18 YEARS",
-        "Estimate",
-        "NUMBER OF WORKERS IN FAMILY",
-        "Mean income deficit for families (dollars)",
-        "NUMBER OF RELATED CHILDREN OF THE HOUSEHOLDER UNDER 18 YEARS",
-        "NUMBER OF PEOPLE IN FAMILY",
-        "ALL FAMILIES WITH INCOME BELOW THE FOLLOWING POVERTY RATIOS"
-    ]
+    }
 }

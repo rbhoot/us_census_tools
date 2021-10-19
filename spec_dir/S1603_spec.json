@@ -1,4 +1,7 @@
 {
+  "overwrite_dcids": {
+    "Count_Person_5OrMoreYears_Native": "Count_Person_Native"
+  },
   "populationType": {
     "_DEFAULT": "Person"
   },
@@ -74,22 +77,6 @@
     "dependentPVs": 
     {
       "age": "[25 - Years]"
-    }
-  },
-  {
-    "populationType": "Person",
-    "constraintProperties": ["nativity"],
-    "dependentPVs": 
-    {
-      "age": "[5 - Years]"
-    }
-  },
-  {
-    "populationType": "Person",
-    "constraintProperties": ["povertyStatus"],
-    "dependentPVs": 
-    {
-      "age": "[5 - Years]"
     }
   }
   ],
