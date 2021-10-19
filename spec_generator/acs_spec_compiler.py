@@ -16,7 +16,6 @@ from spec_validator.acs_spec_validator import findColumnsWithNoProperties, findM
 
 FLAGS = flags.FLAGS
 
-# flags.DEFINE_list('zip_path_list', None, 'List of paths to zip files downloaded from US Census')
 flags.DEFINE_string('spec_dir', '../spec_dir/', 'Path to folder containing all previous config spec JSON file')
 
 flags.DEFINE_boolean('create_union_spec', False, 'Produce union_spec.json which had combination of all previous specs')
@@ -128,21 +127,18 @@ def create_combined_spec(all_specs):
 
 	return out_spec
 
-
-
-# go through megaspec creating output and discarded spec
-def create_new_spec(zip_path_list, union_spec, expected_populations=['Person'], expected_pvs=[], checkMetadata=False, delimiter='!!'):
-	all_tokens = []
+def columns_from_zip_list(zip_path_list, checkMetadata=False):
 	all_columns = []
 	for zip_path in zip_path_list:
 		zip_path = os.path.expanduser(zip_path)
-
-		# read zip file for tokens
-		all_tokens.extend(getTokensListFromZip(zip_path, checkMetadata=checkMetadata, delimiter=delimiter))
 		all_columns.extend(columnsFromZipFile(zip_path, checkMetadata=checkMetadata))
-
-	all_tokens = list(set(all_tokens))
 	all_columns = list(set(all_columns))
+	return allColumns
+
+# go through megaspec creating output and discarded spec
+def create_new_spec(all_columns, union_spec, expected_populations=['Person'], expected_pvs=[], delimiter='!!'):
+	
+	all_tokens = getTokensListFromColumnList(all_columns, delimiter)
 
 	out_spec = {}
 	# assign expected_population[0] to default if present
@@ -308,11 +304,15 @@ def main(argv):
 	if FLAGS.get_combined_property_list:
 		print(json.dumps(sorted(list(combined_spec_out['pvs'].keys())), indent=2))
 	if FLAGS.guess_new_spec:
-		if not FLAGS.zip_path_list:
-			print('ERROR: zip file/s required to guess the new spec')
-		else:
-			guess_spec = create_new_spec(FLAGS.zip_path_list, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.check_metadata, FLAGS.delimiter)
+		if not FLAGS.zip_path_list and not FLAGS.column_list_path:
+			print('ERROR: zip file/s or column list required to guess the new spec')
+		elif FLAGS.column_list_path:
+			allColumns = json.load(open(os.path.expanduser(FLAGS.column_list_path), 'r'))
+			guess_spec = create_new_spec(allColumns, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.delimiter)
 			print(json.dumps(guess_spec, indent=2))
+		elif FLAGS.zip_path_list:
+			allColumns = columns_from_zip_list(FLAGS.zip_path_list, FLAGS.check_metadata)
+			guess_spec = create_new_spec(allColumns, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.delimiter)
 
 if __name__ == '__main__':
     flags.mark_bool_flags_as_mutual_exclusive(['create_union_spec', 'guess_new_spec', 'get_combined_property_list'], required=True)
