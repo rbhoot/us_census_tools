@@ -10,12 +10,13 @@ from absl import flags
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
 
-from common_utils.common_util import getTokensListFromZip, columnsFromZipFile, tokenInListIgnoreCase
+from common_utils.common_util import getTokensListFromZip, columnsFromZipFile, tokenInListIgnoreCase, getTokensListFromColumnList
 from dc_api_tools.dc_utils import fetch_dcid_properties_enums
 from spec_validator.acs_spec_validator import findColumnsWithNoProperties, findMissingTokens
 
 FLAGS = flags.FLAGS
 
+flags.DEFINE_string('generator_output_path', '../output/', 'Path to store the output files')
 flags.DEFINE_string('spec_dir', '../spec_dir/', 'Path to folder containing all previous config spec JSON file')
 
 flags.DEFINE_boolean('create_union_spec', False, 'Produce union_spec.json which had combination of all previous specs')
@@ -136,8 +137,11 @@ def columns_from_zip_list(zip_path_list, checkMetadata=False):
 	return allColumns
 
 # go through megaspec creating output and discarded spec
-def create_new_spec(all_columns, union_spec, expected_populations=['Person'], expected_pvs=[], delimiter='!!'):
-	
+def create_new_spec(all_columns, union_spec, expected_populations=['Person'], expected_pvs=[], output_path='../output/', delimiter='!!'):
+	output_path = os.path.expanduser(output_path)
+	if not os.path.exists(output_path):
+		os.makedirs(output_path, exist_ok=True)
+
 	all_tokens = getTokensListFromColumnList(all_columns, delimiter)
 
 	out_spec = {}
@@ -285,13 +289,13 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 	# ?TODO check properties appearing in both specs 
 
 	# write to output files
-	with open('generated_spec.json', 'w') as fp:
+	with open(os.path.join(output_path, 'generated_spec.json'), 'w') as fp:
 		json.dump(out_spec, fp, indent=2)
-	with open('discarded_spec_parts.json', 'w') as fp:
+	with open(os.path.join(output_path, 'discarded_spec_parts.json'), 'w') as fp:
 		json.dump(discarded_spec, fp, indent=2)
 
 	# write missing reports to file
-	with open('missing_report.json', 'w') as fp:
+	with open(os.path.join(output_path, 'missing_report.json'), 'w') as fp:
 		json.dump({'columns_missing_pv':columns_missing_pv, 'missing_tokens':missing_tokens}, fp, indent=2)
 
 	return out_spec
@@ -306,13 +310,15 @@ def main(argv):
 	if FLAGS.guess_new_spec:
 		if not FLAGS.zip_path_list and not FLAGS.column_list_path:
 			print('ERROR: zip file/s or column list required to guess the new spec')
-		elif FLAGS.column_list_path:
-			allColumns = json.load(open(os.path.expanduser(FLAGS.column_list_path), 'r'))
-			guess_spec = create_new_spec(allColumns, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.delimiter)
-			print(json.dumps(guess_spec, indent=2))
-		elif FLAGS.zip_path_list:
-			allColumns = columns_from_zip_list(FLAGS.zip_path_list, FLAGS.check_metadata)
-			guess_spec = create_new_spec(allColumns, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.delimiter)
+		else:
+			if FLAGS.column_list_path:
+				all_columns = json.load(open(os.path.expanduser(FLAGS.column_list_path), 'r'))
+				guess_spec = create_new_spec(all_columns, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.generator_output_path, FLAGS.delimiter)
+				print(json.dumps(guess_spec, indent=2))
+			if FLAGS.zip_path_list:
+				all_columns = columns_from_zip_list(FLAGS.zip_path_list, FLAGS.check_metadata)
+				all_columns = create_new_spec(all_columns, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.generator_output_path, FLAGS.delimiter)
+				print(json.dumps(guess_spec, indent=2))
 
 if __name__ == '__main__':
     flags.mark_bool_flags_as_mutual_exclusive(['create_union_spec', 'guess_new_spec', 'get_combined_property_list'], required=True)
