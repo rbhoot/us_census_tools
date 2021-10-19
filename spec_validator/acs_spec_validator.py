@@ -322,6 +322,57 @@ def testSpec(columnNameList, specDict, test_list=['all'], delimiter='!!'):
 
 	return retDict
 
+def runTestsColumnDict(columnsDict, specDict, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, delimiter='!!'):
+	
+	testResults = {}
+	for filename in columnsDict:
+		if filename != 'all':
+			curColumns = columnsDict[filename]['column_list']
+			columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
+			columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
+			columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
+			columnsDict[filename]['column_list_count'] = len(curColumns)
+			columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
+			columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
+
+			#run the tests if flag raised
+			if filewise:
+				print('----------------------------------------------------')
+				print(filename)
+				print('----------------------------------------------------')
+				testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
+				print('Total Number of Columns', columnsDict[filename]['column_list_count'])
+				print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
+				print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
+	
+	
+	allColumns = columnsDict['all']['column_list']
+	# if filewise outputs have not been shown or summary is requested
+	if not filewise or showSummary:
+		testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
+	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
+
+	
+	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
+	columnsDict['all']['column_list_count'] = len(allColumns)
+	columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
+	columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
+
+	print('Total Number of Columns', columnsDict['all']['column_list_count'])
+	print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
+	print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
+
+	print('creating output files')
+
+	with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
+		json.dump(columnsDict, fp, indent=2)
+	with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
+		json.dump(testResults, fp, indent=2)
+
+	print("End of test")
+
 # run all the tests on a single csv file
 # tests data overlay by default, isMetadata = True parses assuming csv file is metadata file
 def testCSVFile(csvPath, specPath, test_list=['all'], outputPath='./outputs/', isMetadata = False, delimiter='!!'):
@@ -343,33 +394,38 @@ def testCSVFile(csvPath, specPath, test_list=['all'], outputPath='./outputs/', i
 	# compile list of columns
 	allColumns = columnsFromCSVReader(csvReader, isMetadata)
 
-	# run the tests
-	testResults = {}
-	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
-
-	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
-
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
-	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
-	columnsDict['all']['column_list_count'] = len(allColumns)
-	columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
-	columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
 
-	print('Total Number of Columns', columnsDict['all']['column_list_count'])
-	print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
-	print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
+	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, False, True, delimiter)
 
-	print('creating output files')
+	# run the tests
+	# testResults = {}
+	# testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
 
-	with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
-		json.dump(columnsDict, fp, indent=2)
-	with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
-		json.dump(testResults, fp, indent=2)
+	# testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
 
-	print("End of test")
+	# columnsDict['all'] = {}
+	# columnsDict['all']['column_list'] = allColumns
+	# columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
+	# columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
+	# columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
+	# columnsDict['all']['column_list_count'] = len(allColumns)
+	# columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
+	# columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
+
+	# print('Total Number of Columns', columnsDict['all']['column_list_count'])
+	# print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
+	# print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
+
+	# print('creating output files')
+
+	# with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
+	# 	json.dump(columnsDict, fp, indent=2)
+	# with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
+	# 	json.dump(testResults, fp, indent=2)
+
+	# print("End of test")
 
 	
 # assumes all files are metadata type if not flagged	
@@ -405,51 +461,55 @@ def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='./outp
 
 		columnsDict[filename] = {}
 		columnsDict[filename]['column_list'] = curColumns
-		columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
-		columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
-		columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
-		columnsDict[filename]['column_list_count'] = len(curColumns)
-		columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
-		columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
+		# columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
+		# columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
+		# columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
+		# columnsDict[filename]['column_list_count'] = len(curColumns)
+		# columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
+		# columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
 
 		#run the tests if flag raised
-		if filewise:
-			print('----------------------------------------------------')
-			print(filename)
-			print('----------------------------------------------------')
-			testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
-			print('Total Number of Columns', columnsDict[filename]['column_list_count'])
-			print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
-			print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
+		# if filewise:
+		# 	print('----------------------------------------------------')
+		# 	print(filename)
+		# 	print('----------------------------------------------------')
+		# 	testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
+		# 	print('Total Number of Columns', columnsDict[filename]['column_list_count'])
+		# 	print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
+		# 	print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
 	# keep unique columns
 	allColumns = list(set(allColumns))
-
-	# if filewise outputs have not been shown or summary is requested
-	if not filewise or showSummary:
-		testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
-	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
-
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
-	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
-	columnsDict['all']['column_list_count'] = len(allColumns)
-	columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
-	columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
+	
+	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, filewise, showSummary, delimiter)
+	
+	# if filewise outputs have not been shown or summary is requested
+	# if not filewise or showSummary:
+	# 	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
+	# testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
 
-	print('Total Number of Columns', columnsDict['all']['column_list_count'])
-	print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
-	print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
+	# columnsDict['all'] = {}
+	# columnsDict['all']['column_list'] = allColumns
+	# columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
+	# columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
+	# columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
+	# columnsDict['all']['column_list_count'] = len(allColumns)
+	# columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
+	# columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
 
-	print('creating output files')
+	# print('Total Number of Columns', columnsDict['all']['column_list_count'])
+	# print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
+	# print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
 
-	with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
-		json.dump(columnsDict, fp, indent=2)
-	with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
-		json.dump(testResults, fp, indent=2)
+	# print('creating output files')
 
-	print("End of test")
+	# with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
+	# 	json.dump(columnsDict, fp, indent=2)
+	# with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
+	# 	json.dump(testResults, fp, indent=2)
+
+	# print("End of test")
 	
 
 def testZipFile(zipPath, specPath, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, checkMetadata = False, delimiter='!!'):
@@ -486,50 +546,54 @@ def testZipFile(zipPath, specPath, test_list=['all'], outputPath='./outputs/', f
 					
 					columnsDict[filename] = {}
 					columnsDict[filename]['column_list'] = curColumns
-					columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
-					columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
-					columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
-					columnsDict[filename]['column_list_count'] = len(curColumns)
-					columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
-					columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
+					# columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
+					# columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
+					# columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
+					# columnsDict[filename]['column_list_count'] = len(curColumns)
+					# columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
+					# columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
 
 					#run the tests if flag raised
-					if filewise:
-						print('----------------------------------------------------')
-						print(filename)
-						print('----------------------------------------------------')
-						testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
-						print('Total Number of Columns', columnsDict[filename]['column_list_count'])
-						print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
-						print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
+					# if filewise:
+					# 	print('----------------------------------------------------')
+					# 	print(filename)
+					# 	print('----------------------------------------------------')
+					# 	testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
+					# 	print('Total Number of Columns', columnsDict[filename]['column_list_count'])
+					# 	print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
+					# 	print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
 	# keep unique columns
 	allColumns = list(set(allColumns))
-	# if filewise outputs have not been shown or summary is requested
-	if not filewise or showSummary:
-		testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
-	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
-
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
-	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
-	columnsDict['all']['column_list_count'] = len(allColumns)
-	columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
-	columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
+	
+	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, filewise, showSummary, delimiter)
+	# if filewise outputs have not been shown or summary is requested
+	# if not filewise or showSummary:
+	# 	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
+	# testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
 
-	print('Total Number of Columns', columnsDict['all']['column_list_count'])
-	print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
-	print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
+	# columnsDict['all'] = {}
+	# columnsDict['all']['column_list'] = allColumns
+	# columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
+	# columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
+	# columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
+	# columnsDict['all']['column_list_count'] = len(allColumns)
+	# columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
+	# columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
 
-	print('creating output files')
+	# print('Total Number of Columns', columnsDict['all']['column_list_count'])
+	# print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
+	# print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
 
-	with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
-		json.dump(columnsDict, fp, indent=2)
-	with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
-		json.dump(testResults, fp, indent=2)
+	# print('creating output files')
 
-	print("End of test")
+	# with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
+	# 	json.dump(columnsDict, fp, indent=2)
+	# with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
+	# 	json.dump(testResults, fp, indent=2)
+
+	# print("End of test")
 
 #TODO this will overwrite outputs if filenames repeat across zip files
 def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, checkMetadata = False, delimiter='!!'):
@@ -567,27 +631,75 @@ def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='./outp
 						
 						columnsDict[filename] = {}
 						columnsDict[filename]['column_list'] = curColumns
-						columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
-						columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
-						columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
-						columnsDict[filename]['column_list_count'] = len(curColumns)
-						columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
-						columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
+						# columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
+						# columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
+						# columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
+						# columnsDict[filename]['column_list_count'] = len(curColumns)
+						# columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
+						# columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
 
 						#run the tests if flag raised
-						if filewise:
-							print('----------------------------------------------------')
-							print(filename)
-							print('----------------------------------------------------')
-							testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
-							print('Total Number of Columns', columnsDict[filename]['column_list_count'])
-							print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
-							print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
+						# if filewise:
+						# 	print('----------------------------------------------------')
+						# 	print(filename)
+						# 	print('----------------------------------------------------')
+						# 	testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
+						# 	print('Total Number of Columns', columnsDict[filename]['column_list_count'])
+						# 	print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
+						# 	print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
 	# keep unique columns
 	allColumns = list(set(allColumns))
+	columnsDict['all'] = {}
+	columnsDict['all']['column_list'] = allColumns
+	
+	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, filewise, showSummary, delimiter)
+	
 	# if filewise outputs have not been shown or summary is requested
-	if not filewise or showSummary:
-		testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
+	# if not filewise or showSummary:
+	# 	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
+	# testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
+
+	# columnsDict['all'] = {}
+	# columnsDict['all']['column_list'] = allColumns
+	# columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
+	# columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
+	# columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
+	# columnsDict['all']['column_list_count'] = len(allColumns)
+	# columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
+	# columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
+
+	# print('Total Number of Columns', columnsDict['all']['column_list_count'])
+	# print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
+	# print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
+
+	# print('creating output files')
+
+	# with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
+	# 	json.dump(columnsDict, fp, indent=2)
+	# with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
+	# 	json.dump(testResults, fp, indent=2)
+
+	# print("End of test")
+
+# TODO allow multiple files
+def testColumnList(columnListPath, specPath, test_list=['all'], outputPath='./outputs/', delimiter='!!'):
+	# clean the file paths
+	columnListPath = os.path.expanduser(columnListPath)
+	specPath = os.path.expanduser(specPath)
+	outputPath = os.path.expanduser(outputPath)
+	if not os.path.exists(outputPath):
+		os.makedirs(outputPath, exist_ok=True)
+
+	# read json spec
+	specDict = getSpecDictFromPath(specPath)
+	allColumns = json.load(open(columnListPath, 'r'))
+
+	columnsDict = {}
+	testResults = {}
+
+	print("Testing ", columnListPath, "against spec at", specPath)
+
+	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
 	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
 
 	columnsDict['all'] = {}
