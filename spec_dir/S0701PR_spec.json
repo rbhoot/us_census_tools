@@ -152,13 +152,6 @@
   "universePVs": [
     {
       "populationType": "Person",
-      "constraintProperties": ["residentStatus"],
-      "dependentPVs": {
-        "age": "[1 - Years]"
-      }
-    },
-    {
-      "populationType": "Person",
       "constraintProperties": ["educationalAttainment"],
       "dependentPVs": {
         "age": "[25 - Years]"
