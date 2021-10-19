@@ -1,9 +1,11 @@
-from api_config_fetcher import *
+import sys, os
 
 module_dir_ = os.path.dirname(__file__)
 module_parentdir_ = os.path.join(module_dir_, '..')
 config_path_ = os.path.join(module_dir_, 'config_files')
 sys.path.append(os.path.join(module_dir_, '..'))
+
+from census_api_util.api_config_fetcher import *
 
 FLAGS = flags.FLAGS
 

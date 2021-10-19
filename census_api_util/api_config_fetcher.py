@@ -8,12 +8,12 @@ import os
 import time
 import random
 
-from download_utils import *
-
 module_dir_ = os.path.dirname(__file__)
 module_parentdir_ = os.path.join(module_dir_, '..')
 config_path_ = os.path.join(module_dir_, 'config_files')
 sys.path.append(os.path.join(module_dir_, '..'))
+
+from census_api_util.download_utils import *
 
 FLAGS = flags.FLAGS
 
