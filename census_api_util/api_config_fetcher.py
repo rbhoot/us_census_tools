@@ -8,8 +8,11 @@ import os
 import time
 import random
 
+from download_utils import *
+
 module_dir_ = os.path.dirname(__file__)
 module_parentdir_ = os.path.join(module_dir_, '..')
+config_path_ = os.path.join(module_dir_, 'config_files')
 sys.path.append(os.path.join(module_dir_, '..'))
 
 FLAGS = flags.FLAGS
@@ -27,9 +30,10 @@ FLAGS = flags.FLAGS
 
 
 def request_url_json(url):
-	print(req.url)
+	print(url)
 	try:
 		req = requests.get(url)
+		# print(req.url)
 	except requests.exceptions.ReadTimeout:
 		time.sleep(10)
 		req = requests.get(url)
@@ -65,7 +69,7 @@ def generate_url_tags(link_tree, year=None):
 def generate_url_group_variables(link_tree, group_id, year=None):
 	return _generate_url_prefix(link_tree, year)+f'groups/{group_id}.json'
 
-def fetch_link_tree_config(store_path=module_dir_+'config_files/', force_fetch=False):
+def fetch_link_tree_config(store_path=config_path_, force_fetch=False):
 	store_path = os.path.expanduser(store_path)
 	if not os.path.exists(store_path):
 		os.makedirs(store_path, exist_ok=True)
@@ -79,7 +83,7 @@ def fetch_link_tree_config(store_path=module_dir_+'config_files/', force_fetch=F
 
 	return datasets
 
-def compile_year_map(store_path=module_dir_+'config_files/', force_fetch=False):
+def compile_year_map(store_path=config_path_, force_fetch=False):
 
 	if os.path.isfile(os.path.join(store_path, 'dataset_year.json')):
 		link_tree_dict = json.load(open(os.path.join(store_path, 'dataset_year.json'), 'r'))
@@ -185,18 +189,127 @@ def compile_year_map(store_path=module_dir_+'config_files/', force_fetch=False):
 
 	return link_tree_dict
 
-def compile_groups_map(store_path=module_dir_+'config_files/', force_fetch=False):
+def fetch_linktree_config_cache(param, store_path=config_path_, force_fetch=False):
+	if param not in ['groups', 'geography', 'variables', 'group_variables']:
+		error_dict = {'invalid_param': [param]}
+		with open(os.path.join(store_path, f'errors_dataset_{param}_download.json'), 'w') as fp:
+			json.dump(error_dict, fp, indent=2)
+		return
+	
+	store_path = os.path.abspath(store_path)
+
+	link_tree_dict = compile_year_map(store_path, force_fetch)
+	if param == 'group_variables':
+		link_tree_dict = compile_non_group_variables_map(store_path, force_fetch)
+	error_dict = {}
+	url_list = {}
+	
+	cache_path = os.path.join(store_path, 'api_cache')
+	if not os.path.exists(cache_path):
+		os.makedirs(cache_path, exist_ok=True)
+	
+	status_file = os.path.join(cache_path, f'{param}_cache_status.json')
+	
+	if os.path.isfile(status_file):
+		url_list = json.load(open(status_file, 'r'))
+	
+	for link_tree in link_tree_dict:
+		if 'years' in link_tree_dict[link_tree]:
+			for year in link_tree_dict[link_tree]['years']:
+				if param == 'groups':
+					temp_url = generate_url_groups(link_tree, year)
+				elif param == 'geography':
+					temp_url = generate_url_geography(link_tree, year)
+				elif param == 'variables':
+					temp_url = generate_url_variables(link_tree, year)
+				else:
+					temp_url = None
+				
+				file_path = os.path.join(cache_path, link_tree, str(year))
+				file_name = os.path.join(file_path, f'{param}.json')
+				if not os.path.exists(file_path):
+					os.makedirs(file_path, exist_ok=True)
+				
+				if temp_url and temp_url not in url_list:
+					url_list[temp_url] = {}
+					url_list[temp_url]['output_path'] = file_name
+					url_list[temp_url]['status'] = 'failed'
+
+				if param == 'group_variables':
+					for group_id in link_tree_dict[link_tree]['years'][year]['groups']:
+						temp_url = generate_url_group_variables(link_tree, group_id, year)
+						file_name = os.path.join(file_path, group_id+'.json')
+						if temp_url not in url_list:
+							url_list[temp_url] = {}
+							url_list[temp_url]['output_path'] = file_name
+							url_list[temp_url]['status'] = 'failed'
+					
+		else:
+			if param == 'groups':
+				temp_url = generate_url_groups(link_tree)
+			elif param == 'geography':
+				temp_url = generate_url_geography(link_tree)
+			elif param == 'variables':
+				temp_url = generate_url_variables(link_tree)
+			else:
+				temp_url = None
+
+			file_path = os.path.join(cache_path, link_tree)
+			file_name = os.path.join(file_path, f'{param}.json')
+			if not os.path.exists(file_path):
+				os.makedirs(file_path, exist_ok=True)
+			if temp_url and temp_url not in url_list:
+				url_list[temp_url] = {}
+				url_list[temp_url]['output_path'] = file_name
+				url_list[temp_url]['status'] = 'failed'
+			if param == 'group_variables':
+				for group_id in link_tree_dict[link_tree]['groups']:
+					temp_url = generate_url_group_variables(link_tree, group_id)
+					file_name = os.path.join(file_path, group_id+'.json')
+					if temp_url not in url_list:
+						url_list[temp_url] = {}
+						url_list[temp_url]['output_path'] = file_name
+						url_list[temp_url]['status'] = 'failed'
+
+	for cur_url in url_list:
+		if os.path.isfile(os.path.join(url_list[cur_url]['output_path'])):
+			url_list[cur_url]['status'] = 'saved'
+		elif 'status' not in url_list[cur_url]:
+			url_list[cur_url]['status'] = 'failed'
+		if force_fetch:
+			url_list[cur_url]['status'] = 'failed'
+	
+	# TODO store in file
+	status_file = os.path.join(cache_path, f'{param}_cache_status.json')
+	
+	with open(status_file, 'w') as fp:
+		json.dump(url_list, fp, indent=2)
+
+	print(len(url_list))
+
+	error_dict = dowload_url_list_parallel(status_file, chunk_size = 50, chunk_delay_s = 0.8)
+
+	if error_dict:
+		with open(os.path.join(store_path, f'errors_dataset_{param}_download.json'), 'w') as fp:
+			json.dump(error_dict, fp, indent=2)
+
+def compile_groups_map(store_path=config_path_, force_fetch=False):
 	if os.path.isfile(os.path.join(store_path, 'dataset_groups.json')) and not force_fetch:
 		link_tree_dict = json.load(open(os.path.join(store_path, 'dataset_groups.json'), 'r'))
 	else:
 		link_tree_dict = compile_year_map(store_path, force_fetch)
 		error_dict = {}
-		
+		fetch_linktree_config_cache('groups', store_path, force_fetch)
+		cache_path = os.path.join(store_path, 'api_cache')
 		for link_tree in link_tree_dict:
 			if 'years' in link_tree_dict[link_tree]:
 				for year in link_tree_dict[link_tree]['years']:
+					cache_file = os.path.join(cache_path, link_tree, str(year), 'groups.json')
 					temp_url = generate_url_groups(link_tree, year)
-					group_list = request_url_json(temp_url)
+					if os.path.isfile(cache_file):
+						group_list = json.load(open(cache_file, 'r'))
+					else:
+						group_list = request_url_json(temp_url)
 					if 'http_err_code' not in group_list:
 						if len(group_list) != 1:
 							if 'groups_extra_keys' not in error_dict:
@@ -222,8 +335,12 @@ def compile_groups_map(store_path=module_dir_+'config_files/', force_fetch=False
 								print(link_tree, 'group_variablesLink unexpected')
 
 			else:
-				temp_url = generate_url_groups(link_tree, year)
-				group_list = request_url_json(temp_url)
+				cache_file = os.path.join(cache_path, link_tree, 'groups.json')
+				temp_url = generate_url_groups(link_tree)
+				if os.path.isfile(cache_file):
+					group_list = json.load(open(cache_file, 'r'))
+				else:
+					group_list = request_url_json(temp_url)
 				if 'http_err_code' not in group_list:
 					if len(group_list) != 1:
 						if 'groups_extra_keys' not in error_dict:
@@ -257,18 +374,23 @@ def compile_groups_map(store_path=module_dir_+'config_files/', force_fetch=False
 
 	return link_tree_dict
 	
-def compile_geography_map(store_path=module_dir_+'config_files/', force_fetch=False):
+def compile_geography_map(store_path=config_path_, force_fetch=False):
 	if os.path.isfile(os.path.join(store_path, 'dataset_geography.json')) and not force_fetch:
 		link_tree_dict = json.load(open(os.path.join(store_path, 'dataset_geography.json'), 'r'))
 	else:
 		link_tree_dict = compile_groups_map(store_path, force_fetch)
 		error_dict = {}
-		
+		fetch_linktree_config_cache('geography', store_path, force_fetch)
+		cache_path = os.path.join(store_path, 'api_cache')
 		for link_tree in link_tree_dict:
 			if 'years' in link_tree_dict[link_tree]:
 				for year in link_tree_dict[link_tree]['years']:
+					cache_file = os.path.join(cache_path, link_tree, str(year), 'geography.json')
 					temp_url = generate_url_geography(link_tree, year)
-					geo_list = request_url_json(temp_url)
+					if os.path.isfile(cache_file):
+						geo_list = json.load(open(cache_file, 'r'))
+					else:
+						geo_list = request_url_json(temp_url)
 					if 'http_err_code' not in geo_list:
 						if len(geo_list) != 1:
 							if 'groups_extra_keys' not in error_dict:
@@ -312,8 +434,8 @@ def compile_geography_map(store_path=module_dir_+'config_files/', force_fetch=Fa
 								else:
 									if 'geo_conflicts' not in error_dict:
 										error_dict['geo_conflicts'] = []
-									error_dict['geo_conflicts'].append('_'.join(link_tree, year, cur_geo['name']))
-									print(temp_url, "has unexpected number of keys ")
+									error_dict['geo_conflicts'].append('_'.join([link_tree, year, cur_geo['name']]))
+									print(cur_geo['name'], "geo name conflict")
 						else:
 							if 'fips_missing' not in error_dict:
 								error_dict['fips_missing'] = []
@@ -321,8 +443,12 @@ def compile_geography_map(store_path=module_dir_+'config_files/', force_fetch=Fa
 							print(temp_url, "fips missing")
 
 			else:
-				temp_url = generate_url_geography(link_tree, year)
-				geo_list = request_url_json(temp_url)
+				cache_file = os.path.join(cache_path, link_tree, 'geography.json')
+				temp_url = generate_url_geography(link_tree)
+				if os.path.isfile(cache_file):
+					geo_list = json.load(open(cache_file, 'r'))
+				else:
+					geo_list = request_url_json(temp_url)
 				if 'http_err_code' not in geo_list:
 					if len(geo_list) != 1:
 						if 'groups_extra_keys' not in error_dict:
@@ -366,8 +492,8 @@ def compile_geography_map(store_path=module_dir_+'config_files/', force_fetch=Fa
 							else:
 								if 'geo_conflicts' not in error_dict:
 									error_dict['geo_conflicts'] = []
-								error_dict['geo_conflicts'].append('_'.join(link_tree, cur_geo['name']))
-								print(temp_url, "has unexpected number of keys ")
+								error_dict['geo_conflicts'].append('_'.join([link_tree, cur_geo['name']]))
+								print(cur_geo['name'], "geo name conflict")
 					else:
 						if 'fips_missing' not in error_dict:
 							error_dict['fips_missing'] = []
@@ -382,18 +508,23 @@ def compile_geography_map(store_path=module_dir_+'config_files/', force_fetch=Fa
 
 	return link_tree_dict
 
-def compile_non_group_variables_map(store_path=module_dir_+'config_files/', force_fetch=False):
+def compile_non_group_variables_map(store_path=config_path_, force_fetch=False):
 	if os.path.isfile(os.path.join(store_path, 'dataset_non_group_variables.json')) and not force_fetch:
 		link_tree_dict = json.load(open(os.path.join(store_path, 'dataset_non_group_variables.json'), 'r'))
 	else:
 		link_tree_dict = compile_geography_map(store_path, force_fetch)
 		error_dict = {}
-		
+		fetch_linktree_config_cache('variables', store_path, force_fetch)
+		cache_path = os.path.join(store_path, 'api_cache')
 		for link_tree in link_tree_dict:
 			if 'years' in link_tree_dict[link_tree]:
 				for year in link_tree_dict[link_tree]['years']:
+					cache_file = os.path.join(cache_path, link_tree, str(year), 'variables.json')
 					temp_url = generate_url_variables(link_tree, year)
-					variable_list = request_url_json(temp_url)
+					if os.path.isfile(cache_file):
+						variable_list = json.load(open(cache_file, 'r'))
+					else:
+						variable_list = request_url_json(temp_url)
 					if 'http_err_code' not in variable_list:
 						if len(variable_list) != 1:
 							if 'groups_extra_keys' not in error_dict:
@@ -417,8 +548,12 @@ def compile_non_group_variables_map(store_path=module_dir_+'config_files/', forc
 							error_dict['variables_missing'].append(temp_url)
 							print(temp_url, "has no variables section")
 			else:
-				temp_url = generate_url_variables(link_tree, year)
-				variable_list = request_url_json(temp_url)
+				cache_file = os.path.join(cache_path, link_tree, year, 'variables.json')
+				temp_url = generate_url_variables(link_tree)
+				if os.path.isfile(cache_file):
+					variable_list = json.load(open(cache_file, 'r'))
+				else:
+					variable_list = request_url_json(temp_url)
 				if 'http_err_code' not in variable_list:
 					if len(variable_list) != 1:
 						if 'groups_extra_keys' not in error_dict:
@@ -441,6 +576,7 @@ def compile_non_group_variables_map(store_path=module_dir_+'config_files/', forc
 							error_dict['variables_missing'] = []
 						error_dict['variables_missing'].append(temp_url)
 						print(temp_url, "has no variables section")
+		
 		with open(os.path.join(store_path, 'dataset_non_group_variables.json'), 'w') as fp:
 			json.dump(link_tree_dict, fp, indent=2)
 		if error_dict:
@@ -449,158 +585,69 @@ def compile_non_group_variables_map(store_path=module_dir_+'config_files/', forc
 
 	return link_tree_dict
 
-def compile_link_tree_based_map(store_path=module_dir_+'config_files/', force_fetch=False):
+def compile_link_tree_based_map(store_path=config_path_, force_fetch=False):
 	# compile_year_map(store_path)
 	# compile_groups_map(store_path, force_fetch)
 	# compile_geography_map(store_path, force_fetch)
 	link_tree_dict = compile_non_group_variables_map(store_path, force_fetch)
 	# link_tree_dict = compile_group_variables_map(store_path, force_fetch)
 
-def fetch_group_variables(store_path=module_dir_+'config_files/', force_fetch=False):
-	
-	link_tree_dict = compile_non_group_variables_map(store_path, force_fetch)
-	
-	error_dict = {}
-	url_list = []
-	
-	variables_path = os.path.join(store_path, 'group_variables')
-	if not os.path.exists(variables_path):
-		os.makedirs(variables_path, exist_ok=True)
-	
-	for link_tree in link_tree_dict:
-		if 'years' in link_tree_dict[link_tree]:
-			for year in link_tree_dict[link_tree]['years']:
-				for group_id in link_tree_dict[link_tree]['years'][year]['groups']:
-					temp_url = generate_url_group_variables(link_tree, group_id, year)
-					file_path = os.path.join(variables_path, link_tree, str(year))
-					file_name = os.path.join(file_path, group_id+'.json')
-					if not os.path.exists(file_path):
-						os.makedirs(file_path, exist_ok=True)
-					url_list.append({'url':temp_url, 'file_name': file_name})
-					
-		else:
-			for group_id in link_tree_dict[link_tree]['groups']:
-				temp_url = generate_url_group_variables(link_tree, group_id)
-				file_path = os.path.join(variables_path, link_tree)
-				file_name = os.path.join(file_path, group_id+'.json')
-				if not os.path.exists(file_path):
-					os.makedirs(file_path, exist_ok=True)
-				url_list.append({'url':temp_url, 'file_name': file_name})
-	
-	
-
-	temp_list = url_list
-	
-	if not force_fetch:
-		temp_list = []
-		for cur_url in url_list:
-			if not os.path.isfile(os.path.join(cur_url['file_name'])):
-				temp_list.append(cur_url)
-	print(len(temp_list))
-	while len(temp_list) > 0:
-		n = 50
-		urls_chunked = [temp_list[i:i + n] for i in range(0, len(temp_list), n)]
-
-		for cur_chunk in urls_chunked:
-			results = grequests.map((grequests.get(u['url']) for u in cur_chunk), size=n)
-			# store outputs to files under group_variables folder
-			for i, resp in enumerate(results):
-				if resp:
-					print(cur_chunk[i]['url'])
-					for url_temp in url_list:
-						if url_temp['url'] == cur_chunk[i]['url']:
-							temp_list.remove(url_temp)
-					if resp.status_code == 200:
-						resp_data = resp.json()
-						with open(cur_chunk[i]['file_name'], 'w') as fp:
-							json.dump(resp_data, fp, indent=2)
-					else:
-						print(resp.status_code, cur_chunk[i]['url'])
-						if 'request_error' not in error_dict:
-							error_dict['request_error'] = []
-						error_dict['request_error'].append(cur_chunk[i]['url'])
-			
-			# delay 1 s
-			time.sleep(0.8 + (random.random() / 2 ))
-
-	if error_dict:
-		with open(os.path.join(store_path, 'errors_dataset_group_variables.json'), 'w') as fp:
-			json.dump(error_dict, fp, indent=2)
-
-	return link_tree_dict
-
-def fetch_group_variables_map(store_path=module_dir_+'config_files/', force_fetch=False):
-	if os.path.isfile(os.path.join(store_path, 'dataset_config.json')) and not force_fetch:
-		link_tree_dict = json.load(open(os.path.join(store_path, 'dataset_config.json'), 'r'))
+def compile_linktree_group_map(store_path=config_path_, force_fetch=False):
+	if os.path.isfile(os.path.join(store_path, 'linktree_groups.json')) and not force_fetch:
+		out_dict = json.load(open(os.path.join(store_path, 'linktree_groups.json'), 'r'))
 	else:
-		link_tree_dict = fetch_group_variables(store_path, force_fetch)
-		error_dict = {}
-		
-		# for link_tree in link_tree_dict:
-		# 	if 'years' in link_tree_dict[link_tree]:
-		# 		for year in link_tree_dict[link_tree]['years']:
-		# 			for group_id in link_tree_dict[link_tree]['years'][year]['groups']:
-		# 				temp_url = generate_url_group_variables(link_tree, group_id, year)
-		# 				variable_list = request_url_json(temp_url)
+		link_tree_dict = compile_non_group_variables_map(store_path, force_fetch)
+		out_dict = {}
+		for link_tree_id, link_tree_detail in link_tree_dict.items():
+			out_dict[link_tree_id] = []
+			if 'years' in link_tree_detail:
+				for year in link_tree_detail['years']:
+					for group_id in link_tree_detail['years'][year]['groups']:
+						if group_id not in out_dict[link_tree_id]:
+							out_dict[link_tree_id].append(group_id)
+			else:
+				for group_id in link_tree_dict['groups']:
+					if group_id not in out_dict[link_tree_id]:
+						out_dict[link_tree_id].append(group_id)
 
-		# 				if 'http_err_code' not in variable_list:
-		# 					if len(variable_list) != 1:
-		# 						if 'groups_extra_keys' not in error_dict:
-		# 							error_dict['groups_extra_keys'] = []
-		# 						error_dict['groups_extra_keys'].append(temp_url)
-		# 						print(temp_url, "has unexpected number of keys ")
-		# 					if 'variables' in variable_list:
-		# 						variable_list = variable_list['variables']
-		# 						link_tree_dict[link_tree]['years'][year]['groups'][group_id]['variables'] = {}
-		# 						for cur_variable in variable_list:
-		# 							link_tree_dict[link_tree]['years'][year]['groups'][group_id]['variables'][variable_list[cur_variable]['label']] = {}
-		# 							link_tree_dict[link_tree]['years'][year]['groups'][group_id]['variables'][variable_list[cur_variable]['label']]['id'] = cur_variable
-		# 							if 'predicateType' in variable_list[cur_variable]:
-		# 								link_tree_dict[link_tree]['years'][year]['groups'][group_id]['variables'][variable_list[cur_variable]['label']]['predicateType'] = variable_list[cur_variable]['predicateType']
-		# 					else:
-		# 						if 'variables_missing' not in error_dict:
-		# 							error_dict['variables_missing'] = []
-		# 						error_dict['variables_missing'].append(temp_url)
-		# 						print(temp_url, "has no variables section")
-		# 	else:
-		# 		for group_id in link_tree_dict[link_tree]['groups']:
-		# 			temp_url = generate_url_group_variables(link_tree, group_id, year)
-		# 			variable_list = request_url_json(temp_url)
-		# 			if 'http_err_code' not in variable_list:
-		# 				if len(variable_list) != 1:
-		# 					if 'groups_extra_keys' not in error_dict:
-		# 						error_dict['groups_extra_keys'] = []
-		# 					error_dict['groups_extra_keys'].append(temp_url)
-		# 					print(temp_url, "has unexpected number of keys ")
-		# 				if 'variables' in variable_list:
-		# 					variable_list = variable_list['variables']
-		# 					link_tree_dict[link_tree]['groups'][group_id]['variables'] = {}
-		# 					for cur_variable in variable_list:
-		# 						link_tree_dict[link_tree]['groups'][group_id]['variables'][cur_variable['label']] = {}
-		# 						link_tree_dict[link_tree]['groups'][group_id]['variables'][cur_variable['label']]['id'] = cur_variable
-		# 						if 'predicateType' in variable_list[cur_variable]:
-		# 							link_tree_dict[link_tree]['groups'][group_id]['variables'][cur_variable['label']]['predicateType'] = variable_list[cur_variable]['predicateType']
-		# 				else:
-		# 					if 'variables_missing' not in error_dict:
-		# 						error_dict['variables_missing'] = []
-		# 					error_dict['variables_missing'].append(temp_url)
-		# 					print(temp_url, "has no variables section")
-	
-		# with open(os.path.join(store_path, 'dataset_config.json'), 'w') as fp:
-		# 	json.dump(link_tree_dict, fp, indent=2)
-		# if error_dict:
-		# 	with open(os.path.join(store_path, 'errors_dataset_config.json'), 'w') as fp:
-		# 		json.dump(error_dict, fp, indent=2)
+		with open(os.path.join(store_path, 'linktree_groups.json'), 'w') as fp:
+			json.dump(out_dict, fp, indent=2)
 
-	return link_tree_dict
+	return out_dict
 
+def compile_linktree_group_years_map(store_path=config_path_, force_fetch=False):
+	if os.path.isfile(os.path.join(store_path, 'linktree_years_groups.json')) and not force_fetch:
+		out_dict = json.load(open(os.path.join(store_path, 'linktree_years_groups.json'), 'r'))
+	else:
+		link_tree_dict = compile_non_group_variables_map(store_path, force_fetch)
+		out_dict = {}
+		for link_tree_id, link_tree_detail in link_tree_dict.items():
+			out_dict[link_tree_id] = {}
+			out_dict[link_tree_id]['years'] = []
+			out_dict[link_tree_id]['groups'] = {}
+			if 'years' in link_tree_detail:
+				for year in link_tree_detail['years']:
+					out_dict[link_tree_id]['years'].append(year)
+					for group_id in link_tree_detail['years'][year]['groups']:
+						if group_id not in out_dict[link_tree_id]['groups']:
+							out_dict[link_tree_id]['groups'][group_id] = []
+						out_dict[link_tree_id]['groups'][group_id].append(year)
+			else:
+				for group_id in link_tree_detail['groups']:
+					if group_id not in out_dict[link_tree_id]['groups']:
+						out_dict[link_tree_id]['groups'][group_id] = []
+					out_dict[link_tree_id]['groups'][group_id].append(year)
 
-def compile_group_based_map():
-	pass
+		with open(os.path.join(store_path, 'linktree_years_groups.json'), 'w') as fp:
+			json.dump(out_dict, fp, indent=2)
+
+	return out_dict
+
 # wrapper functions for finding available options
 
 
 compile_link_tree_based_map()
-fetch_group_variables()
-
+fetch_linktree_config_cache('group_variables')
+compile_linktree_group_map()
+compile_linktree_group_years_map()
 	

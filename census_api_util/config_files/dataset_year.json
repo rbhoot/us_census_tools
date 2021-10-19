@@ -1,0 +1,3923 @@
+{
+  "nonemp": {
+    "years": {
+      "1999": {
+        "title": "1999 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP1999"
+      },
+      "1997": {
+        "title": "1997 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP1997"
+      },
+      "2000": {
+        "title": "2000 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2000"
+      },
+      "1998": {
+        "title": "1998 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP1998"
+      },
+      "2001": {
+        "title": "2001 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2001"
+      },
+      "2007": {
+        "title": "2007 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2007"
+      },
+      "2008": {
+        "title": "2008 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2008"
+      },
+      "2002": {
+        "title": "2002 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2002"
+      },
+      "2003": {
+        "title": "2003 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2003"
+      },
+      "2004": {
+        "title": "2004 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2004"
+      },
+      "2009": {
+        "title": "2009 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2009"
+      },
+      "2005": {
+        "title": "2005 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2005"
+      },
+      "2006": {
+        "title": "2006 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2006"
+      },
+      "2010": {
+        "title": "2010 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2010"
+      },
+      "2011": {
+        "title": "2011 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2011"
+      },
+      "2012": {
+        "title": "Annual Economic Surveys: Nonemployer Statistics",
+        "identifier": "NONEMP2012"
+      },
+      "2013": {
+        "title": "2013 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2013"
+      },
+      "2014": {
+        "title": "2014 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2014"
+      },
+      "2015": {
+        "title": "2015 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2015"
+      },
+      "2016": {
+        "title": "2016 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2016"
+      },
+      "2017": {
+        "title": "Annual Economic Surveys: Nonemployer Statistics",
+        "identifier": "NONEMP2017"
+      },
+      "2018": {
+        "title": "2018 Nonemployer Statistics: Non Employer Statistics",
+        "identifier": "NONEMP2018"
+      }
+    }
+  },
+  "cbp": {
+    "years": {
+      "1986": {
+        "title": "1986 County Business Patterns: Business Patterns",
+        "identifier": "CBP1986"
+      },
+      "1987": {
+        "title": "1987 County Business Patterns: Business Patterns",
+        "identifier": "CBP1987"
+      },
+      "1988": {
+        "title": "1988 County Business Patterns: Business Patterns",
+        "identifier": "CBP1988"
+      },
+      "2000": {
+        "title": "2000 County Business Patterns: Business Patterns",
+        "identifier": "CBP2000"
+      },
+      "1989": {
+        "title": "1989 County Business Patterns: Business Patterns",
+        "identifier": "CBP1989"
+      },
+      "1990": {
+        "title": "1990 County Business Patterns: Business Patterns",
+        "identifier": "CBP1990"
+      },
+      "1995": {
+        "title": "1995 County Business Patterns: Business Patterns",
+        "identifier": "CBP1995"
+      },
+      "1996": {
+        "title": "1996 County Business Patterns: Business Patterns",
+        "identifier": "CBP1996"
+      },
+      "1998": {
+        "title": "1998 County Business Patterns: Business Patterns",
+        "identifier": "CBP1998"
+      },
+      "1991": {
+        "title": "1991 County Business Patterns: Business Patterns",
+        "identifier": "CBP1991"
+      },
+      "1992": {
+        "title": "1992 County Business Patterns: Business Patterns",
+        "identifier": "CBP1992"
+      },
+      "1993": {
+        "title": "1993 County Business Patterns: Business Patterns",
+        "identifier": "CBP1993"
+      },
+      "1994": {
+        "title": "1994 County Business Patterns: Business Patterns",
+        "identifier": "CBP1994"
+      },
+      "2001": {
+        "title": "2001 County Business Patterns: Business Patterns",
+        "identifier": "CBP2001"
+      },
+      "1997": {
+        "title": "1997 County Business Patterns: Business Patterns",
+        "identifier": "CBP1997"
+      },
+      "1999": {
+        "title": "1999 County Business Patterns: Business Patterns",
+        "identifier": "CBP1999"
+      },
+      "2007": {
+        "title": "2007 County Business Patterns: Business Patterns",
+        "identifier": "CBP2007"
+      },
+      "2002": {
+        "title": "2002 County Business Patterns: Business Patterns",
+        "identifier": "CBP2002"
+      },
+      "2008": {
+        "title": "2008 County Business Patterns: Business Patterns",
+        "identifier": "CBP2008"
+      },
+      "2003": {
+        "title": "2003 County Business Patterns: Business Patterns",
+        "identifier": "CBP2003"
+      },
+      "2004": {
+        "title": "2004 County Business Patterns: Business Patterns",
+        "identifier": "CBP2004"
+      },
+      "2010": {
+        "title": "2010 County Business Patterns: Business Patterns",
+        "identifier": "CBP2010"
+      },
+      "2009": {
+        "title": "2009 County Business Patterns: Business Patterns",
+        "identifier": "CBP2009"
+      },
+      "2005": {
+        "title": "2005 County Business Patterns: Business Patterns",
+        "identifier": "CBP2005"
+      },
+      "2006": {
+        "title": "2006 County Business Patterns: Business Patterns",
+        "identifier": "CBP2006"
+      },
+      "2011": {
+        "title": "2011 County Business Patterns: Business Patterns",
+        "identifier": "CBP2011"
+      },
+      "2012": {
+        "title": "Annual Economic Surveys: Business Patterns: County Business Patterns",
+        "identifier": "CBP2012"
+      },
+      "2013": {
+        "title": "2013 County Business Patterns",
+        "identifier": "CBP2013"
+      },
+      "2014": {
+        "title": "2014 County Business Patterns",
+        "identifier": "CBP2014"
+      },
+      "2016": {
+        "title": "2016 County Business Patterns",
+        "identifier": "CBP2016"
+      },
+      "2015": {
+        "title": "2015 County Business Patterns",
+        "identifier": "CBP2015"
+      },
+      "2017": {
+        "title": "Annual Economic Surveys: Business Patterns: County Business Patterns",
+        "identifier": "CBP2017"
+      },
+      "2018": {
+        "title": "Annual Economic Surveys: Business Patterns: County Business Patterns",
+        "identifier": "CBP2018"
+      },
+      "2019": {
+        "title": "Annual Economic Surveys: Business Patterns: County Business Patterns",
+        "identifier": "CBP2019"
+      }
+    }
+  },
+  "zbp": {
+    "years": {
+      "1997": {
+        "title": "1997 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal1997"
+      },
+      "1999": {
+        "title": "1999 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal1999"
+      },
+      "1995": {
+        "title": "1995 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal1995"
+      },
+      "2000": {
+        "title": "2000 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2000"
+      },
+      "1998": {
+        "title": "1998 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal1998"
+      },
+      "1994": {
+        "title": "1994 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal1994"
+      },
+      "1996": {
+        "title": "1996 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal1996"
+      },
+      "2001": {
+        "title": "2001 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2001"
+      },
+      "2006": {
+        "title": "2006 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2006"
+      },
+      "2011": {
+        "title": "2011 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2011"
+      },
+      "2007": {
+        "title": "2007 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2007"
+      },
+      "2002": {
+        "title": "2002 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2002"
+      },
+      "2008": {
+        "title": "2008 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2008"
+      },
+      "2003": {
+        "title": "2003 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2003"
+      },
+      "2004": {
+        "title": "2004 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2004"
+      },
+      "2005": {
+        "title": "2005 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2005"
+      },
+      "2009": {
+        "title": "2009 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2009"
+      },
+      "2010": {
+        "title": "2010 County Business Patterns - Zip Code Business Patterns: Total For Zip Code",
+        "identifier": "ZBPTotal2010"
+      },
+      "2012": {
+        "title": "2012 County Business Patterns - Zip Code Business Patterns: ZIP Code Business Patterns by Industry and Employment Size of Establishment",
+        "identifier": "ZBP2012"
+      },
+      "2013": {
+        "title": "2013 County Business Patterns - Zip Code Business Patterns: ZIP Code Business Patterns by Industry and Employment Size of Establishment",
+        "identifier": "ZBP2013"
+      },
+      "2014": {
+        "title": "2014 County Business Patterns - Zip Code Business Patterns: ZIP Code Business Patterns by Industry and Employment Size of Establishment",
+        "identifier": "ZBP2014"
+      },
+      "2015": {
+        "title": "2015 County Business Patterns - Zip Code Business Patterns: ZIP Code Business Patterns by Industry and Employment Size of Establishment",
+        "identifier": "ZBP2015"
+      },
+      "2016": {
+        "title": "2016 County Business Patterns - Zip Code Business Patterns: ZIP Code Business Patterns by Industry and Employment Size of Establishment",
+        "identifier": "ZBP2016"
+      },
+      "2017": {
+        "title": "Annual Economic Surveys: Business Patterns: Zipcode Business Patterns",
+        "identifier": "ZBP2017"
+      },
+      "2018": {
+        "title": "Annual Economic Surveys: Business Patterns: Zipcode Business Patterns",
+        "identifier": "ZBP2018"
+      }
+    }
+  },
+  "pep/int_charagegroups": {
+    "years": {
+      "1990": {
+        "title": "1990 Population Estimates - 1990-2000 Intercensal Estimates: County Estimates by 5 Year Age Groups, Race by Sex, and Hispanic Origin",
+        "identifier": "POPESTintercensalcharagegroups1990"
+      },
+      "2000": {
+        "title": "2000 Population Estimates - 2000-2010 Intercensal Estimates: Characteristics by Age Groups",
+        "identifier": "POPESTintercensalcharagegroups2000"
+      }
+    }
+  },
+  "pep/int_natcivpop": {
+    "years": {
+      "1990": {
+        "title": "1990 Population Estimates - 1990-2000 Intercensal Estimates: United States Civilian Population Estimates by Age and Sex",
+        "identifier": "POPESTintercensalnatcivpop1990"
+      }
+    }
+  },
+  "pep/int_natresafo": {
+    "years": {
+      "1990": {
+        "title": "1990 Population Estimates - 1990-2000 Intercensal Estimates: United States Resident plus Armed Forces Overseas Population Estimates by Age and Sex",
+        "identifier": "POPESTintercensalnatresafo1990"
+      }
+    }
+  },
+  "pep/int_natrespop": {
+    "years": {
+      "1990": {
+        "title": "1990 Population Estimates - 1990-2000 Intercensal Estimates: United States Resident Population Estimates by Age and Sex",
+        "identifier": "POPESTintercensalnatrespop1990"
+      }
+    }
+  },
+  "surname": {
+    "years": {
+      "2000": {
+        "title": "2000 Decennial Census of Population and Housing: Surnames",
+        "identifier": "DecennialSurname2000"
+      },
+      "2010": {
+        "title": "2010 Decennial Census of Population and Housing: Surnames",
+        "identifier": "DecennialSurname2010"
+      }
+    }
+  },
+  "ewks": {
+    "years": {
+      "1997": {
+        "title": "1997 Economic Census - All Sectors: Economy-Wide Key Statistics",
+        "identifier": "EWKS1997"
+      },
+      "2002": {
+        "title": "2002 Economic Census - All Sectors: Economy-Wide Key Statistics",
+        "identifier": "EWKS2002"
+      },
+      "2007": {
+        "title": "2007 Economic Census - All Sectors: Economy-Wide Key Statistics",
+        "identifier": "EconCensusEWKS2007"
+      },
+      "2012": {
+        "title": "2012 Economic Census - All Sectors: Economy-Wide Key Statistics",
+        "identifier": "EWKS2012"
+      }
+    }
+  },
+  "pep/int_charage": {
+    "years": {
+      "2000": {
+        "title": "2000 Population Estimates - 2000-2010 Intercensal Estimates: Characteristics by Single Year of Age",
+        "identifier": "POPESTintercensalcharage2000"
+      }
+    }
+  },
+  "pep/int_housingunits": {
+    "years": {
+      "2000": {
+        "title": "2000 Population Estimates - 2000-2010 Intercensal Estimates: Housing Units",
+        "identifier": "POPESTintercensalhousing2000"
+      }
+    }
+  },
+  "pep/int_natmonthly": {
+    "years": {
+      "2000": {
+        "title": "2000 Population Estimates - 2000-2010 Intercensal Estimates: National Monthly Population Estimates",
+        "identifier": "POPESTintercensalnatmonthly2000"
+      }
+    }
+  },
+  "pep/int_population": {
+    "years": {
+      "2000": {
+        "title": "2000 Population Estimates - 2000-2010 Intercensal Estimates: Population",
+        "identifier": "POPESTintercensalpop2000"
+      }
+    }
+  },
+  "acs5": {
+    "years": {
+      "2009": {
+        "title": "2005-2009 American Community Survey 5-Year Estimates",
+        "identifier": "ACSSF5Y2009"
+      }
+    }
+  },
+  "dec/sf1": {
+    "years": {
+      "2010": {
+        "title": "Decennial SF1",
+        "identifier": "DECENNIALSF12010"
+      },
+      "2000": {
+        "title": "Decennial Census: Summary File 1",
+        "identifier": "DECENNIALSF12000"
+      }
+    }
+  },
+  "acs/acs1": {
+    "years": {
+      "2010": {
+        "title": "ACS 1-Year Detailed Tables",
+        "identifier": "ACSDT1Y2010"
+      },
+      "2011": {
+        "title": "ACS 1-Year Detailed Tables",
+        "identifier": "ACSDT1Y2011"
+      },
+      "2012": {
+        "title": "ACS 1-Year Detailed Tables",
+        "identifier": "ACSDT1Y2012"
+      },
+      "2013": {
+        "title": "ACS 1-Year Detailed Tables",
+        "identifier": "ACSDT1Y2013"
+      },
+      "2014": {
+        "title": "ACS 1-Year Detailed Tables",
+        "identifier": "ACSDT1Y2014"
+      },
+      "2015": {
+        "title": "ACS 1-Year Detailed Tables",
+        "identifier": "ACSDT1Y2015"
+      },
+      "2016": {
+        "title": "ACS 1-Year Detailed Tables",
+        "identifier": "ACSDT1Y2016"
+      },
+      "2017": {
+        "title": "ACS 1-Year Detailed Tables",
+        "identifier": "ACSDT1Y2017"
+      },
+      "2018": {
+        "title": "American Community Survey: 1-Year Estimates: Detailed Tables 1-Year",
+        "identifier": "ACSDT1Y2018"
+      },
+      "2005": {
+        "title": "American Community Survey: 1-Year Estimates: Detailed Tables 1-Year",
+        "identifier": "ACSDT1Y2005"
+      },
+      "2006": {
+        "title": "American Community Survey: 1-Year Estimates: Detailed Tables 1-Year",
+        "identifier": "ACSDT1Y2006"
+      },
+      "2007": {
+        "title": "American Community Survey: 1-Year Estimates: Detailed Tables 1-Year",
+        "identifier": "ACSDT1Y2007"
+      },
+      "2008": {
+        "title": "American Community Survey: 1-Year Estimates: Detailed Tables 1-Year",
+        "identifier": "ACSDT1Y2008"
+      },
+      "2009": {
+        "title": "American Community Survey: 1-Year Estimates: Detailed Tables 1-Year",
+        "identifier": "ACSDT1Y2009"
+      },
+      "2019": {
+        "title": "American Community Survey: 1-Year Estimates: Detailed Tables 1-Year",
+        "identifier": "ACSDT1Y2019"
+      }
+    }
+  },
+  "acs/acs1/cprofile": {
+    "years": {
+      "2010": {
+        "title": "ACS 1-Year Comparison Profiles",
+        "identifier": "ACSCP1Y2010"
+      },
+      "2011": {
+        "title": "ACS 1-Year Comparison Profiles",
+        "identifier": "ACSCP1Y2011"
+      },
+      "2012": {
+        "title": "ACS 1-Year Comparison Profiles",
+        "identifier": "ACSCP1Y2012"
+      },
+      "2013": {
+        "title": "ACS 1-Year Comparison Profiles",
+        "identifier": "ACSCP1Y2013"
+      },
+      "2014": {
+        "title": "ACS 1-Year Comparison Profiles",
+        "identifier": "ACSCP1Y2014"
+      },
+      "2015": {
+        "title": "ACS 1-Year Comparison Profiles",
+        "identifier": "ACSCP1Y2015"
+      },
+      "2016": {
+        "title": "ACS 1-Year Comparison Profiles",
+        "identifier": "ACSCP1Y2016"
+      },
+      "2017": {
+        "title": "ACS 1-Year Comparison Profiles",
+        "identifier": "ACSCP1Y2017"
+      },
+      "2018": {
+        "title": "American Community Survey: 1-Year Estimates: Comparison Profiles 1-Year",
+        "identifier": "ACSCP1Y2018"
+      },
+      "2019": {
+        "title": "American Community Survey: 1-Year Estimates: Comparison Profiles 1-Year",
+        "identifier": "ACSCP1Y2019"
+      }
+    }
+  },
+  "acs/acs1/profile": {
+    "years": {
+      "2010": {
+        "title": "ACS 1-Year Data Profiles",
+        "identifier": "ACSDP1Y2010"
+      },
+      "2011": {
+        "title": "ACS 1-Year Data Profiles",
+        "identifier": "ACSDP1Y2011"
+      },
+      "2012": {
+        "title": "ACS 1-Year Data Profiles",
+        "identifier": "ACSDP1Y2012"
+      },
+      "2013": {
+        "title": "ACS 1-Year Data Profiles",
+        "identifier": "ACSDP1Y2013"
+      },
+      "2014": {
+        "title": "ACS 1-Year Data Profiles",
+        "identifier": "ACSDP1Y2014"
+      },
+      "2015": {
+        "title": "ACS 1-Year Data Profiles",
+        "identifier": "ACSDP1Y2015"
+      },
+      "2016": {
+        "title": "ACS 1-Year Data Profiles",
+        "identifier": "ACSDP1Y2016"
+      },
+      "2017": {
+        "title": "ACS 1-Year Data Profiles",
+        "identifier": "ACSDP1Y2017"
+      },
+      "2018": {
+        "title": "ACS 1-Year Profile Tables",
+        "identifier": "ACSDP1Y2018"
+      },
+      "2005": {
+        "title": "American Community Survey: 1-Year Estimates: Data Profiles 1-Year",
+        "identifier": "ACSDP1Y2005"
+      },
+      "2006": {
+        "title": "American Community Survey: 1-Year Estimates: Data Profiles 1-Year",
+        "identifier": "ACSDP1Y2006"
+      },
+      "2007": {
+        "title": "American Community Survey: 1-Year Estimates: Data Profiles 1-Year",
+        "identifier": "ACSDP1Y2007"
+      },
+      "2008": {
+        "title": "American Community Survey: 1-Year Estimates: Data Profiles 1-Year",
+        "identifier": "ACSDP1Y2008"
+      },
+      "2009": {
+        "title": "American Community Survey: 1-Year Estimates: Data Profiles 1-Year",
+        "identifier": "ACSDP1Y2009"
+      },
+      "2019": {
+        "title": "American Community Survey: 1-Year Estimates: Data Profiles 1-Year",
+        "identifier": "ACSDP1Y2019"
+      }
+    }
+  },
+  "acs/acs1/subject": {
+    "years": {
+      "2010": {
+        "title": "ACS 1-Year Subject Tables",
+        "identifier": "ACSST1Y2010"
+      },
+      "2011": {
+        "title": "ACS 1-Year Subject Tables",
+        "identifier": "ACSST1Y2011"
+      },
+      "2012": {
+        "title": "ACS 1-Year Subject Tables",
+        "identifier": "ACSST1Y2012"
+      },
+      "2013": {
+        "title": "ACS 1-Year Subject Tables",
+        "identifier": "ACSST1Y2013"
+      },
+      "2014": {
+        "title": "ACS 1-Year Subject Tables",
+        "identifier": "ACSST1Y2014"
+      },
+      "2015": {
+        "title": "ACS 1-Year Subject Tables",
+        "identifier": "ACSST1Y2015"
+      },
+      "2016": {
+        "title": "ACS 1-Year Subject Tables",
+        "identifier": "ACSST1Y2016"
+      },
+      "2017": {
+        "title": "ACS 1-Year Subject Tables",
+        "identifier": "ACSST1Y2017"
+      },
+      "2018": {
+        "title": "ACS 1-Year Subject Tables",
+        "identifier": "ACSST1Y2018"
+      },
+      "2019": {
+        "title": "American Community Survey: 1-Year Estimates: Subject Tables 1-Year",
+        "identifier": "ACSST1Y2019"
+      }
+    }
+  },
+  "acs/acs5": {
+    "years": {
+      "2010": {
+        "title": "ACS 5-Year Detailed Tables",
+        "identifier": "ACSDT5Y2010"
+      },
+      "2011": {
+        "title": "ACS 5-Year Detailed Tables",
+        "identifier": "ACSDT5Y2011"
+      },
+      "2012": {
+        "title": "ACS 5-Year Detailed Tables",
+        "identifier": "ACSDT5Y2012"
+      },
+      "2013": {
+        "title": "ACS 5-Year Detailed Tables",
+        "identifier": "ACSDT5Y2013"
+      },
+      "2014": {
+        "title": "ACS 5-Year Detailed Tables",
+        "identifier": "ACSDT5Y2014"
+      },
+      "2015": {
+        "title": "ACS 5-Year Detailed Tables",
+        "identifier": "ACSDT5Y2015"
+      },
+      "2016": {
+        "title": "ACS 5-Year Detailed Tables",
+        "identifier": "ACSDT5Y2016"
+      },
+      "2017": {
+        "title": "ACS 5-Year Detailed Tables",
+        "identifier": "ACSDT5Y2017"
+      },
+      "2018": {
+        "title": "American Community Survey: 5-Year Estimates: Detailed Tables 5-Year",
+        "identifier": "ACSDT5Y2018"
+      },
+      "2009": {
+        "title": "American Community Survey: 5-Year Estimates: Detailed Tables 5-Year",
+        "identifier": "ACSDT5Y2009"
+      },
+      "2019": {
+        "title": "American Community Survey: 5-Year Estimates: Detailed Tables 5-Year",
+        "identifier": "ACSDT5Y2019"
+      }
+    }
+  },
+  "acs/acs5/profile": {
+    "years": {
+      "2010": {
+        "title": "ACS 5-Year Data Profiles",
+        "identifier": "ACSDP5Y2010"
+      },
+      "2011": {
+        "title": "ACS 5-Year Data Profiles",
+        "identifier": "ACSDP5Y2011"
+      },
+      "2012": {
+        "title": "ACS 5-Year Data Profiles",
+        "identifier": "ACSDP5Y2012"
+      },
+      "2013": {
+        "title": "ACS 5-Year Data Profiles",
+        "identifier": "ACSDP5Y2013"
+      },
+      "2014": {
+        "title": "ACS 5-Year Data Profiles",
+        "identifier": "ACSDP5Y2014"
+      },
+      "2015": {
+        "title": "ACS 5-Year Data Profiles",
+        "identifier": "ACSDP5Y2015"
+      },
+      "2016": {
+        "title": "ACS 5-Year Data Profiles",
+        "identifier": "ACSDP5Y2016"
+      },
+      "2017": {
+        "title": "ACS 5-Year Data Profiles",
+        "identifier": "ACSDP5Y2017"
+      },
+      "2018": {
+        "title": "ACS 5-Year Data Profiles",
+        "identifier": "ACSDP5Y2018"
+      },
+      "2009": {
+        "title": "American Community Survey: 5-Year Estimates: Data Profiles 5-Year",
+        "identifier": "ACSDP5Y2009"
+      },
+      "2019": {
+        "title": "American Community Survey: 5-Year Estimates: Data Profiles 5-Year",
+        "identifier": "ACSDP5Y2019"
+      }
+    }
+  },
+  "acs/acs5/subject": {
+    "years": {
+      "2010": {
+        "title": "ACS 5-Year Subject Tables",
+        "identifier": "ACSST5Y2010"
+      },
+      "2011": {
+        "title": "ACS 5-Year Subject Tables",
+        "identifier": "ACSST5Y2011"
+      },
+      "2012": {
+        "title": "ACS 5-Year Subject Tables",
+        "identifier": "ACSST5Y2012"
+      },
+      "2013": {
+        "title": "ACS 5-Year Subject Tables",
+        "identifier": "ACSST5Y2013"
+      },
+      "2014": {
+        "title": "ACS 5-Year Subject Tables",
+        "identifier": "ACSST5Y2014"
+      },
+      "2015": {
+        "title": "ACS 5-Year Subject Tables",
+        "identifier": "ACSST5Y2015"
+      },
+      "2016": {
+        "title": "ACS 5-Year Subject Tables",
+        "identifier": "ACSST5Y2016"
+      },
+      "2017": {
+        "title": "ACS 5-Year Subject Tables",
+        "identifier": "ACSST5Y2017"
+      },
+      "2018": {
+        "title": "ACS 5-Year Subject Tables",
+        "identifier": "ACSST5Y2018"
+      },
+      "2019": {
+        "title": "American Community Survey: 5-Year Estimates: Subject Tables 5-Year",
+        "identifier": "ACSST5Y2019"
+      }
+    }
+  },
+  "acs/flows": {
+    "years": {
+      "2010": {
+        "title": "2006-2010 American Community Survey: Migration Flows",
+        "identifier": "ACSFlows2010"
+      },
+      "2011": {
+        "title": "2007-2011 American Community Survey: Migration Flows",
+        "identifier": "ACSFlows2011"
+      },
+      "2012": {
+        "title": "2008-2012 American Community Survey: Migration Flows",
+        "identifier": "ACSFlows2012"
+      },
+      "2013": {
+        "title": "2009-2013 American Community Survey: Migration Flows",
+        "identifier": "ACSFlows2013"
+      },
+      "2014": {
+        "title": "2010-2014 American Community Survey: Migration Flows",
+        "identifier": "ACSFlows2014"
+      },
+      "2015": {
+        "title": "2011-2015 American Community Survey: Migration Flows",
+        "identifier": "ACSFlows2015"
+      },
+      "2016": {
+        "title": "ACS FLOWS",
+        "identifier": "ACSFLOWS2016"
+      },
+      "2017": {
+        "title": "ACS FLOWS",
+        "identifier": "ACSFLOWS2017"
+      },
+      "2018": {
+        "title": "2014-2018 American Community Survey: Migration Flows",
+        "identifier": "ACSFLOWS2018"
+      },
+      "2019": {
+        "title": "2015-2019 American Community Survey: Migration Flows",
+        "identifier": "ACSFLOWS2019"
+      }
+    }
+  },
+  "dec/cd113": {
+    "years": {
+      "2010": {
+        "title": "Decennial CD113",
+        "identifier": "DECENNIALCD1132010"
+      }
+    }
+  },
+  "dec/cd115": {
+    "years": {
+      "2010": {
+        "title": "Decennial CD115",
+        "identifier": "DECENNIALCD1152010"
+      }
+    }
+  },
+  "dec/sf2": {
+    "years": {
+      "2010": {
+        "title": "Decennial SF2",
+        "identifier": "DECENNIALSF22010"
+      },
+      "2000": {
+        "title": "Decennial Census: Summary File 2",
+        "identifier": "DECENNIALSF22000"
+      }
+    }
+  },
+  "acs1/cd113": {
+    "years": {
+      "2011": {
+        "title": "2011 American Community Survey 1-Year Profiles for the 113th Congressional Districts",
+        "identifier": "ACSCD1132011"
+      }
+    }
+  },
+  "ecnbranddeal": {
+    "years": {
+      "2012": {
+        "title": "Finance and Insurance: Subject Series - Misc Subjects: Brokering and Dealing Services Income for the U.S.: 2012",
+        "identifier": "ECNBRANDDEAL2012"
+      },
+      "2017": {
+        "title": "Economic Census: Finance and Insurance: Brokering and Dealing Products Income for the U.S.: 2017",
+        "identifier": "ECNBRANDDEAL2017"
+      }
+    }
+  },
+  "ecnadmben": {
+    "years": {
+      "2012": {
+        "title": "Finance and Insurance: Subject Series - Misc Subjects: Administrative Expenses and Benefits Paid for Life, Health, and Medical Insurance Carriers for the U.S.: 2012",
+        "identifier": "ECNADMBEN2012"
+      },
+      "2017": {
+        "title": "Economic Census: Finance and Insurance: Administrative Expenses and Benefits Paid for Life, Health, and Medical Insurance Carriers for the U.S.: 2017",
+        "identifier": "ECNADMBEN2017"
+      }
+    }
+  },
+  "sbo": {
+    "years": {
+      "2012": {
+        "title": "2012 Survey of Business Owners: Company Summary",
+        "identifier": "SBO2012"
+      }
+    }
+  },
+  "ecnbridge1": {
+    "years": {
+      "2012": {
+        "title": "All sectors: Core Business Statistics Series: Industry Bridge Statistics on 2012 NAICS Basis With Distribution Among 2007 NAICS-Based Industries for the United States: 2012",
+        "identifier": "ECNBRIDGE12012"
+      },
+      "2017": {
+        "title": "Economic Census: Core Statistics: Selected Sectors: Industry Bridge Statistics on the Current NAICS Basis With Distribution Among the Previous NAICS-Based Industries for the U.S.",
+        "identifier": "ECNBRIDGE12017"
+      }
+    }
+  },
+  "ecnbridge2": {
+    "years": {
+      "2012": {
+        "title": "All sectors: Core Business Statistics Series: Industry Bridge Statistics on 2007 NAICS Basis With Distribution Among 2012 NAICS-Based Industries for the United States: 2012",
+        "identifier": "ECNBRIDGE22012"
+      },
+      "2017": {
+        "title": "Economic Census: Core Statistics: Selected Sectors: Industry Bridge Statistics on the Previous NAICS Basis With Distribution Among the Current NAICS-Based Industries for the U.S.",
+        "identifier": "ECNBRIDGE22017"
+      }
+    }
+  },
+  "ecnbrordeal": {
+    "years": {
+      "2012": {
+        "title": "Finance and Insurance: Subject Series - Misc Subjects: Brokering or Dealing Services Income for the U.S.: 2012",
+        "identifier": "ECNBRORDEAL2012"
+      },
+      "2017": {
+        "title": "Economic Census: Finance and Insurance: Brokering or Dealing Products Income for the U.S.: 2017",
+        "identifier": "ECNBRORDEAL2017"
+      }
+    }
+  },
+  "ecncashadv": {
+    "years": {
+      "2012": {
+        "title": "Other Services (Except Public Administration): Subject Series - Misc Subjects: Receipts/Revenue from Repayments of Cash Advances for the U.S.: 2012",
+        "identifier": "ECNCASHADV2012"
+      }
+    }
+  },
+  "ecnccard": {
+    "years": {
+      "2012": {
+        "title": "Finance and Insurance: Subject Series - Misc Subjects: Credit Card Services Income for the U.S.: 2012",
+        "identifier": "ECNCCARD2012"
+      },
+      "2017": {
+        "title": "Economic Census: Finance and Insurance: Credit Card Products Income for the U.S.: 2017",
+        "identifier": "ECNCCARD2017"
+      }
+    }
+  },
+  "ecnclcust": {
+    "years": {
+      "2012": {
+        "title": "2012 Economic Census - Economic Census US Economic Class of Customer",
+        "identifier": "ECNCLCUST2012"
+      },
+      "2017": {
+        "title": "Economic Census: Class of Customer Statistics for Selected Geographies: 2017",
+        "identifier": "ECNCLCUST2017"
+      }
+    }
+  },
+  "ecncomm": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: Sales and Commissions of Electronic Markets, Agents, Brokers, and Commission Merchants for the U.S.: 2012",
+        "identifier": "ECNCOMM2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Sales and Commissions of Electronic Markets, Agents, Brokers, and Commission Merchants for the U.S.: 2017",
+        "identifier": "ECNCOMM2017"
+      }
+    }
+  },
+  "ecncomp": {
+    "years": {
+      "2012": {
+        "title": "All sectors: Core Business Statistics Series: Comparative Statistics for the U.S. and the States (2007 NAICS Basis): 2012 and 2007",
+        "identifier": "ECNCOMP2012"
+      },
+      "2017": {
+        "title": "Economic Census: Core Statistics: All Sectors: Comparative Statistics for the U.S., States, and Selected Geographies (Previous NAICS Basis)",
+        "identifier": "ECNCOMP2017"
+      }
+    }
+  },
+  "ecnconact": {
+    "years": {
+      "2012": {
+        "title": "Subject Series - Misc Subjects: Construction Activity for Selected Industries for the selected geographies: 2012",
+        "identifier": "ECNCONACT2012"
+      },
+      "2017": {
+        "title": "Economic Census: Utilities and Transportation and Warehousing: Construction Activity by Utilities and Pipelines for the U.S. and States: 2017",
+        "identifier": "ECNCONACT2017"
+      }
+    }
+  },
+  "ecnconcess": {
+    "years": {
+      "2012": {
+        "title": "Accommodation and Food Services: Subject Series - Misc Subjects: Concession Operators for the U.S. and States: 2012",
+        "identifier": "ECNCONCESS2012"
+      }
+    }
+  },
+  "ecncrfin": {
+    "years": {
+      "2012": {
+        "title": "Finance and Insurance: Subject Series - Misc Subjects: Types of Credit Financing Services Income for the U.S.: 2012",
+        "identifier": "ECNCRFIN2012"
+      },
+      "2017": {
+        "title": "Economic Census: Finance and Insurance: Types of Credit Financing Products Income for the U.S.: 2017",
+        "identifier": "ECNCRFIN2017"
+      }
+    }
+  },
+  "ecndissmed": {
+    "years": {
+      "2012": {
+        "title": "Information: Subject Series - Misc Subjects: Receipts by type of Dissemination Media for the U.S.: 2012",
+        "identifier": "ECNDISSMED2012"
+      },
+      "2017": {
+        "title": "Economic Census: Information: Sales, Value of Shipments, or Revenue by Type of Dissemination Media for the U.S.: 2017",
+        "identifier": "ECNDISSMED2017"
+      }
+    }
+  },
+  "ecnempfunc": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: Employment by Primary Function for the U.S.: 2012",
+        "identifier": "ECNEMPFUNC2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Employment by Primary Function for the U.S.: 2017",
+        "identifier": "ECNEMPFUNC2017"
+      }
+    }
+  },
+  "ecnentsup": {
+    "years": {
+      "2012": {
+        "title": "2012 Economic Census - Economic Census US Enterprise Support",
+        "identifier": "ECNENTSUP2012"
+      },
+      "2017": {
+        "title": "Economic Census: Enterprise Support Statistics for the U.S. : 2017",
+        "identifier": "ECNENTSUP2017"
+      }
+    }
+  },
+  "ecneoyinv": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: End-of-Year Inventories for the U.S.: 2012 and 2011",
+        "identifier": "ECNEOYINV2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Inventories by Valuation Method for the U.S.: 2017",
+        "identifier": "ECNEOYINV2017"
+      }
+    }
+  },
+  "ecneoyinvwh": {
+    "years": {
+      "2012": {
+        "title": "Transportation and Warehousing: Subject Series - Misc Subjects: End-of-Year Inventories for the U.S.: 2012 and 2011",
+        "identifier": "ECNEOYINVWH2012"
+      },
+      "2017": {
+        "title": "Economic Census: Transportation and Warehousing: Inventories by Valuation Method for Enterprise Support Establishments for the U.S.: 2017",
+        "identifier": "ECNEOYINVWH2017"
+      }
+    }
+  },
+  "ecnequip": {
+    "years": {
+      "2012": {
+        "title": "Transportation and Warehousing: Subject Series - Misc Subjects: Revenue-Generating Equipment for Passenger Transportation for the U.S. and States: 2012",
+        "identifier": "ECNEQUIP2012"
+      }
+    }
+  },
+  "ecnexpnrg": {
+    "years": {
+      "2012": {
+        "title": "Utilities: Subject Series - Misc Subjects: Exported Energy to Canada and Mexico for the U.S.: 2012",
+        "identifier": "ECNEXPNRG2012"
+      },
+      "2017": {
+        "title": "Economic Census: Utilities: Exported Energy to Canada and Mexico for the U.S.: 2017",
+        "identifier": "ECNEXPNRG2017"
+      }
+    }
+  },
+  "ecnexpsvc": {
+    "years": {
+      "2012": {
+        "title": "2012 Economic Census - Economic Census Exported Services Data",
+        "identifier": "ECNEXPSVC2012"
+      },
+      "2017": {
+        "title": "Economic Census: Exported Services Statistics for the U.S.: 2017",
+        "identifier": "ECNEXPSVC2017"
+      }
+    }
+  },
+  "ecnflspace": {
+    "years": {
+      "2012": {
+        "title": "Retail Trade: Subject Series - Misc Subjects:States: Floor Space by Selected Industry for the U.S. and States: 2012",
+        "identifier": "ECNFLSPACE2012"
+      },
+      "2017": {
+        "title": "Economic Census: Retail Trade: Floor Space by Selected Industry for the U.S. and States: 2017",
+        "identifier": "ECNFLSPACE2017"
+      }
+    }
+  },
+  "ecnfoodsvc": {
+    "years": {
+      "2012": {
+        "title": "Accommodation and Food Services: Subject Series - Misc Subjects: Primary Type of Food Service for the U.S. and States: 2012",
+        "identifier": "ECNFOODSVC2012"
+      },
+      "2017": {
+        "title": "Economic Census: Accommodation and Food Services: Primary Type of Food Service for the U.S. and States: 2017",
+        "identifier": "ECNFOODSVC2017"
+      }
+    }
+  },
+  "ecnfran": {
+    "years": {
+      "2012": {
+        "title": "Core Business Statistics Series, 2012: Franchise Status for Selected Industries and States",
+        "identifier": "ECNFRAN2012"
+      },
+      "2017": {
+        "title": "Economic Census: Core Statistics: Selected Sectors: Franchise Status for the U.S. and States",
+        "identifier": "ECNFRAN2017"
+      }
+    }
+  },
+  "ecngrant": {
+    "years": {
+      "2012": {
+        "title": "Health Care and Social Assistance: Subject Series - Misc Subjects: Grants, Transferred Contributions and Similar Payments, with Net Expenses for the U.S.: 2012",
+        "identifier": "ECNGRANT2012"
+      },
+      "2017": {
+        "title": "Economic Census: Health Care and Social Assistance: Grants, Transferred Contributions and Similar Payments, with Net Expenses for the U.S.: 2017",
+        "identifier": "ECNGRANT2017"
+      }
+    }
+  },
+  "ecnguest": {
+    "years": {
+      "2012": {
+        "title": "Accommodation and Food Services: Subject Series - Misc Subjects: Number of Guestrooms for the U.S. and States: 2012",
+        "identifier": "ECNGUEST2012"
+      }
+    }
+  },
+  "ecnguestsize": {
+    "years": {
+      "2012": {
+        "title": "Accommodation and Food Services: Subject Series - Misc Subjects: Guestroom Size of Establishments for the U.S.: 2012",
+        "identifier": "ECNGUESTSIZE2012"
+      }
+    }
+  },
+  "ecnhosp": {
+    "years": {
+      "2012": {
+        "title": "Health Care and Social Assistance: Subject Series - Misc Subjects: Ownership and Control of Government Hospitals for the U.S.: 2012",
+        "identifier": "ECNHOSP2012"
+      },
+      "2017": {
+        "title": "Economic Census: Health Care and Social Assistance: Ownership and Control of Government Hospitals for the U.S.: 2017",
+        "identifier": "ECNHOSP2017"
+      }
+    }
+  },
+  "ecninvval": {
+    "years": {
+      "2012": {
+        "title": "Manufacturing: Summary Series: General Summary: Method of Inventory Valuation by Subsector and Industries: 2012",
+        "identifier": "ECNINVVAL2012"
+      },
+      "2017": {
+        "title": "Economic Census: Manufacturing: Method of Inventory Valuation for the U.S.: 2017",
+        "identifier": "ECNINVVAL2017"
+      }
+    }
+  },
+  "ecnipa": {
+    "years": {
+      "2012": {
+        "title": "2012 Economic Census - Economic Census US Industry Products Analysis",
+        "identifier": "ECNIPA2012"
+      }
+    }
+  },
+  "ecnkob": {
+    "years": {
+      "2012": {
+        "title": "Construction: Summary Series: General Summary: Value of Business Done for Kind-of-Business by Subsectors and Industries for U.S., Regions, and States: 2012",
+        "identifier": "ECNKOB2012"
+      },
+      "2017": {
+        "title": "Economic Census: Value of Business Done for Kind-of-Business for the U.S., Regions, and States: 2017",
+        "identifier": "ECNKOB2017"
+      }
+    }
+  },
+  "ecnlabor": {
+    "years": {
+      "2012": {
+        "title": "Other Services (Except Public Administration): Subject Series - Misc Subjects: Receipts from Labor Charges and Parts Installed for Repair and Maintenance Services for the U.S.: 2012",
+        "identifier": "ECNLABOR2012"
+      },
+      "2017": {
+        "title": "Economic Census: Other Services (Except Public Administration): Sales, Value of Shipments, or Revenue from Labor Charges and Parts Installed for Repair and Maintenance Services for the U.S.: 2017",
+        "identifier": "ECNLABOR2017"
+      }
+    }
+  },
+  "ecnlifomfg": {
+    "years": {
+      "2012": {
+        "title": "Manufacturing: Summary Series: General Summary: Inventories with LIFO Valuation by Subsector and Industries: 2012",
+        "identifier": "ECNLIFOMFG2012"
+      },
+      "2017": {
+        "title": "Economic Census: Manufacturing: Inventories with LIFO Valuation for the U.S.: 2017",
+        "identifier": "ECNLIFOMFG2017"
+      }
+    }
+  },
+  "ecnlifomine": {
+    "years": {
+      "2012": {
+        "title": "Mining: Summary Series: General Summary: Inventories with LIFO Valuation by Subsector and Industries: 2012",
+        "identifier": "ECNLIFOMINE2012"
+      },
+      "2017": {
+        "title": "Economic Census: Mining: Inventories with LIFO Valuation for the U.S.: 2017",
+        "identifier": "ECNLIFOMINE2017"
+      }
+    }
+  },
+  "ecnlifoval": {
+    "years": {
+      "2012": {
+        "title": "Management of Companies and Enterprises: Subject Series - Misc Subjects: Inventories with LIFO Valuation for the U.S.: 2012 and 2011",
+        "identifier": "ECNLIFOVAL2012"
+      }
+    }
+  },
+  "ecnlines": {
+    "years": {
+      "2012": {
+        "title": "Economic Census: Economic Census of the United States: Economic Census US Lines Data",
+        "identifier": "ECNLINES2012"
+      }
+    }
+  },
+  "ecnloan": {
+    "years": {
+      "2012": {
+        "title": "Finance and Insurance: Subject Series - Misc Subjects: Type of Loan Services Income for the U.S.: 2012",
+        "identifier": "ECNLOAN2012"
+      },
+      "2017": {
+        "title": "Economic Census: Finance and Insurance: Type of Loan Products Income for the U.S.: 2017",
+        "identifier": "ECNLOAN2017"
+      }
+    }
+  },
+  "ecnlocmfg": {
+    "years": {
+      "2012": {
+        "title": "Manufacturing: Subject Series: Location of Manufacturing Plants: Employment Size for Subsectors and Industries by U.S., State, County and Place: 2012",
+        "identifier": "ECNLOCMFG2012"
+      },
+      "2017": {
+        "title": "Economic Census: Manufacturing: Location of Manufacturing Establishments by Employment Size for the U.S., States, and Counties: 2017",
+        "identifier": "ECNLOCMFG2017"
+      }
+    }
+  },
+  "ecnlocmine": {
+    "years": {
+      "2012": {
+        "title": "Mining: Subject Series: Location of Mines: Employment Size for Subsectors and Industries by U.S., State, and Offshore Area: 2012",
+        "identifier": "ECNLOCMINE2012"
+      },
+      "2017": {
+        "title": "Economic Census: Mining: Location of Mines by Employment Size for Subsectors and Industries for the U.S., State, and Offshore Area: 2017",
+        "identifier": "ECNLOCMINE2017"
+      }
+    }
+  },
+  "ecnmargin": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: Gross Margin and its Components for Merchant Wholesalers for the U.S.: 2012",
+        "identifier": "ECNMARGIN2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Gross Margin and its Components for Merchant Wholesalers for the U.S.: 2017",
+        "identifier": "ECNMARGIN2017"
+      }
+    }
+  },
+  "ecnmatfuel": {
+    "years": {
+      "2012": {
+        "title": "Mining: Subject Series: Materials Summary: Selected Supplies, Minerals Received for Preparation, Purchased Machinery, and Fuels Consumed by Type of Industry: 2012",
+        "identifier": "ECNMATFUEL2012"
+      },
+      "2017": {
+        "title": "Economic Census: Manufacturing and Mining: Materials Consumed and Selected Supplies, Minerals Received for Preparation, Purchased Machinery and Fuels Consumed by Type of Industry for the U.S.: 2017",
+        "identifier": "ECNMATFUEL2017"
+      }
+    }
+  },
+  "ecnmealcost": {
+    "years": {
+      "2012": {
+        "title": "Accommodation and Food Services: Subject Series - Misc Subjects: Average Cost Per Meal for the U.S. and States: 2012",
+        "identifier": "ECNMEALCOST2012"
+      }
+    }
+  },
+  "ecnmenutype": {
+    "years": {
+      "2012": {
+        "title": "Accommodation and Food Services: Subject Series - Misc Subjects: Principal Menu Type or Specialty for the U.S. and States: 2012",
+        "identifier": "ECNMENUTYPE2012"
+      }
+    }
+  },
+  "ecnpatient": {
+    "years": {
+      "2012": {
+        "title": "Health Care and Social Assistance: Subject Series - Misc Subjects: Receipts/Revenue by Type of Patient Care for the U.S.: 2012",
+        "identifier": "ECNPATIENT2012"
+      },
+      "2017": {
+        "title": "Economic Census: Health Care and Social Assistance: Sales, Value of Shipments, or Revenue by Type of Patient Care for the U.S.: 2017",
+        "identifier": "ECNPATIENT2017"
+      }
+    }
+  },
+  "ecnpetrfac": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: Petroleum Bulk Storage Capacity by Type of Facility and Type of Product for States: 2012",
+        "identifier": "ECNPETRFAC2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Petroleum Bulk Storage Capacity by Type of Facility and Type of Product for  the U.S. and States: 2017",
+        "identifier": "ECNPETRFAC2017"
+      }
+    }
+  },
+  "ecnpetrprod": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: Petroleum Bulk Storage Capacity by Type of Product and Storage Capacity Size for States: 2012",
+        "identifier": "ECNPETRPROD2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Petroleum Bulk Storage Capacity by Type of Product and Storage Capacity Size for the U.S. and States: 2017",
+        "identifier": "ECNPETRPROD2017"
+      }
+    }
+  },
+  "ecnpetrrec": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: Primary Method of Receiving Petroleum Bulk Liquid Products for States: 2012",
+        "identifier": "ECNPETRREC2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Primary Method of Receiving Petroleum Bulk Liquid Products for the U.S. and States: 2017",
+        "identifier": "ECNPETRREC2017"
+      }
+    }
+  },
+  "ecnpetrstat": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: Petroleum Bulk Storage Capacity by Type of Station by Type of Product for States: 2012",
+        "identifier": "ECNPETRSTAT2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Petroleum Bulk Storage Capacity by Type of Station by Type of Product for  the U.S. and States: 2017",
+        "identifier": "ECNPETRSTAT2017"
+      }
+    }
+  },
+  "ecnprofit": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: Gross Profit and its Components for Merchant Wholesalers for the U.S.: 2012",
+        "identifier": "ECNPROFIT2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Gross Profit and its Components for Merchant Wholesalers for the U.S.: 2017",
+        "identifier": "ECNPROFIT2017"
+      }
+    }
+  },
+  "ecnpurelec": {
+    "years": {
+      "2012": {
+        "title": "Utilities: Subject Series - Misc Subjects: Cost of Purchased Electricity for Resale by Utilities for the U.S: 2012",
+        "identifier": "ECNPURELEC2012"
+      },
+      "2017": {
+        "title": "Economic Census: Utilities: Cost of Purchased Electricity for Resale by Utilities for the U.S.: 2017",
+        "identifier": "ECNPURELEC2017"
+      }
+    }
+  },
+  "ecnpurmode": {
+    "years": {
+      "2012": {
+        "title": "Transportation and Warehousing: Subject Series - Misc Subjects: Cost of Purchased Transportation by Mode of Shipping for the U.S. and States: 2012",
+        "identifier": "ECNPURMODE2012"
+      },
+      "2017": {
+        "title": "Economic Census: Transportation and Warehousing: Cost of Purchased Transportation by Mode of Shipping for the U.S. and States: 2017",
+        "identifier": "ECNPURMODE2017"
+      }
+    }
+  },
+  "ecnrdacq": {
+    "years": {
+      "2012": {
+        "title": "Management of Companies and Enterprises: Subject Series - Miscellaneous Subjects: Summary Statistics for Research and Development Acquisition for Selected Industries for the U.S.: 2012",
+        "identifier": "ECNRDACQ2012"
+      }
+    }
+  },
+  "ecnrdofc": {
+    "years": {
+      "2012": {
+        "title": "Management of Companies and Enterprises: Subject Series - Misc Subjects: Research and Development for Corporate, Subsidiary, and Regional Managing Offices for the U.S.: 2012",
+        "identifier": "ECNRDOFC2012"
+      },
+      "2017": {
+        "title": "Economic Census: Management of Companies and Enterprises: Research and Development for Corporate, Subsidiary, and Regional Managing Offices for the U.S.: 2017",
+        "identifier": "ECNRDOFC2017"
+      }
+    }
+  },
+  "ecnseat": {
+    "years": {
+      "2012": {
+        "title": "Accommodation and Food Services: Subject Series - Misc Subjects: Seating Capacity for the U.S. and States: 2012",
+        "identifier": "ECNSEAT2012"
+      }
+    }
+  },
+  "ecnsize": {
+    "years": {
+      "2012": {
+        "title": "2012 Economic Census - Economic Census US Economic Data by Size Category",
+        "identifier": "ECNSIZE2012"
+      },
+      "2017": {
+        "title": "Economic Census: Establishment and Firm Size Statistics for the U.S: 2017",
+        "identifier": "ECNSIZE2017"
+      }
+    }
+  },
+  "ecnsocial": {
+    "years": {
+      "2012": {
+        "title": "Health Care and Social Assistance: Subject Series - Misc Subjects: Receipts/Revenue by Type of Social Assistance for the U.S.: 2012",
+        "identifier": "ECNSOCIAL2012"
+      },
+      "2017": {
+        "title": "Economic Census: Health Care and Social Assistance:  Sales, Value of Shipments, or Revenue by Type of Social Assistance for the U.S.: 2017",
+        "identifier": "ECNSOCIAL2017"
+      }
+    }
+  },
+  "ecntype": {
+    "years": {
+      "2012": {
+        "title": "Mining: Geographic Area Series: Industry Statistics by Type of Operation for the State or Offshore Area: 2012",
+        "identifier": "ECNTYPE2012"
+      },
+      "2017": {
+        "title": "Economic Census: Mining: Detailed Statistics by Type of Operation for the U.S., States, and Offshore Areas: 2017",
+        "identifier": "ECNTYPE2017"
+      }
+    }
+  },
+  "ecntypop": {
+    "years": {
+      "2012": {
+        "title": "Wholesale Trade: Subject Series - Misc Subjects: Detailed Type of Operation for the U.S.: 2012",
+        "identifier": "ECNTYPOP2012"
+      },
+      "2017": {
+        "title": "Economic Census: Wholesale Trade: Detailed Type of Operation for the U.S.: 2017",
+        "identifier": "ECNTYPOP2017"
+      }
+    }
+  },
+  "ecnvalcon": {
+    "years": {
+      "2012": {
+        "title": "Construction: Summary Series: General Summary: Value of Construction Work  for Location of Construction Work by Subsectors and Industries for U.S. and States: 2012",
+        "identifier": "ECNVALCON2012"
+      },
+      "2017": {
+        "title": "Economic Census: Construction: Value of Construction Work  for Location of Construction Work for U.S. and States: 2017",
+        "identifier": "ECNVALCON2017"
+      }
+    }
+  },
+  "ecnbasic": {
+    "years": {
+      "2012": {
+        "title": "Economic Census: Economic Census of the United States: Economic Census US Basic Data",
+        "identifier": "ECNBASIC2012"
+      },
+      "2017": {
+        "title": "Economic Census: Summary Statistics for the U.S., States, and Selected Geographies: 2017",
+        "identifier": "ECNBASIC2017"
+      }
+    }
+  },
+  "popproj/births": {
+    "years": {
+      "2012": {
+        "title": "2012 National Population Projections: Projected Births",
+        "identifier": "POPPROJBirths2012"
+      },
+      "2017": {
+        "title": "National Population Projections: Projected Births by Sex, Race, and Hispanic Origin for the United States: 2016-2060",
+        "identifier": "POPPROJBIRTHS2017"
+      }
+    }
+  },
+  "popproj/deaths": {
+    "years": {
+      "2012": {
+        "title": "2012 National Population Projections: Projected Deaths",
+        "identifier": "POPPROJDeaths2012"
+      },
+      "2017": {
+        "title": "National Population Projections: Projected Population by Single Year of Age, Sex, Race, and Hispanic Origin for the United States: 2016-2060",
+        "identifier": "POPPROJDEATHS2017"
+      }
+    }
+  },
+  "popproj/nim": {
+    "years": {
+      "2012": {
+        "title": "2012 National Population Projections: Projected Net International Migration by Single Year of age",
+        "identifier": "POPPROJNIM2012"
+      },
+      "2017": {
+        "title": "National Population Projections: Projected Net International Migration by Single Year of Age, Sex, Race, and Hispanic Origin for the United States: 2016-2060",
+        "identifier": "POPPROJNIM2017"
+      }
+    }
+  },
+  "popproj/pop": {
+    "years": {
+      "2012": {
+        "title": "2012 National Population Projections: Projected Population by Single Year of Age",
+        "identifier": "POPPROJPop2012"
+      },
+      "2017": {
+        "title": "National Population Projections: Projected Population by Single Year of Age, Sex, Race, and Hispanic Origin for the United States: 2016-2060",
+        "identifier": "POPPROJPOP2017"
+      }
+    }
+  },
+  "pubschlfin": {
+    "years": {
+      "2012": {
+        "title": "2012 Public Elementary-Secondary Education Finance: Individual Unit Tables",
+        "identifier": "pubschlfin2012"
+      }
+    }
+  },
+  "sbo/cscb": {
+    "years": {
+      "2012": {
+        "title": "Economic Surveys: Survey of Business Owners: Survey of Business Owners Characteristics of Business",
+        "identifier": "SBOCB2012"
+      }
+    }
+  },
+  "sbo/cscbo": {
+    "years": {
+      "2012": {
+        "title": "Economic Surveys: Survey of Business Owners: Survey of Business Owners Characteristics of Business Owners",
+        "identifier": "SBOCBO2012"
+      }
+    }
+  },
+  "language": {
+    "years": {
+      "2013": {
+        "title": "2013 American Community Survey - Table Packages: Detailed Language Spoken in the U.S.",
+        "identifier": "ACSLANG5Y2013"
+      }
+    }
+  },
+  "pep/cochar5": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: County Population Estimates by 5 Year Age Groups, Sex, 5 Races, and Hispanic Origin",
+        "identifier": "POPESTcochar52013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: County Population Estimates by 5 Year Age Groups, Sex, 5 Races, and Hispanic Origin",
+        "identifier": "POPESTcochar52014"
+      }
+    }
+  },
+  "pep/cochar6": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: County Population Estimates by 5 Year Age Groups, Sex, 6 Races, and Hispanic Origin",
+        "identifier": "POPESTcochar62013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: County Population Estimates by 5 Year Age Groups, Sex, 6 Races, and Hispanic Origin",
+        "identifier": "POPESTcochar62014"
+      }
+    }
+  },
+  "pep/cty": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: County Total Population and Components of Change",
+        "identifier": "POPESTcty2013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: County Total Population and Components of Change",
+        "identifier": "POPESTcty2014"
+      }
+    }
+  },
+  "pep/housing": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: Housing Unit Estimates for US, States, and Counties",
+        "identifier": "PEPHOUSING2013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: Housing Unit Estimates for US, States, and Counties",
+        "identifier": "PEPHOUSING2014"
+      },
+      "2015": {
+        "title": "Vintage 2015 Population Estimates: Housing Unit Estimates for US, States, and Counties",
+        "identifier": "PEPHOUSING2015"
+      },
+      "2016": {
+        "title": "Vintage 2016 Population Estimates: Housing Unit Estimates for US, States, and Counties",
+        "identifier": "PEPHOUSING2016"
+      },
+      "2017": {
+        "title": "Vintage 2017 Population Estimates: Housing Unit Estimates for US, States, and Counties",
+        "identifier": "PEPHOUSING2017"
+      },
+      "2018": {
+        "title": "Vintage 2018 Population Estimates: Housing Unit Estimates for US, States, and Counties",
+        "identifier": "PEPHOUSING2018"
+      },
+      "2019": {
+        "title": "Population Estimates: Housing Unit Estimates for US, States, and Counties",
+        "identifier": "PEPHOUSING2019"
+      }
+    }
+  },
+  "pep/monthlynatchar5": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: National Monthly Population Estimates by Single Year of Age , Sex, 5 Races, Hispanic Origin, and Universe",
+        "identifier": "POPESTmonthlynatchar52013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: National Monthly Population Estimates by Single Year of Age , Sex, 5 Races, Hispanic Origin, and Universe",
+        "identifier": "POPESTmonthlynatchar52014"
+      }
+    }
+  },
+  "pep/monthlynatchar6": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: National Monthly Population Estimates by Single Year of Age, Sex, 6 Races, Hispanic Origin, and Universe",
+        "identifier": "POPESTmonthlynatchar62013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: National Monthly Population Estimates by Single Year of Age, Sex, 6 Races, Hispanic Origin, and Universe",
+        "identifier": "POPESTmonthlynatchar62014"
+      }
+    }
+  },
+  "pep/natstprc18": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: US, State, and PR Population Age 18+",
+        "identifier": "POPESTnatstprc182013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: US, State, and PR Population Age 18+",
+        "identifier": "POPESTnatstprc182014"
+      }
+    }
+  },
+  "pep/natstprc": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: US, State, and PR Total Population and Components of Change",
+        "identifier": "POPESTnatstprc2013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: US, State, and PR Total Population and Components of Change",
+        "identifier": "POPESTnatstprc2014"
+      }
+    }
+  },
+  "pep/prcagesex": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: Puerto Rico Commonwealth Estimates by Single Year of Age and Sex",
+        "identifier": "POPESTprcagesex2013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: Puerto Rico Commonwealth Estimates by Single Year of Age and Sex",
+        "identifier": "POPESTprcagesex2014"
+      }
+    }
+  },
+  "pep/prm": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: Puerto Rico Municipios Total Population",
+        "identifier": "POPESTprm2013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: Puerto Rico Municipios Total Population",
+        "identifier": "POPESTprm2014"
+      }
+    }
+  },
+  "pep/prmagesex": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: Puerto Rico Municipios Estimates by 5-Year Age Groups and Sex",
+        "identifier": "POPESTprmagesex2013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: Puerto Rico Municipios Estimates by 5-Year Age Groups and Sex",
+        "identifier": "POPESTprmagesex2014"
+      }
+    }
+  },
+  "pep/stchar5": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: State Population Estimates by Single Year of Age, Sex, 5 Races, and Hispanic Origin",
+        "identifier": "POPESTstchar52013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: State Population Estimates by Single Year of Age, Sex, 5 Races, and Hispanic Origin",
+        "identifier": "POPESTstchar52014"
+      }
+    }
+  },
+  "pep/stchar6": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: State Population Estimates by Single Year of Age, Sex, 6 Races, and Hispanic Origin",
+        "identifier": "POPESTstchar62013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: State Population Estimates by Single Year of Age, Sex, 6 Races, and Hispanic Origin",
+        "identifier": "POPESTstchar62014"
+      }
+    }
+  },
+  "pep/subcty": {
+    "years": {
+      "2013": {
+        "title": "Vintage 2013 Population Estimates: Subcounty Population Places and MCDs",
+        "identifier": "POPESTsubcty2013"
+      },
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: Subcounty Population Places and MCDs",
+        "identifier": "POPESTsubcty2014"
+      }
+    }
+  },
+  "ase/csa": {
+    "years": {
+      "2014": {
+        "title": "2014 Annual Survey of Entrepreneurs: Company Statistics",
+        "identifier": "ASECSA2014"
+      },
+      "2016": {
+        "title": "2016 Annual Survey of Entrepreneurs - CSA",
+        "identifier": "ASECS2016"
+      },
+      "2015": {
+        "title": "Annual Economic Surveys: Survey of Business Owners: Annual Survey of Entrepreneurs Company Summary",
+        "identifier": "ASECS2015"
+      }
+    }
+  },
+  "acs/acsse": {
+    "years": {
+      "2014": {
+        "title": "ACS 1-Year Supplemental Estimates",
+        "identifier": "ACSSE2014"
+      },
+      "2015": {
+        "title": "ACS 1-Year Supplemental Estimates",
+        "identifier": "ACSSE2015"
+      },
+      "2016": {
+        "title": "ACS 1-Year Supplemental Estimates",
+        "identifier": "ACSSE2016"
+      },
+      "2017": {
+        "title": "ACS 1-Year Supplemental Estimates",
+        "identifier": "ACSSE2017"
+      },
+      "2018": {
+        "title": "ACS 1-Year Supplemental Estimates",
+        "identifier": "ACSSE2018"
+      },
+      "2019": {
+        "title": "American Community Survey: Supplemental Estimates: ACS 1-Year Supplemental Estimates",
+        "identifier": "ACSSE2019"
+      }
+    }
+  },
+  "ase/cscb": {
+    "years": {
+      "2014": {
+        "title": "2014 Annual Survey of Entrepreneurs: Characteristics of Businesses",
+        "identifier": "ASECSCB2014"
+      },
+      "2016": {
+        "title": "2016 Annual Survey of Entrepreneurs - CSCB",
+        "identifier": "ASECB2016"
+      },
+      "2015": {
+        "title": "Annual Economic Surveys: Survey of Business Owners: Annual Survey of Entrepreneurs Characteristics of Businesses",
+        "identifier": "ASECB2015"
+      }
+    }
+  },
+  "ase/cscbo": {
+    "years": {
+      "2014": {
+        "title": "2014 Annual Survey of Entrepreneurs: Characteristics of Businesses Owners",
+        "identifier": "ASECSCBO2014"
+      },
+      "2016": {
+        "title": "2016 Annual Survey of Entrepreneurs - CSCBO",
+        "identifier": "ASECBO2016"
+      },
+      "2015": {
+        "title": "Annual Economic Surveys: Survey of Business Owners: Annual Survey of Entrepreneurs Characteristics of Business Owners",
+        "identifier": "ASECBO2015"
+      }
+    }
+  },
+  "intltrade/imp_exp": {
+    "years": {
+      "2014": {
+        "title": "2014 International Trade: Historical Imports and Exports",
+        "identifier": "ftdImpExpHist"
+      },
+      "2015": {
+        "title": "2015 International Trade: Historical Imports and Exports",
+        "identifier": "ftd15ImpExpHist"
+      },
+      "2016": {
+        "title": "2016 International Trade: Historical Imports and Exports",
+        "identifier": "ftd16ImpExpHist"
+      },
+      "2018": {
+        "title": "2018 International Trade: Historical Imports and Exports",
+        "identifier": "ftd18ImpExpHist"
+      },
+      "2017": {
+        "title": "2017 International Trade: Historical Imports and Exports",
+        "identifier": "ftd17ImpExpHist"
+      }
+    }
+  },
+  "pep/agesex": {
+    "years": {
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: National Annual Resident Population Estimates by Single Year of Age and Sex",
+        "identifier": "POPESTagesex"
+      }
+    }
+  },
+  "pep/agespecial5": {
+    "years": {
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: National, State, County Annual Resident Population Estimates by Age Groups, Sex, 5 Races, and Hispanic Origin",
+        "identifier": "POPESTagespecial5"
+      }
+    }
+  },
+  "pep/agespecial6": {
+    "years": {
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: National, State, County Annual Resident Population Estimates by Age Groups, Sex, 6 Races, and Hispanic Origin",
+        "identifier": "POPESTagespecial6"
+      }
+    }
+  },
+  "pep/agespecialpr": {
+    "years": {
+      "2014": {
+        "title": "Vintage 2014 Population Estimates: Puerto Rico Commonwealth and Municipios Annual Resident Population Estimates by Age Groups and Sex",
+        "identifier": "POPESTagespecialPR"
+      }
+    }
+  },
+  "pep/projagegroups": {
+    "years": {
+      "2014": {
+        "title": "2014 National Population Projections: Projected Population by Age Groups, Sex, Race, and Hispanic Origin for the United States",
+        "identifier": "POPESTPROJagegroups2014"
+      }
+    }
+  },
+  "pep/projbirths": {
+    "years": {
+      "2014": {
+        "title": "2014 National Population Projections: Projected Births by Sex, Race, and Hispanic Origin for the United States",
+        "identifier": "POPESTPROJbirths2014"
+      }
+    }
+  },
+  "pep/projdeaths": {
+    "years": {
+      "2014": {
+        "title": "2014 National Population Projections: Projected Deaths by Single Year of Age, Sex, Race, and Hispanic Origin for the United States",
+        "identifier": "POPESTPROJdeaths2014"
+      }
+    }
+  },
+  "pep/projnat": {
+    "years": {
+      "2014": {
+        "title": "2014 National Population Projections: Projected Population by Single Year of Age, Sex, Race, Hispanic Origin, and Nativity for the United States",
+        "identifier": "POPESTPROJnat2014"
+      }
+    }
+  },
+  "pep/projnim": {
+    "years": {
+      "2014": {
+        "title": "2014 National Population Projections: Projected Net International Migration by Single Year of Age, Sex, Race, and Hispanic Origin for the United States",
+        "identifier": "POPESTPROJnim2014"
+      }
+    }
+  },
+  "pep/projpop": {
+    "years": {
+      "2014": {
+        "title": "2014 National Population Projections: Projected Population by Single Year of Age, Sex, Race, and Hispanic Origin for the United States",
+        "identifier": "POPESTPROJprojections2014"
+      }
+    }
+  },
+  "acs1/cd115": {
+    "years": {
+      "2015": {
+        "title": "2015 American Community Survey 1-Year Data Profile 115th Congressional District",
+        "identifier": "ACSCD1152015"
+      }
+    }
+  },
+  "acs/acs5/cprofile": {
+    "years": {
+      "2015": {
+        "title": "ACS 5-Year Comparison Profiles",
+        "identifier": "ACSCP5Y2015"
+      },
+      "2016": {
+        "title": "ACS 5-Year Comparison Profiles",
+        "identifier": "ACSCP5Y2016"
+      },
+      "2017": {
+        "title": "ACS 5-Year Comparison Profiles",
+        "identifier": "ACSCP5Y2017"
+      },
+      "2018": {
+        "title": "American Community Survey: 5-Year Estimates: Comparison Profiles 5-Year",
+        "identifier": "ACSCP5Y2018"
+      },
+      "2019": {
+        "title": "American Community Survey: 5-Year Estimates: Comparison Profiles 5-Year",
+        "identifier": "ACSCP5Y2019"
+      }
+    }
+  },
+  "pdb/blockgroup": {
+    "years": {
+      "2015": {
+        "title": "2015 Census Planning Database: Block Group",
+        "identifier": "PDBBlockGroup2015"
+      },
+      "2016": {
+        "title": "2016 Census Planning Database: Block Group",
+        "identifier": "PDBBlockGroup2016"
+      },
+      "2018": {
+        "title": "2018 Census Planning Database: Block Group",
+        "identifier": "PDBBLOCKGROUP2018"
+      },
+      "2019": {
+        "title": "Census Planning Database: Block Group",
+        "identifier": "PDBBLOCKGROUP2019"
+      },
+      "2020": {
+        "title": "Planning Database Block Group Level",
+        "identifier": "PDBBLOCKGROUP2020"
+      },
+      "2021": {
+        "title": "Planning Database\u00a0Block Group\u00a0Level",
+        "identifier": "PDBBLOCKGROUP2021"
+      }
+    }
+  },
+  "pdb/tract": {
+    "years": {
+      "2015": {
+        "title": "2015 Census Planning Database: Tract Level",
+        "identifier": "PDBTract2015"
+      },
+      "2016": {
+        "title": "2016 Census Planning Database: Tract Level",
+        "identifier": "PDBTract2016"
+      },
+      "2018": {
+        "title": "2018 Census Planning Database: Tract Level",
+        "identifier": "PDBTRACT2018"
+      },
+      "2019": {
+        "title": "Census Planning Database: Tract Level",
+        "identifier": "PDBTRACT2019"
+      },
+      "2020": {
+        "title": "Planning Database: Tract Level",
+        "identifier": "PDBTRACT2020"
+      },
+      "2021": {
+        "title": "Planning Database\u00a0Block Group\u00a0Level",
+        "identifier": "PDBTRACT2021"
+      }
+    }
+  },
+  "pep/charage": {
+    "years": {
+      "2015": {
+        "title": "Vintage 2015 Population Estimates: Characteristics by Single Year of Age",
+        "identifier": "PEPCHARAGE2015"
+      },
+      "2016": {
+        "title": "Vintage 2016 Population Estimates: Characteristics by Single Year of Age",
+        "identifier": "PEPCHARAGE2016"
+      },
+      "2018": {
+        "title": "Vintage 2018 Population Estimates: Characteristics by Single Year of Age",
+        "identifier": "PEPCHARAGE2018"
+      },
+      "2017": {
+        "title": "Vintage 2017 Population Estimates: Characteristics by Single Year of Age",
+        "identifier": "PEPCHARAGE2017"
+      },
+      "2019": {
+        "title": "Population Estimates: Estimates by Age, Sex, Race, and Hispanic Origin",
+        "identifier": "PEPCHARAGE2019"
+      }
+    }
+  },
+  "pep/charagegroups": {
+    "years": {
+      "2015": {
+        "title": "Vintage 2015 Population Estimates: Demographic Characteristics Estimates by Age Groups",
+        "identifier": "PEPCHARAGEGROUPS2015"
+      },
+      "2016": {
+        "title": "Vintage 2016 Population Estimates: Demographic Characteristics Estimates by Age Groups",
+        "identifier": "PEPCHARAGEGROUPS2016"
+      },
+      "2018": {
+        "title": "Vintage 2018 Population Estimates: Demographic Characteristics Estimates by Age Groups",
+        "identifier": "PEPCHARAGEGROUPS2018"
+      },
+      "2017": {
+        "title": "Vintage 2017 Population Estimates: Demographic Characteristics Estimates by Age Groups",
+        "identifier": "PEPCHARAGEGROUPS2017"
+      },
+      "2019": {
+        "title": "Population Estimates: Estimates by Age Group, Sex, Race, and Hispanic Origin",
+        "identifier": "PEPCHARAGEGROUPS2019"
+      }
+    }
+  },
+  "pep/components": {
+    "years": {
+      "2015": {
+        "title": "Vintage 2015 Population Estimates: Components of Change Estimates",
+        "identifier": "PEPCOMPONENTS2015"
+      },
+      "2016": {
+        "title": "Vintage 2016 Population Estimates: Components of Change Estimates",
+        "identifier": "PEPCOMPONENTS2016"
+      },
+      "2018": {
+        "title": "Vintage 2018 Population Estimates: Components of Change Estimates",
+        "identifier": "PEPCOMPONENTS2018"
+      },
+      "2017": {
+        "title": "Vintage 2017 Population Estimates: Components of Change Estimates",
+        "identifier": "PEPCOMPONENTS2017"
+      },
+      "2019": {
+        "title": "Population Estimates: Census Bureau Version: Components of Change Estimates",
+        "identifier": "PEPCOMPONENTS2019"
+      }
+    }
+  },
+  "pep/natmonthly": {
+    "years": {
+      "2015": {
+        "title": "Vintage 2015 Population Estimates: National Monthly Population Estimates",
+        "identifier": "PEPNATMONTHLY2015"
+      },
+      "2016": {
+        "title": "Vintage 2016 Population Estimates: National Monthly Population Estimates",
+        "identifier": "PEPNATMONTHLY2016"
+      },
+      "2018": {
+        "title": "Vintage 2018 Population Estimates: National Monthly Population Estimates",
+        "identifier": "PEPNATMONTHLY2018"
+      },
+      "2017": {
+        "title": "Vintage 2017 Population Estimates: National Monthly Population Estimates",
+        "identifier": "PEPNATMONTHLY2017"
+      },
+      "2019": {
+        "title": "Population Estimates: National Monthly Population Estimates",
+        "identifier": "PEPNATMONTHLY2019"
+      }
+    }
+  },
+  "pep/population": {
+    "years": {
+      "2015": {
+        "title": "Vintage 2015 Population Estimates: Population Estimates",
+        "identifier": "PEPPOP2015"
+      },
+      "2016": {
+        "title": "Vintage 2016 Population Estimates: Population Estimates",
+        "identifier": "PEPPOP2016"
+      },
+      "2017": {
+        "title": "Vintage 2017 Population Estimates: Population Estimates",
+        "identifier": "PEPPOP2017"
+      },
+      "2018": {
+        "title": "Vintage 2018 Population Estimates: Population Estimates",
+        "identifier": "PEPPOP2018"
+      },
+      "2019": {
+        "title": "Population Estimates: Population Estimates",
+        "identifier": "PEPPOP2019"
+      }
+    }
+  },
+  "acs/acs1/spp": {
+    "years": {
+      "2016": {
+        "title": "ACS 1-Year Selected Population Profiles",
+        "identifier": "ACSSPP1Y2016"
+      },
+      "2017": {
+        "title": "ACS 1-Year Selected Population Profiles",
+        "identifier": "ACSSPP1Y2017"
+      },
+      "2018": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2018"
+      },
+      "2009": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2009"
+      },
+      "2014": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2014"
+      },
+      "2015": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2015"
+      },
+      "2011": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2011"
+      },
+      "2012": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2012"
+      },
+      "2010": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2010"
+      },
+      "2013": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2013"
+      },
+      "2008": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2008"
+      },
+      "2019": {
+        "title": "American Community Survey: 1-Year Estimates: Selected Population Profiles 1-Year",
+        "identifier": "ACSSPP1Y2019"
+      }
+    }
+  },
+  "timeseries/eits/qfr": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Quarterly Financial Report",
+    "identifier": "EITSQFR"
+  },
+  "timeseries/asm/industry": {
+    "years": {},
+    "title": "Time Series Annual Survey of Manufactures: Statistics for Industry Groups and Industries",
+    "identifier": "ASMIndustry"
+  },
+  "timeseries/eits/qpr": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Quarterly Survey of Public Pensions",
+    "identifier": "EITSQPR"
+  },
+  "timeseries/eits/mwts": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Monthly Wholesale Trade: Sales and Inventories",
+    "identifier": "EITSMWTS"
+  },
+  "timeseries/asm/product": {
+    "years": {},
+    "title": "Time Series Annual Survey of Manufactures: Value of Shipments for Product Classes",
+    "identifier": "ASMProduct"
+  },
+  "timeseries/eits/qss": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Quarterly Services Survey",
+    "identifier": "EITSQSS"
+  },
+  "timeseries/asm/state": {
+    "years": {},
+    "title": "Time Series Annual Survey of Manufactures: Statistics for All Manufacturing by State",
+    "identifier": "ASMState"
+  },
+  "dec/gu": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: Guam Summary File",
+        "identifier": "DECENNIALGU2010"
+      },
+      "2000": {
+        "title": "Decennial Census: Guam Summary File",
+        "identifier": "DECENNIALGU2000"
+      }
+    }
+  },
+  "timeseries/eits/qtax": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Quarterly Summary of State and Local Taxes",
+    "identifier": "EITSQTAX"
+  },
+  "timeseries/eits/advm3": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Advance Report on Durable Goods Manufacturers' Shipments, Inventories, and Orders",
+    "identifier": "EITSADVM3"
+  },
+  "timeseries/eits/resconst": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: New Residential Construction",
+    "identifier": "EITSRESCONST"
+  },
+  "timeseries/eits/bfs": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Business Formation Statistics",
+    "identifier": "EITSBFS"
+  },
+  "timeseries/eits/ressales": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: New Home Sales",
+    "identifier": "EITSRESSALES"
+  },
+  "timeseries/eits/ftd": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: U.S. International Trade in Goods and Services",
+    "identifier": "EITSFTD"
+  },
+  "timeseries/eits/vip": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Construction Spending",
+    "identifier": "EITSVIP"
+  },
+  "timeseries/eits/hv": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Housing Vacancies and Homeownership",
+    "identifier": "EITSHV"
+  },
+  "timeseries/healthins/sahie": {
+    "years": {},
+    "title": "Time Series Small Area Health Insurance Estimates: Small Area Health Insurance Estimates",
+    "identifier": "SAHIE"
+  },
+  "timeseries/eits/m3": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Manufacturers Shipments, Inventories, and Orders",
+    "identifier": "EITSM3"
+  },
+  "timeseries/idb/1year": {
+    "years": {},
+    "title": "Time Series International Data Base: International Populations by Single Year of Age and Sex",
+    "identifier": "IDBSINGLEYEAR"
+  },
+  "timeseries/eits/marts": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Advance Monthly Sales for Retail and Food Services",
+    "identifier": "EITSMARTS"
+  },
+  "timeseries/idb/5year": {
+    "years": {},
+    "title": "Time Series International Data Base: International Populations by 5-Year Age Groups and Sex",
+    "identifier": "IDB5YR"
+  },
+  "timeseries/eits/mhs2": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Manufactured Housing Survey (2014-Present)",
+    "identifier": "EITSMHS2"
+  },
+  "timeseries/eits/mhs": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Manufactured Homes Survey",
+    "identifier": "EITSMHS"
+  },
+  "timeseries/poverty/histpov2": {
+    "years": {},
+    "title": "Current Population Survey: Time Series Current Population Survey: Poverty Status",
+    "identifier": "CPSPOVERTYTIMESERIES"
+  },
+  "timeseries/eits/mrts": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Monthly Retail Trade and Food Services",
+    "identifier": "EITSMRTS"
+  },
+  "timeseries/eits/mtis": {
+    "years": {},
+    "title": "Time Series Economic Indicators Time Series -: Manufacturing and Trade Inventories and Sales",
+    "identifier": "EITSMTIS"
+  },
+  "timeseries/poverty/saipe": {
+    "years": {},
+    "title": "Time Series Small Area Income and Poverty Estimates: State and County",
+    "identifier": "SAIPESTATECOUNTY"
+  },
+  "timeseries/intltrade/imports/naics": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Imports by North American Industry Classification System (NAICS) Code",
+    "identifier": "ITMONTHLYIMPORTSNAICS"
+  },
+  "timeseries/intltrade/exports/enduse": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Exports by End-use Code",
+    "identifier": "ITMONTHLYEXPORTSENDUSE"
+  },
+  "timeseries/intltrade/imports/porths": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Imports by Port and Harmonized System (HS) Code",
+    "identifier": "ITMONTHLYIMPORTSPORTHS"
+  },
+  "timeseries/intltrade/exports/hitech": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Exports by Advanced Technology Code",
+    "identifier": "ITMONTHLYEXPORTSHITECH"
+  },
+  "timeseries/intltrade/exports/hs": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Exports by Harmonized System (HS) Code",
+    "identifier": "ITMONTHLYEXPORTSHS"
+  },
+  "timeseries/intltrade/imports/sitc": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Imports by Standard International Trade Classification (SITC) Code",
+    "identifier": "ITMONTHLYIMPORTSSITC"
+  },
+  "timeseries/intltrade/exports/naics": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Exports by North American Industry Classification System (NAICS) Code",
+    "identifier": "ITMONTHLYEXPORTSNAICS"
+  },
+  "timeseries/intltrade/imports/statehs": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Imports by State and Harmonized System (HS) Code",
+    "identifier": "ITMONTHLYIMPORTSSTATEHS"
+  },
+  "timeseries/intltrade/exports/porths": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Exports by Port and Harmonized System (HS) Code",
+    "identifier": "ITMONTHLYEXPORTSPORTHS"
+  },
+  "timeseries/intltrade/imports/statenaics": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Imports by State and North American Industry Classification System (NAICS)",
+    "identifier": "ITMONTHLYIMPORTSSTATENAICS"
+  },
+  "timeseries/intltrade/exports/sitc": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Exports by Standard International Trade Classification (SITC) Code",
+    "identifier": "ITMONTHLYEXPORTSSITC"
+  },
+  "timeseries/intltrade/imports/usda": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Imports by Department of Agriculture Code",
+    "identifier": "ITMONTHLYIMPORTSUSDA"
+  },
+  "timeseries/poverty/saipe/schdist": {
+    "years": {},
+    "title": "Time Series Small Area Income and Poverty Estimates: School Districts",
+    "identifier": "SAIPESCHOOLDISTRICTS"
+  },
+  "timeseries/intltrade/exports/statehs": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Exports by State and Harmonized System (HS) Code",
+    "identifier": "ITMONTHLYEXPORTSSTATEHS"
+  },
+  "acs/acs1/pumspr": {
+    "years": {
+      "2005": {
+        "title": "2005 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2005"
+      },
+      "2006": {
+        "title": "2006 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2006"
+      },
+      "2014": {
+        "title": "2014 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2014"
+      },
+      "2007": {
+        "title": "2007 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2007"
+      },
+      "2008": {
+        "title": "2008 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2008"
+      },
+      "2009": {
+        "title": "2009 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2009"
+      },
+      "2010": {
+        "title": "2010 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2010"
+      },
+      "2011": {
+        "title": "2011 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2011"
+      },
+      "2012": {
+        "title": "2012 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2012"
+      },
+      "2013": {
+        "title": "2013 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2013"
+      },
+      "2015": {
+        "title": "2015 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2015"
+      },
+      "2016": {
+        "title": "2016 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2016"
+      },
+      "2017": {
+        "title": "2017 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2017"
+      },
+      "2018": {
+        "title": "2018 American Community Survey: 1-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS1YPR2018"
+      },
+      "2019": {
+        "title": "ACS 1-Year PUMS Puerto Rico",
+        "identifier": "ACSPUMS1YPR2019"
+      }
+    }
+  },
+  "timeseries/intltrade/exports/statenaics": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Exports by State and North American Industry Classification System (NAICS)",
+    "identifier": "ITMONTHLYEXPORTSSTATENAICS"
+  },
+  "timeseries/intltrade/exports/usda": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Exports by Department of Agriculture Code",
+    "identifier": "ITMONTHLYEXPORTSUSDA"
+  },
+  "timeseries/intltrade/imports/enduse": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Imports by End-use Code",
+    "identifier": "ITMONTHLYIMPORTSENDUSE"
+  },
+  "timeseries/intltrade/imports/hitech": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Imports by Advanced Technology Code",
+    "identifier": "ITMONTHLYIMPORTSHITECH"
+  },
+  "timeseries/intltrade/imports/hs": {
+    "years": {},
+    "title": "Time Series International Trade: Monthly U.S. Imports by Harmonized System (HS) Code",
+    "identifier": "ITMONTHLYIMPORTSHS"
+  },
+  "acs/acs1/pums": {
+    "years": {
+      "2004": {
+        "title": "2004 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2004"
+      },
+      "2005": {
+        "title": "2005 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2005"
+      },
+      "2006": {
+        "title": "2006 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2006"
+      },
+      "2007": {
+        "title": "2007 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2007"
+      },
+      "2008": {
+        "title": "2008 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2008"
+      },
+      "2009": {
+        "title": "2009 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2009"
+      },
+      "2010": {
+        "title": "2010 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2010"
+      },
+      "2011": {
+        "title": "2011 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2011"
+      },
+      "2012": {
+        "title": "2012 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2012"
+      },
+      "2013": {
+        "title": "2013 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2013"
+      },
+      "2014": {
+        "title": "2014 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2014"
+      },
+      "2015": {
+        "title": "2015 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2015"
+      },
+      "2016": {
+        "title": "2016 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2016"
+      },
+      "2017": {
+        "title": "2017 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2017"
+      },
+      "2018": {
+        "title": "2018 American Community Survey: 1-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS1Y2018"
+      },
+      "2019": {
+        "title": "ACS 1-Year PUMS",
+        "identifier": "ACSPUMS1Y2019"
+      }
+    }
+  },
+  "acs/acs5/pums": {
+    "years": {
+      "2009": {
+        "title": "2005-2009 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2009"
+      },
+      "2010": {
+        "title": "2006-2010 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2010"
+      },
+      "2011": {
+        "title": "2007-2011 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2011"
+      },
+      "2012": {
+        "title": "2008-2012 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2012"
+      },
+      "2013": {
+        "title": "2009-2013 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2013"
+      },
+      "2014": {
+        "title": "2010-2014 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2014"
+      },
+      "2015": {
+        "title": "2011-2015 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2015"
+      },
+      "2016": {
+        "title": "2012-2016 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2016"
+      },
+      "2017": {
+        "title": "2013-2017 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2017"
+      },
+      "2018": {
+        "title": "2014-2018 American Community Survey: 5-Year Estimates - Public Use Microdata Sample",
+        "identifier": "ACSPUMS5Y2018"
+      },
+      "2019": {
+        "title": "ACS 5-Year PUMS",
+        "identifier": "ACSPUMS5Y2019"
+      }
+    }
+  },
+  "cps/asec/mar": {
+    "years": {
+      "2014": {
+        "title": "Mar 2014 Current Population Survey: Annual Social and Economic (March) Supplement",
+        "identifier": "CPSASEC2014"
+      },
+      "2015": {
+        "title": "Mar 2015 Current Population Survey: Annual Social and Economic (March) Supplement",
+        "identifier": "CPSASEC2015"
+      },
+      "2016": {
+        "title": "Mar 2016 Current Population Survey: Annual Social and Economic (March) Supplement",
+        "identifier": "CPSASEC2016"
+      },
+      "2017": {
+        "title": "Mar 2017 Current Population Survey: Annual Social and Economic (March) Supplement",
+        "identifier": "CPSASEC2017"
+      },
+      "2018": {
+        "title": "Mar 2018 Current Population Survey: Annual Social and Economic (March) Supplement",
+        "identifier": "CPSASEC2018"
+      },
+      "2019": {
+        "title": "Mar 2019 Current Population Survey: Annual Social and Economic (March) Supplement",
+        "identifier": "CPSASEC2019"
+      },
+      "2020": {
+        "title": "Current Population Survey Annual Social and Economic Supplement",
+        "identifier": "CPSASEC2020"
+      },
+      "2021": {
+        "title": "Current Population Survey Annual Social and Economic Supplement",
+        "identifier": "CPSASEC2021"
+      }
+    }
+  },
+  "cps/basic/apr": {
+    "years": {
+      "2017": {
+        "title": "Apr 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201704"
+      },
+      "2018": {
+        "title": "Apr 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201804"
+      },
+      "2019": {
+        "title": "Apr 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201904"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202004"
+      },
+      "2021": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202104"
+      }
+    }
+  },
+  "cps/basic/aug": {
+    "years": {
+      "2017": {
+        "title": "Aug 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201708"
+      },
+      "2018": {
+        "title": "Aug 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201808"
+      },
+      "2019": {
+        "title": "Aug 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201908"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202008"
+      },
+      "2021": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202108"
+      }
+    }
+  },
+  "cps/basic/dec": {
+    "years": {
+      "2017": {
+        "title": "Dec 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201712"
+      },
+      "2018": {
+        "title": "Dec 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201812"
+      },
+      "2019": {
+        "title": "Dec 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201912"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202012"
+      }
+    }
+  },
+  "cps/basic/feb": {
+    "years": {
+      "2017": {
+        "title": "Feb 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201702"
+      },
+      "2018": {
+        "title": "Feb 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201802"
+      },
+      "2019": {
+        "title": "Feb 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201902"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202002"
+      },
+      "2021": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202102"
+      }
+    }
+  },
+  "cps/basic/jan": {
+    "years": {
+      "2017": {
+        "title": "Jan 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201701"
+      },
+      "2018": {
+        "title": "Jan 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201801"
+      },
+      "2019": {
+        "title": "Jan 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201901"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202001"
+      },
+      "2021": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202101"
+      }
+    }
+  },
+  "cps/basic/jul": {
+    "years": {
+      "2017": {
+        "title": "Jul 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201707"
+      },
+      "2018": {
+        "title": "Jul 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201807"
+      },
+      "2019": {
+        "title": "Jul 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201907"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202007"
+      },
+      "2021": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202107"
+      }
+    }
+  },
+  "cps/basic/jun": {
+    "years": {
+      "2017": {
+        "title": "Jun 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201706"
+      },
+      "2018": {
+        "title": "Jun 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201806"
+      },
+      "2019": {
+        "title": "Jun 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201906"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202006"
+      },
+      "2021": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202106"
+      }
+    }
+  },
+  "cps/basic/mar": {
+    "years": {
+      "2017": {
+        "title": "Mar 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201703"
+      },
+      "2018": {
+        "title": "Mar 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201803"
+      },
+      "2019": {
+        "title": "Mar 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201903"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202003"
+      },
+      "2021": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202103"
+      }
+    }
+  },
+  "cps/basic/may": {
+    "years": {
+      "2017": {
+        "title": "May 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201705"
+      },
+      "2018": {
+        "title": "May 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201805"
+      },
+      "2019": {
+        "title": "May 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201905"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202005"
+      },
+      "2021": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202105"
+      }
+    }
+  },
+  "cps/basic/nov": {
+    "years": {
+      "2017": {
+        "title": "Nov 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201711"
+      },
+      "2018": {
+        "title": "Nov 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201811"
+      },
+      "2019": {
+        "title": "Nov 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201911"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202011"
+      }
+    }
+  },
+  "cps/basic/oct": {
+    "years": {
+      "2017": {
+        "title": "Oct 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201710"
+      },
+      "2018": {
+        "title": "Oct 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201810"
+      },
+      "2019": {
+        "title": "Oct 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201910"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202010"
+      }
+    }
+  },
+  "cps/basic/sep": {
+    "years": {
+      "2017": {
+        "title": "Sep 2017 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201709"
+      },
+      "2018": {
+        "title": "Sep 2018 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201809"
+      },
+      "2019": {
+        "title": "Sep 2019 Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC201909"
+      },
+      "2020": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202009"
+      },
+      "2021": {
+        "title": "Current Population Survey: Basic Monthly",
+        "identifier": "CPSBASIC202109"
+      }
+    }
+  },
+  "dec/cd116": {
+    "years": {
+      "2010": {
+        "title": "Decennial Congressional District 116",
+        "identifier": "DECENNIALCD1162010"
+      }
+    }
+  },
+  "acs/acs5/pumspr": {
+    "years": {
+      "2013": {
+        "title": "2009-2013 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2013"
+      },
+      "2009": {
+        "title": "2005-2009 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2009"
+      },
+      "2010": {
+        "title": "2006-2010 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2010"
+      },
+      "2011": {
+        "title": "2007-2011 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2011"
+      },
+      "2012": {
+        "title": "2008-2012 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2012"
+      },
+      "2014": {
+        "title": "2010-2014 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2014"
+      },
+      "2015": {
+        "title": "2011-2015 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2015"
+      },
+      "2016": {
+        "title": "2012-2016 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2016"
+      },
+      "2017": {
+        "title": "2013-2017 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2017"
+      },
+      "2018": {
+        "title": "2014-2018 American Community Survey: 5-Year Estimates - Puerto Rico Public Use Microdata Sample",
+        "identifier": "ACSPUMS5YPR2018"
+      },
+      "2019": {
+        "title": "ACS 5-Year PUMS Puerto Rico",
+        "identifier": "ACSPUMS5YPR2019"
+      }
+    }
+  },
+  "timeseries/qwi/rh": {
+    "years": {},
+    "title": "Time Series Longitudinal Employer-Household Dynamics - QWI: Race by Ethnicity",
+    "identifier": "QWIRE"
+  },
+  "timeseries/qwi/sa": {
+    "years": {},
+    "title": "Time Series Longitudinal Employer-Household Dynamics - QWI: Sex by Age",
+    "identifier": "QWISA"
+  },
+  "timeseries/qwi/se": {
+    "years": {},
+    "title": "Time Series Longitudinal Employer-Household Dynamics - QWI: Sex by Education",
+    "identifier": "QWISE"
+  },
+  "cfshazmat": {
+    "years": {
+      "2012": {
+        "title": "Economic Census: Economic Census of the United States: Commodity Flow Survey Hazmat Data",
+        "identifier": "CFSHAZMAT2012"
+      },
+      "2017": {
+        "title": "Economic Census: Economic Census of the United States: Commodity Flow Survey Hazmat Data",
+        "identifier": "CFSHAZMAT2017"
+      }
+    }
+  },
+  "cfsprelim": {
+    "years": {
+      "2012": {
+        "title": "Economic Census: Commodity Flow Survey Preliminary Data",
+        "identifier": "CFSPRELIM2012"
+      },
+      "2017": {
+        "title": "Economic Census: Commodity Flow Survey Preliminary Data",
+        "identifier": "CFSPRELIM2017"
+      }
+    }
+  },
+  "cfsarea": {
+    "years": {
+      "2012": {
+        "title": "Economic Census: Economic Census of the United States: Commodity Flow Survey Geographic Area Data",
+        "identifier": "CFSAREA2012"
+      },
+      "2017": {
+        "title": "Economic Census: Economic Census of the United States: Commodity Flow Survey Geographic Area Data",
+        "identifier": "CFSAREA2017"
+      }
+    }
+  },
+  "cfsexport": {
+    "years": {
+      "2012": {
+        "title": "Economic Census: Economic Census of the United States: Commodity Flow Survey Export Data",
+        "identifier": "CFSEXPORT2012"
+      },
+      "2017": {
+        "title": "Economic Census: Economic Census of the United States: Commodity Flow Survey Export Data",
+        "identifier": "CFSEXPORT2017"
+      }
+    }
+  },
+  "ecn/islandareas/napcs": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Economic Census of the United States: Economic Census of Island Areas",
+        "identifier": "ISLANDAREASNAPCS2017"
+      }
+    }
+  },
+  "acs/acs3": {
+    "years": {
+      "2008": {
+        "title": "American Community Survey: 3-Year Estimates: Detailed Tables 3-Year",
+        "identifier": "ACSDT3Y2008"
+      },
+      "2009": {
+        "title": "American Community Survey: 3-Year Estimates: Detailed Tables 3-Year",
+        "identifier": "ACSDT3Y2009"
+      },
+      "2007": {
+        "title": "American Community Survey: 3-Year Estimates: Detailed Tables 3-Year",
+        "identifier": "ACSDT3Y2007"
+      },
+      "2012": {
+        "title": "American Community Survey: 3-Year Estimates: Detailed Tables 3-Year",
+        "identifier": "ACSDT3Y2012"
+      },
+      "2013": {
+        "title": "American Community Survey: 3-Year Estimates: Detailed Tables 3-Year",
+        "identifier": "ACSDT3Y2013"
+      },
+      "2011": {
+        "title": "American Community Survey: 3-Year Estimates: Detailed Tables 3-Year",
+        "identifier": "ACSDT3Y2011"
+      }
+    }
+  },
+  "acs/acs3/profile": {
+    "years": {
+      "2008": {
+        "title": "American Community Survey: 3-Year Estimates: Data Profiles 3-Year",
+        "identifier": "ACSDP3Y2008"
+      },
+      "2009": {
+        "title": "American Community Survey: 3-Year Estimates: Data Profiles 3-Year",
+        "identifier": "ACSDP3Y2009"
+      },
+      "2007": {
+        "title": "American Community Survey: 3-Year Estimates: Data Profiles 3-Year",
+        "identifier": "ACSDP3Y2007"
+      },
+      "2012": {
+        "title": "American Community Survey: 3-Year Estimates: Data Profiles 3-Year",
+        "identifier": "ACSDP3Y2012"
+      },
+      "2013": {
+        "title": "American Community Survey: 3-Year Estimates: Data Profiles 3-Year",
+        "identifier": "ACSDP3Y2013"
+      },
+      "2010": {
+        "title": "American Community Survey: 3-Year Estimates: Data Profiles 3-Year",
+        "identifier": "ACSDP3Y2010"
+      },
+      "2011": {
+        "title": "American Community Survey: 3-Year Estimates: Data Profiles 3-Year",
+        "identifier": "ACSDP3Y2011"
+      }
+    }
+  },
+  "timeseries/govs": {
+    "years": {},
+    "title": "Public Sector: Public Sector Annual Surveys",
+    "identifier": "GOVSTIMESERIES"
+  },
+  "ecn/islandareas": {
+    "years": {
+      "2017": {
+        "title": "2017 Economic Census of Island Areas: Summary Statistics for American Samoa, Commonwealth of the Northern Mariana Islands, Guam, Puerto Rico, and U.S. Virgin Islands",
+        "identifier": "ISLANDAREAS2017"
+      },
+      "2012": {
+        "title": "Economic Census: Economic Census of Island Areas",
+        "identifier": "ISLANDAREAS2012"
+      }
+    }
+  },
+  "ecn/islandareas/comp": {
+    "years": {
+      "2017": {
+        "title": "Island Areas: Comparative Statistics for American Samoa, Commonwealth of the Northern Mariana Islands, Guam, Puerto Rico, and U.S. Virgin Islands: (2017 NAICS Basis): 2017 and 2012",
+        "identifier": "ISLANDAREASCOMP2017"
+      },
+      "2012": {
+        "title": "Economic Census: Economic Census of Island Areas",
+        "identifier": "ISLANDAREASCOMP2012"
+      }
+    }
+  },
+  "popproj/agegroups": {
+    "years": {
+      "2017": {
+        "title": "National Population Projections: Projected Population by Age Group, Sex, Race, and Hispanic Origin for the United States: 2016-2060",
+        "identifier": "POPPROJAGEGROUPS2017"
+      }
+    }
+  },
+  "popproj/nat": {
+    "years": {
+      "2017": {
+        "title": "National Population Projections: Projected Population by Single Year of Age, Sex, Race, and Hispanic Origin, and Nativity for the United States: 2016-2060",
+        "identifier": "POPPROJNAT2017"
+      }
+    }
+  },
+  "dec/pl": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: Redistricting Data (PL 94-171)",
+        "identifier": "DECENNIALPL2010"
+      },
+      "2000": {
+        "title": "Decennial Census: Redistricting Data (PL 94-171)",
+        "identifier": "DECENNIALPL2000"
+      },
+      "2020": {
+        "title": "Decennial Census: Redistricting Data (PL 94-171)",
+        "identifier": "DECENNIALPL2020"
+      }
+    }
+  },
+  "dec/responserate": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: Decennial Self-Reponse Rate",
+        "identifier": "DECENNIALRR2010"
+      },
+      "2020": {
+        "title": "Decennial Census: Decennial Self-Response Rate",
+        "identifier": "DECENNIALRR2020"
+      }
+    }
+  },
+  "dec/aian": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: American Indian and Alaska Native Summary File",
+        "identifier": "DECENNIALAIAN2010"
+      },
+      "2000": {
+        "title": "Decennial Census: American Indian and Alaska Native Summary File",
+        "identifier": "DECENNIALAIAN2000"
+      }
+    }
+  },
+  "acs/acs3/cprofile": {
+    "years": {
+      "2012": {
+        "title": "American Community Survey: 3-Year Estimates: Comparison Profiles 3-Year",
+        "identifier": "ACSCP3Y2012"
+      },
+      "2013": {
+        "title": "American Community Survey: 3-Year Estimates: Comparison Profiles 3-Year",
+        "identifier": "ACSCP3Y2013"
+      }
+    }
+  },
+  "acs/acs3/spp": {
+    "years": {
+      "2012": {
+        "title": "American Community Survey: 3-Year Estimates: Selected Population Profiles 3-Year",
+        "identifier": "ACSSPP3Y2012"
+      },
+      "2011": {
+        "title": "American Community Survey: 3-Year Estimates: Selected Population Profiles 3-Year",
+        "identifier": "ACSSPP3Y2011"
+      },
+      "2013": {
+        "title": "American Community Survey: 3-Year Estimates: Selected Population Profiles 3-Year",
+        "identifier": "ACSSPP3Y2013"
+      },
+      "2009": {
+        "title": "American Community Survey: 3-Year Estimates: Selected Population Profiles 3-Year",
+        "identifier": "ACSSPP3Y2009"
+      },
+      "2010": {
+        "title": "American Community Survey: 3-Year Estimates: Selected Population Profiles 3-Year",
+        "identifier": "ACSSPP3Y2010"
+      }
+    }
+  },
+  "acs/acs3/subject": {
+    "years": {
+      "2012": {
+        "title": "American Community Survey: 3-Year Estimates: Subject Tables 3-Year",
+        "identifier": "ACSST3Y2012"
+      },
+      "2013": {
+        "title": "American Community Survey: 3-Year Estimates: Subject Tables 3-Year",
+        "identifier": "ACSST3Y2013"
+      },
+      "2011": {
+        "title": "American Community Survey: 3-Year Estimates: Subject Tables 3-Year",
+        "identifier": "ACSST3Y2011"
+      },
+      "2010": {
+        "title": "American Community Survey: 3-Year Estimates: Subject Tables 3-Year",
+        "identifier": "ACSST3Y2010"
+      }
+    }
+  },
+  "timeseries/asm/area2017": {
+    "years": {},
+    "title": "Annual Economic Surveys: Annual Survey of Manufactures Area",
+    "identifier": "ASMAREA2017"
+  },
+  "pdb/statecounty": {
+    "years": {
+      "2020": {
+        "title": "2020 Planning Database - State and County Level",
+        "identifier": "PDBSTATECOUNTY2020"
+      }
+    }
+  },
+  "timeseries/asm/value2012": {
+    "years": {},
+    "title": "Annual Economic Surveys: Annual Survey of Manufactures Value",
+    "identifier": "ASMVALUE2012"
+  },
+  "cps/disability/jul": {
+    "years": {
+      "2019": {
+        "title": "Current Population Survey: Disability Supplement",
+        "identifier": "CPSDISABILITY201907"
+      }
+    }
+  },
+  "ecn/islandareas/ind": {
+    "years": {
+      "2012": {
+        "title": "Economic Census: Economic Census of Island Areas",
+        "identifier": "ISLANDAREASIND2012"
+      },
+      "2017": {
+        "title": "Economic Census of Island Areas: Core Statistics: Economic Census of Island Areas",
+        "identifier": "ISLANDAREASIND2017"
+      }
+    }
+  },
+  "ecn/islandareas/lines": {
+    "years": {
+      "2012": {
+        "title": "Economic Census: Economic Census of Island Areas",
+        "identifier": "ISLANDAREASLINES2012"
+      }
+    }
+  },
+  "cps/disability/may": {
+    "years": {
+      "2012": {
+        "title": "May 2012 Current Population Survey: Disability Supplement",
+        "identifier": "CPSDISABILITY201205"
+      }
+    }
+  },
+  "abscb": {
+    "years": {
+      "2017": {
+        "title": "Economic Surveys: Annual Business Survey: Annual Business Survey",
+        "identifier": "ABSCB2017"
+      },
+      "2018": {
+        "title": "Economic Surveys: Annual Business Survey: Annual Business Survey",
+        "identifier": "ABSCB2018"
+      }
+    }
+  },
+  "abscbo": {
+    "years": {
+      "2017": {
+        "title": "Economic Surveys: Annual Business Survey: Annual Business Survey",
+        "identifier": "ABSCBO2017"
+      },
+      "2018": {
+        "title": "Economic Surveys: Annual Business Survey: Annual Business Survey",
+        "identifier": "ABSCBO2018"
+      }
+    }
+  },
+  "timeseries/asm/area2012": {
+    "years": {},
+    "title": "Annual Economic Surveys: Annual Survey of Manufactures Area",
+    "identifier": "ASMAREA2012"
+  },
+  "abscs": {
+    "years": {
+      "2017": {
+        "title": "Annual Business Survey: Company Summary: 2017",
+        "identifier": "ABSCS2017"
+      },
+      "2018": {
+        "title": "Economic Surveys: Annual Business Survey: Annual Business Survey",
+        "identifier": "ABSCS2018"
+      }
+    }
+  },
+  "cps/tobacco/jan": {
+    "years": {
+      "2019": {
+        "title": "Jan 2019 Current Population Survey: Tobacco Use Supplement",
+        "identifier": "CPSTOBACCOUSE201901"
+      }
+    }
+  },
+  "cps/tobacco/may": {
+    "years": {
+      "2019": {
+        "title": "May 2019 Current Population Survey: Tobacco Use Supplement",
+        "identifier": "CPSTOBACCOUSE201905"
+      }
+    }
+  },
+  "cfstemp": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Commodity Flow Survey Temperature Data",
+        "identifier": "CFSTEMP2017"
+      }
+    }
+  },
+  "dec/asyoe": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: American Samoa Year of Entry File",
+        "identifier": "DECENNIALYOEAS2010"
+      }
+    }
+  },
+  "dec/guyoe": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: Guam Year of Entry File",
+        "identifier": "DECENNIALYOEGU2010"
+      }
+    }
+  },
+  "dec/mpyoe": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: Commonwealth of the Northern Mariana Islands Year of Entry File",
+        "identifier": "DECENNIALYOEMP2010"
+      }
+    }
+  },
+  "dec/as": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: American Samoa Summary File",
+        "identifier": "DECENNIALAS2010"
+      },
+      "2000": {
+        "title": "Decennial Census: American Samoa Summary File",
+        "identifier": "DECENNIALAS2000"
+      }
+    }
+  },
+  "dec/mp": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: Commonwealth of the Northern Mariana Islands Summary File",
+        "identifier": "DECENNIALMP2000"
+      },
+      "2010": {
+        "title": "Decennial Census: Commonwealth of the Northern Mariana Islands Summary File",
+        "identifier": "DECENNIALMP2010"
+      }
+    }
+  },
+  "cps/school/oct": {
+    "years": {
+      "2019": {
+        "title": "Current Population Survey: School Enrollment Supplement",
+        "identifier": "CPSSCHOOL201910"
+      },
+      "2020": {
+        "title": "Current Population Survey: School Enrollment Supplement",
+        "identifier": "CPSSCHOOL202010"
+      }
+    }
+  },
+  "dec/vi": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: U.S. Virgin Islands Summary File",
+        "identifier": "DECENNIALVI2000"
+      },
+      "2010": {
+        "title": "Decennial Census: U.S. Virgin Islands Summary File",
+        "identifier": "DECENNIALVI2010"
+      }
+    }
+  },
+  "acs/acs5/sptprofile": {
+    "years": {
+      "2010": {
+        "title": "American Community Survey: 5-Year Estimates: Selected Population Data Profiles 5-Year",
+        "identifier": "ACSDP5YSPT2010"
+      }
+    }
+  },
+  "acs/acs5/aian": {
+    "years": {
+      "2015": {
+        "title": "ACS 5-Year AIAN Detailed Tables",
+        "identifier": "ACSDT5YAIAN2015"
+      },
+      "2010": {
+        "title": "American Community Survey: 5-Year Estimates: American Indian and Alaska Native Detailed Tables 5-Year",
+        "identifier": "ACSDT5YAIAN2010"
+      }
+    }
+  },
+  "acs/acs5/spt": {
+    "years": {
+      "2015": {
+        "title": "American Community Survey: 5-Year Estimates: Selected Population Detailed Tables 5-Year",
+        "identifier": "ACSDT5YSPT2015"
+      },
+      "2010": {
+        "title": "American Community Survey: 5-Year Estimates: Selected Population Detailed Tables 5-Year",
+        "identifier": "ACSDT5YSPT2010"
+      }
+    }
+  },
+  "acs/acs5/aianprofile": {
+    "years": {
+      "2015": {
+        "title": "American Community Survey: 5-Year Estimates: American Indian and Alaska Native Data Profiles 5-Year",
+        "identifier": "ACSDP5YAIAN2015"
+      },
+      "2010": {
+        "title": "American Community Survey: 5-Year Estimates: American Indian and Alaska Native Data Profiles 5-Year",
+        "identifier": "ACSDP5YAIAN2010"
+      }
+    }
+  },
+  "cps/volunteer/sep": {
+    "years": {
+      "2019": {
+        "title": "Current Population Survey: Volunteering and Civic Life Supplement",
+        "identifier": "CPSVOLUNTEER201909"
+      }
+    }
+  },
+  "timeseries/pseo/earnings": {
+    "years": {},
+    "title": "Post-Secondary Employment Outcomes (PSEO): Post-Secondary Employment Outcomes (PSEO) - Earnings",
+    "identifier": "PSEOEARNINGS"
+  },
+  "dec/cd110h": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: 110th Congressional District Summary File (100-Percent)",
+        "identifier": "DECENNIALCD110H"
+      }
+    }
+  },
+  "timeseries/pseo/flows": {
+    "years": {},
+    "title": "Post-Secondary Employment Outcomes (PSEO): Post-Secondary Employment Outcomes (PSEO) - Flows",
+    "identifier": "PSEOFLOWS"
+  },
+  "cps/internet/nov": {
+    "years": {
+      "2019": {
+        "title": "Current Population Survey: Computer and Internet Use Supplement",
+        "identifier": "CPSINTERNET201911"
+      }
+    }
+  },
+  "cps/dwjt/jan": {
+    "years": {
+      "2020": {
+        "title": "Current Population Survey: Displaced Worker, Employee Tenure, and Occupational Mobility Supplement",
+        "identifier": "CPSDISWORKJOBTEN202001"
+      }
+    }
+  },
+  "cps/foodsec/dec": {
+    "years": {
+      "2019": {
+        "title": "Current Population Survey: Food Security Supplement",
+        "identifier": "CPSFOODSECURITY201912"
+      },
+      "2020": {
+        "title": "Current Population Survey: Food Security Supplement",
+        "identifier": "CPSFOODSECURITY202012"
+      }
+    }
+  },
+  "cps/unbank/jun": {
+    "years": {
+      "2019": {
+        "title": "Current Population Survey: Unbanked/Underbanked Supplement",
+        "identifier": "CPSUNBANKED201906"
+      }
+    }
+  },
+  "dec/plnat": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: National Redistricting Data",
+        "identifier": "DECENNIALPLNAT2010"
+      }
+    }
+  },
+  "dec/aianprofile": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: American Indian and Alaska Native Demographic Profile",
+        "identifier": "DECENNIALDPAIAN2000"
+      }
+    }
+  },
+  "dec/cd110hprofile": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: 110th Congressional District Demographic Profile (100-Percent)",
+        "identifier": "DECENNIALDPCD110H2000"
+      }
+    }
+  },
+  "dec/sf3profile": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: Summary File 3 Demographic Profile",
+        "identifier": "DECENNIALDPSF32000"
+      }
+    }
+  },
+  "dec/sldhprofile": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: State Legislative District Demographic Profile (100-Percent)",
+        "identifier": "DECENNIALDPSLDH2000"
+      }
+    }
+  },
+  "dec/sldsprofile": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: State Legislative District Demographic Profile (Sample)",
+        "identifier": "DECENNIALDPSLDS2000"
+      }
+    }
+  },
+  "dec/cd113profile": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: 113th Congressional District Demographic Profile",
+        "identifier": "DECENNIALDPCD1132010"
+      }
+    }
+  },
+  "dec/sf2profile": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: Summary File 2 Demographic Profile",
+        "identifier": "DECENNIALDPSF22000"
+      }
+    }
+  },
+  "ecnnapcsind": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Industry by Products Statistics for the U.S. and States: 2017",
+        "identifier": "ECNNAPCSIND2017"
+      }
+    }
+  },
+  "ecnnapcsprd": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Products by Industry Statistics for the U.S.: 2017",
+        "identifier": "ECNNAPCSPRD2017"
+      }
+    }
+  },
+  "dec/sf3": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: Summary File 3",
+        "identifier": "DECENNIALSF32000"
+      }
+    }
+  },
+  "dec/cd115profile": {
+    "years": {
+      "2010": {
+        "title": "Decennial Census: 115th Congressional District Demographic Profile",
+        "identifier": "DECENNIALDPCD1152010"
+      }
+    }
+  },
+  "dec/sf4profile": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: Summary File 4 Demographic Profile",
+        "identifier": "DECENNIALDPSF42000"
+      }
+    }
+  },
+  "dec/sf4": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: Summary File 4",
+        "identifier": "DECENNIALSF42000"
+      }
+    }
+  },
+  "dec/sldh": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: State Legislative District Summary File (100-Percent)",
+        "identifier": "DECENNIALSLDH"
+      }
+    }
+  },
+  "dec/slds": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: State Legislative District Summary File (Sample)",
+        "identifier": "DECENNIALSLDS"
+      }
+    }
+  },
+  "ecnloccons": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Construction: Location of Construction Establishments by Employment Size for the U.S. and States: 2017",
+        "identifier": "ECNLOCCONS2017"
+      }
+    }
+  },
+  "timeseries/bds": {
+    "years": {},
+    "title": "Economic Surveys: Business Dynamics Statistics",
+    "identifier": "BDSTIMESERIES"
+  },
+  "dec/cd110s": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: 110th Congressional District Summary File (Sample)",
+        "identifier": "DECENNIALCD110S"
+      }
+    }
+  },
+  "timeseries/asm/value2017": {
+    "years": {},
+    "title": "Annual Economic Surveys: Annual Survey of Manufactures Value",
+    "identifier": "ASMVALUE2017"
+  },
+  "cps/arts/feb": {
+    "years": {
+      "2020": {
+        "title": "Current Population Survey: Arts Benchmarking Supplement",
+        "identifier": "CPSARTSBENCH202002"
+      }
+    }
+  },
+  "abstcb": {
+    "years": {
+      "2018": {
+        "title": "Annual Economic Surveys: Annual Business Survey",
+        "identifier": "ABSTCB2018"
+      }
+    }
+  },
+  "dec/cd110sprofile": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: 110th Congressional District Demographic Profile (Sample)",
+        "identifier": "DECENNIALDPCD110S2000"
+      }
+    }
+  },
+  "dec/cqr": {
+    "years": {
+      "2000": {
+        "title": "Decennial Census: Count Question Resolution",
+        "identifier": "DECENNIALCQR2000"
+      }
+    }
+  },
+  "ecnpurgas": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Utilities: Cost of Purchased Natural Gas for Resale by Utilities for the U.S.: 2017",
+        "identifier": "ECNPURGAS2017"
+      }
+    }
+  },
+  "ecninstr": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Educational Services: Modes of Instruction for the U.S.: 2017",
+        "identifier": "ECNINSTR2017"
+      }
+    }
+  },
+  "cps/vets/aug": {
+    "years": {
+      "2020": {
+        "title": "Current Population Survey: Veterans Supplement",
+        "identifier": "CPSVETS202008"
+      }
+    }
+  },
+  "cps/voting/nov": {
+    "years": {
+      "2020": {
+        "title": "Current Population Survey: Voting Supplement",
+        "identifier": "CPSVOTING202011"
+      }
+    }
+  },
+  "timeseries/asm/benchmark2017": {
+    "years": {},
+    "title": "Annual Economic Surveys: Annual Survey of Manufactures Benchmark 2017",
+    "identifier": "ASMBENCHMARK2017"
+  },
+  "ecnadbnprop": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Finance and Insurance: Administrative Expenses and Losses Incurred for Property and Casualty Insurance Carriers for the U.S.: 2017",
+        "identifier": "ECNADBNPROP2017"
+      }
+    }
+  },
+  "ecndirprem": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Finance and Insurance: Direct Premiums Earned for the U.S.: 2017",
+        "identifier": "ECNDIRPREM2017"
+      }
+    }
+  },
+  "ecnelmenu": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Accommodation and Food Services: Establishments Using Electronic Devices for Self-Service Table Orders and/or Payment for the U.S. and States:  2017",
+        "identifier": "ECNELMENU2017"
+      }
+    }
+  },
+  "ecnhotel": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Accommodation and Food Services: Hotel Property Type for the U.S. and States:  2017",
+        "identifier": "ECNHOTEL2017"
+      }
+    }
+  },
+  "ecntypepayer": {
+    "years": {
+      "2017": {
+        "title": "Economic Census: Health Care and Social Assistance:  Sales, Value of Shipments, or Revenue by Type of Payer for the U.S. and States: 2017",
+        "identifier": "ECNTYPEPAYER2017"
+      }
+    }
+  },
+  "cps/immigration/aug": {
+    "years": {
+      "2008": {
+        "title": "Aug 2008 Current Population Survey: Immigration/Emigration Supplement",
+        "identifier": "CPSIMMIGRATION200808"
+      }
+    }
+  },
+  "sbo/cs": {
+    "years": {
+      "2012": {
+        "title": "Economic Surveys: Survey of Business Owners: Survey of Business Owners Company Summary",
+        "identifier": "SBOCS2012"
+      }
+    }
+  },
+  "cps/fertility/jun": {
+    "years": {
+      "2020": {
+        "title": "Current Population Survey: Fertility Supplement",
+        "identifier": "CPSFERTILITY202006"
+      }
+    }
+  }
+}
