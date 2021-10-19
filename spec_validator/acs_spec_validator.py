@@ -19,6 +19,7 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('validator_output_path', './outputs/', 'Path to store the output files')
 flags.DEFINE_multi_enum('tests', ['all'], ['all', 'extra_tokens', 'missing_tokens', 'column_no_pv', 'ignore_conflicts', 'enum_specialialisations', 'denominators', 'extra_inferred'], 'List of tests to run')
 flags.DEFINE_list('zip_path_list', None, 'List of paths to zip files downloaded from US Census')
+flags.DEFINE_list('column_list_path', None, 'Path of json file containing list of all columns')
 
 # finds any extra tokens that appear in the spec as a lookup but not as a part of any of the column names
 # requires column list before ignored columns are removed
@@ -373,62 +374,8 @@ def runTestsColumnDict(columnsDict, specDict, test_list=['all'], outputPath='./o
 
 	print("End of test")
 
-# run all the tests on a single csv file
-# tests data overlay by default, isMetadata = True parses assuming csv file is metadata file
-def testCSVFile(csvPath, specPath, test_list=['all'], outputPath='./outputs/', isMetadata = False, delimiter='!!'):
-	# clean the file paths
-	csvPath = os.path.expanduser(csvPath)
-	specPath = os.path.expanduser(specPath)
-	outputPath = os.path.expanduser(outputPath)
-	if not os.path.exists(outputPath):
-		os.makedirs(outputPath, exist_ok=True)
-
-	print("Testing ", csvPath, "against spec at", specPath)
 	
-	columnsDict = {}
-
-	# read json spec
-	specDict = getSpecDictFromPath(specPath)
-	# create csv reader
-	csvReader = csv.reader(open(csvPath, 'r'))
-	# compile list of columns
-	allColumns = columnsFromCSVReader(csvReader, isMetadata)
-
-	columnsDict['all'] = {}
-	columnsDict['all']['column_list'] = allColumns
-
-	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, False, True, delimiter)
-
-	# run the tests
-	# testResults = {}
-	# testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
-
-	# testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
-
-	# columnsDict['all'] = {}
-	# columnsDict['all']['column_list'] = allColumns
-	# columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
-	# columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
-	# columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
-	# columnsDict['all']['column_list_count'] = len(allColumns)
-	# columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
-	# columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
-
-	# print('Total Number of Columns', columnsDict['all']['column_list_count'])
-	# print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
-	# print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
-
-	# print('creating output files')
-
-	# with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
-	# 	json.dump(columnsDict, fp, indent=2)
-	# with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
-	# 	json.dump(testResults, fp, indent=2)
-
-	# print("End of test")
-
-	
-# assumes all files are metadata type if not flagged	
+# assumes all files are data overlay type if not flagged	
 def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, isMetadata = [False], delimiter='!!'):
 	# clean the file paths
 	specPath = os.path.expanduser(specPath)
@@ -461,22 +408,7 @@ def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='./outp
 
 		columnsDict[filename] = {}
 		columnsDict[filename]['column_list'] = curColumns
-		# columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
-		# columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
-		# columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
-		# columnsDict[filename]['column_list_count'] = len(curColumns)
-		# columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
-		# columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
-
-		#run the tests if flag raised
-		# if filewise:
-		# 	print('----------------------------------------------------')
-		# 	print(filename)
-		# 	print('----------------------------------------------------')
-		# 	testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
-		# 	print('Total Number of Columns', columnsDict[filename]['column_list_count'])
-		# 	print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
-		# 	print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
+		
 	# keep unique columns
 	allColumns = list(set(allColumns))
 	columnsDict['all'] = {}
@@ -484,116 +416,6 @@ def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='./outp
 	
 	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, filewise, showSummary, delimiter)
 	
-	# if filewise outputs have not been shown or summary is requested
-	# if not filewise or showSummary:
-	# 	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
-	# testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
-
-	# columnsDict['all'] = {}
-	# columnsDict['all']['column_list'] = allColumns
-	# columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
-	# columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
-	# columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
-	# columnsDict['all']['column_list_count'] = len(allColumns)
-	# columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
-	# columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
-
-	# print('Total Number of Columns', columnsDict['all']['column_list_count'])
-	# print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
-	# print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
-
-	# print('creating output files')
-
-	# with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
-	# 	json.dump(columnsDict, fp, indent=2)
-	# with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
-	# 	json.dump(testResults, fp, indent=2)
-
-	# print("End of test")
-	
-
-def testZipFile(zipPath, specPath, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, checkMetadata = False, delimiter='!!'):
-	# clean the file paths
-	zipPath = os.path.expanduser(zipPath)
-	specPath = os.path.expanduser(specPath)
-	outputPath = os.path.expanduser(outputPath)
-	if not os.path.exists(outputPath):
-		os.makedirs(outputPath, exist_ok=True)
-
-	# read json spec
-	specDict = getSpecDictFromPath(specPath)
-	allColumns = []
-
-	columnsDict = {}
-	testResults = {}
-
-	print("Testing ", zipPath, "against spec at", specPath)
-	with zipfile.ZipFile(zipPath) as zf:
-		# compile list of columns and run tests on individual files if flag set
-		for filename in zf.namelist():
-			tempFlag = False
-			
-			if checkMetadata:
-				if '_metadata_' in filename:
-					tempFlag = True
-			elif '_data_' in filename:
-				tempFlag = True
-			if tempFlag:
-				with zf.open(filename, 'r') as data_f:
-					csvReader = csv.reader(io.TextIOWrapper(data_f, 'utf-8'))
-					curColumns = columnsFromCSVReader(csvReader, False)
-					allColumns.extend(curColumns)
-					
-					columnsDict[filename] = {}
-					columnsDict[filename]['column_list'] = curColumns
-					# columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
-					# columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
-					# columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
-					# columnsDict[filename]['column_list_count'] = len(curColumns)
-					# columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
-					# columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
-
-					#run the tests if flag raised
-					# if filewise:
-					# 	print('----------------------------------------------------')
-					# 	print(filename)
-					# 	print('----------------------------------------------------')
-					# 	testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
-					# 	print('Total Number of Columns', columnsDict[filename]['column_list_count'])
-					# 	print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
-					# 	print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
-	# keep unique columns
-	allColumns = list(set(allColumns))
-	columnsDict['all'] = {}
-	columnsDict['all']['column_list'] = allColumns
-	
-	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, filewise, showSummary, delimiter)
-	# if filewise outputs have not been shown or summary is requested
-	# if not filewise or showSummary:
-	# 	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
-	# testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
-
-	# columnsDict['all'] = {}
-	# columnsDict['all']['column_list'] = allColumns
-	# columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
-	# columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
-	# columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
-	# columnsDict['all']['column_list_count'] = len(allColumns)
-	# columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
-	# columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
-
-	# print('Total Number of Columns', columnsDict['all']['column_list_count'])
-	# print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
-	# print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
-
-	# print('creating output files')
-
-	# with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
-	# 	json.dump(columnsDict, fp, indent=2)
-	# with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
-	# 	json.dump(testResults, fp, indent=2)
-
-	# print("End of test")
 
 #TODO this will overwrite outputs if filenames repeat across zip files
 def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, checkMetadata = False, delimiter='!!'):
@@ -631,22 +453,7 @@ def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='./outp
 						
 						columnsDict[filename] = {}
 						columnsDict[filename]['column_list'] = curColumns
-						# columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
-						# columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
-						# columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
-						# columnsDict[filename]['column_list_count'] = len(curColumns)
-						# columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
-						# columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
-
-						#run the tests if flag raised
-						# if filewise:
-						# 	print('----------------------------------------------------')
-						# 	print(filename)
-						# 	print('----------------------------------------------------')
-						# 	testResults[filename] = testColumnNameList(curColumns, specDict, test_list, True, delimiter)
-						# 	print('Total Number of Columns', columnsDict[filename]['column_list_count'])
-						# 	print('Total Number of Ignored Columns', columnsDict[filename]['ignored_column_count'])
-						# 	print('Total Number of Accepted Columns', columnsDict[filename]['accepted_column_count'])
+						
 	# keep unique columns
 	allColumns = list(set(allColumns))
 	columnsDict['all'] = {}
@@ -654,34 +461,7 @@ def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='./outp
 	
 	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, filewise, showSummary, delimiter)
 	
-	# if filewise outputs have not been shown or summary is requested
-	# if not filewise or showSummary:
-	# 	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
-	# testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
 
-	# columnsDict['all'] = {}
-	# columnsDict['all']['column_list'] = allColumns
-	# columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
-	# columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
-	# columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
-	# columnsDict['all']['column_list_count'] = len(allColumns)
-	# columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
-	# columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
-
-	# print('Total Number of Columns', columnsDict['all']['column_list_count'])
-	# print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
-	# print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
-
-	# print('creating output files')
-
-	# with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
-	# 	json.dump(columnsDict, fp, indent=2)
-	# with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
-	# 	json.dump(testResults, fp, indent=2)
-
-	# print("End of test")
-
-# TODO allow multiple files
 def testColumnList(columnListPath, specPath, test_list=['all'], outputPath='./outputs/', delimiter='!!'):
 	# clean the file paths
 	columnListPath = os.path.expanduser(columnListPath)
@@ -699,44 +479,22 @@ def testColumnList(columnListPath, specPath, test_list=['all'], outputPath='./ou
 
 	print("Testing ", columnListPath, "against spec at", specPath)
 
-	testResults['all'] = testColumnNameList(allColumns, specDict, test_list, False, delimiter)
-	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
-
 	columnsDict['all'] = {}
 	columnsDict['all']['column_list'] = allColumns
-	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
-	columnsDict['all']['column_list_count'] = len(allColumns)
-	columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
-	columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
 
-	print('Total Number of Columns', columnsDict['all']['column_list_count'])
-	print('Total Number of Ignored Columns', columnsDict['all']['ignored_column_count'])
-	print('Total Number of Accepted Columns', columnsDict['all']['accepted_column_count'])
-
-	print('creating output files')
-
-	with open(os.path.join(outputPath, 'columns.json'), 'w') as fp:
-		json.dump(columnsDict, fp, indent=2)
-	with open(os.path.join(outputPath, 'test_results.json'), 'w') as fp:
-		json.dump(testResults, fp, indent=2)
-
-	print("End of test")
+	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, False, True, delimiter)
+	
 
 def main(argv):
-    if FLAGS.zip_path:
-    	testZipFile(FLAGS.zip_path, FLAGS.spec_path, FLAGS.tests , FLAGS.validator_output_path, False, False, FLAGS.is_metadata, FLAGS.delimiter)
-    if FLAGS.csv_path_list:
-    	testCSVFileList(FLAGS.csv_path_list, FLAGS.spec_path, FLAGS.tests, FLAGS.validator_output_path, False, False, [FLAGS.is_metadata], FLAGS.delimiter)
-    if FLAGS.csv_path:
-    	testCSVFile(FLAGS.csv_path, FLAGS.spec_path, FLAGS.tests, FLAGS.validator_output_path, FLAGS.is_metadata, FLAGS.delimiter)
-    if FLAGS.zip_path_list:
-    	testZipFileList(FLAGS.zip_path_list, FLAGS.spec_path, FLAGS.tests , FLAGS.validator_output_path, False, False, FLAGS.is_metadata, FLAGS.delimiter)
-
+	if FLAGS.csv_path_list:
+		testCSVFileList(FLAGS.csv_path_list, FLAGS.spec_path, FLAGS.tests, FLAGS.validator_output_path, False, False, [FLAGS.is_metadata], FLAGS.delimiter)
+	if FLAGS.zip_path_list:
+		testZipFileList(FLAGS.zip_path_list, FLAGS.spec_path, FLAGS.tests , FLAGS.validator_output_path, False, False, FLAGS.is_metadata, FLAGS.delimiter)
+	if FLAGS.column_list_path:
+		testColumnList(FLAGS.column_list_path, FLAGS.spec_path, FLAGS.tests, FLAGS.validator_output_path, FLAGS.delimiter)
 
 if __name__ == '__main__':
 	flags.mark_flags_as_required(['spec_path'])
-	flags.mark_flags_as_mutual_exclusive(['zip_path', 'csv_path', 'csv_path_list', 'zip_path_list'], required=True)
+	flags.mark_flags_as_mutual_exclusive(['csv_path_list', 'zip_path_list', 'column_list_path'], required=True)
 	app.run(main)
 
