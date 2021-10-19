@@ -16,10 +16,10 @@ from common_utils.common_util import *
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('validator_output_path', './outputs/', 'Path to store the output files')
+flags.DEFINE_string('validator_output_path', '../output/', 'Path to store the output files')
 flags.DEFINE_multi_enum('tests', ['all'], ['all', 'extra_tokens', 'missing_tokens', 'column_no_pv', 'ignore_conflicts', 'enum_specialialisations', 'denominators', 'extra_inferred'], 'List of tests to run')
 flags.DEFINE_list('zip_path_list', None, 'List of paths to zip files downloaded from US Census')
-flags.DEFINE_list('column_list_path', None, 'Path of json file containing list of all columns')
+flags.DEFINE_string('column_list_path', None, 'Path of json file containing list of all columns')
 
 # finds any extra tokens that appear in the spec as a lookup but not as a part of any of the column names
 # requires column list before ignored columns are removed
@@ -323,7 +323,7 @@ def testSpec(columnNameList, specDict, test_list=['all'], delimiter='!!'):
 
 	return retDict
 
-def runTestsColumnDict(columnsDict, specDict, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, delimiter='!!'):
+def runTestsColumnDict(columnsDict, specDict, test_list=['all'], outputPath='../output/', filewise=False, showSummary=False, delimiter='!!'):
 	
 	testResults = {}
 	for filename in columnsDict:
@@ -376,7 +376,7 @@ def runTestsColumnDict(columnsDict, specDict, test_list=['all'], outputPath='./o
 
 	
 # assumes all files are data overlay type if not flagged	
-def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, isMetadata = [False], delimiter='!!'):
+def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='../output/', filewise=False, showSummary=False, isMetadata = [False], delimiter='!!'):
 	# clean the file paths
 	specPath = os.path.expanduser(specPath)
 	outputPath = os.path.expanduser(outputPath)
@@ -418,7 +418,7 @@ def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='./outp
 	
 
 #TODO this will overwrite outputs if filenames repeat across zip files
-def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='./outputs/', filewise=False, showSummary=False, checkMetadata = False, delimiter='!!'):
+def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='../output/', filewise=False, showSummary=False, checkMetadata = False, delimiter='!!'):
 	# clean the file paths
 	specPath = os.path.expanduser(specPath)
 	outputPath = os.path.expanduser(outputPath)
@@ -462,7 +462,7 @@ def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='./outp
 	runTestsColumnDict(columnsDict, specDict, test_list, outputPath, filewise, showSummary, delimiter)
 	
 
-def testColumnList(columnListPath, specPath, test_list=['all'], outputPath='./outputs/', delimiter='!!'):
+def testColumnList(columnListPath, specPath, test_list=['all'], outputPath='../output/', delimiter='!!'):
 	# clean the file paths
 	columnListPath = os.path.expanduser(columnListPath)
 	specPath = os.path.expanduser(specPath)
