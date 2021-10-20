@@ -134,7 +134,7 @@ def columns_from_zip_list(zip_path_list, checkMetadata=False):
 		zip_path = os.path.expanduser(zip_path)
 		all_columns.extend(columnsFromZipFile(zip_path, checkMetadata=checkMetadata))
 	all_columns = list(set(all_columns))
-	return allColumns
+	return all_columns
 
 # go through megaspec creating output and discarded spec
 def create_new_spec(all_columns, union_spec, expected_populations=['Person'], expected_pvs=[], output_path='../output/', delimiter='!!'):
@@ -317,7 +317,7 @@ def main(argv):
 				print(json.dumps(guess_spec, indent=2))
 			if FLAGS.zip_path_list:
 				all_columns = columns_from_zip_list(FLAGS.zip_path_list, FLAGS.check_metadata)
-				all_columns = create_new_spec(all_columns, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.generator_output_path, FLAGS.delimiter)
+				guess_spec = create_new_spec(all_columns, combined_spec_out, FLAGS.expected_populations, FLAGS.expected_properties, FLAGS.generator_output_path, FLAGS.delimiter)
 				print(json.dumps(guess_spec, indent=2))
 
 if __name__ == '__main__':
