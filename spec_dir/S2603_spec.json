@@ -132,12 +132,15 @@
       "Separated": "Separated",
       "Divorced": "Divorced"
     },
-    "schoolEnrollment XXXXX": {
+    "schoolEnrollment": {
       "Population 3 years and over enrolled in school": "EnrolledInSchool",
-      "Nursery school through 12th grade": "XXXXXEnrolledInSchool"
+      "Nursery school through 12th grade": "EnrolledInSchool"
     },
-    "collegeOrGraduateSchoolEnrollment XXXXX": {
+    "collegeOrGraduateSchoolEnrollment": {
       "College or graduate school": "EnrolledInCollegeOrGraduateSchool"
+    },
+    "levelOfSchool": {
+      "Nursery school through 12th grade": "EnrolledInNurseryThroughGrade12"
     },
     "veteranStatus": {
       "Civilian veteran": "Veteran"
@@ -185,8 +188,6 @@
       "Entered before 2000": "[- 2000 Date]",
       "Entered 2000 to 2009": "[2000 2009 Date]",
       "Entered 2010 or later": "[2010 - Date]"
-      
-
     }
   },
   "inferredSpec": {
@@ -206,7 +207,7 @@
       "populationType": "Person",
       "constraintProperties": ["employment"],
       "dependentPVs": {
-        "age": "[16 - Years]",
+        "age": "[16 - Years]"
       }
     },
     {
