@@ -33,7 +33,7 @@ def request_url_json(url):
             #TODO
     return response_data
 
-def getTokensListFromZip(zipFilePath, checkMetadata = False, printDetails=False, delimiter='!!'):
+def get_tokens_list_from_zip(zipFilePath, checkMetadata = False, printDetails=False, delimiter='!!'):
     # tokens = set()
     zipFilePath = os.path.expanduser(zipFilePath)
     tokens = []
@@ -73,44 +73,44 @@ def getTokensListFromZip(zipFilePath, checkMetadata = False, printDetails=False,
     # return list(tokens)
     return tokens
 
-def tokenInListIgnoreCase(token, list_check):
+def token_in_list_ignore_case(token, list_check):
     for tok in list_check:
         if tok.lower() == token.lower():
             return True
     return False
 
-def tokenNotInListIgnoreCase(token, list_check):
+def token_notin_list_ignore_case(token, list_check):
     for tok in list_check:
         if tok.lower() == token.lower():
             return False
     return True
 
-def columnToBeIgnored(columnName, specDict, delimiter='!!'):
+def column_to_be_ignored(columnName, specDict, delimiter='!!'):
     retValue = False
     if 'ignoreColumns' in specDict:
         for ignoreToken in specDict['ignoreColumns']:
             if delimiter in ignoreToken and set(ignoreToken.split(delimiter)).issubset(columnName.split(delimiter)):
                 retValue = True
-            elif tokenInListIgnoreCase(ignoreToken, columnName.split(delimiter)):
+            elif token_in_list_ignore_case(ignoreToken, columnName.split(delimiter)):
                 retValue = True
     return retValue
 
-def removeColumnsToBeIgnored(columnNameList, specDict, delimiter='!!'):
+def remove_columns_to_be_ignored(columnNameList, specDict, delimiter='!!'):
     retList = []
     for columnName in columnNameList:
-        if not columnToBeIgnored(columnName, specDict, delimiter):
+        if not column_to_be_ignored(columnName, specDict, delimiter):
             retList.append(columnName)
     return retList
 
-def ignoredColumns(columnNameList, specDict, delimiter='!!'):
+def ignored_columns(columnNameList, specDict, delimiter='!!'):
     retList = []
     for columnName in columnNameList:
-        if columnToBeIgnored(columnName, specDict, delimiter):
+        if column_to_be_ignored(columnName, specDict, delimiter):
             retList.append(columnName)
     return retList
 
 # assumes columnNameList does not contain columns to be ignored
-def getTokensListFromColumnList(columnNameList, delimiter='!!'):
+def get_tokens_list_from_column_list(columnNameList, delimiter='!!'):
     # tokens = set()
     tokens = []
     for columnName in columnNameList:
@@ -122,7 +122,7 @@ def getTokensListFromColumnList(columnNameList, delimiter='!!'):
     # return list(tokens)
     return tokens
 
-def getSpecTokenList(specDict, delimiter='!!'):
+def get_spec_token_list(specDict, delimiter='!!'):
     retList = []
     repeatedList = []
     # check if the token appears in any of the pvs
@@ -181,7 +181,7 @@ def getSpecTokenList(specDict, delimiter='!!'):
 
     return {'token_list':list(set(retList)), 'repeated_list':list(set(repeatedList))}
 
-def getSpecDCIDList(specDict):
+def get_spec_DCID_list(specDict):
     retList = []
     
     # check if the token appears in any of the pvs
@@ -204,16 +204,16 @@ def getSpecDCIDList(specDict):
     
     return list(set(retList))
 
-def findMissingTokens(tokenList, specDict, delimiter='!!'):
-    specTokens = getSpecTokenList(specDict, delimiter)['token_list']
+def find_missing_tokens(tokenList, specDict, delimiter='!!'):
+    specTokens = get_spec_token_list(specDict, delimiter)['token_list']
     tokensCopy = tokenList.copy()
     for token in tokenList:
-        if tokenInListIgnoreCase(token, specTokens):
+        if token_in_list_ignore_case(token, specTokens):
             tokensCopy.remove(token)
     return tokensCopy
 
 # assumes metadata file or data with overlays file
-def columnsFromCSVReader(csvReader, isMetadataFile = False):
+def columns_from_CSVreader(csvReader, isMetadataFile = False):
     columnNameList = []
     for row in csvReader:
         if isMetadataFile:
@@ -225,15 +225,15 @@ def columnsFromCSVReader(csvReader, isMetadataFile = False):
     return columnNameList
 
 # assumes metadata file or data with overlays file
-def columnsFromCSVFile(csvPath, isMetadataFile = False):
+def columns_from_CSVfile(csvPath, isMetadataFile = False):
     csvPath = os.path.expanduser(csvPath)
     csvReader = csv.reader(open(csvPath, 'r'))
-    allColumns = columnsFromCSVReader(csvReader, isMetadataFile)
+    allColumns = columns_from_CSVreader(csvReader, isMetadataFile)
 
     return allColumns
 
 # assumes metadata file or data with overlays file
-def columnsFromCSVFileList(csvPathList, isMetadata = [False]):
+def columns_from_CSVfile_list(csvPathList, isMetadata = [False]):
     allColumns = []
 
     if len(isMetadata) < len(csvPathList):
@@ -244,7 +244,7 @@ def columnsFromCSVFileList(csvPathList, isMetadata = [False]):
         # create csv reader
         curFile = os.path.expanduser(curFile)
         csvReader = csv.reader(open(curFile, 'r'))
-        curColumns = columnsFromCSVReader(csvReader, isMetadata[i])
+        curColumns = columns_from_CSVreader(csvReader, isMetadata[i])
         allColumns.extend(curColumns)
 
     allColumns = list(set(allColumns))
@@ -252,7 +252,7 @@ def columnsFromCSVFileList(csvPathList, isMetadata = [False]):
     return allColumns
 
 # assumes metadata file or data with overlays file
-def columnsFromZipFile(zipPath, checkMetadata = False):
+def columns_from_zip_file(zipPath, checkMetadata = False):
     zipPath = os.path.expanduser(zipPath)
     allColumns = []
 
@@ -268,7 +268,7 @@ def columnsFromZipFile(zipPath, checkMetadata = False):
             if tempFlag:
                 with zf.open(filename, 'r') as data_f:
                     csvReader = csv.reader(io.TextIOWrapper(data_f, 'utf-8'))
-                    curColumns = columnsFromCSVReader(csvReader, checkMetadata)
+                    curColumns = columns_from_CSVreader(csvReader, checkMetadata)
                     allColumns.extend(curColumns)
 
     allColumns = list(set(allColumns))
@@ -276,7 +276,7 @@ def columnsFromZipFile(zipPath, checkMetadata = False):
     return allColumns
 
 
-def getSpecDictFromPath(specPath):
+def get_spec_dict_from_path(specPath):
     specPath = os.path.expanduser(specPath)
     with open(specPath, 'r') as fp:
         specDict = json.load(fp)
@@ -288,37 +288,37 @@ def main(argv):
             print('ERROR: Path to spec JSON required to ignore columns')
             return
     else:
-        spec_dict = getSpecDictFromPath(FLAGS.spec_path)
+        spec_dict = get_spec_dict_from_path(FLAGS.spec_path)
 
     all_columns = []
     print_columns = []
     if FLAGS.zip_path:
-        all_columns = columnsFromZipFile(FLAGS.zip_path, FLAGS.is_metadata)
+        all_columns = columns_from_zip_file(FLAGS.zip_path, FLAGS.is_metadata)
         if FLAGS.ignore_columns:
-            print_columns = removeColumnsToBeIgnored(all_columns, spec_dict, FLAGS.delimiter)
+            print_columns = remove_columns_to_be_ignored(all_columns, spec_dict, FLAGS.delimiter)
         else:
             print_columns = all_columns
     elif FLAGS.csv_path:
-        all_columns = columnsFromCSVFile(FLAGS.csv_path, FLAGS.is_metadata)
+        all_columns = columns_from_CSVfile(FLAGS.csv_path, FLAGS.is_metadata)
         if FLAGS.ignore_columns:
-            print_columns = removeColumnsToBeIgnored(all_columns, spec_dict, FLAGS.delimiter)
+            print_columns = remove_columns_to_be_ignored(all_columns, spec_dict, FLAGS.delimiter)
         else:
             print_columns = all_columns
     elif FLAGS.csv_path_list:
-        all_columns = columnsFromCSVFileList(FLAGS.csv_path_list, [FLAGS.is_metadata])
+        all_columns = columns_from_CSVfile_list(FLAGS.csv_path_list, [FLAGS.is_metadata])
         if FLAGS.ignore_columns:
-            print_columns = removeColumnsToBeIgnored(all_columns, spec_dict, FLAGS.delimiter)
+            print_columns = remove_columns_to_be_ignored(all_columns, spec_dict, FLAGS.delimiter)
         else:
             print_columns = all_columns
 
     if FLAGS.get_tokens:
-        print(json.dumps(getTokensListFromColumnList(print_columns, FLAGS.delimiter), indent=2))
+        print(json.dumps(get_tokens_list_from_column_list(print_columns, FLAGS.delimiter), indent=2))
 
     if FLAGS.get_columns:
         print(json.dumps(print_columns, indent=2))
 
     if FLAGS.get_ignored_columns:
-        print(json.dumps(list(set(ignoredColumns(all_columns, spec_dict, FLAGS.delimiter))), indent=2))
+        print(json.dumps(list(set(ignored_columns(all_columns, spec_dict, FLAGS.delimiter))), indent=2))
 
 if __name__ == '__main__':
     flags.mark_flags_as_mutual_exclusive(['zip_path', 'csv_path', 'csv_path_list'], required=True)

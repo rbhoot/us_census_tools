@@ -21,10 +21,10 @@ def check_column_map(column_map_path, column_list_path, spec_path, output_path='
 	column_year_list = json.load(open(column_list_path, 'r'))
 
 	spec_path = os.path.expanduser(spec_path)
-	spec_dict = getSpecDictFromPath(spec_path)
+	spec_dict = get_spec_dict_from_path(spec_path)
 
 	for year in column_year_list:
-		temp_list = removeColumnsToBeIgnored(column_year_list[year], spec_dict, delimiter)
+		temp_list = remove_columns_to_be_ignored(column_year_list[year], spec_dict, delimiter)
 		column_year_list[year] = temp_list.copy()
 
 	stat_dir = {}

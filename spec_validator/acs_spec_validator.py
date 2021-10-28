@@ -27,9 +27,9 @@ flags.DEFINE_string('column_list_path', None, 'Path of json file containing list
 def findExtraTokens(columnNameList, specDict, delimiter='!!'):
 	retList = []
 	# get list of unique tokens across all columns 
-	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+	tokenList = get_tokens_list_from_column_list(columnNameList, delimiter)
 	
-	retList = getSpecTokenList(specDict, delimiter)['token_list']
+	retList = get_spec_token_list(specDict, delimiter)['token_list']
 	
 	tokensCopy = retList.copy()
 	
@@ -37,7 +37,7 @@ def findExtraTokens(columnNameList, specDict, delimiter='!!'):
 	for token in tokensCopy:
 		if token.startswith('_'):
 			retList.remove(token)
-		elif tokenInListIgnoreCase(token, tokenList):
+		elif token_in_list_ignore_case(token, tokenList):
 			retList.remove(token)
 		if delimiter in token:
 			if token in columnNameList:
@@ -54,7 +54,7 @@ def findColumnsWithNoProperties(columnNameList, specDict, delimiter='!!'):
 		# get token list of the column
 		for token in columnName.split(delimiter):
 			for prop in specDict['pvs'].keys():
-				if tokenInListIgnoreCase(token, specDict['pvs'][prop].keys()):
+				if token_in_list_ignore_case(token, specDict['pvs'][prop].keys()):
 					# clear the flag when some property gets assigned a value
 					noPropFlag = False
 		# if the flag has remained set across all properties
@@ -71,7 +71,7 @@ def findIgnoreConflicts(specDict, delimiter='!!'):
 	newDict.pop('ignoreColumns', None)
 	newDict.pop('ignoreTokens', None)
 
-	specTokens = getSpecTokenList(newDict, delimiter)['token_list']
+	specTokens = get_spec_token_list(newDict, delimiter)['token_list']
 
 	if 'ignoreColumns' in specDict:
 		for ignoreToken in specDict['ignoreColumns']:
@@ -95,7 +95,7 @@ def findMissingEnumSpecialisation(columnNameList, specDict, delimiter='!!'):
 		# populate a dictionary containing properties and all the values assigned to it
 		for token in columnName.split(delimiter):
 			for prop in specDict['pvs'].keys():
-				if tokenInListIgnoreCase(token, specDict['pvs'][prop].keys()):
+				if token_in_list_ignore_case(token, specDict['pvs'][prop].keys()):
 					if prop in tempDict:
 						tempDict[prop].append(token)
 					else:
@@ -110,7 +110,7 @@ def findMissingEnumSpecialisation(columnNameList, specDict, delimiter='!!'):
 					tempFlag = True
 					# if token appears as a specialisation but it's base doesn't appear before it
 					if 'enumSpecializations' in specDict:
-						if tokenInListIgnoreCase(propToken, specDict['enumSpecializations']):
+						if token_in_list_ignore_case(propToken, specDict['enumSpecializations']):
 							tempFlag = False
 							if specDict['enumSpecializations'][propToken] not in tempDict[prop][:j]:
 								if propToken not in retDict:
@@ -170,21 +170,21 @@ def findMultiplePopulation(columnNameList, specDict, delimiter = '!!'):
 def findMissingDenominatorTotalColumn(columnNameList, specDict, delimiter = '!!'):
 	retList = []
 	
-	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+	tokenList = get_tokens_list_from_column_list(columnNameList, delimiter)
 
 	if 'denominators' in specDict:
 		for totalColumn in specDict['denominators'].keys():
 			if delimiter in totalColumn:
 				if totalColumn not in columnNameList:
 					retList.append(totalColumn)
-			elif not tokenInListIgnoreCase(totalColumn, tokenList):
+			elif not token_in_list_ignore_case(totalColumn, tokenList):
 				retList.append(totalColumn)
 	return retList
 
 def findMissingDenominators(columnNameList, specDict, delimiter = '!!'):
 	retList = []
 	
-	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+	tokenList = get_tokens_list_from_column_list(columnNameList, delimiter)
 
 	if 'denominators' in specDict:
 		for totalColumn in specDict['denominators'].keys():
@@ -192,7 +192,7 @@ def findMissingDenominators(columnNameList, specDict, delimiter = '!!'):
 				if delimiter in curDenominator:
 					if curDenominator not in columnNameList:
 						retList.append(curDenominator)
-				elif not tokenInListIgnoreCase(curDenominator, tokenList):
+				elif not token_in_list_ignore_case(curDenominator, tokenList):
 					retList.append(curDenominator)
 	return retList
 
@@ -200,12 +200,12 @@ def findRepeatingDenominators(columnNameList, specDict, delimiter = '!!'):
 	retList = []
 	appearedList = []
 
-	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+	tokenList = get_tokens_list_from_column_list(columnNameList, delimiter)
 
 	if 'denominators' in specDict:
 		for totalColumn in specDict['denominators'].keys():
 			for curDenominator in specDict['denominators'][totalColumn]:
-				if tokenInListIgnoreCase(curDenominator, appearedList):
+				if token_in_list_ignore_case(curDenominator, appearedList):
 					retList.append(curDenominator)
 				else:
 					appearedList.append(curDenominator)
@@ -219,12 +219,12 @@ def testColumnNameList(columnNameList, specDict, test_list=['all'], raiseWarning
 	retDict = {}
 
 	# remove ignore columns
-	columnNameList = removeColumnsToBeIgnored(columnNameList, specDict, delimiter)
+	columnNameList = remove_columns_to_be_ignored(columnNameList, specDict, delimiter)
 	
-	tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+	tokenList = get_tokens_list_from_column_list(columnNameList, delimiter)
 	
 	if 'all' in test_list or 'missing_tokens' in test_list:
-		tempList = findMissingTokens(tokenList, specDict)
+		tempList = find_missing_tokens(tokenList, specDict)
 		retDict['missing_tokens'] = []
 		if len(tempList) > 0:
 			print("\nWarning: Following tokens are missing in the spec")
@@ -359,7 +359,7 @@ def testSpec(columnNameList, specDict, test_list=['all'], delimiter='!!'):
 		else:
 			print("No extra tokens in spec")
 
-		tempList = getSpecTokenList(specDict, delimiter)['repeated_list']
+		tempList = get_spec_token_list(specDict, delimiter)['repeated_list']
 		retDict['repeat_tokens'] = tempList
 		if len(tempList) > 0:
 			print("\nWarning: Following tokens appear in the spec multiple times")
@@ -386,9 +386,9 @@ def runTestsColumnDict(columnsDict, specDict, test_list=['all'], outputPath='../
 	for filename in columnsDict:
 		if filename != 'all':
 			curColumns = columnsDict[filename]['column_list']
-			columnsDict[filename]['ignored_column_list'] = ignoredColumns(curColumns, specDict, delimiter)
-			columnsDict[filename]['accepted_column_list'] = removeColumnsToBeIgnored(curColumns, specDict, delimiter)
-			columnsDict[filename]['accepted_token_list'] = getTokensListFromColumnList(columnsDict[filename]['accepted_column_list'], delimiter)
+			columnsDict[filename]['ignored_column_list'] = ignored_columns(curColumns, specDict, delimiter)
+			columnsDict[filename]['accepted_column_list'] = remove_columns_to_be_ignored(curColumns, specDict, delimiter)
+			columnsDict[filename]['accepted_token_list'] = get_tokens_list_from_column_list(columnsDict[filename]['accepted_column_list'], delimiter)
 			columnsDict[filename]['column_list_count'] = len(curColumns)
 			columnsDict[filename]['ignored_column_count'] = len(columnsDict[filename]['ignored_column_list'])
 			columnsDict[filename]['accepted_column_count'] = len(columnsDict[filename]['accepted_column_list'])
@@ -411,9 +411,9 @@ def runTestsColumnDict(columnsDict, specDict, test_list=['all'], outputPath='../
 	testResults['all'].update(testSpec(allColumns, specDict, test_list, delimiter))
 
 	
-	columnsDict['all']['ignored_column_list'] = ignoredColumns(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_column_list'] = removeColumnsToBeIgnored(allColumns, specDict, delimiter)
-	columnsDict['all']['accepted_token_list'] = getTokensListFromColumnList(columnsDict['all']['accepted_column_list'], delimiter)
+	columnsDict['all']['ignored_column_list'] = ignored_columns(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_column_list'] = remove_columns_to_be_ignored(allColumns, specDict, delimiter)
+	columnsDict['all']['accepted_token_list'] = get_tokens_list_from_column_list(columnsDict['all']['accepted_column_list'], delimiter)
 	columnsDict['all']['column_list_count'] = len(allColumns)
 	columnsDict['all']['ignored_column_count'] = len(columnsDict['all']['ignored_column_list'])
 	columnsDict['all']['accepted_column_count'] = len(columnsDict['all']['accepted_column_list'])
@@ -441,7 +441,7 @@ def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='../out
 		os.makedirs(outputPath, exist_ok=True)
 
 	# read json spec
-	specDict = getSpecDictFromPath(specPath)
+	specDict = get_spec_dict_from_path(specPath)
 	allColumns = []
 
 	columnsDict = {}
@@ -460,7 +460,7 @@ def testCSVFileList(csvPathList, specPath, test_list=['all'], outputPath='../out
 		filename = os.path.expanduser(filename)
 		# create csv reader
 		csvReader = csv.reader(open(filename, 'r'))
-		curColumns = columnsFromCSVReader(csvReader, isMetadata[i])
+		curColumns = columns_from_CSVreader(csvReader, isMetadata[i])
 		allColumns.extend(curColumns)
 
 		columnsDict[filename] = {}
@@ -483,7 +483,7 @@ def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='../out
 		os.makedirs(outputPath, exist_ok=True)
 
 	# read json spec
-	specDict = getSpecDictFromPath(specPath)
+	specDict = get_spec_dict_from_path(specPath)
 	allColumns = []
 
 	columnsDict = {}
@@ -505,7 +505,7 @@ def testZipFileList(zipPathList, specPath, test_list=['all'], outputPath='../out
 				if tempFlag:
 					with zf.open(filename, 'r') as data_f:
 						csvReader = csv.reader(io.TextIOWrapper(data_f, 'utf-8'))
-						curColumns = columnsFromCSVReader(csvReader, False)
+						curColumns = columns_from_CSVreader(csvReader, False)
 						allColumns.extend(curColumns)
 						
 						columnsDict[filename] = {}
@@ -528,7 +528,7 @@ def testColumnList(columnListPath, specPath, test_list=['all'], outputPath='../o
 		os.makedirs(outputPath, exist_ok=True)
 
 	# read json spec
-	specDict = getSpecDictFromPath(specPath)
+	specDict = get_spec_dict_from_path(specPath)
 	allColumns = json.load(open(columnListPath, 'r'))
 
 	columnsDict = {}

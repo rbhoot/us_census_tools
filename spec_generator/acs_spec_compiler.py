@@ -10,9 +10,9 @@ from absl import flags
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
 
-from common_utils.common_util import getTokensListFromZip, columnsFromZipFile, tokenInListIgnoreCase, getTokensListFromColumnList
+from common_utils.common_util import get_tokens_list_from_zip, columns_from_zip_file, token_in_list_ignore_case, get_tokens_list_from_column_list
 from dc_api_tools.dc_utils import fetch_dcid_properties_enums
-from spec_validator.acs_spec_validator import findColumnsWithNoProperties, findMissingTokens
+from spec_validator.acs_spec_validator import findColumnsWithNoProperties, find_missing_tokens
 
 FLAGS = flags.FLAGS
 
@@ -174,7 +174,7 @@ def columns_from_zip_list(zip_path_list, checkMetadata=False):
 	all_columns = []
 	for zip_path in zip_path_list:
 		zip_path = os.path.expanduser(zip_path)
-		all_columns.extend(columnsFromZipFile(zip_path, checkMetadata=checkMetadata))
+		all_columns.extend(columns_from_zip_file(zip_path, checkMetadata=checkMetadata))
 	all_columns = list(set(all_columns))
 	return all_columns
 
@@ -184,7 +184,7 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 	if not os.path.exists(output_path):
 		os.makedirs(output_path, exist_ok=True)
 
-	all_tokens = getTokensListFromColumnList(all_columns, delimiter)
+	all_tokens = get_tokens_list_from_column_list(all_columns, delimiter)
 
 	out_spec = {}
 	# assign expected_population[0] to default if present
@@ -212,10 +212,10 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 	for population_token in union_spec['populationType']:
 		if  population_token.startswith('_'):
 			out_spec['populationType'][population_token] = union_spec['populationType'][population_token]
-		elif tokenInListIgnoreCase(population_token, all_tokens):
+		elif token_in_list_ignore_case(population_token, all_tokens):
 			out_spec['populationType'][population_token] = union_spec['populationType'][population_token]
 		elif 'XXXXX' in population_token:
-			if tokenInListIgnoreCase(population_token[:population_token.find('XXXXX')-1], all_tokens):
+			if token_in_list_ignore_case(population_token[:population_token.find('XXXXX')-1], all_tokens):
 				out_spec['populationType'][population_token] = union_spec['populationType'][population_token]
 		else:
 			discarded_spec['populationType'][population_token] = union_spec['populationType'][population_token]
@@ -233,30 +233,30 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 	for measurement_token in union_spec['measurement']:
 		if  measurement_token.startswith('_'):
 			out_spec['measurement'][measurement_token] = union_spec['measurement'][measurement_token]
-		elif tokenInListIgnoreCase(measurement_token, all_tokens):
+		elif token_in_list_ignore_case(measurement_token, all_tokens):
 			out_spec['measurement'][measurement_token] = union_spec['measurement'][measurement_token]
 		elif measurement_token in all_columns:
 			out_spec['measurement'][measurement_token] = union_spec['measurement'][measurement_token]
 		elif 'XXXXX' in measurement_token:
-			if tokenInListIgnoreCase(measurement_token[:measurement_token.find('XXXXX')-1], all_tokens):
+			if token_in_list_ignore_case(measurement_token[:measurement_token.find('XXXXX')-1], all_tokens):
 				out_spec['measurement'][measurement_token] = union_spec['measurement'][measurement_token]
 		else:
 			discarded_spec['measurement'][measurement_token] = union_spec['measurement'][measurement_token]
 
 	for enum_token in union_spec['enumSpecializations']:
-		if tokenInListIgnoreCase(enum_token, all_tokens):
+		if token_in_list_ignore_case(enum_token, all_tokens):
 			out_spec['enumSpecializations'][enum_token] = union_spec['enumSpecializations'][enum_token]
 		else:
 			discarded_spec['enumSpecializations'][enum_token] = union_spec['enumSpecializations'][enum_token]
 
 	for prop in union_spec['pvs']:
 		for property_token in union_spec['pvs'][prop]:
-			if tokenInListIgnoreCase(property_token, all_tokens):
+			if token_in_list_ignore_case(property_token, all_tokens):
 				if prop not in out_spec['pvs']:
 					out_spec['pvs'][prop] = {}
 				out_spec['pvs'][prop][property_token] = union_spec['pvs'][prop][property_token]
 			elif 'XXXXX' in property_token:
-				if tokenInListIgnoreCase(property_token[:property_token.find('XXXXX')-1], all_tokens):
+				if token_in_list_ignore_case(property_token[:property_token.find('XXXXX')-1], all_tokens):
 					out_spec['pvs'][prop][property_token] = union_spec['pvs'][prop][property_token]
 			else:
 				if prop not in discarded_spec['pvs']:
@@ -287,7 +287,7 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 
 	# ignoreColumns
 	for token_name in union_spec['ignoreColumns']:
-		if tokenInListIgnoreCase(token_name, all_tokens) or token_name in all_columns:
+		if token_in_list_ignore_case(token_name, all_tokens) or token_name in all_columns:
 			if token_name not in out_spec['ignoreColumns XXXXX']:
 				out_spec['ignoreColumns XXXXX'].append(token_name)
 		else:
@@ -295,7 +295,7 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 
 	# ignoreTokens
 	for token_name in union_spec['ignoreTokens']:
-		if tokenInListIgnoreCase(token_name, all_tokens) or token_name in all_columns:
+		if token_in_list_ignore_case(token_name, all_tokens) or token_name in all_columns:
 			if token_name not in out_spec['ignoreTokens XXXXX']:
 				out_spec['ignoreTokens XXXXX'].append(token_name)
 		else:
@@ -334,7 +334,7 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 	print('---------------------')
 	print('missing tokens')
 	print('---------------------')
-	missing_tokens = findMissingTokens(all_tokens, out_spec)
+	missing_tokens = find_missing_tokens(all_tokens, out_spec)
 	print(json.dumps(missing_tokens, indent=2))
 
 	# ?TODO check properties appearing in both specs 
