@@ -89,7 +89,7 @@ def columnToBeIgnored(columnName, specDict, delimiter='!!'):
     retValue = False
     if 'ignoreColumns' in specDict:
         for ignoreToken in specDict['ignoreColumns']:
-            if delimiter in ignoreToken and ignoreToken == columnName:
+            if delimiter in ignoreToken and set(ignoreToken.split(delimiter)).issubset(columnName.split(delimiter)):
                 retValue = True
             elif tokenInListIgnoreCase(ignoreToken, columnName.split(delimiter)):
                 retValue = True
