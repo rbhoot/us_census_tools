@@ -12,7 +12,7 @@ sys.path.append(os.path.join(module_dir_, '..'))
 
 from common_utils.common_util import get_tokens_list_from_zip, columns_from_zip_file, token_in_list_ignore_case, get_tokens_list_from_column_list
 from dc_api_tools.dc_utils import fetch_dcid_properties_enums
-from spec_validator.acs_spec_validator import findColumnsWithNoProperties, find_missing_tokens
+from spec_validator.acs_spec_validator import find_columns_with_no_properties, find_missing_tokens
 
 FLAGS = flags.FLAGS
 
@@ -323,7 +323,7 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 	# TODO householder race also appears because of race related tokens
 
 	# print columns with no pv assignment
-	columns_missing_pv = findColumnsWithNoProperties(all_columns, out_spec)
+	columns_missing_pv = find_columns_with_no_properties(all_columns, out_spec)
 	columns_missing_pv = list(set(columns_missing_pv))
 	# print('---------------------')
 	# print('columns missing pv')
