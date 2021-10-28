@@ -60,13 +60,23 @@ def create_combined_spec(all_specs):
 					if population_token not in out_spec['populationType']:
 						out_spec['populationType'][population_token] = cur_spec['populationType'][population_token]
 					elif out_spec['populationType'][population_token] != cur_spec['populationType'][population_token]:
-						print("Error:", population_token, "already assigned to population", out_spec['populationType'][population_token], "new value:", cur_spec['populationType'][population_token])
+						new_token = population_token+' XXXXX'
+						temp_flag = True
+						i = 2
+						while new_token in out_spec['populationType']:
+							if out_spec['populationType'][new_token] == cur_spec['populationType'][population_token]:
+								temp_flag = False
+							new_token += str(i)
+							i += 1
+						if temp_flag:
+							out_spec['populationType'][new_token] = cur_spec['populationType'][population_token]
+					# elif out_spec['populationType'][population_token] != cur_spec['populationType'][population_token]:
+					# 	print("Error:", population_token, "already assigned to population", out_spec['populationType'][population_token], "new value:", cur_spec['populationType'][population_token])
 		
 		out_spec['measurement']['_DEFAULT'] = {
 		            "measuredProperty": "count XXXXX",
 		            "statType": "measuredValue"
 		        }
-		# TODO this might have potential conflicts that need to be merged
 		if 'measurement' in cur_spec:
 			for measurement_token in cur_spec['measurement']:
 				if not measurement_token.startswith('_'):
@@ -74,7 +84,18 @@ def create_combined_spec(all_specs):
 						out_spec['measurement'][measurement_token] = {}
 						out_spec['measurement'][measurement_token].update(cur_spec['measurement'][measurement_token])
 					elif out_spec['measurement'][measurement_token] != cur_spec['measurement'][measurement_token]:
-						print("Error:", measurement_token, "already assigned to measurement", out_spec['measurement'][measurement_token], "new value:", cur_spec['measurement'][measurement_token])
+						new_token = measurement_token+' XXXXX'
+						temp_flag = True
+						i = 2
+						while new_token in out_spec['measurement']:
+							if out_spec['measurement'][new_token] == cur_spec['measurement'][measurement_token]:
+								temp_flag = False
+							new_token += str(i)
+							i += 1
+						if temp_flag:
+							out_spec['measurement'][new_token] = cur_spec['measurement'][measurement_token]
+					# elif out_spec['measurement'][measurement_token] != cur_spec['measurement'][measurement_token]:
+					# 	print("Error:", measurement_token, "already assigned to measurement", out_spec['measurement'][measurement_token], "new value:", cur_spec['measurement'][measurement_token])
 
 		if 'enumSpecializations' in cur_spec:
 			for enum_token in cur_spec['enumSpecializations']:
@@ -91,9 +112,19 @@ def create_combined_spec(all_specs):
 				if property_token not in out_spec['pvs'][property_name]:
 					out_spec['pvs'][property_name][property_token] = cur_spec['pvs'][property_name][property_token]
 				elif out_spec['pvs'][property_name][property_token] != cur_spec['pvs'][property_name][property_token]:
-					print("Error:", property_token, "already assigned to pv", out_spec['pvs'][property_name][property_token], "new value:", cur_spec['pvs'][property_name][property_token])
+					new_token = property_token+' XXXXX'
+					temp_flag = True
+					i = 2
+					while new_token in out_spec['pvs'][property_name]:
+						if out_spec['pvs'][property_name][new_token] == cur_spec['pvs'][property_name][property_token]:
+							temp_flag = False
+						new_token += str(i)
+						i += 1
+					if temp_flag:
+						out_spec['pvs'][property_name][new_token] = cur_spec['pvs'][property_name][property_token]
+				# elif out_spec['pvs'][property_name][property_token] != cur_spec['pvs'][property_name][property_token]:
+				# 	print("Error:", property_token, "already assigned to pv", out_spec['pvs'][property_name][property_token], "new value:", cur_spec['pvs'][property_name][property_token])
 
-		# TODO this might have potential conflicts that need to be merged
 		if 'inferredSpec' in cur_spec:
 			for property_name in cur_spec['inferredSpec']:
 				if property_name not in out_spec['inferredSpec']:
@@ -105,7 +136,18 @@ def create_combined_spec(all_specs):
 						if dependent_prop not in out_spec['inferredSpec'][property_name]:
 							out_spec['inferredSpec'][property_name][dependent_prop] = cur_spec['inferredSpec'][property_name][dependent_prop]
 						elif out_spec['inferredSpec'][property_name][dependent_prop] != cur_spec['inferredSpec'][property_name][dependent_prop]:
-							print("Error:", dependent_prop, "already assigned to", property_name, out_spec['inferredSpec'][property_name][dependent_prop], "new value:", cur_spec['inferredSpec'][property_name][dependent_prop])
+							new_token = dependent_prop+' XXXXX'
+							temp_flag = True
+							i = 2
+							while new_token in out_spec['inferredSpec'][property_name]:
+								if out_spec['inferredSpec'][property_name][new_token] == cur_spec['inferredSpec'][property_name][dependent_prop]:
+									temp_flag = False
+								new_token += str(i)
+								i += 1
+							if temp_flag:
+								out_spec['inferredSpec'][property_name][new_token] = cur_spec['inferredSpec'][property_name][dependent_prop]
+						# elif out_spec['inferredSpec'][property_name][dependent_prop] != cur_spec['inferredSpec'][property_name][dependent_prop]:
+						# 	print("Error:", dependent_prop, "already assigned to", property_name, out_spec['inferredSpec'][property_name][dependent_prop], "new value:", cur_spec['inferredSpec'][property_name][dependent_prop])
 		
 		# add universePVs
 		if 'universePVs' in cur_spec:
@@ -172,6 +214,9 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 			out_spec['populationType'][population_token] = union_spec['populationType'][population_token]
 		elif tokenInListIgnoreCase(population_token, all_tokens):
 			out_spec['populationType'][population_token] = union_spec['populationType'][population_token]
+		elif 'XXXXX' in population_token:
+			if tokenInListIgnoreCase(population_token[:population_token.find('XXXXX')-1], all_tokens):
+				out_spec['populationType'][population_token] = union_spec['populationType'][population_token]
 		else:
 			discarded_spec['populationType'][population_token] = union_spec['populationType'][population_token]
 	
@@ -192,6 +237,9 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 			out_spec['measurement'][measurement_token] = union_spec['measurement'][measurement_token]
 		elif measurement_token in all_columns:
 			out_spec['measurement'][measurement_token] = union_spec['measurement'][measurement_token]
+		elif 'XXXXX' in measurement_token:
+			if tokenInListIgnoreCase(measurement_token[:measurement_token.find('XXXXX')-1], all_tokens):
+				out_spec['measurement'][measurement_token] = union_spec['measurement'][measurement_token]
 		else:
 			discarded_spec['measurement'][measurement_token] = union_spec['measurement'][measurement_token]
 
@@ -207,6 +255,9 @@ def create_new_spec(all_columns, union_spec, expected_populations=['Person'], ex
 				if prop not in out_spec['pvs']:
 					out_spec['pvs'][prop] = {}
 				out_spec['pvs'][prop][property_token] = union_spec['pvs'][prop][property_token]
+			elif 'XXXXX' in property_token:
+				if tokenInListIgnoreCase(property_token[:property_token.find('XXXXX')-1], all_tokens):
+					out_spec['pvs'][prop][property_token] = union_spec['pvs'][prop][property_token]
 			else:
 				if prop not in discarded_spec['pvs']:
 					discarded_spec['pvs'][prop] = {}
