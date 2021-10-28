@@ -111,5 +111,5 @@ def get_column_list_years(link_tree, group_id, year_list, config_path=config_pat
 
 # available geos (linktree, year)
 
-get_column_list_all('acs/acs5/subject', 's1810')
+# get_column_list_all('acs/acs5/subject', 's1810')
 # get_column_list_years('acs/acs5/subject', 's1810', list(range(2010, 2019)))

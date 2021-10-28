@@ -271,15 +271,8 @@ def fetch_linktree_config_cache(param, store_path=config_path_, force_fetch=Fals
 						url_list[temp_url]['output_path'] = file_name
 						url_list[temp_url]['status'] = 'failed'
 
-	for cur_url in url_list:
-		if os.path.isfile(os.path.join(url_list[cur_url]['output_path'])):
-			url_list[cur_url]['status'] = 'saved'
-		elif 'status' not in url_list[cur_url]:
-			url_list[cur_url]['status'] = 'failed'
-		if force_fetch:
-			url_list[cur_url]['status'] = 'failed'
+	url_list = url_list_check_downloaded(url_list, force_fetch)
 	
-	# TODO store in file
 	status_file = os.path.join(cache_path, f'{param}_cache_status.json')
 	
 	with open(status_file, 'w') as fp:

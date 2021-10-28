@@ -4,7 +4,16 @@ import json
 import time
 import random
 
-# TODO update status of existing files
+def url_list_check_downloaded(url_list, force_fetch=False):
+	for cur_url in url_list:
+		if os.path.isfile(os.path.join(url_list[cur_url]['output_path'])):
+			url_list[cur_url]['status'] = 'saved'
+		elif 'status' not in url_list[cur_url]:
+			url_list[cur_url]['status'] = 'failed'
+		if force_fetch:
+			url_list[cur_url]['status'] = 'failed'
+
+	return url_list
 
 def dowload_url_list_parallel(status_file, chunk_size = 30, chunk_delay_s = 1):
 	
