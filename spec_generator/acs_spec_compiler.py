@@ -170,11 +170,11 @@ def create_combined_spec(all_specs):
 
 	return out_spec
 
-def columns_from_zip_list(zip_path_list, checkMetadata=False):
+def columns_from_zip_list(zip_path_list, check_metadata=False):
 	all_columns = []
 	for zip_path in zip_path_list:
 		zip_path = os.path.expanduser(zip_path)
-		all_columns.extend(columns_from_zip_file(zip_path, checkMetadata=checkMetadata))
+		all_columns.extend(columns_from_zip_file(zip_path, check_metadata=check_metadata))
 	all_columns = list(set(all_columns))
 	return all_columns
 
