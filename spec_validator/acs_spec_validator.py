@@ -17,7 +17,7 @@ from common_utils.common_util import *
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string('validator_output_path', '../output/', 'Path to store the output files')
-flags.DEFINE_multi_enum('tests', ['all'], ['all', 'extra_tokens', 'missing_tokens', 'column_no_pv', 'ignore_conflicts', 'enum_specialialisations', 'denominators', 'extra_inferred'], 'List of tests to run')
+flags.DEFINE_multi_enum('tests', ['all'], ['all', 'extra_tokens', 'missing_tokens', 'column_no_pv', 'ignore_conflicts', 'enum_specialialisations', 'denominators', 'extra_inferred', 'multiple_measurement', 'multiple_population'], 'List of tests to run')
 flags.DEFINE_list('zip_path_list', None, 'List of paths to zip files downloaded from US Census')
 flags.DEFINE_string('column_list_path', None, 'Path of json file containing list of all columns')
 
@@ -134,6 +134,36 @@ def findMissingEnumSpecialisation(columnNameList, specDict, delimiter='!!'):
 		retDict[propToken]['possibleParents'] = list(set(retDict[propToken]['possibleParents']))
 
 	return retDict
+
+def findMultipleMeasurement(columnNameList, specDict, delimiter = '!!'):
+	retList = []
+	
+	# tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+	for columnName in columnNameList:
+		if 'measurement' in specDict:
+			tempFlag = False
+			for token in columnName.split(delimiter):
+				if token in specDict['measurement']:
+					if tempFlag:
+						retList.append(columnName)
+					tempFlag = True
+	return retList
+
+def findMultiplePopulation(columnNameList, specDict, delimiter = '!!'):
+	retList = []
+	
+	# tokenList = getTokensListFromColumnList(columnNameList, delimiter)
+	for columnName in columnNameList:
+		if 'populationType' in specDict:
+			tempFlag = False
+			for token in columnName.split(delimiter):
+				if token in specDict['populationType']:
+					if tempFlag and curPopulation != specDict['populationType'][token]:
+						retList.append(columnName)
+					else:
+						curPopulation = specDict['populationType'][token]
+					tempFlag = True
+	return retList
 
 # check if all the columns that appear as total exist
 # assumes columnNameList does not contain columns to be ignored
@@ -278,6 +308,33 @@ def testColumnNameList(columnNameList, specDict, test_list=['all'], raiseWarning
 			retDict['repeating_denominator'] = tempList
 		else:
 			print("No denominators were repeated")
+	if 'all' in test_list or 'multiple_measurement' in test_list:
+		tempList = findMultipleMeasurement(columnNameList, specDict, delimiter)
+		retDict['multiple_measurement'] = []
+		if len(tempList) > 0:
+			if raiseWarningsOnly:
+				print("\nWarning: Following columns assigned multiple measurements")
+			else:
+				print("\nError: Following columns assigned multiple measurements")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+			retDict['multiple_measurement'] = tempList
+		else:
+			print("No multiple measurements found")
+
+	if 'all' in test_list or 'multiple_population' in test_list:
+		tempList = findMultiplePopulation(columnNameList, specDict, delimiter)
+		retDict['multiple_population'] = []
+		if len(tempList) > 0:
+			if raiseWarningsOnly:
+				print("\nWarning: Following columns assigned multiple population")
+			else:
+				print("\nError: Following columns assigned multiple population")
+			tempList = list(set(tempList))
+			print(json.dumps(tempList, indent=2))
+			retDict['multiple_population'] = tempList
+		else:
+			print("No multiple population found")
 
 	return retDict
 
