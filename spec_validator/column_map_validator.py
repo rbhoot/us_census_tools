@@ -80,21 +80,31 @@ def check_column_map(column_map_path,
     for dcid in dcid_list:
       if len(dcid_list[dcid]) > 1:
         stat_dir[year]['repeated_dcids'].update({dcid: dcid_list[dcid]})
+    
+    if stat_dir[year]['repeated_dcids']:
+      print('Found some repeated dcids for year', year, ', please check output file')
+    else:
+      print('No repeated dcids for year', year)
 
     # missing columns in output
     missing_columns = list(
         set(column_year_list[year]) - set(cur_column_list[year]))
 
     if len(missing_columns) > 0:
+      print('Found some columns missing for year', year, ', please check output file')
       stat_dir[year]['missing_columns'] = missing_columns
+    else:
+      print('No missing columns for year', year)
 
     # column should have been ignored
     extra_columns = list(
         set(cur_column_list[year]) - set(column_year_list[year]))
 
     if len(extra_columns) > 0:
+      print('Found some extra columns for year', year, ', please check output file')
       stat_dir[year]['extra_columns'] = extra_columns
-    # TODO print(json.dumps(list(set(dcid_list_all['2012'])-set(dcid_list_all['2019'])), indent=2))
+    else:
+      print('No extra columns for year', year)
 
   cur_column_list['all'] = list(set(cur_column_list['all']))
   dcid_list_all['all'] = list(set(dcid_list_all['all']))
@@ -145,10 +155,16 @@ def check_column_map(column_map_path,
   for dcid in dcid_year_list:
     if sorted(dcid_year_list[dcid]) != year_list:
       stat_dir['dcid_series_holes'][dcid] = dcid_year_list[dcid]
+  
+  if stat_dir['dcid_series_holes']:
+    print('Found some dcids missing for some years, please check the output file')
+  else:
+    print('All dcids found across all years')
 
+  print('Writing output file at', output_path)
   json.dump(
       stat_dir,
-      open(os.path.join(table_dir + 'validation_column_map.json'), 'w'),
+      open(os.path.join(output_path + 'validation_column_map.json'), 'w'),
       indent=2)
   # print(json.dumps(stat_dir, indent=2))
 
