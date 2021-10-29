@@ -7,7 +7,13 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('csv_path', None, 'Path to the input csv')
 flags.DEFINE_string('column_tag', 'Quantity',
                     'Column name of the column with values to be checked')
-
+flags.DEFINE_string('geo_tag', 'Place',
+                    'Column name of the column with geo ids')
+flags.DEFINE_string('statvar_tag', 'StatVar',
+                    'Column name of the column with StatVar id')
+flags.DEFINE_multi_enum('data_tests', ['all'], [
+    'all', 'open_distributions', 'possible_percentage'
+], 'List of tests to run')
 
 def fix_open_distributions_in_observation_csv(argv):
   """
@@ -40,7 +46,46 @@ def fix_open_distributions_in_observation_csv(argv):
         csv_writer.writerow(row)
         # print(row[3])
 
+def detect_percentages_in_observation_csv(argv):
+  """
+        Function to detect percentage values in the StatVarObservation values
+        """
+
+  csv_path = os.path.abspath(os.path.expanduser(FLAGS.csv_path))
+  log_csv_path = csv_path.replace('.csv', '_possible_percentages.csv')
+
+  csv_reader = csv.reader(open(csv_path, 'r'))
+  log_csv_writer = csv.writer(open(log_csv_path, 'w'))
+
+  column_index = 3
+  geo_index = 1
+  statvar_index = 2
+
+  ignore_stat_str = ['Mean', 'Median']
+
+  for row in csv_reader:
+    if csv_reader.line_num == 1:
+      log_csv_writer.writerow(row)
+      if FLAGS.column_tag in row:
+        column_index = row.index(FLAGS.column_tag)
+      if FLAGS.geo_tag in row:
+        geo_index = row.index(FLAGS.geo_tag)
+      if FLAGS.statvar_tag in row:
+        statvar_index = row.index(FLAGS.statvar_tag)
+    else:
+      try:
+        val = float(row[column_index])
+        if row[geo_index] == 'country/USA':
+          if val <= 100:
+            for token in ignore_stat_str:
+              if token not in row[statvar_index]:
+                log_csv_writer.writerow(row)
+      except ValueError:
+        print('Warning: Found open distributions, run with --data_tests=open_distributions and use the fixed csv file')
+        # print(row[3])
+
 
 if __name__ == '__main__':
   flags.mark_flags_as_required(['csv_path'])
+  # TODO call function according to requirement
   app.run(fix_open_distributions_in_observation_csv)
