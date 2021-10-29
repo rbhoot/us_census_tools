@@ -276,9 +276,10 @@ for curColumn in all_columns:
 print(json.dumps(ign_list, indent=2))
 
 for curColumn in all_columns:
-  if 'Population 15 years and over!!$75,000 or more' in curColumn and ('Margin '
-                                                                       'of '
-                                                                       'Error') in curColumn and 'Total' in curColumn:
+  if 'Population 15 years and over!!$75,000 or more' in curColumn and (
+      'Margin '
+      'of '
+      'Error') in curColumn and 'Total' in curColumn:
     print(curColumn)
 moe_columns = find_columns_with_token(all_columns, 'Margin of Error')
 

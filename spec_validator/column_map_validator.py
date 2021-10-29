@@ -61,12 +61,12 @@ def check_column_map(column_map_path,
       # margin of error and normal statvar counts
       if column_map[year][column_name]['statType'] == 'dcid:marginOfError':
         moe_stats_count += 1
-        
+
         # check if the corresponding non margin of error statvar is present
         cmp_statvar = column_map[year][column_name].copy()
         cmp_statvar.pop('Node')
         cmp_statvar.pop('statType')
-        
+
         temp_flag = False
         for column_name2, stat_var in column_map[year].items():
           if stat_var['statType'] != 'dcid:marginOfError':
@@ -97,9 +97,10 @@ def check_column_map(column_map_path,
     for dcid in dcid_list:
       if len(dcid_list[dcid]) > 1:
         stat_dir[year]['repeated_dcids'].update({dcid: dcid_list[dcid]})
-    
+
     if stat_dir[year]['repeated_dcids']:
-      print('Found some repeated dcids for year', year, ', please check output file')
+      print('Found some repeated dcids for year', year,
+            ', please check output file')
     else:
       print('No repeated dcids for year', year)
 
@@ -108,7 +109,8 @@ def check_column_map(column_map_path,
         set(column_year_list[year]) - set(cur_column_list[year]))
 
     if len(missing_columns) > 0:
-      print('Found some columns missing for year', year, ', please check output file')
+      print('Found some columns missing for year', year,
+            ', please check output file')
       stat_dir[year]['missing_columns'] = missing_columns
     else:
       print('No missing columns for year', year)
@@ -118,7 +120,8 @@ def check_column_map(column_map_path,
         set(cur_column_list[year]) - set(column_year_list[year]))
 
     if len(extra_columns) > 0:
-      print('Found some extra columns for year', year, ', please check output file')
+      print('Found some extra columns for year', year,
+            ', please check output file')
       stat_dir[year]['extra_columns'] = extra_columns
     else:
       print('No extra columns for year', year)
@@ -172,9 +175,10 @@ def check_column_map(column_map_path,
   for dcid in dcid_year_list:
     if sorted(dcid_year_list[dcid]) != year_list:
       stat_dir['dcid_series_holes'][dcid] = dcid_year_list[dcid]
-  
+
   if stat_dir['dcid_series_holes']:
-    print('Found some dcids missing for some years, please check the output file')
+    print(
+        'Found some dcids missing for some years, please check the output file')
   else:
     print('All dcids found across all years')
 

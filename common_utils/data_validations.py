@@ -11,9 +11,10 @@ flags.DEFINE_string('geo_tag', 'Place',
                     'Column name of the column with geo ids')
 flags.DEFINE_string('statvar_tag', 'StatVar',
                     'Column name of the column with StatVar id')
-flags.DEFINE_multi_enum('data_tests', ['all'], [
-    'all', 'open_distributions', 'possible_percentage'
-], 'List of tests to run')
+flags.DEFINE_multi_enum('data_tests', ['all'],
+                        ['all', 'open_distributions', 'possible_percentage'],
+                        'List of tests to run')
+
 
 def fix_open_distributions_in_observation_csv(argv):
   """
@@ -45,6 +46,7 @@ def fix_open_distributions_in_observation_csv(argv):
         row[column_index] = re.sub('[^0-9.]', '', row[column_index])
         csv_writer.writerow(row)
         # print(row[3])
+
 
 def detect_percentages_in_observation_csv(argv):
   """
@@ -81,7 +83,9 @@ def detect_percentages_in_observation_csv(argv):
               if token not in row[statvar_index]:
                 log_csv_writer.writerow(row)
       except ValueError:
-        print('Warning: Found open distributions, run with --data_tests=open_distributions and use the fixed csv file')
+        print(
+            'Warning: Found open distributions, run with --data_tests=open_distributions and use the fixed csv file'
+        )
         # print(row[3])
 
 
