@@ -46,6 +46,7 @@ def check_column_map(column_map_path,
     stat_dir[year] = {}
     cur_column_list[year] = []
     stat_dir[year]['actual_column_count'] = len(column_map[year])
+    stat_dir[year]['moe_only'] = []
 
     moe_stats_count = 0
     estimate_stat_count = 0
@@ -60,6 +61,22 @@ def check_column_map(column_map_path,
       # margin of error and normal statvar counts
       if column_map[year][column_name]['statType'] == 'dcid:marginOfError':
         moe_stats_count += 1
+        
+        # check if the corresponding non margin of error statvar is present
+        cmp_statvar = column_map[year][column_name].copy()
+        cmp_statvar.pop('Node')
+        cmp_statvar.pop('statType')
+        
+        temp_flag = False
+        for column_name2, stat_var in column_map[year].items():
+          if stat_var['statType'] != 'dcid:marginOfError':
+            temp_statvar = stat_var.copy()
+            temp_statvar.pop('Node')
+            temp_statvar.pop('statType')
+            if temp_statvar == cmp_statvar:
+              temp_flag = True
+        if temp_flag:
+          stat_dir[year]['moe_only'].append(column_name)
       else:
         estimate_stat_count += 1
 
