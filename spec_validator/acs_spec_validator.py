@@ -31,7 +31,7 @@ flags.DEFINE_string('column_list_path', None,
 # requires column list before ignored columns are removed
 
 
-def find_extra_tokens(column_name_list, spec_dict, delimiter='!!'):
+def find_extra_tokens(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
   ret_list = []
   # get list of unique tokens across all columns
   token_list = get_tokens_list_from_column_list(column_name_list, delimiter)
@@ -54,9 +54,9 @@ def find_extra_tokens(column_name_list, spec_dict, delimiter='!!'):
 
 # finds all columns that do not assign any property a value
 # assumes columnNameList does not contain columns to be ignored
-def find_columns_with_no_properties(column_name_list,
-                                    spec_dict,
-                                    delimiter='!!'):
+def find_columns_with_no_properties(column_name_list: list,
+                                    spec_dict: dict,
+                                    delimiter: str = '!!') -> list:
   ret_list = []
   for column_name in column_name_list:
     no_prop_flag = True
@@ -74,7 +74,7 @@ def find_columns_with_no_properties(column_name_list,
 
 # returns list of tokens that appear in ignoreColumn as well as a PV
 # checks only tokens, ignores long column names
-def find_ignore_conflicts(spec_dict, delimiter='!!'):
+def find_ignore_conflicts(spec_dict: dict, delimiter: str = '!!') -> list:
   ret_list = []
 
   new_dict = copy.deepcopy(spec_dict)
@@ -99,9 +99,9 @@ def find_ignore_conflicts(spec_dict, delimiter='!!'):
 # if multiple tokens match same property, they should appear as enumspecialisation
 # the token that appears later in the name should be the specialisation of one one encountered before
 # assumes columnNameList does not contain columns to be ignored
-def find_missing_enum_specialisation(column_name_list,
-                                     spec_dict,
-                                     delimiter='!!'):
+def find_missing_enum_specialisation(column_name_list: list,
+                                     spec_dict: dict,
+                                     delimiter: str ='!!') -> dict:
   ret_dict = {}
   for column_name in column_name_list:
     temp_dict = {}
@@ -154,7 +154,7 @@ def find_missing_enum_specialisation(column_name_list,
   return ret_dict
 
 
-def find_multiple_measurement(column_name_list, spec_dict, delimiter='!!'):
+def find_multiple_measurement(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
   ret_list = []
 
   # tokenList = getTokensListFromColumnList(columnNameList, delimiter)
@@ -169,7 +169,7 @@ def find_multiple_measurement(column_name_list, spec_dict, delimiter='!!'):
   return ret_list
 
 
-def find_multiple_population(column_name_list, spec_dict, delimiter='!!'):
+def find_multiple_population(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
   ret_list = []
 
   # tokenList = getTokensListFromColumnList(columnNameList, delimiter)
@@ -189,9 +189,9 @@ def find_multiple_population(column_name_list, spec_dict, delimiter='!!'):
 
 # check if all the columns that appear as total exist
 # assumes columnNameList does not contain columns to be ignored
-def find_missing_denominator_total_column(column_name_list,
-                                          spec_dict,
-                                          delimiter='!!'):
+def find_missing_denominator_total_column(column_name_list: list,
+                                          spec_dict: dict,
+                                          delimiter: str = '!!') -> list:
   ret_list = []
 
   token_list = get_tokens_list_from_column_list(column_name_list, delimiter)
@@ -206,7 +206,7 @@ def find_missing_denominator_total_column(column_name_list,
   return ret_list
 
 
-def find_missing_denominators(column_name_list, spec_dict, delimiter='!!'):
+def find_missing_denominators(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
   ret_list = []
 
   token_list = get_tokens_list_from_column_list(column_name_list, delimiter)
@@ -222,7 +222,7 @@ def find_missing_denominators(column_name_list, spec_dict, delimiter='!!'):
   return ret_list
 
 
-def find_repeating_denominators(column_name_list, spec_dict, delimiter='!!'):
+def find_repeating_denominators(spec_dict: dict, delimiter: str = '!!') -> list:
   ret_list = []
   appeared_list = []
 
@@ -239,11 +239,12 @@ def find_repeating_denominators(column_name_list, spec_dict, delimiter='!!'):
 # runs all the tests related to tokens and columns and prints relevant output
 # requires column list before ignored columns are removed
 # raiseWarningsOnly is used mainly in case of yearwise processing, it prevents raising of false errors
-def test_column_name_list(column_name_list,
-                          spec_dict,
-                          test_list=['all'],
-                          raise_warnings_only=False,
-                          delimiter='!!'):
+# TODO do not use list as default arg, use tuple and convert it to list
+def test_column_name_list(column_name_list: list,
+                          spec_dict: dict,
+                          test_list: list = ['all'],
+                          raise_warnings_only: bool = False,
+                          delimiter: str = '!!') -> dict:
   ret_dict = {}
 
   # remove ignore columns
@@ -331,7 +332,7 @@ def test_column_name_list(column_name_list,
     else:
       print('All denominators were found')
 
-    temp_list = find_repeating_denominators(column_name_list, spec_dict,
+    temp_list = find_repeating_denominators(spec_dict,
                                             delimiter)
     ret_dict['repeating_denominator'] = []
     if len(temp_list) > 0:
@@ -376,7 +377,7 @@ def test_column_name_list(column_name_list,
   return ret_dict
 
 
-def find_extra_inferred_properties(spec_dict):
+def find_extra_inferred_properties(spec_dict: dict) -> list:
   ret_list = []
   if 'inferredSpec' in spec_dict:
     for property_name in spec_dict['inferredSpec']:
@@ -386,7 +387,8 @@ def find_extra_inferred_properties(spec_dict):
 
 
 # calls all methods to check the spec
-def test_spec(column_name_list, spec_dict, test_list=['all'], delimiter='!!'):
+# TODO do not use list as default arg, use tuple and convert it to list
+def test_spec(column_name_list: list, spec_dict: dict, test_list: list = ['all'], delimiter: str = '!!') -> dict:
   ret_dict = {}
   if 'all' in test_list or 'extra_tokens' in test_list:
     temp_list = find_extra_tokens(column_name_list, spec_dict)
@@ -421,14 +423,14 @@ def test_spec(column_name_list, spec_dict, test_list=['all'], delimiter='!!'):
 
   return ret_dict
 
-
-def run_tests_column_dict(columns_dict,
-                          spec_dict,
-                          test_list=['all'],
-                          output_path='../output/',
-                          filewise=False,
-                          show_summary=False,
-                          delimiter='!!'):
+# TODO do not use list as default arg, use tuple and convert it to list
+def run_tests_column_dict(columns_dict: dict,
+                          spec_dict: dict,
+                          test_list: list = ['all'],
+                          output_path: str = '../output/',
+                          filewise: bool = False,
+                          show_summary: bool = False,
+                          delimiter: str = '!!') -> None:
 
   test_results = {}
   for filename in columns_dict:
@@ -500,14 +502,15 @@ def run_tests_column_dict(columns_dict,
 
 
 # assumes all files are data overlay type if not flagged
-def test_CSVfile_list(csv_path_list,
-                      spec_path,
-                      test_list=['all'],
-                      output_path='../output/',
-                      filewise=False,
-                      show_summary=False,
-                      is_metadata=[False],
-                      delimiter='!!'):
+# TODO do not use list as default arg, use tuple and convert it to list
+def test_CSVfile_list(csv_path_list: list,
+                      spec_path: str,
+                      test_list: list = ['all'],
+                      output_path: str = '../output/',
+                      filewise: bool = False,
+                      show_summary: bool = False,
+                      is_metadata: list = [False],
+                      delimiter: str = '!!') -> None:
   # clean the file paths
   spec_path = os.path.expanduser(spec_path)
   output_path = os.path.expanduser(output_path)
@@ -549,14 +552,15 @@ def test_CSVfile_list(csv_path_list,
 
 
 #TODO this will overwrite outputs if filenames repeat across zip files
-def test_zip_file_list(zip_path_list,
-                       spec_path,
-                       test_list=['all'],
-                       output_path='../output/',
-                       filewise=False,
-                       show_summary=False,
-                       check_metadata=False,
-                       delimiter='!!'):
+# TODO do not use list as default arg, use tuple and convert it to list
+def test_zip_file_list(zip_path_list: list,
+                       spec_path: str,
+                       test_list: list = ['all'],
+                       output_path: str = '../output/',
+                       filewise: bool = False,
+                       show_summary: bool = False,
+                       check_metadata: bool = False,
+                       delimiter: str = '!!'):
   # clean the file paths
   spec_path = os.path.expanduser(spec_path)
   output_path = os.path.expanduser(output_path)
@@ -599,12 +603,12 @@ def test_zip_file_list(zip_path_list,
   run_tests_column_dict(columns_dict, spec_dict, test_list, output_path,
                         filewise, show_summary, delimiter)
 
-
-def test_column_list(column_list_path,
-                     spec_path,
-                     test_list=['all'],
-                     output_path='../output/',
-                     delimiter='!!'):
+# TODO do not use list as default arg, use tuple and convert it to list
+def test_column_list(column_list_path: str,
+                     spec_path: str,
+                     test_list: list = ['all'],
+                     output_path: str = '../output/',
+                     delimiter: str = '!!') -> None:
   # clean the file paths
   column_list_path = os.path.expanduser(column_list_path)
   spec_path = os.path.expanduser(spec_path)
