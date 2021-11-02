@@ -5,6 +5,13 @@ __pycache__/
 
 .DS_Store
 
+census_api_util/config_files/api_cache/*
+output/*
+temp/*
+
+census_api_util/config_files_test/*
+spec_dir/column_maps/*
+
 # C extensions
 *.so
 
