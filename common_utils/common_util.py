@@ -107,8 +107,7 @@ def column_to_be_ignored(column_name: str, spec_dict: dict, delimiter: str = '!!
   ret_value = False
   if 'ignoreColumns' in spec_dict:
     for ignore_token in spec_dict['ignoreColumns']:
-      if delimiter in ignore_token and set(
-          ignore_token.split(delimiter)).issubset(column_name.split(delimiter)):
+      if delimiter in ignore_token and ignore_token == column_name:
         ret_value = True
       elif token_in_list_ignore_case(ignore_token,
                                      column_name.split(delimiter)):
