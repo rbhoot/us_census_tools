@@ -157,7 +157,7 @@ def get_census_column_token_index(census_columns, year_list, yearwise_columns, d
     if year in year_list:
       index_dict[year] = {}
     for census_col in census_columns:
-      if year != 'all':
+      if year in year_list:
         index_dict[year][census_col] = {}
         index_dict[year][census_col]['index'] = []
   
@@ -312,9 +312,17 @@ def get_denominator_method_config(totals_status: dict, totals_by_column: dict) -
           temp_dict['rows'] = totals_by_column[year][census_col]
     
     ret_dict['reference_column'] = temp_dict['col']
-    ret_dict['totals'] = temp_dict['rows']
+    ret_dict['totals'] = {}
+    for year in totals_by_column:
+      ret_dict['totals'][year] = totals_by_column[year][temp_dict['col']]
 
   return ret_dict
+
+def rename_col(row_name, new_col, col_i, delimiter='!!'):
+  temp_list = row_name.split(delimiter)
+  temp_list[col_i] = new_col
+  temp_str = delimiter.join(temp_list)
+  return temp_str
 
 # create config
 def create_long_config(basic_config_path: str, delimiter: str = '!!'):
@@ -423,8 +431,10 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
 
           if temp_str2 not in rows_by_column_type[year][new_col]['moe_cols'] and temp_str3 not in rows_by_column_type[year][new_col]['moe_cols']:
             print('Warning: column expected but not found\n', temp_str2, '\nor\n', temp_str3)
-          
-          
+  
+  if config_dict['denominator_method'] == 'prefix':
+    ref_col = config_dict['reference_column']
+    total_col = config_dict['totals']
 
   # print(json.dumps(denominators, indent=2))
   json.dump(denominators, open('denominators.json', 'w'), indent=2)
@@ -432,14 +442,6 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
     spec_dict = get_spec_dict_from_path(config_dict['spec_path'])
     spec_dict['denominators'] = denominators
     json.dump(spec_dict, open(config_dict['spec_path'], 'w'), indent=2)
-
-
-def rename_col(row_name, new_col, col_i, delimiter='!!'):
-  temp_list = row_name.split(delimiter)
-  temp_list[col_i] = new_col
-  temp_str = delimiter.join(temp_list)
-  return temp_str
-          
 
   
 
