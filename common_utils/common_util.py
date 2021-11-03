@@ -145,7 +145,7 @@ def get_tokens_list_from_column_list(column_name_list: list, delimiter: str = '!
   return tokens
 
 
-def get_spec_token_list(spec_dict: dict) -> dict:
+def get_spec_token_list(spec_dict: dict, delimiter: str = '!!') -> dict:
   ret_list = []
   repeated_list = []
   # check if the token appears in any of the pvs
