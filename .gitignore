@@ -6,6 +6,7 @@ __pycache__/
 .DS_Store
 
 census_api_util/config_files/api_cache/*
+census_api_util/config_files_sample/*
 output/*
 temp/*
 
