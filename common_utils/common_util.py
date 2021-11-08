@@ -13,7 +13,7 @@ flags.DEFINE_string('zip_path', None,
                     'Path to zip file downloaded from US Census')
 flags.DEFINE_string('csv_path', None,
                     'Path to csv file downloaded from US Census')
-flags.DEFINE_list('csv_path_list', None,
+flags.DEFINE_list('csv_list', None,
                   'List of paths to csv files downloaded from US Census')
 flags.DEFINE_string('spec_path', None, 'Path to config spec JSON file')
 flags.DEFINE_boolean('get_tokens', False,
@@ -338,8 +338,8 @@ def main(argv):
                                                    FLAGS.delimiter)
     else:
       print_columns = all_columns
-  elif FLAGS.csv_path_list:
-    all_columns = columns_from_CSVfile_list(FLAGS.csv_path_list,
+  elif FLAGS.csv_list:
+    all_columns = columns_from_CSVfile_list(FLAGS.csv_list,
                                             [FLAGS.is_metadata])
     if FLAGS.ignore_columns:
       print_columns = remove_columns_to_be_ignored(all_columns, spec_dict,
@@ -365,5 +365,5 @@ def main(argv):
 
 if __name__ == '__main__':
   flags.mark_flags_as_mutual_exclusive(
-      ['zip_path', 'csv_path', 'csv_path_list'], required=True)
+      ['zip_path', 'csv_path', 'csv_list'], required=True)
   app.run(main)
