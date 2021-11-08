@@ -15,14 +15,14 @@ from common_utils.common_util import *
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('validator_output_path', '../output/',
+flags.DEFINE_string('validator_output', '../output/',
                     'Path to store the output files')
 flags.DEFINE_multi_enum('tests', ['all'], [
     'all', 'extra_tokens', 'missing_tokens', 'column_no_pv', 'ignore_conflicts',
     'enum_specialialisations', 'denominators', 'extra_inferred',
     'multiple_measurement', 'multiple_population'
 ], 'List of tests to run')
-flags.DEFINE_list('zip_path_list', None,
+flags.DEFINE_list('zip_list', None,
                   'List of paths to zip files downloaded from US Census')
 flags.DEFINE_string('column_list_path', None,
                     'Path of json file containing list of all columns')
@@ -632,12 +632,12 @@ def test_column_list(column_list_path: str,
 
 
 def main(argv):
-  if FLAGS.csv_path_list:
-    test_CSVfile_list(FLAGS.csv_path_list, FLAGS.spec_path, FLAGS.tests,
+  if FLAGS.csv_list:
+    test_CSVfile_list(FLAGS.csv_list, FLAGS.spec_path, FLAGS.tests,
                       FLAGS.validator_output_path, False, False,
                       [FLAGS.is_metadata], FLAGS.delimiter)
-  if FLAGS.zip_path_list:
-    test_zip_file_list(FLAGS.zip_path_list, FLAGS.spec_path, FLAGS.tests,
+  if FLAGS.zip_list:
+    test_zip_file_list(FLAGS.zip_list, FLAGS.spec_path, FLAGS.tests,
                        FLAGS.validator_output_path, False, False,
                        FLAGS.is_metadata, FLAGS.delimiter)
   if FLAGS.column_list_path:
@@ -648,5 +648,5 @@ def main(argv):
 if __name__ == '__main__':
   flags.mark_flags_as_required(['spec_path'])
   flags.mark_flags_as_mutual_exclusive(
-      ['csv_path_list', 'zip_path_list', 'column_list_path'], required=True)
+      ['csv_list', 'zip_list', 'column_list_path'], required=True)
   app.run(main)
