@@ -444,7 +444,7 @@ def create_long_config(basic_config_path: str, delimiter: str = '!!'):
 
   print(json.dumps(config_dict, indent=2))
 
-
+# TODO accept the path of _columns.json
 def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
   long_config_path = os.path.expanduser(long_config_path)
   config_dict = json.load(open(long_config_path))
@@ -452,7 +452,7 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
   rows_by_column_type = json.load(
       open(long_config_path.replace('.json', '_columns.json')))
   denominators = {}
-
+  no_prefix = []
   if config_dict['denominator_method'] == 'token_replace':
     for new_col in config_dict['token_map']:
       total_col = config_dict['token_map'][new_col]
@@ -478,7 +478,7 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
           if temp_str2 in rows_by_column_type[year][new_col]['moe_cols']:
             if temp_str2 not in denominators[new_total]:
               denominators[new_total].append(temp_str2)
-              moe_found = True
+            moe_found = True
 
           # replace new_col+ MOE and Margin of Error in new_total
           temp_str3 = rename_col(new_total, new_col + ' MOE', col_i, delimiter)
@@ -488,7 +488,7 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
           if temp_str3 in rows_by_column_type[year][new_col]['moe_cols']:
             if temp_str3 not in denominators[new_total]:
               denominators[new_total].append(temp_str3)
-              moe_found = True
+            moe_found = True
 
           if not moe_found:
             print('Warning: column expected but not found\n', temp_str2,
@@ -538,9 +538,13 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
           # warn if no prefix found
           elif new_row not in total_prefixes:
             print('Warning:', new_row, 'has no prefix and is not a total')
+            no_prefix.append(new_row)
 
   # print(json.dumps(denominators, indent=2))
-  json.dump(denominators, open('denominators.json', 'w'), indent=2)
+  output_path = os.path.dirname(long_config_path)
+  if no_prefix:
+    json.dump(no_prefix, open(os.path.join(output_path, 'rows_without_prefix.json'), 'w'), indent=2)
+  json.dump(denominators, open(os.path.join(output_path, 'denominators.json'), 'w'), indent=2)
   if config_dict['update_spec']:
     spec_dict = get_spec_dict_from_path(config_dict['spec_path'])
     spec_dict['denominators'] = denominators
