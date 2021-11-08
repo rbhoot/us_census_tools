@@ -13,7 +13,7 @@ It then proceeds to split 'compiled spec' in 2 parts:
 
 To generate a guess spec:
 ```
-python acs_spec_compiler.py --guess_new_spec --zip_path_list=../sample_data/s1810.zip
+python acs_spec_compiler.py --guess_new_spec --zip_list=../sample_data/s1810.zip
 ```
 NOTE: This command creates following important files to lookout for:
 - generate_spec.json: This is the guessed spec for the input file
@@ -25,7 +25,7 @@ NOTE: This command creates following important files to lookout for:
 
 To generate a guess spec with expected properties or population types:
 ```
-python acs_spec_compiler.py --guess_new_spec --zip_path_list=../sample_data/s1810.zip --expected_populations=Person,Household --expected_properties=occupancyTenure
+python acs_spec_compiler.py --guess_new_spec --zip_list=../sample_data/s1810.zip --expected_populations=Person,Household --expected_properties=occupancyTenure
 ```
 This will look for properties on DataCommons API and add placeholders for available enum values
 
