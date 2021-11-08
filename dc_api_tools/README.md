@@ -10,7 +10,7 @@ python dc_utils.py --dcid=Person --force_fetch
 ```
 To store results in a different directory:
 ```
-python dc_utils.py --dcid=Person --dc_output_path=output path here
+python dc_utils.py --dcid=Person --dc_output_path=../output
 ```
 
 This util does the work in 3 parts and each part produces a output file in the output folder
