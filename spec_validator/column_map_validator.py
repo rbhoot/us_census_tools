@@ -33,6 +33,8 @@ def check_column_map(column_map_path,
   spec_path = os.path.expanduser(spec_path)
   spec_dict = get_spec_dict_from_path(spec_path)
 
+  output_path = os.path.expanduser(output_path)
+
   for year in column_year_list:
     temp_list = remove_columns_to_be_ignored(column_year_list[year], spec_dict,
                                              delimiter)
@@ -190,7 +192,7 @@ def check_column_map(column_map_path,
   print('Writing output file at', output_path)
   json.dump(
       stat_dir,
-      open(os.path.join(output_path + 'column_map_validation.json'), 'w'),
+      open(os.path.join(output_path, 'column_map_validation.json'), 'w'),
       indent=2)
   # print(json.dumps(stat_dir, indent=2))
 

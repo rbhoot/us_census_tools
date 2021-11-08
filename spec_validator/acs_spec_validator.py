@@ -19,7 +19,7 @@ flags.DEFINE_string('validator_output', '../output/',
                     'Path to store the output files')
 flags.DEFINE_multi_enum('tests', ['all'], [
     'all', 'extra_tokens', 'missing_tokens', 'column_no_pv', 'ignore_conflicts',
-    'enum_specialialisations', 'denominators', 'extra_inferred',
+    'enum_specialisations', 'denominators', 'extra_inferred',
     'multiple_measurement', 'multiple_population'
 ], 'List of tests to run')
 flags.DEFINE_list('zip_list', None,
@@ -301,7 +301,7 @@ def test_column_name_list(column_name_list: list,
     else:
       print('No conflicting token assigned')
 
-  if 'all' in test_list or 'enum_specialialisations' in test_list:
+  if 'all' in test_list or 'enum_specialisations' in test_list:
     ret_dict['enum_specializations_missing'] = {}
     temp_dict = find_missing_enum_specialisation(column_name_list, spec_dict)
     if len(temp_dict) > 0:
@@ -646,15 +646,15 @@ def test_column_list(column_list_path: str,
 def main(argv):
   if FLAGS.csv_list:
     test_CSVfile_list(FLAGS.csv_list, FLAGS.spec_path, FLAGS.tests,
-                      FLAGS.validator_output_path, False, False,
+                      FLAGS.validator_output, False, False,
                       [FLAGS.is_metadata], FLAGS.delimiter)
   if FLAGS.zip_list:
     test_zip_file_list(FLAGS.zip_list, FLAGS.spec_path, FLAGS.tests,
-                       FLAGS.validator_output_path, False, False,
+                       FLAGS.validator_output, False, False,
                        FLAGS.is_metadata, FLAGS.delimiter)
   if FLAGS.column_list_path:
     test_column_list(FLAGS.column_list_path, FLAGS.spec_path, FLAGS.tests,
-                     FLAGS.validator_output_path, FLAGS.delimiter)
+                     FLAGS.validator_output, FLAGS.delimiter)
 
 
 if __name__ == '__main__':
