@@ -1,6 +1,14 @@
+from absl import app
+from absl import flags
 from common_util import *
 from functools import cmp_to_key
 
+FLAGS = flags.FLAGS
+
+flags.DEFINE_string('denominator_config', None,
+                    'Path of json file SHORT config for generating denominator section')
+flags.DEFINE_string('denominator_long_config', None,
+                    'Path of json file LONG config for generating denominator section')
 
 def find_columns_with_token(column_list, token, delimiter='!!'):
   ret_list = []
@@ -13,7 +21,6 @@ def find_columns_with_token(column_list, token, delimiter='!!'):
 def replace_token_in_column(cur_column, old_token, new_token, delimiter='!!'):
   return delimiter.join(
       [new_token if x == old_token else x for x in cur_column.split(delimiter)])
-
 
 def replace_first_token_in_column(cur_column,
                                   old_token,
@@ -30,7 +37,6 @@ def replace_first_token_in_column(cur_column,
 
   return delimiter.join(new_list)
 
-
 # replace token
 def replace_token_in_column_list(column_list,
                                  old_token,
@@ -41,7 +47,6 @@ def replace_token_in_column_list(column_list,
     ret_list.append(
         replace_token_in_column(cur_column, old_token, new_token, delimiter))
   return ret_list
-
 
 # combined replace list
 def replace_token_list_in_column_list(column_list,
@@ -55,7 +60,6 @@ def replace_token_list_in_column_list(column_list,
       ret_dict[cur_column].append(
           replace_token_in_column(cur_column, old_token, new_token, delimiter))
   return ret_dict
-
 
 # find columns sub token
 def find_columns_with_token_partial_match(column_list,
@@ -494,7 +498,11 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
     spec_dict['denominators'] = denominators
     json.dump(spec_dict, open(config_dict['spec_path'], 'w'), indent=2)
 
-  
+def main(argv):
+  if FLAGS.denominator_config:
+    create_long_config(FLAGS.denominator_config)
+  if FLAGS.denominator_long_config:
+    create_denominators_section(FLAGS.denominator_long_config)
 
-create_long_config('denominator_config.json')
-create_denominators_section('denominator_config_long.json')
+if __name__ == '__main__':
+  app.run(main)
