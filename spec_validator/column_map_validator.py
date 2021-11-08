@@ -74,14 +74,14 @@ def check_column_map(column_map_path,
         cmp_statvar.pop('Node')
         cmp_statvar.pop('statType')
 
-        temp_flag = False
+        temp_flag = True
         for column_name2, stat_var in column_map[year].items():
           if stat_var['statType'] != 'dcid:marginOfError':
             temp_statvar = stat_var.copy()
             temp_statvar.pop('Node')
             temp_statvar.pop('statType')
             if temp_statvar == cmp_statvar:
-              temp_flag = True
+              temp_flag = False
         if temp_flag:
           stat_dir[year]['moe_only'].append(column_name)
       else:
