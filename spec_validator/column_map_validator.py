@@ -1,18 +1,22 @@
 import json
 import os
 import sys
+from absl import app
+from absl import flags
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
 
 from common_utils.common_util import *
 
-table_id = 'S2408'
-table_dir = os.path.expanduser(f'~/acs_tables/{table_id}/')
-column_map_path = os.path.join(table_dir, 'column_map.json')
-column_list_path = os.path.join(table_dir, 'yearwise_columns.json')
-spec_path = f'../spec_dir/{table_id}_spec.json'
+FLAGS = flags.FLAGS
 
+flags.DEFINE_string('column_map', None,
+                    'Path of json file containing the column StatVar map')
+flags.DEFINE_string('yearwise_columns', None,
+                    'Path of json file containing list of all columns by year')
+flags.DEFINE_string('colmap_validation_output', '../output/',
+                    'Directory path to write output file')
 
 def check_column_map(column_map_path,
                      column_list_path,
@@ -185,9 +189,13 @@ def check_column_map(column_map_path,
   print('Writing output file at', output_path)
   json.dump(
       stat_dir,
-      open(os.path.join(output_path + 'validation_column_map.json'), 'w'),
+      open(os.path.join(output_path + 'column_map_validation.json'), 'w'),
       indent=2)
   # print(json.dumps(stat_dir, indent=2))
 
+def main(argv):
+  check_column_map(FLAGS.column_map, FLAGS.yearwise_columns, FLAGS.spec_path, FLAGS.colmap_validation_output, FLAGS.delimiter)
 
-check_column_map(column_map_path, column_list_path, spec_path, table_dir)
+if __name__ == '__main__':
+  flags.mark_flags_as_required(['spec_path', 'column_map', 'yearwise_columns'])
+  app.run(main)
