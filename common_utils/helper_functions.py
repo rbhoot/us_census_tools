@@ -444,6 +444,7 @@ def create_long_config(basic_config_path: str, delimiter: str = '!!'):
 
   print(json.dumps(config_dict, indent=2))
 
+
 # TODO accept the path of _columns.json
 def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
   long_config_path = os.path.expanduser(long_config_path)
@@ -543,8 +544,14 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
   # print(json.dumps(denominators, indent=2))
   output_path = os.path.dirname(long_config_path)
   if no_prefix:
-    json.dump(no_prefix, open(os.path.join(output_path, 'rows_without_prefix.json'), 'w'), indent=2)
-  json.dump(denominators, open(os.path.join(output_path, 'denominators.json'), 'w'), indent=2)
+    json.dump(
+        no_prefix,
+        open(os.path.join(output_path, 'rows_without_prefix.json'), 'w'),
+        indent=2)
+  json.dump(
+      denominators,
+      open(os.path.join(output_path, 'denominators.json'), 'w'),
+      indent=2)
   if config_dict['update_spec']:
     spec_dict = get_spec_dict_from_path(config_dict['spec_path'])
     spec_dict['denominators'] = denominators

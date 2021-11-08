@@ -92,11 +92,13 @@ def detect_percentages_in_observation_csv(argv):
         )
         # print(row[3])
 
+
 def main(argv):
   if 'all' in FLAGS.data_tests or 'open_distributions' in FLAGS.data_tests:
     fix_open_distributions_in_observation_csv(argv)
   if 'all' in FLAGS.data_tests or 'possible_percentage' in FLAGS.data_tests:
     detect_percentages_in_observation_csv(argv)
+
 
 if __name__ == '__main__':
   flags.mark_flags_as_required(['csv_path'])
