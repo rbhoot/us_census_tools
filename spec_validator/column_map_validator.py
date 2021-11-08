@@ -18,6 +18,7 @@ flags.DEFINE_string('yearwise_columns', None,
 flags.DEFINE_string('colmap_validation_output', '../output/',
                     'Directory path to write output file')
 
+
 def check_column_map(column_map_path,
                      column_list_path,
                      spec_path,
@@ -193,8 +194,11 @@ def check_column_map(column_map_path,
       indent=2)
   # print(json.dumps(stat_dir, indent=2))
 
+
 def main(argv):
-  check_column_map(FLAGS.column_map, FLAGS.yearwise_columns, FLAGS.spec_path, FLAGS.colmap_validation_output, FLAGS.delimiter)
+  check_column_map(FLAGS.column_map, FLAGS.yearwise_columns, FLAGS.spec_path,
+                   FLAGS.colmap_validation_output, FLAGS.delimiter)
+
 
 if __name__ == '__main__':
   flags.mark_flags_as_required(['spec_path', 'column_map', 'yearwise_columns'])

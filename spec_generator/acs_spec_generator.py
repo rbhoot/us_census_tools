@@ -441,8 +441,7 @@ def main(argv):
         guess_spec = create_new_spec(all_columns, combined_spec_out,
                                      FLAGS.expected_populations,
                                      FLAGS.expected_properties,
-                                     FLAGS.generator_output,
-                                     FLAGS.delimiter)
+                                     FLAGS.generator_output, FLAGS.delimiter)
         print(json.dumps(guess_spec, indent=2))
       if FLAGS.zip_list:
         all_columns = columns_from_zip_list(FLAGS.zip_list,
@@ -450,8 +449,7 @@ def main(argv):
         guess_spec = create_new_spec(all_columns, combined_spec_out,
                                      FLAGS.expected_populations,
                                      FLAGS.expected_properties,
-                                     FLAGS.generator_output,
-                                     FLAGS.delimiter)
+                                     FLAGS.generator_output, FLAGS.delimiter)
         print(json.dumps(guess_spec, indent=2))
 
 

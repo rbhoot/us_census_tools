@@ -103,7 +103,9 @@ def token_notin_list_ignore_case(token: str, list_check: list) -> bool:
   return True
 
 
-def column_to_be_ignored(column_name: str, spec_dict: dict, delimiter: str = '!!') -> bool:
+def column_to_be_ignored(column_name: str,
+                         spec_dict: dict,
+                         delimiter: str = '!!') -> bool:
   ret_value = False
   if 'ignoreColumns' in spec_dict:
     for ignore_token in spec_dict['ignoreColumns']:
@@ -115,7 +117,9 @@ def column_to_be_ignored(column_name: str, spec_dict: dict, delimiter: str = '!!
   return ret_value
 
 
-def remove_columns_to_be_ignored(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
+def remove_columns_to_be_ignored(column_name_list: list,
+                                 spec_dict: dict,
+                                 delimiter: str = '!!') -> list:
   ret_list = []
   for column_name in column_name_list:
     if not column_to_be_ignored(column_name, spec_dict, delimiter):
@@ -123,7 +127,9 @@ def remove_columns_to_be_ignored(column_name_list: list, spec_dict: dict, delimi
   return ret_list
 
 
-def ignored_columns(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
+def ignored_columns(column_name_list: list,
+                    spec_dict: dict,
+                    delimiter: str = '!!') -> list:
   ret_list = []
   for column_name in column_name_list:
     if column_to_be_ignored(column_name, spec_dict, delimiter):
@@ -132,7 +138,8 @@ def ignored_columns(column_name_list: list, spec_dict: dict, delimiter: str = '!
 
 
 # assumes columnNameList does not contain columns to be ignored
-def get_tokens_list_from_column_list(column_name_list: list, delimiter: str = '!!') -> list:
+def get_tokens_list_from_column_list(column_name_list: list,
+                                     delimiter: str = '!!') -> list:
   # tokens = set()
   tokens = []
   for column_name in column_name_list:
@@ -231,7 +238,9 @@ def get_spec_DCID_list(spec_dict: dict) -> list:
   return list(set(ret_list))
 
 
-def find_missing_tokens(token_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
+def find_missing_tokens(token_list: list,
+                        spec_dict: dict,
+                        delimiter: str = '!!') -> list:
   spec_tokens = get_spec_token_list(spec_dict, delimiter)['token_list']
   tokens_copy = token_list.copy()
   for token in token_list:
@@ -241,7 +250,7 @@ def find_missing_tokens(token_list: list, spec_dict: dict, delimiter: str = '!!'
 
 
 # assumes metadata file or data with overlays file
-def columns_from_CSVreader(csv_reader, is_metadata_file : bool = False) -> list:
+def columns_from_CSVreader(csv_reader, is_metadata_file: bool = False) -> list:
   column_name_list = []
   for row in csv_reader:
     if is_metadata_file:
@@ -264,7 +273,8 @@ def columns_from_CSVfile(csv_path: str, is_metadata_file: bool = False) -> list:
 
 # assumes metadata file or data with overlays file
 # TODO do not use list as default arg, use tuple and convert it to list
-def columns_from_CSVfile_list(csv_path_list: list, is_metadata: list = [False]) -> list:
+def columns_from_CSVfile_list(csv_path_list: list,
+                              is_metadata: list = [False]) -> list:
   all_columns = []
 
   if len(is_metadata) < len(csv_path_list):
@@ -339,8 +349,7 @@ def main(argv):
     else:
       print_columns = all_columns
   elif FLAGS.csv_list:
-    all_columns = columns_from_CSVfile_list(FLAGS.csv_list,
-                                            [FLAGS.is_metadata])
+    all_columns = columns_from_CSVfile_list(FLAGS.csv_list, [FLAGS.is_metadata])
     if FLAGS.ignore_columns:
       print_columns = remove_columns_to_be_ignored(all_columns, spec_dict,
                                                    FLAGS.delimiter)
@@ -364,6 +373,6 @@ def main(argv):
 
 
 if __name__ == '__main__':
-  flags.mark_flags_as_mutual_exclusive(
-      ['zip_path', 'csv_path', 'csv_list'], required=True)
+  flags.mark_flags_as_mutual_exclusive(['zip_path', 'csv_path', 'csv_list'],
+                                       required=True)
   app.run(main)

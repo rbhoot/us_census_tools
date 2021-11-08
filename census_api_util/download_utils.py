@@ -5,7 +5,8 @@ import random
 import aiohttp
 import asyncio
 
-# https://stackoverflow.com/questions/41691327/ssl-sslerror-ssl-certificate-verify-failed-certificate-verify-failed-ssl-c/41692664 
+# https://stackoverflow.com/questions/41691327/ssl-sslerror-ssl-certificate-verify-failed-certificate-verify-failed-ssl-c/41692664
+
 
 def url_list_check_downloaded(url_list, force_fetch=False):
   for cur_url in url_list:
@@ -17,6 +18,7 @@ def url_list_check_downloaded(url_list, force_fetch=False):
       url_list[cur_url]['status'] = 'failed'
 
   return url_list
+
 
 async def download_url(session, cur_url, url_list_dict, error_dict):
   print(cur_url)
@@ -46,12 +48,18 @@ async def download_url(session, cur_url, url_list_dict, error_dict):
 
   return url_list_dict[cur_url]
 
-async def download_all_chunks(url_list_dict, urls_chunked, error_dict, status_file, chunk_delay_s=1):
+
+async def download_all_chunks(url_list_dict,
+                              urls_chunked,
+                              error_dict,
+                              status_file,
+                              chunk_delay_s=1):
   tasks = []
   async with aiohttp.ClientSession() as session:
     for cur_chunk in urls_chunked:
       for cur_url in cur_chunk:
-        task = asyncio.ensure_future(download_url(session, cur_url, url_list_dict, error_dict))
+        task = asyncio.ensure_future(
+            download_url(session, cur_url, url_list_dict, error_dict))
         tasks.append(task)
       responses = await asyncio.gather(*tasks)
       # delay 1 s
@@ -59,6 +67,7 @@ async def download_all_chunks(url_list_dict, urls_chunked, error_dict, status_fi
       # TODO update status file here
       with open(status_file, 'w') as fp:
         json.dump(url_list_dict, fp, indent=2)
+
 
 def dowload_url_list_parallel(status_file, chunk_size=30, chunk_delay_s=1):
 
@@ -81,7 +90,9 @@ def dowload_url_list_parallel(status_file, chunk_size=30, chunk_delay_s=1):
   error_dict = {}
 
   loop = asyncio.get_event_loop()
-  future = asyncio.ensure_future(download_all_chunks(url_list_dict, urls_chunked, error_dict, status_file, chunk_delay_s))
+  future = asyncio.ensure_future(
+      download_all_chunks(url_list_dict, urls_chunked, error_dict, status_file,
+                          chunk_delay_s))
   loop.run_until_complete(future)
 
   with open(status_file, 'w') as fp:

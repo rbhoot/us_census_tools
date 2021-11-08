@@ -31,7 +31,9 @@ flags.DEFINE_string('column_list_path', None,
 # requires column list before ignored columns are removed
 
 
-def find_extra_tokens(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
+def find_extra_tokens(column_name_list: list,
+                      spec_dict: dict,
+                      delimiter: str = '!!') -> list:
   ret_list = []
   # get list of unique tokens across all columns
   token_list = get_tokens_list_from_column_list(column_name_list, delimiter)
@@ -101,7 +103,7 @@ def find_ignore_conflicts(spec_dict: dict, delimiter: str = '!!') -> list:
 # assumes columnNameList does not contain columns to be ignored
 def find_missing_enum_specialisation(column_name_list: list,
                                      spec_dict: dict,
-                                     delimiter: str ='!!') -> dict:
+                                     delimiter: str = '!!') -> dict:
   ret_dict = {}
   for column_name in column_name_list:
     temp_dict = {}
@@ -154,7 +156,9 @@ def find_missing_enum_specialisation(column_name_list: list,
   return ret_dict
 
 
-def find_multiple_measurement(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
+def find_multiple_measurement(column_name_list: list,
+                              spec_dict: dict,
+                              delimiter: str = '!!') -> list:
   ret_list = []
 
   # tokenList = getTokensListFromColumnList(columnNameList, delimiter)
@@ -169,7 +173,9 @@ def find_multiple_measurement(column_name_list: list, spec_dict: dict, delimiter
   return ret_list
 
 
-def find_multiple_population(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
+def find_multiple_population(column_name_list: list,
+                             spec_dict: dict,
+                             delimiter: str = '!!') -> list:
   ret_list = []
 
   # tokenList = getTokensListFromColumnList(columnNameList, delimiter)
@@ -206,7 +212,9 @@ def find_missing_denominator_total_column(column_name_list: list,
   return ret_list
 
 
-def find_missing_denominators(column_name_list: list, spec_dict: dict, delimiter: str = '!!') -> list:
+def find_missing_denominators(column_name_list: list,
+                              spec_dict: dict,
+                              delimiter: str = '!!') -> list:
   ret_list = []
 
   token_list = get_tokens_list_from_column_list(column_name_list, delimiter)
@@ -332,8 +340,7 @@ def test_column_name_list(column_name_list: list,
     else:
       print('All denominators were found')
 
-    temp_list = find_repeating_denominators(spec_dict,
-                                            delimiter)
+    temp_list = find_repeating_denominators(spec_dict, delimiter)
     ret_dict['repeating_denominator'] = []
     if len(temp_list) > 0:
       if raise_warnings_only:
@@ -388,7 +395,10 @@ def find_extra_inferred_properties(spec_dict: dict) -> list:
 
 # calls all methods to check the spec
 # TODO do not use list as default arg, use tuple and convert it to list
-def test_spec(column_name_list: list, spec_dict: dict, test_list: list = ['all'], delimiter: str = '!!') -> dict:
+def test_spec(column_name_list: list,
+              spec_dict: dict,
+              test_list: list = ['all'],
+              delimiter: str = '!!') -> dict:
   ret_dict = {}
   if 'all' in test_list or 'extra_tokens' in test_list:
     temp_list = find_extra_tokens(column_name_list, spec_dict)
@@ -422,6 +432,7 @@ def test_spec(column_name_list: list, spec_dict: dict, test_list: list = ['all']
       print('No extra inferredSpec')
 
   return ret_dict
+
 
 # TODO do not use list as default arg, use tuple and convert it to list
 def run_tests_column_dict(columns_dict: dict,
@@ -602,6 +613,7 @@ def test_zip_file_list(zip_path_list: list,
 
   run_tests_column_dict(columns_dict, spec_dict, test_list, output_path,
                         filewise, show_summary, delimiter)
+
 
 # TODO do not use list as default arg, use tuple and convert it to list
 def test_column_list(column_list_path: str,
