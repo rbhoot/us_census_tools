@@ -16,7 +16,7 @@ from spec_validator.acs_spec_validator import find_columns_with_no_properties, f
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('generator_output_path', '../output/',
+flags.DEFINE_string('generator_output', '../output/',
                     'Path to store the output files')
 flags.DEFINE_string(
     'spec_dir', '../spec_dir/',
@@ -432,7 +432,7 @@ def main(argv):
   if FLAGS.get_combined_property_list:
     print(json.dumps(sorted(list(combined_spec_out['pvs'].keys())), indent=2))
   if FLAGS.guess_new_spec:
-    if not FLAGS.zip_path_list and not FLAGS.column_list_path:
+    if not FLAGS.zip_list and not FLAGS.column_list_path:
       print('ERROR: zip file/s or column list required to guess the new spec')
     else:
       if FLAGS.column_list_path:
@@ -441,16 +441,16 @@ def main(argv):
         guess_spec = create_new_spec(all_columns, combined_spec_out,
                                      FLAGS.expected_populations,
                                      FLAGS.expected_properties,
-                                     FLAGS.generator_output_path,
+                                     FLAGS.generator_output,
                                      FLAGS.delimiter)
         print(json.dumps(guess_spec, indent=2))
-      if FLAGS.zip_path_list:
-        all_columns = columns_from_zip_list(FLAGS.zip_path_list,
+      if FLAGS.zip_list:
+        all_columns = columns_from_zip_list(FLAGS.zip_list,
                                             FLAGS.check_metadata)
         guess_spec = create_new_spec(all_columns, combined_spec_out,
                                      FLAGS.expected_populations,
                                      FLAGS.expected_properties,
-                                     FLAGS.generator_output_path,
+                                     FLAGS.generator_output,
                                      FLAGS.delimiter)
         print(json.dumps(guess_spec, indent=2))
 
