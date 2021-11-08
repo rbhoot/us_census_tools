@@ -214,30 +214,6 @@ def get_spec_token_list(spec_dict: dict, delimiter: str = '!!') -> dict:
   }
 
 
-def get_spec_DCID_list(spec_dict: dict) -> list:
-  ret_list = []
-
-  # check if the token appears in any of the pvs
-  for prop in spec_dict['pvs'].keys():
-    for token in spec_dict['pvs'][prop]:
-      if '[' not in spec_dict['pvs'][prop][token]:
-        ret_list.append(spec_dict['pvs'][prop][token])
-
-  # check if the token appears in any of the population type
-  if 'populationType' in spec_dict:
-    for token in spec_dict['populationType'].keys():
-      ret_list.append(spec_dict['populationType'][token])
-
-  # TODO check if the token appears in measurement
-  # if 'measurement' in specDict:
-  # for token in specDict['measurement'].keys():
-  # retList.append(token)
-  # TODO
-  # inferredPV, universePV
-
-  return list(set(ret_list))
-
-
 def find_missing_tokens(token_list: list,
                         spec_dict: dict,
                         delimiter: str = '!!') -> list:
