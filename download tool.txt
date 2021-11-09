@@ -1,0 +1,116 @@
+download tool
+	api config fetch
+		geo related fixes
+			check acs5 subject 2010 state geo
+			other errors
+		create other formats of maps
+			groups geo
+		!account for changes in the data.json
+			merge or overwrite?
+		!delete errors file if no errors were found and file exists
+		get variable ids from column list
+
+	api config to available options mapping wrapper functions
+			link trees
+			groups
+			years
+			geo categories
+			geo ids
+		available options helper (command line flags)
+
+	url list generator
+		url builder, filename generator
+			linktree
+			year
+			group/variable list
+			geo config
+				config validator
+				dependent/optional geo locations
+		
+		variable fetch urls should also fetch annotations
+		respect existing download_status file
+		append to download status if link doesn't exist but file exists
+	
+	
+
+	log file gneration
+
+	downloader
+		linktree based folder hierarchy
+			group
+				year
+					geo
+		url list downloader
+		status format
+		{
+			'url' : {
+				'output_path': '<absl path here>',
+				'status': (Failed, saved, http_error)
+				'http_code': (code, None)
+			}
+			.
+			.
+			.
+		}
+		download status validator
+			print urls not downloaded and not 204
+			print failed urls
+		
+		combined file generation
+			combination method
+				by year
+				by geo categories
+					by geotype
+					by geoid
+				by variable
+			zip by combination methods
+			in consolidate_files, get the list of filenames from downloadstatus file
+			cleanup
+				delete extra files after zip or aggregation
+		
+		table value stats
+			average value of column
+			no of rows with missing data
+			no of columns with missing data
+			total number of holes
+	sample data collector
+		sample geo config file
+			example
+				all of us
+				all states
+				X counties 
+				Y of each finer geo
+		for ac5 subject
+			US
+			all states
+			all counties of Wyoming
+			all places of Wyoming
+
+
+download script
+	url generator
+		geo mapping for all year and all codes
+			don't download county subdivion, zip code tabulation for 2010
+		each url generated has
+			url
+			output file name
+			download status
+
+	S0502 urban areas missing
+
+	2011 has different state list
+		4 additional states are present in the list
+
+	logging
+		total download time
+		total processing time
+	add flags
+
+	compare negative values only for int
+	
+	check if -88888888 kind of values appear in output file
+	
+	done
+		check if any csv has missing column name
+		check geoid,name in output and all values present
+

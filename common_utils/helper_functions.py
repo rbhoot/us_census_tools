@@ -186,7 +186,6 @@ def get_census_column_token_index(census_columns,
         token_list = census_cell.split(delimiter)
         column_found = False
         for census_col in census_columns:
-
           if census_col in token_list:  # or census_col+' MOE' in token_list:
             column_found = True
             # find the token index of column name for each year

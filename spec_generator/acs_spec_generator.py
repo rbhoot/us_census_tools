@@ -38,6 +38,7 @@ flags.DEFINE_list('expected_populations', ['Person'],
                   'List of expected population types')
 flags.DEFINE_list('expected_properties', [], 'list of expected properties')
 
+# TODO add newly added spec section
 
 # TODO might have to change this if invocation from elsewhere is to be allowed
 def get_spec_list(spec_dir='../spec_dir/'):
@@ -366,8 +367,6 @@ def create_new_spec(all_columns,
         out_spec['ignoreTokens XXXXX'].append(token_name)
     else:
       discarded_spec['ignoreTokens'].append(token_name)
-
-  # TODO denominators, allow column checks
 
   dc_props = {}
   for population_dcid in expected_populations:
