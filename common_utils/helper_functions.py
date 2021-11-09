@@ -397,9 +397,6 @@ def create_long_config(basic_config_path: str, delimiter: str = '!!'):
 
   us_data_zip = os.path.expanduser(config_dict['us_data_zip'])
 
-  # yearwise_columns_path = os.path.expanduser(
-  #     config_dict['yearwise_columns_path'])
-  # yearwise_columns = json.load(open(yearwise_columns_path))
   year_list = config_dict['year_list']
 
   yearwise_columns = yearwise_columns_from_zip_file(us_data_zip, spec_dict, year_list, delimiter)
@@ -409,10 +406,6 @@ def create_long_config(basic_config_path: str, delimiter: str = '!!'):
   ignore_tokens = config_dict['ignore_tokens']
 
   for year in yearwise_columns:
-    # remove ignoreColumns
-    # yearwise_columns[year] = remove_columns_to_be_ignored(
-    #     yearwise_columns[year], spec_dict)
-    
     # remove median, mean
     temp_list = []
     for column_name in yearwise_columns[year]:
@@ -536,6 +529,7 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
 
     # read columns by year
     for year in rows_by_column_type:
+      print('year', year)
       col_i = config_dict['column_tok_index'][year]
       for census_col in rows_by_column_type[year]:
         for cur_i, new_row in enumerate(rows_by_column_type[year][census_col]['estimate_cols']):
@@ -588,6 +582,7 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
             if not moe_found:
               print('Warning: column expected but not found\n', temp_str2,
                     '\nor\n', temp_str3)
+            print(new_total, '\n')
             no_prefix.append({new_row:new_total})
 
   # print(json.dumps(denominators, indent=2))

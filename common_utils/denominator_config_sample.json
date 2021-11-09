@@ -5,7 +5,8 @@
   "update_spec": false,
   "ignore_tokens": [
     "Median",
-    "Mean"
+    "Mean",
+    "Average"
   ],
   "census_columns": [
     "Total",
