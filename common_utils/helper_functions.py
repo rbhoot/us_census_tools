@@ -150,6 +150,28 @@ def total_columns_from_csvreader(csv_reader, ignore_token_list):
           pass
   return total_columns
 
+def yearwise_columns_from_zip_file(zip_path, spec_dict, year_list, delimiter='!!'):
+  zip_path = os.path.expanduser(zip_path)
+  ret_dict = {}
+
+  with zipfile.ZipFile(zip_path) as zf:
+    for filename in zf.namelist():
+      if '_data_' in filename:
+        # find year
+        year = filename[:filename.index('.')]
+        year = year[-4:]
+        if year in year_list:
+          with zf.open(filename, 'r') as data_f:
+            csv_reader = csv.reader(io.TextIOWrapper(data_f, 'utf-8'))
+            temp_list = columns_from_CSVreader(
+                csv_reader, False)
+            ret_dict[year] = []
+            for cur_column in temp_list:
+              if not column_to_be_ignored(cur_column, spec_dict, delimiter):
+                ret_dict[year].append(cur_column)
+
+  return ret_dict
+
 
 def column_find_prefixed(column_name, prefix_list):
   matched_prefix = None
@@ -375,19 +397,22 @@ def create_long_config(basic_config_path: str, delimiter: str = '!!'):
 
   us_data_zip = os.path.expanduser(config_dict['us_data_zip'])
 
-  yearwise_columns_path = os.path.expanduser(
-      config_dict['yearwise_columns_path'])
-  yearwise_columns = json.load(open(yearwise_columns_path))
+  # yearwise_columns_path = os.path.expanduser(
+  #     config_dict['yearwise_columns_path'])
+  # yearwise_columns = json.load(open(yearwise_columns_path))
+  year_list = config_dict['year_list']
+
+  yearwise_columns = yearwise_columns_from_zip_file(us_data_zip, spec_dict, year_list, delimiter)
 
   census_columns = config_dict['census_columns']
   used_columns = config_dict['used_columns']
-  year_list = config_dict['year_list']
   ignore_tokens = config_dict['ignore_tokens']
 
   for year in yearwise_columns:
     # remove ignoreColumns
-    yearwise_columns[year] = remove_columns_to_be_ignored(
-        yearwise_columns[year], spec_dict)
+    # yearwise_columns[year] = remove_columns_to_be_ignored(
+    #     yearwise_columns[year], spec_dict)
+    
     # remove median, mean
     temp_list = []
     for column_name in yearwise_columns[year]:
@@ -513,7 +538,7 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
     for year in rows_by_column_type:
       col_i = config_dict['column_tok_index'][year]
       for census_col in rows_by_column_type[year]:
-        for new_row in rows_by_column_type[year][census_col]['estimate_cols']:
+        for cur_i, new_row in enumerate(rows_by_column_type[year][census_col]['estimate_cols']):
           cur_prefix = column_find_prefixed(new_row, total_prefixes)
           if cur_prefix:
             if cur_prefix not in denominators:
@@ -537,8 +562,33 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
                     '\nor\n', temp_str3)
           # warn if no prefix found
           elif new_row not in total_prefixes:
-            print('Warning:', new_row, 'has no prefix and is not a total')
-            no_prefix.append(new_row)
+            # print('Warning:', new_row, 'has no prefix and is not a total')
+            print(new_row)
+            new_total_i = -1
+            for total_i in range(cur_i):
+              if rows_by_column_type[year][census_col]['estimate_cols'][total_i] in total_prefixes:
+                new_total_i = total_i
+            new_total = rows_by_column_type[year][census_col]['estimate_cols'][new_total_i]
+            if new_total not in denominators:
+              denominators[new_total] = []
+            if new_row not in denominators[new_total]:
+              denominators[new_total].append(new_row)
+            temp_str2 = replace_token_in_column(new_row, 'Estimate',
+                                                'Margin of Error', delimiter)
+            temp_str3 = col_add_moe(temp_str2, col_i, delimiter)
+            moe_found = False
+            if temp_str2 in rows_by_column_type[year][census_col]['moe_cols']:
+              if temp_str2 not in denominators[new_total]:
+                denominators[new_total].append(temp_str2)
+              moe_found = True
+            if temp_str3 in rows_by_column_type[year][census_col]['moe_cols']:
+              if temp_str3 not in denominators[new_total]:
+                denominators[new_total].append(temp_str3)
+              moe_found = True
+            if not moe_found:
+              print('Warning: column expected but not found\n', temp_str2,
+                    '\nor\n', temp_str3)
+            no_prefix.append({new_row:new_total})
 
   # print(json.dumps(denominators, indent=2))
   output_path = os.path.dirname(long_config_path)
