@@ -1,12 +1,13 @@
 {
   "spec_path": "../spec_dir/S0701_spec.json",
   "us_data_zip": "~/acs_tables/S0701/S0701_us.zip",
-  "yearwise_columns_path": "~/acs_tables/S0701/yearwise_columns.json",
   "update_spec": false,
   "ignore_tokens": [
     "Median",
     "Mean",
-    "Average"
+    "Average",
+    "(dollars)",
+    "(years)"
   ],
   "census_columns": [
     "Total",
