@@ -18,7 +18,9 @@ def remove_method(argv):
     else:
       if row[4] == 'USDollar':
         row[4] = 'InflationAdjustedUSD_CurrentYear'
-        csv_writer.writerow(row)
+      if 'USDollar' in row[2]:
+        row[2] = row[2].replace('USDollar', 'InflationAdjustedUSD_CurrentYear')
+      csv_writer.writerow(row)
       
 
 if __name__ == '__main__':
