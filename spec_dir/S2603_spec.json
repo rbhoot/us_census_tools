@@ -17,48 +17,39 @@
     "Count_Person_16OrMoreYears_InArmedForces_InLaborForce": "Count_Person_InArmedForces",
     "MarginOfError_Count_Person_16OrMoreYears_InArmedForces_InLaborForce": "MarginOfError_Count_Person_InArmedForces",
     "Count_Person_18OrLessYears": "Count_Person_Upto18Years",
-    "MarginOfError_Count_Person_18OrLessYears": "MarginOfError_Count_Person_Upto18Years",
-    "Count_Person_18OrLessYears_Male": "Count_Person_Upto18Years_Male",
-    "MarginOfError_Count_Person_18OrLessYears_Male": "MarginOfError_Count_Person_Upto18Years_Male",
-    "Count_Person_18OrLessYears_Female": "Count_Person_Upto18Years_Female",
-    "MarginOfError_Count_Person_18OrLessYears_Female": "MarginOfError_Count_Person_Upto18Years_Female",
-    "Count_Person_18OrLessYears_ResidesInGroupQuarters": "Count_Person_Upto18Years_ResidesInGroupQuarters",
-    "MarginOfError_Count_Person_18OrLessYears_ResidesInGroupQuarters": "MarginOfError_Count_Person_Upto18Years_ResidesInGroupQuarters",
-    "Count_Person_18OrLessYears_Male_ResidesInGroupQuarters": "Count_Person_Upto18Years_Male_ResidesInGroupQuarters",
-    "MarginOfError_Count_Person_18OrLessYears_Male_ResidesInGroupQuarters": "MarginOfError_Count_Person_Upto18Years_Male_ResidesInGroupQuarters",
-    "Count_Person_18OrLessYears_Female_ResidesInGroupQuarters": "Count_Person_Upto18Years_Female_ResidesInGroupQuarters",
-    "MarginOfError_Count_Person_18OrLessYears_Female_ResidesInGroupQuarters": "MarginOfError_Count_Person_Upto18Years_Female_ResidesInGroupQuarters",
     "Count_Person_18OrLessYears_ResidesInAdultCorrectionalFacilities": "Count_Person_Upto18Years_ResidesInAdultCorrectionalFacilities",
-    "MarginOfError_Count_Person_18OrLessYears_ResidesInAdultCorrectionalFacilities": "MarginOfError_Count_Person_Upto18Years_ResidesInAdultCorrectionalFacilities",
-    "Count_Person_18OrLessYears_Male_ResidesInAdultCorrectionalFacilities": "Count_Person_Upto18Years_Male_ResidesInAdultCorrectionalFacilities",
-    "MarginOfError_Count_Person_18OrLessYears_Male_ResidesInAdultCorrectionalFacilities": "MarginOfError_Count_Person_Upto18Years_Male_ResidesInAdultCorrectionalFacilities",
-    "Count_Person_18OrLessYears_Female_ResidesInAdultCorrectionalFacilities": "Count_Person_Upto18Years_Female_ResidesInAdultCorrectionalFacilities",
-    "MarginOfError_Count_Person_18OrLessYears_Female_ResidesInAdultCorrectionalFacilities": "MarginOfError_Count_Person_Upto18Years_Female_ResidesInAdultCorrectionalFacilities",
-    "Count_Person_18OrLessYears_ResidesInNursingFacilities": "Count_Person_Upto18Years_ResidesInNursingFacilities",
-    "MarginOfError_Count_Person_18OrLessYears_ResidesInNursingFacilities": "MarginOfError_Count_Person_Upto18Years_ResidesInNursingFacilities",
-    "Count_Person_18OrLessYears_Male_ResidesInNursingFacilities": "Count_Person_Upto18Years_Male_ResidesInNursingFacilities",
-    "MarginOfError_Count_Person_18OrLessYears_Male_ResidesInNursingFacilities": "MarginOfError_Count_Person_Upto18Years_Male_ResidesInNursingFacilities",
-    "Count_Person_18OrLessYears_Female_ResidesInNursingFacilities": "Count_Person_Upto18Years_Female_ResidesInNursingFacilities",
-    "MarginOfError_Count_Person_18OrLessYears_Female_ResidesInNursingFacilities": "MarginOfError_Count_Person_Upto18Years_Female_ResidesInNursingFacilities",
-    "Count_Person_18OrLessYears_ResidesInJuvenileFacilities": "Count_Person_Upto18Years_ResidesInJuvenileFacilities",
-    "MarginOfError_Count_Person_18OrLessYears_ResidesInJuvenileFacilities": "MarginOfError_Count_Person_Upto18Years_ResidesInJuvenileFacilities",
-    "Count_Person_18OrLessYears_Male_ResidesInJuvenileFacilities": "Count_Person_Upto18Years_Male_ResidesInJuvenileFacilities",
-    "MarginOfError_Count_Person_18OrLessYears_Male_ResidesInJuvenileFacilities": "MarginOfError_Count_Person_Upto18Years_Male_ResidesInJuvenileFacilities",
-    "Count_Person_18OrLessYears_Female_ResidesInJuvenileFacilities": "Count_Person_Upto18Years_Female_ResidesInJuvenileFacilities",
-    "MarginOfError_Count_Person_18OrLessYears_Female_ResidesInJuvenileFacilities": "MarginOfError_Count_Person_Upto18Years_Female_ResidesInJuvenileFacilities",
     "Count_Person_18OrLessYears_ResidesInCollegeOrUniversityStudentHousing": "Count_Person_Upto18Years_ResidesInCollegeOrUniversityStudentHousing",
-    "MarginOfError_Count_Person_18OrLessYears_ResidesInCollegeOrUniversityStudentHousing": "MarginOfError_Count_Person_Upto18Years_ResidesInCollegeOrUniversityStudentHousing",
-    "Count_Person_18OrLessYears_Male_ResidesInCollegeOrUniversityStudentHousing": "Count_Person_Upto18Years_Male_ResidesInCollegeOrUniversityStudentHousing",
-    "MarginOfError_Count_Person_18OrLessYears_Male_ResidesInCollegeOrUniversityStudentHousing": "MarginOfError_Count_Person_Upto18Years_Male_ResidesInCollegeOrUniversityStudentHousing",
-    "Count_Person_18OrLessYears_Female_ResidesInCollegeOrUniversityStudentHousing": "Count_Person_Upto18Years_Female_ResidesInCollegeOrUniversityStudentHousing",
-    "MarginOfError_Count_Person_18OrLessYears_Female_ResidesInCollegeOrUniversityStudentHousing": "MarginOfError_Count_Person_Upto18Years_Female_ResidesInCollegeOrUniversityStudentHousing",
-    "Count_Person_18OrLessYears_ResidesInMilitaryQuartersOrMilitaryShips": "Count_Person_Upto18Years_ResidesInMilitaryQuartersOrMilitaryShips",
-    "MarginOfError_Count_Person_18OrLessYears_ResidesInMilitaryQuartersOrMilitaryShips": "MarginOfError_Count_Person_Upto18Years_ResidesInMilitaryQuartersOrMilitaryShips",
-    "Count_Person_18OrLessYears_Male_ResidesInMilitaryQuartersOrMilitaryShips": "Count_Person_Upto18Years_Male_ResidesInMilitaryQuartersOrMilitaryShips",
-    "MarginOfError_Count_Person_18OrLessYears_Male_ResidesInMilitaryQuartersOrMilitaryShips": "MarginOfError_Count_Person_Upto18Years_Male_ResidesInMilitaryQuartersOrMilitaryShips",
-    "Count_Person_18OrLessYears_Female_ResidesInMilitaryQuartersOrMilitaryShips": "Count_Person_Upto18Years_Female_ResidesInMilitaryQuartersOrMilitaryShips",
-    "MarginOfError_Count_Person_18OrLessYears_Female_ResidesInMilitaryQuartersOrMilitaryShips": "MarginOfError_Count_Person_Upto18Years_Female_ResidesInMilitaryQuartersOrMilitaryShips",
-    "Count_Person_SameHouse1YearAgo": "Count_Person_1OrMoreYears_SameHouse1YearAgo"
+    "Count_Person_18OrLessYears_ResidesInGroupQuarters": "Count_Person_Upto18Years_ResidesInGroupQuarters",
+    "Count_Person_18OrLessYears_ResidesInNursingFacilities": "Count_Person_Upto18Years_ResidesInNursingFacilities",
+    "Count_Person_SameHouse1YearAgo": "Count_Person_1OrMoreYears_SameHouse1YearAgo",
+    "Count_Person_InArmedForces_InLaborForce": "Count_Person_InArmedForces",
+    "MarginOfError_Count_Person_InArmedForces_InLaborForce": "MarginOfError_Count_Person_InArmedForces",
+    "Count_Person_InArmedForces_InLaborForce_ResidesInGroupQuarters": "Count_Person_InArmedForces_ResidesInGroupQuarters",
+    "MarginOfError_Count_Person_InArmedForces_InLaborForce_ResidesInGroupQuarters": "MarginOfError_Count_Person_InArmedForces_ResidesInGroupQuarters",
+    "Count_Person_InArmedForces_InLaborForce_ResidesInAdultCorrectionalFacilities": "Count_Person_InArmedForces_ResidesInAdultCorrectionalFacilities",
+    "MarginOfError_Count_Person_InArmedForces_InLaborForce_ResidesInAdultCorrectionalFacilities": "MarginOfError_Count_Person_InArmedForces_ResidesInAdultCorrectionalFacilities",
+    "Count_Person_InArmedForces_InLaborForce_ResidesInNursingFacilities": "Count_Person_InArmedForces_ResidesInNursingFacilities",
+    "MarginOfError_Count_Person_InArmedForces_InLaborForce_ResidesInNursingFacilities": "MarginOfError_Count_Person_InArmedForces_ResidesInNursingFacilities",
+    "Count_Person_InArmedForces_InLaborForce_ResidesInJuvenileFacilities": "Count_Person_InArmedForces_ResidesInJuvenileFacilities",
+    "MarginOfError_Count_Person_InArmedForces_InLaborForce_ResidesInJuvenileFacilities": "MarginOfError_Count_Person_InArmedForces_ResidesInJuvenileFacilities",
+    "Count_Person_InArmedForces_InLaborForce_ResidesInCollegeOrUniversityStudentHousing": "Count_Person_InArmedForces_ResidesInCollegeOrUniversityStudentHousing",
+    "MarginOfError_Count_Person_InArmedForces_InLaborForce_ResidesInCollegeOrUniversityStudentHousing": "MarginOfError_Count_Person_InArmedForces_ResidesInCollegeOrUniversityStudentHousing",
+    "Count_Person_InArmedForces_InLaborForce_ResidesInMilitaryQuartersOrMilitaryShips": "Count_Person_InArmedForces_ResidesInMilitaryQuartersOrMilitaryShips",
+    "MarginOfError_Count_Person_InArmedForces_InLaborForce_ResidesInMilitaryQuartersOrMilitaryShips": "MarginOfError_Count_Person_InArmedForces_ResidesInMilitaryQuartersOrMilitaryShips",
+    "Count_Person_EnrolledInCollegeOrGraduateSchool_EnrolledInSchool": "Count_Person_EnrolledInCollegeOrGraduateSchool",
+    "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_EnrolledInSchool": "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool",
+    "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInGroupQuarters_EnrolledInSchool": "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInGroupQuarters",
+    "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInGroupQuarters_EnrolledInSchool": "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInGroupQuarters",
+    "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInAdultCorrectionalFacilities_EnrolledInSchool": "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInAdultCorrectionalFacilities",
+    "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInAdultCorrectionalFacilities_EnrolledInSchool": "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInAdultCorrectionalFacilities",
+    "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInNursingFacilities_EnrolledInSchool": "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInNursingFacilities",
+    "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInNursingFacilities_EnrolledInSchool": "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInNursingFacilities",
+    "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInJuvenileFacilities_EnrolledInSchool": "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInJuvenileFacilities",
+    "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInJuvenileFacilities_EnrolledInSchool": "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInJuvenileFacilities",
+    "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInCollegeOrUniversityStudentHousing_EnrolledInSchool": "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInCollegeOrUniversityStudentHousing",
+    "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInCollegeOrUniversityStudentHousing_EnrolledInSchool": "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInCollegeOrUniversityStudentHousing",
+    "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInMilitaryQuartersOrMilitaryShips_EnrolledInSchool": "Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInMilitaryQuartersOrMilitaryShips",
+    "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInMilitaryQuartersOrMilitaryShips_EnrolledInSchool": "MarginOfError_Count_Person_EnrolledInCollegeOrGraduateSchool_ResidesInMilitaryQuartersOrMilitaryShips"
   },
   "populationType": {
     "_DEFAULT": "Person"
@@ -76,25 +67,25 @@
     "Median earnings (dollars)": {
       "measuredProperty": "earnings",
       "statType": "medianValue",
-      "unit": "USDollar",
+      "unit": "InflationAdjustedUSD_CurrentYear",
       "incomeStatus": "WithEarnings"
     },
     "Median earnings (dollars):": {
       "measuredProperty": "earnings",
       "statType": "medianValue",
-      "unit": "USDollar",
+      "unit": "InflationAdjustedUSD_CurrentYear",
       "incomeStatus": "WithEarnings"
     },
     "Mean earnings (dollars)": {
       "measuredProperty": "earnings",
       "statType": "meanValue",
-      "unit": "USDollar",
+      "unit": "InflationAdjustedUSD_CurrentYear",
       "incomeStatus": "WithEarnings"
     },
     "Mean earnings (dollars):": {
       "measuredProperty": "earnings",
       "statType": "meanValue",
-      "unit": "USDollar",
+      "unit": "InflationAdjustedUSD_CurrentYear",
       "incomeStatus": "WithEarnings"
     }
   },
@@ -149,8 +140,7 @@
     },
     "nativity": {
       "Foreign born": "USC_ForeignBorn",
-      "Native": "USC_Native",
-      "Foreign-born population excluding population born at sea": "USC_ForeignBornExceptAtSea"
+      "Native": "USC_Native"
     },
     "disabilityStatus": {
       "With a disability": "WithDisability",
@@ -175,7 +165,6 @@
       "Not in labor force": "BLS_NotInLaborForce"
     },
     "employment": {
-      "Employed": "BLS_Employed",
       "Civilian employed population 16 years and over": "BLS_Employed",
       "Unemployed": "BLS_Unemployed"
     },
@@ -245,7 +234,8 @@
       "Europe": "europe",
       "Asia": "asia",
       "Latin America": "LatinAmerica",
-      "Other": "USC_OtherThanAsiaEuropeLatinAmerica"
+      "Other": "OtherThanAsiaEuropeLatinAmerica",
+      "Foreign-born population excluding population born at sea": "ForeignBornExceptAtSea"
     },
     "dateOfEntry": {
       "Entered before 2000": "[- 2000 Date]",
@@ -304,13 +294,6 @@
     },
     {
       "populationType": "Person",
-      "constraintProperties": ["residentStatus"],
-      "dependentPVs": {
-        "age": "[1 - Years]"
-      }
-    },
-    {
-      "populationType": "Person",
       "constraintProperties": ["placeOfBirth"],
       "dependentPVs": {
         "nativity": "USC_ForeignBorn"
@@ -337,7 +320,15 @@
       "dependentPVs": {
         "age": "[16 - Years]",
         "armedForcesStatus": "Civilian",
-        "employment": "BLS_Employed"
+        "employment": "BLS_Employed",
+        "employmentStatus": "BLS_InLaborForce"
+      }
+    },
+    {
+      "populationType": "Person",
+      "constraintProperties": ["dateOfEntry"],
+      "dependentPVs": {
+        "nativity": "dcid:USC_ForeignBorn"
       }
     }
   ],
@@ -346,6 +337,7 @@
     "Geographic Area Name",
     "Per capita income (dollars)",
     "Percent of civilian labor force",
+    "Employed",
     "Margin of Error!!Adult correctional facilities!!INCOME AND BENEFITS IN THE PAST 12 MONTHS (IN 2019 INFLATION-ADJUSTED DOLLARS)!!Individuals!!Median earnings (dollars):!!Male",
     "Margin of Error!!Adult correctional facilities!!INCOME AND BENEFITS IN THE PAST 12 MONTHS (IN 2019 INFLATION-ADJUSTED DOLLARS)!!Individuals!!Mean earnings (dollars):!!Male",
     "Margin of Error!!Total group quarters population!!INCOME AND BENEFITS IN THE PAST 12 MONTHS (IN 2019 INFLATION-ADJUSTED DOLLARS)!!Individuals!!Median earnings (dollars):!!Male",
