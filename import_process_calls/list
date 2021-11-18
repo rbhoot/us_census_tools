@@ -1,0 +1,30 @@
+
+python helper_functions.py --get_ignore_columns --column_list_path=~/acs_tables/S2601APR/all_columns.json
+
+python helper_functions.py --denominator_config=~/acs_tables/S2601APR/denominator_config.json --denominator_long_config=~/acs_tables/S2601APR/denominator_config_long.json
+
+python acs_spec_validator.py --column_list_path=~/acs_tables/S2601APR/all_columns.json --spec_path=../spec_dir/S2601APR_spec.json --validator_output=~/acs_tables/S2601APR/validator
+python acs_spec_validator.py --zip_list=~/acs_tables/S2601APR/S2601APR_us.zip --spec_path=../spec_dir/S2601APR_spec.json --validator_output=~/acs_tables/S2601APR/validator
+
+python process.py --option=colmap --spec_path=~/us_census_tools/spec_dir/S2601APR_spec.json --input_path=~/acs_tables/S2601APR/S2601APR_us.zip --output_dir=~/acs_tables/S2601APR/
+python process.py --option=colmap --spec_path=/Users/bhoot/us_census_tools/spec_dir/S2601APR_spec.json --input_path=/Users/bhoot/acs_tables/S2601APR/S2601APR_us.zip --output_dir=/Users/bhoot/acs_tables/S2601APR/run_test
+
+python column_map_validator.py --spec_path=../spec_dir/S2601APR_spec.json --column_map=~/acs_tables/S2601APR/column_map.json --yearwise_columns=~/acs_tables/S2601APR/yearwise_columns.json --colmap_validation_output=~/acs_tables/S2601APR/
+
+scp ~/acs_tables/S2601APR/statvars_all.mcf bhoot.c.googlers.com:~/acs_tables/S2601APR/
+cd ~/acs_tables/S2601APR/
+dc-import lint statvars_all.mcf enums.mcf --output-dir=./statvar_single_report
+dc-import lint statvars_all.mcf enums.mcf /google/src/head/depot/google3/third_party/datacommons/schema/stat_vars/*.mcf --output-dir=./statvar_report
+
+python process.py --option=process --table_prefix=S2601APR --has_percent=True --debug=False --spec_path=~/us_census_tools/spec_dir/S2601APR_spec.json --input_path=~/acs_tables/S2601APR/S2601APR_all.zip --output_dir=~/acs_tables/S2601APR/run2/
+python process.py --option=process --table_prefix=S2601APR --has_percent=True --debug=False --spec_path=/Users/bhoot/us_census_tools/spec_dir/S2601APR_spec.json --input_path=/Users/bhoot/acs_tables/S2601APR/S2601APR_us.zip --output_dir=/Users/bhoot/acs_tables/S2601APR/run_test
+
+python process.py --option=all --table_prefix=S2601APR --has_percent=True --debug=False --spec_path=~/us_census_tools/spec_dir/S2601APR_spec.json --input_path=~/acs_tables/S2601APR/S2601APR_us.zip --output_dir=~/acs_tables/S2601APR/run_test/
+
+python data_validations.py --data_tests=possible_percentage --csv_path=~/acs_tables/S2601APR/run2/S2601APR_cleaned.csv
+python data_validations.py --data_tests=open_distributions --csv_path=~/acs_tables/S2601APR/run2/S2601APR_cleaned.csv
+
+
+cd ~/acs_tables/S2601APR/run2/
+dc-import lint -sr S2601APR_output.tmcf S2601APR_cleaned.csv ../statvars_all.mcf ../enums.mcf
+dc-import lint -sr S2601APR_output.tmcf S2601APR_cleaned_fixed.csv ../statvars_all.mcf ../enums.mcf
