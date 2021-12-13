@@ -90,7 +90,8 @@ def check_column_map(column_map_path,
       if cur_dcid not in dcid_stat_var:
         dcid_stat_var[cur_dcid] = column_map[year][column_name]
       elif dcid_stat_var[cur_dcid] != column_map[year][column_name]:
-        stat_dir['same_dcid_different_statvar'].append(cur_dcid)
+        if cur_dcid not in stat_dir['same_dcid_different_statvar']:
+          stat_dir['same_dcid_different_statvar'].append(cur_dcid)
 
     cur_column_list['all'].extend(cur_column_list[year])
 

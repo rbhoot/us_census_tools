@@ -349,7 +349,7 @@ def test_column_name_list(column_name_list: list,
         print('\nError: Following denominator were repeated')
       temp_list = list(set(temp_list))
       print(json.dumps(temp_list, indent=2))
-      ret_dict['repeating_denominator'] = temp_list
+      ret_dict['repeating_denominator'] = sorted(temp_list)
     else:
       print('No denominators were repeated')
   if 'all' in test_list or 'multiple_measurement' in test_list:
