@@ -42,7 +42,6 @@ The long config file generated in the 1st step can be used to check and modify t
 
 - `spec_path` - The path to the JSON spec
 - `us_data_zip` - The zip file containing **ONLY US level** data downloaded from census.
-- `yearwise_columns_path` - Path of the file for the relevant table from clone of https://github.com/rbhoot/acs_tables .
 - `update_spec` - Boolean value. If set to `true` the spec pointed by `spec_path` will be modified and the denominator section will be added/overwritten in the file.
 - `ignore_tokens` - List of tokens which will dicard the column if any of the token appears even as substring of token. This is useful if some values behave like percentage but are true values and need not be considered for denominator section. Minimum list: ['Mean', 'Median']
 

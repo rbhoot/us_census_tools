@@ -5,19 +5,31 @@ import os
 import sys
 from absl import app
 from absl import flags
+import requests
+import logging
+from http.client import HTTPConnection
 
 FLAGS = flags.FLAGS
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
 
-flags.DEFINE_string('dcid', None, 'Path to zip file downloaded from US Census')
+flags.DEFINE_string('dcid', None, 'dcid of the node to query')
 flags.DEFINE_string('dc_output_path', './prefetched_outputs/',
-                    'Path to zip file downloaded from US Census')
+                    'Path to store the output')
 flags.DEFINE_boolean('force_fetch', False,
-                     'Produce a list of tokens from the input file/s')
+                     'forces api query and not return cached result')
 
-from common_utils.common_util import request_url_json
+from common_utils.common_util import requests_post_json
+
+# logging.basicConfig() # you need to initialize logging, otherwise you will not see anything from requests
+# logging.getLogger().setLevel(logging.DEBUG)
+# requests_log = logging.getLogger("urllib3")
+# requests_log.setLevel(logging.DEBUG)
+# HTTPConnection.debuglevel = 1
+# requests_log.propagate = True
+
+
 
 # fetch pvs from dc, enums from dc
 
@@ -34,9 +46,15 @@ def fetch_dcid_properties_enums(class_dcid,
   # get list of properties for each population type
   if force_fetch or not os.path.isfile(
       os.path.join(output_path, f'{class_dcid}_dc_props.json')):
-    population_props = request_url_json(
-        f'https://autopush.api.datacommons.org/node/property-values?dcids={class_dcid}&property=domainIncludes&direction=in'
-    )
+    # population_props = request_url_json(
+    #     f'https://autopush.api.datacommons.org/node/property-values?dcids={class_dcid}&property=domainIncludes&direction=in'
+    # )
+    data_ = {}
+    data_["dcids"] = [class_dcid]
+    data_["property"] = "domainIncludes"
+    data_["direction"] = "in"
+    # print(data_)
+    population_props = requests_post_json('https://autopush.api.datacommons.org/node/property-values', data_)
     dc_population_pvs = population_props['payload']
     dc_population_pvs = ast.literal_eval(dc_population_pvs)
 
@@ -55,22 +73,30 @@ def fetch_dcid_properties_enums(class_dcid,
   # check if the list has enum type
   if force_fetch or not os.path.isfile(
       os.path.join(output_path, f'{class_dcid}_dc_props_types.json')):
-    population_props_types = request_url_json(
-        f'https://autopush.api.datacommons.org/node/property-values?dcids={"&dcids=".join(dc_props.keys())}&property=rangeIncludes&direction=out'
-    )
-    population_props_types = ast.literal_eval(population_props_types['payload'])
-    for property_name in population_props_types:
-      for temp_dict in population_props_types[property_name]['out']:
-        dc_props[property_name].append(temp_dict['dcid'])
+    # population_props_types = request_url_json(
+    #     f'https://autopush.api.datacommons.org/node/property-values?dcids={"&dcids=".join(dc_props.keys())}&property=rangeIncludes&direction=out'
+    # )
+    data_ = {}
+    data_['dcids'] = list(dc_props.keys())
+    data_['property'] = 'rangeIncludes'
+    data_['direction'] = 'out'
+    if data_['dcids']:
+      population_props_types = requests_post_json('https://autopush.api.datacommons.org/node/property-values', data_)
+      population_props_types = ast.literal_eval(population_props_types['payload'])
+      for property_name in population_props_types:
+        # print(property_name)
+        if population_props_types[property_name]:
+          for temp_dict in population_props_types[property_name]['out']:
+            dc_props[property_name].append(temp_dict['dcid'])
 
-    # print(population_props_types)
+      # print(population_props_types)
 
-    with open(
-        os.path.join(output_path, f'{class_dcid}_dc_props_types.json'),
-        'w') as fp:
-      json.dump(dc_props, fp, indent=2)
+      with open(
+          os.path.join(output_path, f'{class_dcid}_dc_props_types.json'),
+          'w') as fp:
+        json.dump(dc_props, fp, indent=2)
 
-    # print(population_props_enums)
+      # print(population_props_enums)
   else:
     dc_props = json.load(
         open(
@@ -85,9 +111,14 @@ def fetch_dcid_properties_enums(class_dcid,
       dc_props[property_name] = []
       for type_name in new_dict[property_name]:
         if 'enum' in type_name.lower():
-          enum_values = request_url_json(
-              f'https://autopush.api.datacommons.org/node/property-values?dcids={type_name}&property=typeOf&direction=in'
-          )
+          # enum_values = request_url_json(
+          #     f'https://autopush.api.datacommons.org/node/property-values?dcids={type_name}&property=typeOf&direction=in'
+          # )
+          data_ = {}
+          data_['dcids'] = [type_name]
+          data_['property'] = 'typeOf'
+          data_['direction'] = 'in'
+          enum_values = requests_post_json('https://autopush.api.datacommons.org/node/property-values', data_)
           enum_values = ast.literal_eval(enum_values['payload'])
           if enum_values[type_name]:
             for temp_dict in enum_values[type_name]['in']:

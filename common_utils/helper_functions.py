@@ -11,7 +11,10 @@ flags.DEFINE_string(
 flags.DEFINE_string(
     'denominator_long_config', None,
     'Path of json file LONG config for generating denominator section')
-
+flags.DEFINE_string('column_list_path', None,
+    'Path of json file containing list of all columns')
+flags.DEFINE_boolean('get_ignore_columns', False,
+    'Path of json file containing list of all columns')
 
 def find_columns_with_token(column_list, token, delimiter='!!'):
   ret_list = []
@@ -602,12 +605,28 @@ def create_denominators_section(long_config_path: str, delimiter: str = '!!'):
     json.dump(spec_dict, open(config_dict['spec_path'], 'w'), indent=2)
 
 
+def get_columns_stat_moe(column_list: list, delimiter: str = '!!') -> list:
+  ret_list  = []
+  stat_tokens = ['Mean', 'Median', 'Average']
+  moe_columns = find_columns_with_token(column_list, 'Margin of Error')
+  for cur_token in stat_tokens:
+    ret_list.extend(find_columns_with_token_partial_match(moe_columns, cur_token, delimiter))
+  
+  return list(set(ret_list))
+
 def main(argv):
   if FLAGS.denominator_config:
     create_long_config(FLAGS.denominator_config)
   if FLAGS.denominator_long_config:
     create_denominators_section(FLAGS.denominator_long_config)
-
+  if FLAGS.get_ignore_columns:
+    if not FLAGS.column_list_path:
+      print('List of columns required to get ignore columns')
+    else:
+      columns_path = os.path.expanduser(FLAGS.column_list_path)
+      column_list = json.load(open(columns_path))
+      ignore_columns = get_columns_stat_moe(column_list, FLAGS.delimiter)
+      print(json.dumps(ignore_columns, indent=2))
 
 if __name__ == '__main__':
   app.run(main)

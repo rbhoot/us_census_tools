@@ -66,7 +66,7 @@ def check_column_map(column_map_path,
         dcid_list[cur_dcid] = []
       dcid_list[cur_dcid].append(column_name)
       # margin of error and normal statvar counts
-      if column_map[year][column_name]['statType'] == 'dcid:marginOfError':
+      if 'marginOfError' in column_map[year][column_name]['statType']:
         moe_stats_count += 1
 
         # check if the corresponding non margin of error statvar is present

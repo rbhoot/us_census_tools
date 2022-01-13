@@ -44,6 +44,23 @@ def request_url_json(url: str) -> dict:
     #TODO
   return response_data
 
+def requests_post_json(url: str, data_: dict) -> dict:
+  headers = {'Content-Type': 'application/json'}
+  req = requests.post(url, data=json.dumps(data_), headers=headers)
+  # req = requests.post(url, data=data_)
+  print(req.request.url)
+  # print(req.request.headers)
+  # print(req.request.data)
+  
+  if req.status_code == requests.codes.ok:
+    response_data = req.json()
+    # print(response_data)
+  else:
+    response_data = {}
+    print('HTTP status code: ' + str(req.status_code))
+    #if req.status_code != 204:
+    #TODO
+  return response_data
 
 def get_tokens_list_from_zip(zip_file_path: str,
                              check_metadata: bool = False,
