@@ -56,9 +56,14 @@ def check_geoId_csv(csv_path, column_name, force_fetch):
     for cur_geo in geo_dicts:
       if not geo_dicts[cur_geo]['inLabels'] and not geo_dicts[cur_geo]['outLabels']:
         cache_geo[cur_geo] = False
-        print(cur_geo)
       else:
         cache_geo[cur_geo] = True
+  
+  for cur_geo in geo_list:
+    if not cache_geo[cur_geo]:
+      print(cur_geo)
+
+  print('End of script')
   # write cache
   with open('results_cache.json', 'w') as fp:
     json.dump(cache_geo, fp, indent=2)
