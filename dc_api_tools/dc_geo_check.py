@@ -63,10 +63,11 @@ def check_geoId_csv(csv_path, column_name, force_fetch):
     if not cache_geo[cur_geo]:
       print(cur_geo)
 
-  print('End of script')
   # write cache
   with open('results_cache.json', 'w') as fp:
     json.dump(cache_geo, fp, indent=2)
+
+  print('End of script')
 
 def main(argv):
   check_geoId_csv(FLAGS.csv_path, FLAGS.column_name, FLAGS.force_fetch)
