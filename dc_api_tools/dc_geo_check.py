@@ -49,15 +49,18 @@ def check_geoId_csv(csv_path, column_name, force_fetch):
 
   if geo_list_req:
     data_ = {}
-    data_["dcids"] = geo_list_req
-    req = requests_post_json('https://api.datacommons.org/node/property-labels', data_)
-    geo_dicts = req['payload']
-    geo_dicts = ast.literal_eval(geo_dicts)
-    for cur_geo in geo_dicts:
-      if not geo_dicts[cur_geo]['inLabels'] and not geo_dicts[cur_geo]['outLabels']:
-        cache_geo[cur_geo] = False
-      else:
-        cache_geo[cur_geo] = True
+    chunk_size = 400
+    geo_list_chunked = [geo_list_req[i:i + chunk_size] for i in range(0, len(geo_list_req), chunk_size)]
+    for geo_chunk in geo_list_chunked:
+      data_["dcids"] = geo_chunk
+      req = requests_post_json('https://api.datacommons.org/node/property-labels', data_)
+      geo_dicts = req['payload']
+      geo_dicts = ast.literal_eval(geo_dicts)
+      for cur_geo in geo_dicts:
+        if not geo_dicts[cur_geo]['inLabels'] and not geo_dicts[cur_geo]['outLabels']:
+          cache_geo[cur_geo] = False
+        else:
+          cache_geo[cur_geo] = True
   
   for cur_geo in geo_list:
     if not cache_geo[cur_geo]:
