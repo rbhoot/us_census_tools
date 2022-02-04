@@ -7,8 +7,8 @@ import grequests
 import requests
 import datetime
 import logging
-from census_downloader.download_utils import download_url_list
-from census_downloader.url_list_compiler import get_table_url_list, get_variables_url_list, get_yearwise_variable_column_map
+from download_utils import download_url_list
+from url_list_compiler import get_table_url_list, get_variables_url_list, get_yearwise_variable_column_map
 
 '''
 TODO
@@ -16,7 +16,6 @@ TODO
         hide api key
 
     2010 download county subdivision, zip tabulation
-
 '''
 
 def download_table(table_id, year_list, geoURLMapPath, output_path, api_key):
@@ -30,6 +29,7 @@ def download_table(table_id, year_list, geoURLMapPath, output_path, api_key):
     logging.info('compiling list of URLs')
     url_list = get_table_url_list(table_id, year_list, geoURLMap, output_path, api_key)
     
+    # TODO extract function status
     status_file = output_path+'download_status.json'
     if not os.path.isfile(status_file):
         logging.debug('Storing initial download status')
@@ -42,9 +42,10 @@ def download_table(table_id, year_list, geoURLMapPath, output_path, api_key):
     start = time.time()
 
     failed_urls_ctr = len(url_list)
+    prev_failed_ctr = failed_urls_ctr + 1
     loop_ctr = 0
     logging.info('downloading URLs')
-    prev_failed_ctr = failed_urls_ctr + 1
+    # TODO extract function and use status dict
     while failed_urls_ctr > 0 and loop_ctr < 10 and prev_failed_ctr > failed_urls_ctr:
         prev_failed_ctr = failed_urls_ctr
         logging.info('downloading URLs iteration:%d', loop_ctr)
@@ -52,6 +53,7 @@ def download_table(table_id, year_list, geoURLMapPath, output_path, api_key):
         logging.info('failed request count: %d', failed_urls_ctr)
         loop_ctr += 1
 
+    # TODO check status before consolidate, warn if any URL status contains fail
     consolidate_files(table_id, year_list, output_path)
     
     end = time.time()
@@ -143,6 +145,7 @@ def consolidate_files(table_id, year_list, output_path, keep_originals=True):
             df.to_csv(out_file_name, encoding='utf-8', index=False)
             out_csv_list.append(out_file_name)
 
+    # TODO extract function
     print("zipppin")
     print(out_csv_list)
     logging.info('zipping output files')
@@ -216,7 +219,8 @@ def download_table_variables(table_id, year_list, geoURLMapPath, spec_path, outp
         failed_urls_ctr = download_url_list(url_list, output_path, loop_ctr)
         logging.info('failed request count: %d', failed_urls_ctr)
         loop_ctr += 1
-
+    
+    # TODO check status before consolidate, warn if any URL status contains fail
     # consolidate_files(table_id, year_list, output_path)
 
     end = time.time()

@@ -27,6 +27,7 @@ def download_url_list(url_list, output_path, ctr):
     # logging.debug('Downloading url list %s', ','.join(url_list))
     logging.debug('Output path: %s, Iteration: %d', output_path, ctr)
     
+    # TODO extract function status
     if os.path.isfile(os.path.join(output_path, 'download_status.json')):
         logging.debug('Found previous download status file')
         status_list = json.load(open(os.path.join(output_path, 'download_status.json'), 'r'))
@@ -35,7 +36,7 @@ def download_url_list(url_list, output_path, ctr):
                 for url_temp in url_list:
                     if url_temp['url'] == url_status['url']:
                         url_list.remove(url_temp)
-                if url_status['status'] != 'downloaded' and url_status['status'] != '204':
+                if url_status['status'] != 'ok' and url_status['status'] != '204':
                     logging.info('%s url responded with %s HTTP code', url_status['url'], url_list['status'])
     else:
         logging.debug('No previous download status file')
@@ -53,7 +54,7 @@ def download_url_list(url_list, output_path, ctr):
         logging.info('Creating 35 sec delay because of > 3 iterations')
     for cur_chunk in urls_chunked:
         start_t = time.time()
-        # logging.debug('Initializing parallel request fot url list %s', ','.join(url_list))
+        # logging.debug('Initializing parallel request for url list %s', ','.join(url_list))
         results = grequests.map((grequests.get(u['url']) for u in cur_chunk), size=n)
         delay_flag = False
         for i, resp in enumerate(results):
@@ -67,17 +68,20 @@ def download_url_list(url_list, output_path, ctr):
                     # print(cur_chunk[i]['name'])
                     logging.info('Writing downloaded data to file: %s', cur_chunk[i]['name'])
                     df.to_csv(cur_chunk[i]['name'], encoding='utf-8', index = False)
-                    status_list[-1]['status'] = 'downloaded'
+                    # TODO extract function status
+                    status_list[-1]['status'] = 'ok'
                 else:
+                    # TODO extract function status
                     status_list[-1]['status'] = str(resp.status_code)
                     print("HTTP status code: "+str(resp.status_code))
             else:
                 delay_flag = True
                 print("Error: None reponse obj", cur_chunk[i]['url'])
                 logging.warn('%s resonsed None', cur_chunk[i]['url'])
+                # TODO extract function status
                 status_list[-1]['status'] = 'fail'
                 fail_ctr += 1
-
+            # TODO extract function status
             status_list.append(cur_chunk[i])
         end_t = time.time()
         logging.debug('Storing download status')

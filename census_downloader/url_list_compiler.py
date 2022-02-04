@@ -65,11 +65,11 @@ def get_yearwise_variable_column_map(table_id, year_list, store_path = None, for
                     json.dump(ret_dict, fp, indent=2)
     return ret_dict
 
-def get_url_entry(year, table_id, geo_str, output_path, api_key):
+def get_url_entry_table(year, table_id, geo_str, output_path, api_key):
     tempDict = {}
     tempDict['url'] = get_url_table(year, table_id, geo_str, api_key)
-    tempDict['name'] = get_file_name_table(output_path, table_id, year, geo_str)
-    tempDict['status'] = 'fail'
+    tempDict['store_path'] = get_file_name_table(output_path, table_id, year, geo_str)
+    tempDict['status'] = 'pending'
     return tempDict
 
 def get_table_url_list(table_id, year_list, geo_url_map, output_path, api_key):
@@ -82,10 +82,10 @@ def get_table_url_list(table_id, year_list, geo_url_map, output_path, api_key):
             if geo_url_map[geoID]['needsStateID']:
                 for state_id in states_by_year[year]:
                     geo_str_state = geo_str + state_id
-                    tempDict = get_url_entry(year, table_id, geo_str_state, output_path, api_key)
+                    tempDict = get_url_entry_table(year, table_id, geo_str_state, output_path, api_key)
                     retList.append(tempDict)
             else:
-                tempDict = get_url_entry(year, table_id, geo_str, output_path, api_key)
+                tempDict = get_url_entry_table(year, table_id, geo_str, output_path, api_key)
                 retList.append(tempDict)
     return retList
 
@@ -133,15 +133,15 @@ def get_variables_url_list(table_id, variables_year_dict, geoURLMap, output_path
                         variableListStr = ','.join(curVars)
                         tempDict = {}
                         tempDict['url'] = get_url_variables(year, 'NAME,' + variableListStr, geoStrState, api_key)
-                        tempDict['name'] = get_file_name_variables(output_path, table_id, year, i, geoStrState)
-                        tempDict['status'] = 'fail'
+                        tempDict['store_path'] = get_file_name_variables(output_path, table_id, year, i, geoStrState)
+                        tempDict['status'] = 'pending'
                         ret_list.append(tempDict)
             else:
                 for i, curVars in enumerate(variablesChunked):
                     variableListStr = ','.join(curVars)
                     tempDict = {}
                     tempDict['url'] = get_url_variables(year, 'NAME,' + variableListStr, geoStr, api_key)
-                    tempDict['name'] = get_file_name_variables(output_path, table_id, year, i, geoStr)
-                    tempDict['status'] = 'fail'
+                    tempDict['store_path'] = get_file_name_variables(output_path, table_id, year, i, geoStr)
+                    tempDict['status'] = 'pending'
                     ret_list.append(tempDict)
     return ret_list
