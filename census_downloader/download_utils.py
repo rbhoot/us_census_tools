@@ -5,6 +5,7 @@ import random
 import time
 import requests
 import pandas as pd
+from status_file_utils import read_update_status, get_pending_or_fail_url_list
 import grequests
 
 def request_url_json(url):
@@ -27,20 +28,22 @@ def download_url_list(url_list, output_path, ctr):
     # logging.debug('Downloading url list %s', ','.join(url_list))
     logging.debug('Output path: %s, Iteration: %d', output_path, ctr)
     
-    # TODO extract function status
-    if os.path.isfile(os.path.join(output_path, 'download_status.json')):
-        logging.debug('Found previous download status file')
-        status_list = json.load(open(os.path.join(output_path, 'download_status.json'), 'r'))
-        for url_status in status_list:
-            if url_status['status'] != 'fail':
-                for url_temp in url_list:
-                    if url_temp['url'] == url_status['url']:
-                        url_list.remove(url_temp)
-                if url_status['status'] != 'ok' and url_status['status'] != '204':
-                    logging.info('%s url responded with %s HTTP code', url_status['url'], url_list['status'])
-    else:
-        logging.debug('No previous download status file')
-        status_list = []
+    status_path = os.path.join(output_path, 'download_status.json')
+    url_list_all = read_update_status(status_path, url_list)
+    url_list = get_pending_or_fail_url_list(url_list_all)
+    # if os.path.isfile(os.path.join(output_path, 'download_status.json')):
+    #     logging.debug('Found previous download status file')
+    #     status_list = json.load(open(os.path.join(output_path, 'download_status.json'), 'r'))
+    #     for url_status in status_list:
+    #         if url_status['status'] != 'fail':
+    #             for url_temp in url_list:
+    #                 if url_temp['url'] == url_status['url']:
+    #                     url_list.remove(url_temp)
+    #             if url_status['status'] != 'ok' and url_status['status'] != '204':
+    #                 logging.info('%s url responded with %s HTTP code', url_status['url'], url_list['status'])
+    # else:
+    #     logging.debug('No previous download status file')
+    #     status_list = []
     # keep this as the number of parallel requests targeted
     n = 30
     urls_chunked = [url_list[i:i + n] for i in range(0, len(url_list), n)]
@@ -52,7 +55,7 @@ def download_url_list(url_list, output_path, ctr):
     if ctr > 3:
         create_delay(35)
         logging.info('Creating 35 sec delay because of > 3 iterations')
-    for cur_chunk in urls_chunked:
+    for j, cur_chunk in enumerate(urls_chunked):
         start_t = time.time()
         # logging.debug('Initializing parallel request for url list %s', ','.join(url_list))
         results = grequests.map((grequests.get(u['url']) for u in cur_chunk), size=n)
@@ -68,25 +71,24 @@ def download_url_list(url_list, output_path, ctr):
                     # print(cur_chunk[i]['name'])
                     logging.info('Writing downloaded data to file: %s', cur_chunk[i]['name'])
                     df.to_csv(cur_chunk[i]['name'], encoding='utf-8', index = False)
-                    # TODO extract function status
-                    status_list[-1]['status'] = 'ok'
+                    url_list[j*n+i]['status'] = 'ok'
+                    url_list[j*n+i]['http_code'] = str(resp.status_code)
                 else:
-                    # TODO extract function status
-                    status_list[-1]['status'] = str(resp.status_code)
+                    url_list[j*n+i]['status'] = 'fail'
+                    url_list[j*n+i]['http_code'] = str(resp.status_code)
                     print("HTTP status code: "+str(resp.status_code))
             else:
                 delay_flag = True
                 print("Error: None reponse obj", cur_chunk[i]['url'])
                 logging.warn('%s resonsed None', cur_chunk[i]['url'])
-                # TODO extract function status
-                status_list[-1]['status'] = 'fail'
+                url_list[j*n+i]['status'] = 'fail'
                 fail_ctr += 1
-            # TODO extract function status
-            status_list.append(cur_chunk[i])
+            # # TODO extract function status
+            # status_list.append(cur_chunk[i])
         end_t = time.time()
         logging.debug('Storing download status')
-        with open(output_path+'download_status.json', 'w') as fp:
-            json.dump(status_list, fp, indent=2)
+        with open(status_path, 'w') as fp:
+            json.dump(url_list_all, fp, indent=2)
         
         print("The time required to download", n, "URLs :", end_t-start_t)
         if delay_flag:

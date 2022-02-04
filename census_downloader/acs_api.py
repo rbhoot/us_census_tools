@@ -29,12 +29,12 @@ def download_table(table_id, year_list, geoURLMapPath, output_path, api_key):
     logging.info('compiling list of URLs')
     url_list = get_table_url_list(table_id, year_list, geoURLMap, output_path, api_key)
     
-    # TODO extract function status
-    status_file = output_path+'download_status.json'
-    if not os.path.isfile(status_file):
-        logging.debug('Storing initial download status')
-        with open(status_file, 'w') as fp:
-            json.dump(url_list, fp, indent=2)
+    # # TODO extract function status
+    # status_file = output_path+'download_status.json'
+    # if not os.path.isfile(status_file):
+    #     logging.debug('Storing initial download status')
+    #     with open(status_file, 'w') as fp:
+    #         json.dump(url_list, fp, indent=2)
 
     print(len(url_list))
     logging.info("Compiled a list of %d URLs", len(url_list))
