@@ -18,7 +18,7 @@ def read_update_status(filename: str, url_list: list, force_fetch_all: bool = Fa
     final_list = sync_status_list(prev_status, url_list)
     
     # write back to the log file
-    json.dump(final_list, open(filename, 'w'))
+    json.dump(final_list, open(filename, 'w'), indent=2)
     return final_list
 
 # add urls or sync 2 url list
@@ -36,8 +36,8 @@ def sync_status_list(log_list: list, new_list: list) -> list:
        
         # store_path default value, expand user and abs
         if 'store_path' not in cur_url:
-            # TODO make the filename work for post request which would have same URL with different data
             # add file name
+            # TODO make the filename work for post request which would have same URL with different data
             # cur_url['store_path'] = os.path.join(store_path, base64.b64encode(cur_url['url']))
             raise ValueError('Each url must have an associated store_path')
         cur_url['store_path'] = os.path.expanduser(cur_url['store_path'])
@@ -110,5 +110,3 @@ def get_pending_or_fail_url_list(url_list: list) -> list:
         if cur_url['status'] == 'pending' or cur_url['status'] == 'fail':
             pending_url_list.append(cur_url)
     return pending_url_list
-
-# update url status

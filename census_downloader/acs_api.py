@@ -3,31 +3,33 @@ import json
 import time
 import os
 import pandas as pd
-import grequests
-import requests
 import datetime
 import logging
 from download_utils import download_url_list
 from url_list_compiler import get_table_url_list, get_variables_url_list, get_yearwise_variable_column_map
 
+from absl import app
+from absl import flags
+
+FLAGS = flags.FLAGS
+
 '''
 TODO
-    command line arguments
-        hide api key
-
+    hide api key in status file, log and print statements
     2010 download county subdivision, zip tabulation
 '''
 
-def download_table(table_id, year_list, geoURLMapPath, output_path, api_key):
+def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
-    geoURLMap = json.load(open(geoURLMapPath, 'r'))
+    geo_url_map_path = os.path.expanduser(geo_url_map_path)
+    geo_url_map = json.load(open(geo_url_map_path, 'r'))
     logging.debug('creating missing directories in path:%s', output_path)
     if not os.path.exists(output_path):
         os.makedirs(output_path, exist_ok=True)
     
     logging.info('compiling list of URLs')
-    url_list = get_table_url_list(table_id, year_list, geoURLMap, output_path, api_key)
+    url_list = get_table_url_list(table_id, year_list, geo_url_map, output_path, api_key)
     
     # # TODO extract function status
     # status_file = output_path+'download_status.json'
@@ -170,10 +172,10 @@ def consolidate_files(table_id, year_list, output_path, keep_originals=True):
         # if os.path.isfile(status_file):
         #     os.remove(status_file)
 
-def download_table_variables(table_id, year_list, geoURLMapPath, spec_path, output_path, api_key):
+def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, output_path, api_key):
     table_id = table_id.upper()
     spec_dict = json.load(open(spec_path, 'r'))
-    geoURLMap = json.load(open(geoURLMapPath, 'r'))
+    geo_url_map = json.load(open(geo_url_map_path, 'r'))
     
     if not os.path.exists(output_path):
         os.makedirs(output_path, exist_ok=True)
@@ -198,7 +200,7 @@ def download_table_variables(table_id, year_list, geoURLMapPath, spec_path, outp
         print(year)
         print(len(variables_year_dict[year]))
                         
-    url_list = get_variables_url_list(table_id, variables_year_dict, geoURLMap, output_path, api_key)
+    url_list = get_variables_url_list(table_id, variables_year_dict, geo_url_map, output_path, api_key)
 
     status_file = output_path+'download_status.json'
     if not os.path.isfile(status_file):
@@ -245,3 +247,12 @@ logging.basicConfig(filename=f"logs/acs_download_{datetime.datetime.now().replac
 
 
 # def getVariableMapping():
+
+def main(argv):
+    year_list = list(range(FLAGS.start_year, FLAGS.end_year+1))
+    out_path = os.path.expanduser(FLAGS.output_path)
+    download_table(FLAGS.table_id, year_list, FLAGS.geo_map, out_path, FLAGS.api_key)
+    
+if __name__ == '__main__':
+  flags.mark_flags_as_required(['table_id', 'output_path', 'api_key'])
+  app.run(main)

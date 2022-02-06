@@ -3,23 +3,9 @@ import logging
 import os
 import random
 import time
-import requests
 import pandas as pd
 from status_file_utils import read_update_status, get_pending_or_fail_url_list
 import grequests
-
-def request_url_json(url):
-    req = requests.get(url)
-    print(req.url)
-    if req.status_code == requests.codes.ok:
-        response_data = req.json()
-        #print(response_data)
-    else:
-        response_data = {}
-        print("HTTP status code: "+str(req.status_code))
-        #if req.status_code != 204:
-            #TODO
-    return response_data
 
 def create_delay(t):
     time.sleep(t + (random.random() / 2 ))
@@ -31,19 +17,7 @@ def download_url_list(url_list, output_path, ctr):
     status_path = os.path.join(output_path, 'download_status.json')
     url_list_all = read_update_status(status_path, url_list)
     url_list = get_pending_or_fail_url_list(url_list_all)
-    # if os.path.isfile(os.path.join(output_path, 'download_status.json')):
-    #     logging.debug('Found previous download status file')
-    #     status_list = json.load(open(os.path.join(output_path, 'download_status.json'), 'r'))
-    #     for url_status in status_list:
-    #         if url_status['status'] != 'fail':
-    #             for url_temp in url_list:
-    #                 if url_temp['url'] == url_status['url']:
-    #                     url_list.remove(url_temp)
-    #             if url_status['status'] != 'ok' and url_status['status'] != '204':
-    #                 logging.info('%s url responded with %s HTTP code', url_status['url'], url_list['status'])
-    # else:
-    #     logging.debug('No previous download status file')
-    #     status_list = []
+    
     # keep this as the number of parallel requests targeted
     n = 30
     urls_chunked = [url_list[i:i + n] for i in range(0, len(url_list), n)]
@@ -68,9 +42,9 @@ def download_url_list(url_list, output_path, ctr):
                     resp_data = resp.json()
                     headers = resp_data.pop(0)
                     df = pd.DataFrame(resp_data, columns=headers)
-                    # print(cur_chunk[i]['name'])
-                    logging.info('Writing downloaded data to file: %s', cur_chunk[i]['name'])
-                    df.to_csv(cur_chunk[i]['name'], encoding='utf-8', index = False)
+                    # print(cur_chunk[i]['store_path'])
+                    logging.info('Writing downloaded data to file: %s', cur_chunk[i]['store_path'])
+                    df.to_csv(cur_chunk[i]['store_path'], encoding='utf-8', index = False)
                     url_list[j*n+i]['status'] = 'ok'
                     url_list[j*n+i]['http_code'] = str(resp.status_code)
                 else:
