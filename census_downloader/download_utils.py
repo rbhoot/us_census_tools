@@ -34,14 +34,13 @@ def download_url_list(url_list, api_key, output_path, ctr):
         logging.info('Creating 35 sec delay because of > 3 iterations')
     for j, cur_chunk in enumerate(urls_chunked):
         start_t = time.time()
-        # logging.debug('Initializing parallel request for url list %s', ','.join(url_list))
         results = grequests.map((grequests.get(url_add_api_key(u, api_key)) for u in cur_chunk), size=n)
         delay_flag = False
         for i, resp in enumerate(results):
             if resp:
-                # TODO hide API key in log
-                logging.info('%s response code %d', resp.url, resp.status_code)
-                # print(resp.url)
+                # NOTE: use commented line when debug of url with api key is needed 
+                # logging.info('%s response code %d', resp.url, resp.status_code)
+                logging.info('%s response code %d', url_list[j*n+i]['url'], resp.status_code)
                 if resp.status_code == 200:
                     resp_data = resp.json()
                     headers = resp_data.pop(0)
