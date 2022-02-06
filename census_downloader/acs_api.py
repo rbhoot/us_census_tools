@@ -15,7 +15,6 @@ FLAGS = flags.FLAGS
 
 '''
 TODO
-    hide api key in status file, log and print statements
     2010 download county subdivision, zip tabulation
 '''
 
@@ -30,13 +29,6 @@ def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
     
     logging.info('compiling list of URLs')
     url_list = get_table_url_list(table_id, year_list, geo_url_map, output_path, api_key)
-    
-    # # TODO extract function status
-    # status_file = output_path+'download_status.json'
-    # if not os.path.isfile(status_file):
-    #     logging.debug('Storing initial download status')
-    #     with open(status_file, 'w') as fp:
-    #         json.dump(url_list, fp, indent=2)
 
     print(len(url_list))
     logging.info("Compiled a list of %d URLs", len(url_list))
@@ -51,7 +43,7 @@ def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
     while failed_urls_ctr > 0 and loop_ctr < 10 and prev_failed_ctr > failed_urls_ctr:
         prev_failed_ctr = failed_urls_ctr
         logging.info('downloading URLs iteration:%d', loop_ctr)
-        failed_urls_ctr = download_url_list(url_list, output_path, loop_ctr)
+        failed_urls_ctr = download_url_list(url_list, api_key, output_path, loop_ctr)
         logging.info('failed request count: %d', failed_urls_ctr)
         loop_ctr += 1
 
@@ -218,7 +210,7 @@ def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, o
     prev_failed_ctr = failed_urls_ctr + 1
     while failed_urls_ctr > 0 and loop_ctr < 10 and prev_failed_ctr > failed_urls_ctr:
         prev_failed_ctr = failed_urls_ctr
-        failed_urls_ctr = download_url_list(url_list, output_path, loop_ctr)
+        failed_urls_ctr = download_url_list(url_list, api_key, output_path, loop_ctr)
         logging.info('failed request count: %d', failed_urls_ctr)
         loop_ctr += 1
     

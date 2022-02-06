@@ -22,9 +22,9 @@ flags.DEFINE_string('api_key', None,
                     'API key sourced from census via https://api.census.gov/data/key_signup.html')
 
 def get_url_variables(year, variablesStr, geoStr, apiKey):
-    return f"https://api.census.gov/data/{year}/acs/acs5/subject?for={geoStr}&key={apiKey}&get={variablesStr}"
+    return f"https://api.census.gov/data/{year}/acs/acs5/subject?for={geoStr}&get={variablesStr}"
 def get_url_table(year, tableID, geoStr, apiKey):
-    return f"https://api.census.gov/data/{year}/acs/acs5/subject?get=group({tableID})&for={geoStr}&key={apiKey}"
+    return f"https://api.census.gov/data/{year}/acs/acs5/subject?get=group({tableID})&for={geoStr}"
 
 def goestr_to_file_name(geo_str):
     geo_str = geo_str.replace(':*', '')

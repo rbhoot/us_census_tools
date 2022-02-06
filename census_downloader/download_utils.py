@@ -10,7 +10,10 @@ import grequests
 def create_delay(t):
     time.sleep(t + (random.random() / 2 ))
 
-def download_url_list(url_list, output_path, ctr):
+def url_add_api_key(url_dict: dict, api_key: str) -> str:
+    return url_dict['url']+f'&key={api_key}'
+
+def download_url_list(url_list, api_key, output_path, ctr):
     # logging.debug('Downloading url list %s', ','.join(url_list))
     logging.debug('Output path: %s, Iteration: %d', output_path, ctr)
     
@@ -32,10 +35,11 @@ def download_url_list(url_list, output_path, ctr):
     for j, cur_chunk in enumerate(urls_chunked):
         start_t = time.time()
         # logging.debug('Initializing parallel request for url list %s', ','.join(url_list))
-        results = grequests.map((grequests.get(u['url']) for u in cur_chunk), size=n)
+        results = grequests.map((grequests.get(url_add_api_key(u, api_key)) for u in cur_chunk), size=n)
         delay_flag = False
         for i, resp in enumerate(results):
             if resp:
+                # TODO hide API key in log
                 logging.info('%s response code %d', resp.url, resp.status_code)
                 # print(resp.url)
                 if resp.status_code == 200:
@@ -57,8 +61,6 @@ def download_url_list(url_list, output_path, ctr):
                 logging.warn('%s resonsed None', cur_chunk[i]['url'])
                 url_list[j*n+i]['status'] = 'fail'
                 fail_ctr += 1
-            # # TODO extract function status
-            # status_list.append(cur_chunk[i])
         end_t = time.time()
         logging.debug('Storing download status')
         with open(status_path, 'w') as fp:

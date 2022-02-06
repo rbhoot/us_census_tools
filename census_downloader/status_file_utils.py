@@ -90,7 +90,10 @@ def sync_status_list(log_list: list, new_list: list) -> list:
             # force fetch
             if 'force_fetch' not in cur_url:
                 cur_url['force_fetch'] = False
-            cur_url['status'] = 'pending'
+            if not cur_url['force_fetch'] and os.path.isfile(cur_url['store_path']):
+                cur_url['status'] = 'ok'
+            else:
+                cur_url['status'] = 'pending'
             cur_url.pop('http_code', None)
             ret_list.append(cur_url)
         
