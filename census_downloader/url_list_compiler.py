@@ -47,6 +47,10 @@ def get_file_name_variables(output_path, table_id, year, chunk_id, geoStr):
     file_name = os.path.join(output_path, table_id+'_vars', table_id+'_'+str(year)+'_'+goestr_to_file_name(geoStr)+'_'+str(chunk_id)+'.csv')
     return file_name
 
+# def get_geographies(year_list, force_fetch=True):
+#     for year in year_list:
+#         f'https://api.census.gov/data/{year}/acs/acs5/subject/geography.json'
+
 def get_yearwise_state_list(year_list, store_path = 'state_list.json', api_key='', force_fetch = True):
     if not force_fetch and os.path.isfile(store_path):
         temp_dict = json.load(open('state_list.json', 'r'))

@@ -2,11 +2,16 @@ import zipfile
 import json
 import time
 import os
+import sys
 import pandas as pd
 import datetime
 import logging
-from download_utils import download_url_list
+from download_utils import download_url_list_iterations
 from url_list_compiler import get_table_url_list, get_variables_url_list, get_yearwise_variable_column_map
+
+module_dir_ = os.path.dirname(__file__)
+sys.path.append(os.path.join(module_dir_, '..'))
+from common_utils.common_util import column_to_be_ignored
 
 from absl import app
 from absl import flags
@@ -17,6 +22,9 @@ FLAGS = flags.FLAGS
 TODO
     2010 download county subdivision, zip tabulation
 '''
+
+def url_add_api_key(url_dict: dict, api_key: str) -> str:
+    return url_dict['url']+f'&key={api_key}'
 
 def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
     logging.info('Downloading table:%s to %s', table_id, output_path)
@@ -35,26 +43,19 @@ def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
 
     start = time.time()
 
-    failed_urls_ctr = len(url_list)
-    prev_failed_ctr = failed_urls_ctr + 1
-    loop_ctr = 0
-    logging.info('downloading URLs')
-    # TODO extract function and use status dict
-    while failed_urls_ctr > 0 and loop_ctr < 10 and prev_failed_ctr > failed_urls_ctr:
-        prev_failed_ctr = failed_urls_ctr
-        logging.info('downloading URLs iteration:%d', loop_ctr)
-        failed_urls_ctr = download_url_list(url_list, api_key, output_path, loop_ctr)
-        logging.info('failed request count: %d', failed_urls_ctr)
-        loop_ctr += 1
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, output_path)
 
-    # TODO check status before consolidate, warn if any URL status contains fail
+    # check status before consolidate, warn if any URL status contains fail
+    if failed_urls_ctr > 0:
+        logging.warn('%d urls have failed, output files might be missing data.', failed_urls_ctr)
+
     consolidate_files(table_id, year_list, output_path)
     
     end = time.time()
     print("The time required to download the", table_id, "dataset :", end-start)
     logging.info('The time required to download the %s dataset : %f', table_id, end-start)
 
-def consolidate_files(table_id, year_list, output_path, keep_originals=True):
+def consolidate_files(table_id, year_list, output_path, replace_annotations=True, drop_annotations=True, keep_originals=True):
     logging.info('consolidating files to create yearwise files in %s', output_path)
     logging.info('table:%s keep_originals:%d', table_id, keep_originals)
     table_id = table_id.upper()
@@ -89,9 +90,11 @@ def consolidate_files(table_id, year_list, output_path, keep_originals=True):
             drop_list = []
             for column_name in list(df2):
                 # substitute annotations
-                if table_id in column_name and 'A' != column_name[-1]:
-                    df2.loc[df2[column_name+'A'].notna(), column_name] = df2[column_name+'A']
-                    drop_list.append(column_name+'A')
+                if table_id in column_name and column_name[-1] != 'A':
+                    if replace_annotations:
+                        df2.loc[df2[column_name+'A'].notna(), column_name] = df2[column_name+'A']
+                    if drop_annotations:
+                        drop_list.append(column_name+'A')
                 if column_name not in ['GEO_ID', 'NAME'] and table_id not in column_name:
                     if column_name not in drop_list:
                         drop_list.append(column_name)
@@ -139,7 +142,6 @@ def consolidate_files(table_id, year_list, output_path, keep_originals=True):
             df.to_csv(out_file_name, encoding='utf-8', index=False)
             out_csv_list.append(out_file_name)
 
-    # TODO extract function
     print("zipppin")
     print(out_csv_list)
     logging.info('zipping output files')
@@ -158,11 +160,6 @@ def consolidate_files(table_id, year_list, output_path, keep_originals=True):
                 logging.info('deleting %s', output_path+csv_file)
                 if os.path.isfile(output_path+csv_file):
                      os.remove(output_path+csv_file)
-        # logging.info('deleting download status file')
-        # status_file = output_path+'download_status.json'
-        # print("Deleting", status_file)
-        # if os.path.isfile(status_file):
-        #     os.remove(status_file)
 
 def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, output_path, api_key):
     table_id = table_id.upper()
@@ -180,65 +177,31 @@ def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, o
         for variable_id in variable_col_map[year]:
             column_name = variable_col_map[year][variable_id]
             t_flag = True
-            if 'ignoreColumns' in spec_dict:
-                for ig_col in spec_dict['ignoreColumns']:
-                    if '!!' in ig_col:
-                        if ig_col in column_name:
-                            t_flag = False
-                    if ig_col in column_name.split('!!'):
-                        t_flag = False
-            if t_flag:            
+            if not column_to_be_ignored(column_name, spec_dict):
                 variables_year_dict[year].append(variable_id)
+                variables_year_dict[year].append(variable_id+'A')
         print(year)
         print(len(variables_year_dict[year]))
                         
     url_list = get_variables_url_list(table_id, variables_year_dict, geo_url_map, output_path, api_key)
-
-    status_file = output_path+'download_status.json'
-    if not os.path.isfile(status_file):
-        logging.debug('Storing initial download status')
-        with open(status_file, 'w') as fp:
-            json.dump(url_list, fp, indent=2)
 
     print(len(url_list))
     logging.info("Compiled a list of %d URLs", len(url_list))
 
     start = time.time()
 
-    failed_urls_ctr = len(url_list)
-    loop_ctr = 0
-    prev_failed_ctr = failed_urls_ctr + 1
-    while failed_urls_ctr > 0 and loop_ctr < 10 and prev_failed_ctr > failed_urls_ctr:
-        prev_failed_ctr = failed_urls_ctr
-        failed_urls_ctr = download_url_list(url_list, api_key, output_path, loop_ctr)
-        logging.info('failed request count: %d', failed_urls_ctr)
-        loop_ctr += 1
-    
-    # TODO check status before consolidate, warn if any URL status contains fail
-    # consolidate_files(table_id, year_list, output_path)
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, output_path)
+
+    # check status before consolidate, warn if any URL status contains fail
+    if failed_urls_ctr > 0:
+        logging.warn('%d urls have failed, output files might be missing data.', failed_urls_ctr)
+    consolidate_files(table_id, year_list, output_path)
 
     end = time.time()
     print("The time required to download the", table_id, "dataset :", end-start)
     logging.info('The time required to download the %s dataset : %f', table_id, end-start)
 
 logging.basicConfig(filename=f"logs/acs_download_{datetime.datetime.now().replace(microsecond=0).isoformat().replace(':','')}.log", level=logging.DEBUG, format="%(asctime)s [%(levelname)s]: %(message)s")
-
-# start = time.time()
-# consolidate_files('S1810', list(range(2013, 2020)), 'data3/')
-# get_yearwise_column_variable_map('s1810', list(range(2013, 2020)), 'table_variables_map/S1810_column_variable_map.json')
-# get_yearwise_variable_column_map('s1810', list(range(2013, 2020)), 'table_variables_map/S1810_variable_column_map.json')
-# get_yearwise_variable_column_map('S0503', list(range(2011, 2020)), 'table_variables_map/S0503_variable_column_map.json')
-# get_yearwise_state_list(list(range(2010, 2020)), 'state_list.json')
-
-# download_table('S1810', list(range(2013, 2020)), 'geoURLMap.json', 's1810/', api_key)
-# download_table('S1702', list(range(2010, 2020)), 'geoURLMap.json', 's1702/', api_key)
-# download_table('S2702', list(range(2013, 2020)), 'geoURLMap.json', 's2702/', api_key)
-# download_table_variables('S1810', list(range(2013, 2020)), 'geoURLMap.json', 'test_spec.json', 's1810_var/', api_key)
-# end = time.time()
-# print("The time required to download the entire dataset :", end-start)
-
-
-# def getVariableMapping():
 
 def main(argv):
     year_list = list(range(FLAGS.start_year, FLAGS.end_year+1))

@@ -4,22 +4,35 @@ import os
 import random
 import time
 import pandas as pd
-from status_file_utils import read_update_status, get_pending_or_fail_url_list
+from status_file_utils import read_update_status, get_pending_or_fail_url_list, get_pending_url_list
 import grequests
 
 def create_delay(t):
     time.sleep(t + (random.random() / 2 ))
 
-def url_add_api_key(url_dict: dict, api_key: str) -> str:
-    return url_dict['url']+f'&key={api_key}'
+def download_url_list_iterations(url_list, url_api_modifier, api_key, output_path, max_itr = 10, retry_failed = True):
+    failed_urls_ctr = len(url_list)
+    prev_failed_ctr = failed_urls_ctr + 1
+    loop_ctr = 0
+    logging.info('downloading URLs')
+    while failed_urls_ctr > 0 and loop_ctr < max_itr and prev_failed_ctr > failed_urls_ctr:
+        prev_failed_ctr = failed_urls_ctr
+        logging.info('downloading URLs iteration:%d', loop_ctr)
+        failed_urls_ctr = download_url_list(url_list, url_api_modifier, api_key, output_path, loop_ctr, retry_failed)
+        logging.info('failed request count: %d', failed_urls_ctr)
+        loop_ctr += 1
+    return failed_urls_ctr
 
-def download_url_list(url_list, api_key, output_path, ctr):
+def download_url_list(url_list, url_api_modifier, api_key, output_path, ctr, retry_failed = True):
     # logging.debug('Downloading url list %s', ','.join(url_list))
     logging.debug('Output path: %s, Iteration: %d', output_path, ctr)
     
     status_path = os.path.join(output_path, 'download_status.json')
     url_list_all = read_update_status(status_path, url_list)
-    url_list = get_pending_or_fail_url_list(url_list_all)
+    if retry_failed:
+        url_list = get_pending_or_fail_url_list(url_list_all)
+    else:
+        url_list = get_pending_url_list(url_list_all)
     
     # keep this as the number of parallel requests targeted
     n = 30
@@ -34,7 +47,7 @@ def download_url_list(url_list, api_key, output_path, ctr):
         logging.info('Creating 35 sec delay because of > 3 iterations')
     for j, cur_chunk in enumerate(urls_chunked):
         start_t = time.time()
-        results = grequests.map((grequests.get(url_add_api_key(u, api_key)) for u in cur_chunk), size=n)
+        results = grequests.map((grequests.get(url_api_modifier(u, api_key)) for u in cur_chunk), size=n)
         delay_flag = False
         for i, resp in enumerate(results):
             if resp:
