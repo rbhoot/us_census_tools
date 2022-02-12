@@ -1,6 +1,9 @@
 import logging
+from operator import ge
 import os
 import json
+import re
+from typing import OrderedDict
 from requests_wrappers import request_url_json
 from absl import app
 from absl import flags
@@ -37,19 +40,72 @@ def get_file_name_table(output_path, table_id, year, geo_str):
     table_id = table_id.upper()
     output_path = os.path.expanduser(output_path)
     output_path = os.path.abspath(output_path)
-    file_name = os.path.join(output_path, table_id, table_id+'_'+str(year)+'_'+goestr_to_file_name(geo_str)+'.csv')
+    file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+goestr_to_file_name(geo_str)+'.csv')
     return file_name
 
 def get_file_name_variables(output_path, table_id, year, chunk_id, geoStr):
     table_id = table_id.upper()
     output_path = os.path.expanduser(output_path)
     output_path = os.path.abspath(output_path)
-    file_name = os.path.join(output_path, table_id+'_vars', table_id+'_'+str(year)+'_'+goestr_to_file_name(geoStr)+'_'+str(chunk_id)+'.csv')
+    file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+goestr_to_file_name(geoStr)+'_'+str(chunk_id)+'.csv')
     return file_name
 
-# def get_geographies(year_list, force_fetch=True):
-#     for year in year_list:
-#         f'https://api.census.gov/data/{year}/acs/acs5/subject/geography.json'
+def get_geographies(year_list, force_fetch=True):
+    cache_path = os.path.join('.', 'geo_config', 'yearwise_config.json')
+    if not force_fetch and os.path.isfile(cache_path):
+        geo_config = json.load(open(cache_path, 'r'))
+    else:
+        geo_config = {}
+        # geo_config['hierarchy'] = {}
+        for year in year_list:
+            temp = request_url_json(f'https://api.census.gov/data/{year}/acs/acs5/subject/geography.json')
+            geo_config[year] = OrderedDict()
+            geo_config[year]['required_geos'] = []
+            for s_level in temp['fips']:
+                geo_config[year][s_level['geoLevelDisplay']] = {}
+                geo_config[year][s_level['geoLevelDisplay']]['str'] = s_level['name']
+                if 'requires' in s_level:
+                    geo_config[year][s_level['geoLevelDisplay']]['geo_filters'] = s_level['requires']
+                else:
+                    geo_config[year][s_level['geoLevelDisplay']]['geo_filters'] = []
+                if 'wildcard' in s_level:
+                    geo_config[year][s_level['geoLevelDisplay']]['wildcard'] = s_level['wildcard']
+                else:
+                    geo_config[year][s_level['geoLevelDisplay']]['wildcard'] = []
+                geo_config[year][s_level['geoLevelDisplay']]['requires'] = []
+                for geo in geo_config[year][s_level['geoLevelDisplay']]['geo_filters']:
+                    if geo not in geo_config[year][s_level['geoLevelDisplay']]['wildcard']:
+                        geo_config[year][s_level['geoLevelDisplay']]['requires'].append(geo)
+                        if geo not in geo_config[year]['required_geos']:
+                            geo_config[year]['required_geos'].append(geo)
+            # compile hierarchy
+            for s_level in temp['fips']:
+                if 'requires' not in s_level:
+                    geo_config['hierarchy'][s_level['geoLevelDisplay']] = {}
+            # NOTE: code assumes sequence of appearance and squence within
+            # 'requires' follows the correct hierarchy
+            for s_level in temp['fips']:
+                if 'requires' in s_level:
+                    print('c', s_level['geoLevelDisplay'])
+                    d = geo_config['hierarchy']
+                    for geo in s_level['requires']:
+                        parent_found = False
+                        for s_code in geo_config[year]:
+                            if not parent_found and s_code != 'required_geos':
+                                if geo_config[year][s_code]['str'] == geo:
+                                    if  s_code in d:
+                                        d = d[s_code]
+                                        parent_found = True
+                                    else:
+                                        print(s_code)
+
+                    d[s_level['geoLevelDisplay']] = {}
+        
+        os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+        with open(cache_path, 'w') as fp:
+            json.dump(geo_config, fp, indent=2)
+    
+    return geo_config
 
 def get_yearwise_state_list(year_list, store_path = 'state_list.json', api_key='', force_fetch = True):
     if not force_fetch and os.path.isfile(store_path):
@@ -122,7 +178,8 @@ def get_url_entry_table(year, table_id, geo_str, output_path, api_key):
 def get_table_url_list(table_id, year_list, geo_url_map, output_path, api_key):
     table_id = table_id.upper()
     ret_list = []
-    states_by_year = get_yearwise_state_list(year_list, 'state_list.json', api_key, False)
+    get_geographies(year_list)
+    # states_by_year = get_yearwise_state_list(year_list, 'state_list.json', api_key, False)
     # county_by_year = get_yearwise_county_list(year_list, 'county_list.json', api_key, False)
     for year in year_list:
         for geo_id in geo_url_map:
@@ -197,8 +254,8 @@ def get_variables_url_list(table_id, variables_year_dict, geo_url_map, output_pa
 def main(argv):
     geo_url_map = json.load(open(FLAGS.geo_map))
     year_list = list(range(FLAGS.start_year, FLAGS.end_year+1))
-    url_list = get_table_url_list(FLAGS.table_id, year_list, geo_url_map, FLAGS.output_path, FLAGS.api_key)
     out_path = os.path.expanduser(FLAGS.output_path)
+    url_list = get_table_url_list(FLAGS.table_id, year_list, geo_url_map, out_path, FLAGS.api_key)
     os.makedirs(os.path.join(out_path, FLAGS.table_id), exist_ok=True)
     with open(os.path.join(out_path, FLAGS.table_id, 'download_status.json'), 'w') as fp:
         json.dump(url_list, fp, indent=2)
