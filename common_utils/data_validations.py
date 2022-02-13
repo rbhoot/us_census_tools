@@ -14,6 +14,7 @@
 """
 Utilities to fix or detect unexpected observation quantity values.
 """
+
 import csv
 import os
 import re
@@ -33,19 +34,18 @@ flags.DEFINE_multi_enum('data_tests', ['all'],
 
 
 def fix_open_distributions_in_observation_csv(csv_path: str, quantity_tag: str = 'Quantity') -> None:
-  """
-        Function to fix the open distributions in the StatVarObservation values
-        The function creates 2 different output files:
-        (Note: .csv is expected at end of filename)
-          - file name suffixed with `_fixed`. 
-            This file contains the quantities with non numeric digits dropped.
-          - file name suffixed with `_fix_log`
-            This file has record of orginal values for future reference.
-        
-        Args:
-          csv_path: String pointing to the path of the source csv file.
-          quantity_tag: Header name of the column containing the Quantity values to be screened.
-        """
+  """Function to fix the open distributions in the StatVarObservation values
+      The function creates 2 different output files:
+      (Note: .csv is expected at end of filename)
+        - file name suffixed with `_fixed`. 
+          This file contains the quantities with non numeric digits dropped.
+        - file name suffixed with `_fix_log`
+          This file has record of orginal values for future reference.
+      
+      Args:
+        csv_path: String pointing to the path of the source csv file.
+        quantity_tag: Header name of the column containing the Quantity values to be screened.
+      """
 
   csv_path = os.path.abspath(os.path.expanduser(csv_path))
   out_csv_path = csv_path.replace('.csv', '_fixed.csv')
@@ -76,19 +76,18 @@ def fix_open_distributions_in_observation_csv(csv_path: str, quantity_tag: str =
         csv_writer.writerow(row)
 
 def detect_percentages_in_observation_csv(csv_path: str, quantity_tag: str = 'Quantity', geo_tag: str = 'Place', statvar_tag: str = 'StatVar') -> None:
-  """
-        Function to detect possible percentage values in the StatVarObservation values.
-        Function screens the csv by checking if any StatVar has an observation value below 100
-          with country/USA as the place of observation.
-        The function creates a new file with suffix `_possible_percentages`.
-        (Note: .csv is expected at end of filename)
-        
-        Args:
-          csv_path: String pointing to the path of the source csv file.
-          quantity_tag: Header name of the column containing the Quantity values to be screened.
-          geo_tag: Header name of the column containing the observation place.
-          statvar_tag: Header name of the column containing the observed stat var.
-        """
+  """Function to detect possible percentage values in the StatVarObservation values.
+      Function screens the csv by checking if any StatVar has an observation value below 100
+        with country/USA as the place of observation.
+      The function creates a new file with suffix `_possible_percentages`.
+      (Note: .csv is expected at end of filename)
+      
+      Args:
+        csv_path: String pointing to the path of the source csv file.
+        quantity_tag: Header name of the column containing the Quantity values to be screened.
+        geo_tag: Header name of the column containing the observation place.
+        statvar_tag: Header name of the column containing the observed stat var.
+      """
 
   csv_path = os.path.abspath(os.path.expanduser(csv_path))
   log_csv_path = csv_path.replace('.csv', '_possible_percentages.csv')
