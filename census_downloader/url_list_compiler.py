@@ -50,7 +50,8 @@ def get_file_name_variables(output_path, table_id, year, chunk_id, geoStr):
     file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+goestr_to_file_name(geoStr)+'_'+str(chunk_id)+'.csv')
     return file_name
 
-def get_geographies(year_list, force_fetch=True):
+def get_geographies(year_list, api_key: str = '', force_fetch=True) -> dict:
+    basic_cache_path = os.path.join('.', 'geo_config', 'yearwise_config_basic.json')
     cache_path = os.path.join('.', 'geo_config', 'yearwise_config.json')
     if not force_fetch and os.path.isfile(cache_path):
         geo_config = json.load(open(cache_path, 'r'))
@@ -61,51 +62,79 @@ def get_geographies(year_list, force_fetch=True):
             temp = request_url_json(f'https://api.census.gov/data/{year}/acs/acs5/subject/geography.json')
             geo_config[year] = OrderedDict()
             geo_config[year]['required_geos'] = []
+            geo_config[year]['summary_levels'] = {}
             for s_level in temp['fips']:
-                geo_config[year][s_level['geoLevelDisplay']] = {}
-                geo_config[year][s_level['geoLevelDisplay']]['str'] = s_level['name']
+                geo_config[year]['summary_levels'][s_level['geoLevelDisplay']] = {}
+                geo_config[year]['summary_levels'][s_level['geoLevelDisplay']]['str'] = s_level['name']
                 if 'requires' in s_level:
-                    geo_config[year][s_level['geoLevelDisplay']]['geo_filters'] = s_level['requires']
+                    geo_config[year]['summary_levels'][s_level['geoLevelDisplay']]['geo_filters'] = s_level['requires']
                 else:
-                    geo_config[year][s_level['geoLevelDisplay']]['geo_filters'] = []
+                    geo_config[year]['summary_levels'][s_level['geoLevelDisplay']]['geo_filters'] = []
                 if 'wildcard' in s_level:
-                    geo_config[year][s_level['geoLevelDisplay']]['wildcard'] = s_level['wildcard']
+                    geo_config[year]['summary_levels'][s_level['geoLevelDisplay']]['wildcard'] = s_level['wildcard']
                 else:
-                    geo_config[year][s_level['geoLevelDisplay']]['wildcard'] = []
-                geo_config[year][s_level['geoLevelDisplay']]['requires'] = []
-                for geo in geo_config[year][s_level['geoLevelDisplay']]['geo_filters']:
-                    if geo not in geo_config[year][s_level['geoLevelDisplay']]['wildcard']:
-                        geo_config[year][s_level['geoLevelDisplay']]['requires'].append(geo)
+                    geo_config[year]['summary_levels'][s_level['geoLevelDisplay']]['wildcard'] = []
+                geo_config[year]['summary_levels'][s_level['geoLevelDisplay']]['requires'] = []
+                for geo in geo_config[year]['summary_levels'][s_level['geoLevelDisplay']]['geo_filters']:
+                    if geo not in geo_config[year]['summary_levels'][s_level['geoLevelDisplay']]['wildcard']:
+                        geo_config[year]['summary_levels'][s_level['geoLevelDisplay']]['requires'].append(geo)
                         if geo not in geo_config[year]['required_geos']:
                             geo_config[year]['required_geos'].append(geo)
-            # compile hierarchy
-            for s_level in temp['fips']:
-                if 'requires' not in s_level:
-                    geo_config['hierarchy'][s_level['geoLevelDisplay']] = {}
-            # NOTE: code assumes sequence of appearance and squence within
-            # 'requires' follows the correct hierarchy
-            for s_level in temp['fips']:
-                if 'requires' in s_level:
-                    print('c', s_level['geoLevelDisplay'])
-                    d = geo_config['hierarchy']
-                    for geo in s_level['requires']:
-                        parent_found = False
-                        for s_code in geo_config[year]:
-                            if not parent_found and s_code != 'required_geos':
-                                if geo_config[year][s_code]['str'] == geo:
-                                    if  s_code in d:
-                                        d = d[s_code]
-                                        parent_found = True
-                                    else:
-                                        print(s_code)
-
-                    d[s_level['geoLevelDisplay']] = {}
         
-        os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+        os.makedirs(os.path.dirname(basic_cache_path), exist_ok=True)
+        with open(basic_cache_path, 'w') as fp:
+            json.dump(geo_config, fp, indent=2)
+        
+        geo_config = get_yearwise_required_geos(geo_config, api_key)
         with open(cache_path, 'w') as fp:
             json.dump(geo_config, fp, indent=2)
-    
     return geo_config
+
+def get_yearwise_required_geos(geo_config: dict, api_key: str = '') -> dict:
+    for year in geo_config:
+        print(year)
+        geo_config[year]['required_geo_lists'] = {}
+        url_list = []
+        for geo_str in geo_config[year]['required_geos']:
+            found_f = False
+            for s_level in geo_config[year]['summary_levels']:
+                s_level_dict = geo_config[year]['summary_levels'][s_level]
+                if not found_f and s_level_dict['str'] == geo_str:
+                    found_f = True
+                    url_dict = {}
+                    if s_level_dict['requires']:
+                        # NOTE: code assumes that all fields appear in sequence and dependent geo levels are already present if list
+                        # TODO check if all previous s_level_dict['requires'] in s_level_dict['requires'][-1]
+                        # TODO recursive function call to compile list of URLs for s_level_dict['requires'][-1]
+                        # for req_geo_str in s_level_dict['requires']:
+                        #     for geo_id in geo_config[year]['required_geo_lists'][req_geo_str]:
+                                
+                        url_dict['url'] = f"https://api.census.gov/data/{year}/acs/acs5/subject?get=NAME,S0101_C01_001E&for={geo_str}:*&in={req_geo_str}:{geo_id}&key={api_key}"
+                        if len(s_level_dict['requires']) == 1 and s_level_dict['requires'][0] in geo_config[year]['required_geo_lists']:
+                            req_geo_str = s_level_dict['requires'][0]
+                            for geo_id in geo_config[year]['required_geo_lists'][req_geo_str]:
+                                temp = request_url_json(f"https://api.census.gov/data/{year}/acs/acs5/subject?get=NAME,S0101_C01_001E&for={geo_str}:*&in={req_geo_str}:{geo_id}&key={api_key}")
+                                geo_config[year]['required_geo_lists'][geo_str] = {}
+                                name_i = temp[0].index('NAME')
+                                geo_i = temp[0].index(geo_str)
+                                req_i = temp[0].index(req_geo_str)
+                                for t in temp[1:]:
+                                    if t[req_i] not in geo_config[year]['required_geo_lists'][geo_str]:
+                                        geo_config[year]['required_geo_lists'][geo_str][t[req_i]] = {}
+                                    geo_config[year]['required_geo_lists'][geo_str][t[req_i]][t[geo_i]] = t[name_i]
+                        else:
+                            print(geo_str, s_level_dict['requires'])
+                    else:
+                        temp = request_url_json(f"https://api.census.gov/data/{year}/acs/acs5/subject?get=NAME,S0101_C01_001E&for={geo_str}:*&key={api_key}")
+                        geo_config[year]['required_geo_lists'][geo_str] = {}
+                        name_i = temp[0].index('NAME')
+                        geo_i = temp[0].index(geo_str)
+                        for t in temp[1:]:
+                            geo_config[year]['required_geo_lists'][geo_str][t[geo_i]] = t[name_i]
+    return geo_config
+
+
+
 
 def get_yearwise_state_list(year_list, store_path = 'state_list.json', api_key='', force_fetch = True):
     if not force_fetch and os.path.isfile(store_path):
@@ -178,7 +207,7 @@ def get_url_entry_table(year, table_id, geo_str, output_path, api_key):
 def get_table_url_list(table_id, year_list, geo_url_map, output_path, api_key):
     table_id = table_id.upper()
     ret_list = []
-    get_geographies(year_list)
+    get_geographies(year_list, api_key)
     # states_by_year = get_yearwise_state_list(year_list, 'state_list.json', api_key, False)
     # county_by_year = get_yearwise_county_list(year_list, 'county_list.json', api_key, False)
     for year in year_list:
