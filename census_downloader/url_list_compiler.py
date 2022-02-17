@@ -23,7 +23,7 @@ flags.DEFINE_integer('start_year', 2010,
                     'Start year of the data to be downloaded')
 flags.DEFINE_integer('end_year', 2019,
                     'End year of the data to be downloaded')
-flags.DEFINE_string('geo_map', './geo_url_map.json',
+flags.DEFINE_string('geo_map', '',
                     'Path of JSON file containing the list of summary levels to be downloaded')
 flags.DEFINE_string('output_path', None,
                     'The folder where downloaded data is to be stored. Each table will have a sub directory created within this folder')
@@ -327,7 +327,7 @@ def get_variables_url_list(table_id, variables_year_dict, geo_url_map, output_pa
     return ret_list
 
 def main(argv):
-    geo_url_map = json.load(open(FLAGS.geo_map))
+    # geo_url_map = json.load(open(FLAGS.geo_map))
     year_list = list(range(FLAGS.start_year, FLAGS.end_year+1))
     out_path = os.path.expanduser(FLAGS.output_path)
     url_list = get_table_url_list(FLAGS.table_id, year_list, out_path, FLAGS.api_key)
