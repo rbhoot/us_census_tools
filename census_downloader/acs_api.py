@@ -26,11 +26,19 @@ TODO
 def url_add_api_key(url_dict: dict, api_key: str) -> str:
     return url_dict['url']+f'&key={api_key}'
 
+def save_resp_csv(resp, store_path):
+    resp_data = resp.json()
+    headers = resp_data.pop(0)
+    df = pd.DataFrame(resp_data, columns=headers)
+    logging.info('Writing downloaded data to file: %s', store_path)
+    df.to_csv(store_path, encoding='utf-8', index = False)
+
 def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
     geo_url_map_path = os.path.expanduser(geo_url_map_path)
     geo_url_map = json.load(open(geo_url_map_path, 'r'))
+    output_path = os.path.join(output_path, table_id)
     logging.debug('creating missing directories in path:%s', output_path)
     if not os.path.exists(output_path):
         os.makedirs(output_path, exist_ok=True)
@@ -43,7 +51,7 @@ def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
 
     start = time.time()
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, output_path)
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, output_path)
 
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:
@@ -165,7 +173,7 @@ def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, o
     table_id = table_id.upper()
     spec_dict = json.load(open(spec_path, 'r'))
     geo_url_map = json.load(open(geo_url_map_path, 'r'))
-    
+    output_path = os.path.join(output_path, table_id+'_vars')
     if not os.path.exists(output_path):
         os.makedirs(output_path, exist_ok=True)
     
@@ -190,7 +198,7 @@ def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, o
 
     start = time.time()
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, output_path)
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, output_path)
 
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:
