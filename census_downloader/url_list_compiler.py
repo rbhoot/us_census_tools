@@ -117,7 +117,6 @@ def get_str_list_required(geo_config_year: dir, s_level: str):
     return req_str_list
 
 def update_geo_list(json_resp, geo_config, year, geo_str, s_level):
-    print(geo_str)
     if geo_str not in geo_config[year]['required_geo_lists']:
         geo_config[year]['required_geo_lists'][geo_str] = {}
     
@@ -183,6 +182,7 @@ def get_geographies(year_list, api_key: str = '', force_fetch=True) -> dict:
         geo_config = {}
         # geo_config['hierarchy'] = {}
     for year in year_list:
+        year = str(year)
         if force_fetch or year not in geo_config:
             temp = request_url_json(f'https://api.census.gov/data/{year}/acs/acs5/subject/geography.json')
             geo_config[year] = OrderedDict()
