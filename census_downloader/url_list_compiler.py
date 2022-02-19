@@ -1,3 +1,4 @@
+from codecs import ignore_errors
 import logging
 from operator import ge
 import os
@@ -156,13 +157,14 @@ def get_yearwise_required_geos(geo_config: dict, api_key: str = '', force_fetch=
                         temp_dict['url'] = f"https://api.census.gov/data/{year}/acs/acs5/subject?get=NAME,S0101_C01_001E&for={geo_str}:*{req_str}"
                         temp_dict['store_path'] = os.path.join(output_path, get_config_temp_filename(year, geo_str, req_str))
                         temp_dict['status'] = 'pending'
+                        temp_dict['force_fetch'] = force_fetch
                         url_list.append(temp_dict)
                     failed_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_json, output_path)
                     if failed_ctr > 0:
                         download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_json, output_path)
                     for cur_url in url_list:
                         dir, filename = os.path.split(cur_url['store_path'])
-                        s = base64.b64decode(filename.encode()).decode("utf-8")
+                        s = base64.b64decode(filename.encode()).decode("utf-8", errors='ignore')
                         arg = s.split('__')
                         temp = json.load(open(cur_url['store_path']))
                         update_geo_list(temp, geo_config, arg[0], arg[1], s_level)
@@ -182,7 +184,6 @@ def get_geographies(year_list, api_key: str = '', force_fetch=True) -> dict:
         geo_config = {}
         # geo_config['hierarchy'] = {}
     for year in year_list:
-        year = str(year)
         if force_fetch or year not in geo_config:
             temp = request_url_json(f'https://api.census.gov/data/{year}/acs/acs5/subject/geography.json')
             geo_config[year] = OrderedDict()
@@ -210,7 +211,7 @@ def get_geographies(year_list, api_key: str = '', force_fetch=True) -> dict:
     with open(basic_cache_path, 'w') as fp:
         json.dump(geo_config, fp, indent=2)
     
-    geo_config = get_yearwise_required_geos(geo_config, api_key)
+    geo_config = get_yearwise_required_geos(geo_config, api_key, force_fetch=force_fetch)
     with open(cache_path, 'w') as fp:
         json.dump(geo_config, fp, indent=2)
     return geo_config
@@ -328,7 +329,8 @@ def get_variables_url_list(table_id, variables_year_dict, geo_url_map, output_pa
 
 def main(argv):
     # geo_url_map = json.load(open(FLAGS.geo_map))
-    year_list = list(range(FLAGS.start_year, FLAGS.end_year+1))
+    year_list_int = list(range(FLAGS.start_year, FLAGS.end_year+1))
+    year_list = [str(y) for y in year_list_int]
     out_path = os.path.expanduser(FLAGS.output_path)
     url_list = get_table_url_list(FLAGS.table_id, year_list, out_path, FLAGS.api_key)
     os.makedirs(os.path.join(out_path, FLAGS.table_id), exist_ok=True)
