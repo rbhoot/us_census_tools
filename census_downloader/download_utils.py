@@ -66,7 +66,7 @@ def download_url_list(url_list, url_api_modifier, api_key, process_and_store, ou
             else:
                 delay_flag = True
                 print("Error: None reponse obj", cur_chunk[i]['url'])
-                logging.warn('%s resonsed None', cur_chunk[i]['url'])
+                logging.warn('%s responded None', cur_chunk[i]['url'])
                 url_list[j*n+i]['status'] = 'fail'
                 fail_ctr += 1
         end_t = time.time()
