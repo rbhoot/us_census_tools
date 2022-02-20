@@ -26,13 +26,13 @@ flags.DEFINE_integer('start_year', 2010,
                     'Start year of the data to be downloaded')
 flags.DEFINE_integer('end_year', 2019,
                     'End year of the data to be downloaded')
-flags.DEFINE_list('summary_levels', [],
+flags.DEFINE_list('summary_levels', None,
                     'List of summary levels to be downloaded e.g. 040, 060')
 flags.DEFINE_string('output_path', None,
                     'The folder where downloaded data is to be stored. Each table will have a sub directory created within this folder')
 flags.DEFINE_string('api_key', None,
                     'API key sourced from census via https://api.census.gov/data/key_signup.html')
-flags.DEFINE_boolean('all_summaries', False,
+flags.DEFINE_boolean('all_summaries', None,
                      'Download data for all available summary levels')
 flags.DEFINE_boolean('force_fetch_config', False,
                      'Force download of config and list of required geos from API')
@@ -105,7 +105,7 @@ def geo_get_all_id(geo_list: dict, geo_str: str):
     ret_list = []
     for k, v in geo_list.items():
         if isinstance(v, dict):
-            ret_list.extend(geo_get_all_id(v))
+            ret_list.extend(geo_get_all_id(v, geo_str))
         else:
             ret_list.append(f'{geo_str}{k}')
     return ret_list
@@ -170,7 +170,7 @@ def get_config_temp_filename(year, geo_str, req_str):
 def get_yearwise_required_geos(geo_config: dict, api_key: str = '', force_fetch=False) -> dict:
     output_path = './tmp'
     for year in geo_config:
-        print(year)
+        print('required geos', year)
         if 'required_geo_lists' not in geo_config[year]:
             geo_config[year]['required_geo_lists'] = {}
         for geo_str in geo_config[year]['required_geos']:
@@ -211,6 +211,7 @@ def get_geographies(year_list, api_key: str = '', force_fetch=False) -> dict:
         geo_config = {}
         # geo_config['hierarchy'] = {}
     for year in year_list:
+        print('geo config', year)
         if force_fetch or year not in geo_config:
             temp = request_url_json(f'https://api.census.gov/data/{year}/acs/acs5/subject/geography.json')
             geo_config[year] = OrderedDict()
@@ -284,6 +285,7 @@ def get_table_url_list(table_id, year_list, output_path, api_key, s_level_list =
                     s_level_list.append(s_level)
     
     for year in year_list:
+        print('urls ', year)
         for s_level in s_level_list:
             if s_level in geo_config[year]['summary_levels']:
                 req_str_list = get_str_list_required(geo_config[year], s_level)
@@ -365,10 +367,11 @@ def main(argv):
         s_list = 'all'
     url_list = get_table_url_list(FLAGS.table_id, year_list, out_path, FLAGS.api_key, s_level_list=s_list, force_fetch=FLAGS.force_fetch_config)
     os.makedirs(os.path.join(out_path, FLAGS.table_id), exist_ok=True)
+    print('Writing URLs to file')
     with open(os.path.join(out_path, FLAGS.table_id, 'download_status.json'), 'w') as fp:
         json.dump(url_list, fp, indent=2)
 
 if __name__ == '__main__':
   flags.mark_flags_as_required(['table_id', 'output_path', 'api_key'])
-  flags.mark_bool_flags_as_mutual_exclusive(['summary_levels', 'all_summaries'], required=True)
+  flags.mark_flags_as_mutual_exclusive(['summary_levels', 'all_summaries'], required=True)
   app.run(main)
