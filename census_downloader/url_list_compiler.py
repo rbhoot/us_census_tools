@@ -1,4 +1,5 @@
 from codecs import ignore_errors
+import enum
 import logging
 from operator import ge
 import os
@@ -10,6 +11,7 @@ from typing import OrderedDict
 from absl import app
 from absl import flags
 from download_utils import download_url_list_iterations
+import itertools
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
@@ -32,6 +34,8 @@ flags.DEFINE_string('api_key', None,
                     'API key sourced from census via https://api.census.gov/data/key_signup.html')
 flags.DEFINE_boolean('all_summaries', False,
                      'Download data for all available summary levels')
+flags.DEFINE_boolean('force_fetch_config', False,
+                     'Force download of config and list of required geos from API')
 
 def get_url_variables(year, variables_str, geo_str):
     return f"https://api.census.gov/data/{year}/acs/acs5/subject?for={geo_str}&get={variables_str}"
@@ -97,6 +101,24 @@ def compile_hierarchy_req_str_list(geo_list: dict, str_list: list) -> list:
             ret_list.append(f'{str_list[0]}{k}')
     return ret_list
 
+def geo_get_all_id(geo_list: dict, geo_str: str):
+    ret_list = []
+    for k, v in geo_list.items():
+        if isinstance(v, dict):
+            ret_list.extend(geo_get_all_id(v))
+        else:
+            ret_list.append(f'{geo_str}{k}')
+    return ret_list
+
+def compile_non_hierarchy_req_str_list(all_geo_list: dict, req_geos: dict) -> list:
+    id_list = []
+    for cur_geo in req_geos:
+        id_list.append(geo_get_all_id(all_geo_list[cur_geo], req_geos[cur_geo]))
+    
+    ret_list = list(itertools.product(*id_list))
+    
+    return ret_list
+
 # NOTE: code assumes that all fields appear in sequence and dependent geo levels are already present if list
 def get_str_list_required(geo_config_year: dir, s_level: str):
     req_list = geo_config_year['summary_levels'][s_level]['requires'].copy()
@@ -113,7 +135,10 @@ def get_str_list_required(geo_config_year: dir, s_level: str):
             req_str_list = compile_hierarchy_req_str_list(geo_config_year['required_geo_lists'][req_list[-1]], str_list)
             # print(geo_str_list)
         else:
-            req_str_list = []
+            req_dict = {}
+            for i, r in enumerate(req_list):
+                req_dict[r] = str_list[i]
+            req_str_list = compile_non_hierarchy_req_str_list(geo_config_year['required_geo_lists'], req_dict)
     else:
         req_str_list = ['']
     
@@ -139,10 +164,10 @@ def update_geo_list(json_resp, geo_config, year, geo_str, s_level):
 
 def get_config_temp_filename(year, geo_str, req_str):
     s = f"{year}__{geo_str}__{req_str}"
-    s = base64.b64encode(s.encode()).decode("utf-8")
+    s = base64.b64encode(s.encode()).decode("utf-8", errors='ignore')
     return f"{s}.json"
 
-def get_yearwise_required_geos(geo_config: dict, api_key: str = '', force_fetch=True) -> dict:
+def get_yearwise_required_geos(geo_config: dict, api_key: str = '', force_fetch=False) -> dict:
     output_path = './tmp'
     for year in geo_config:
         print(year)
@@ -174,7 +199,7 @@ def get_yearwise_required_geos(geo_config: dict, api_key: str = '', force_fetch=
                 print('Warning:', geo_str, 'not found')
     return geo_config
 
-def get_geographies(year_list, api_key: str = '', force_fetch=True) -> dict:
+def get_geographies(year_list, api_key: str = '', force_fetch=False) -> dict:
     basic_cache_path = os.path.join('.', 'geo_config', 'yearwise_config_basic.json')
     cache_path = os.path.join('.', 'geo_config', 'yearwise_config.json')
     # improve cache method, year list might change
@@ -231,7 +256,7 @@ def get_yearwise_variable_column_map(table_id, year_list, store_path = None, for
         ret_dict = {}
         for year in year_list:
             temp = request_url_json(f"https://api.census.gov/data/{year}/acs/acs5/subject/groups/{table_id}.json")
-            if temp:    
+            if 'http_err_code' not in temp:    
                 ret_dict[year] = {}
                 for var in temp['variables']:
                     ret_dict[year][var] = temp['variables'][var]['label']
@@ -246,10 +271,10 @@ def get_url_entry_table(year, table_id, geo_str, output_path):
     tempDict['status'] = 'pending'
     return tempDict
 
-def get_table_url_list(table_id, year_list, output_path, api_key, s_level_list = 'all'):
+def get_table_url_list(table_id, year_list, output_path, api_key, s_level_list = 'all', force_fetch = False):
     table_id = table_id.upper()
     ret_list = []
-    geo_config = get_geographies(year_list, api_key)
+    geo_config = get_geographies(year_list, api_key, force_fetch)
     # get list of all s levels
     if s_level_list == 'all':
         s_level_list = []
@@ -285,7 +310,7 @@ def get_yearwise_column_variable_map(table_id, year_list, store_path = None, for
         ret_dict = {}
         for year in year_list:
             temp = request_url_json(f"https://api.census.gov/data/{year}/acs/acs5/subject/groups/{table_id}.json")
-            if temp:    
+            if 'http_err_code' not in temp:    
                 ret_dict[year] = {}
                 for var in temp['variables']:
                     ret_dict[year][temp['variables'][var]['label']] = var
@@ -338,7 +363,7 @@ def main(argv):
         s_list = FLAGS.summary_levels
     else:
         s_list = 'all'
-    url_list = get_table_url_list(FLAGS.table_id, year_list, out_path, FLAGS.api_key, s_level_list=s_list)
+    url_list = get_table_url_list(FLAGS.table_id, year_list, out_path, FLAGS.api_key, s_level_list=s_list, force_fetch=FLAGS.force_fetch_config)
     os.makedirs(os.path.join(out_path, FLAGS.table_id), exist_ok=True)
     with open(os.path.join(out_path, FLAGS.table_id, 'download_status.json'), 'w') as fp:
         json.dump(url_list, fp, indent=2)

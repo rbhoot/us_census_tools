@@ -17,6 +17,7 @@ Wrapper functions for easy use of requests library.
 
 import requests
 import json
+import time
 
 def request_url_json(url: str) -> dict:
   """Get JSON object version of reponse to GET request to given URL.
@@ -28,13 +29,19 @@ def request_url_json(url: str) -> dict:
     JSON decoded response from the GET call.
       Empty dict is returned in case the call fails.
   """
-  req = requests.get(url)
-  print(req.url)
+  try:
+    req = requests.get(url)
+    print(req.url)
+  except requests.exceptions.ReadTimeout:
+    time.sleep(10)
+    req = requests.get(url)
+
   if req.status_code == requests.codes.ok:
-      response_data = req.json()
+    response_data = req.json()
+    #print(response_data)
   else:
-      response_data = {}
-      print("HTTP status code: "+str(req.status_code))
+    response_data = {'http_err_code': req.status_code}
+    print('HTTP status code: ' + str(req.status_code))
   return response_data
 
 def request_post_json(url: str, data_: dict) -> dict:
@@ -55,6 +62,6 @@ def request_post_json(url: str, data_: dict) -> dict:
   if req.status_code == requests.codes.ok:
     response_data = req.json()
   else:
-    response_data = {}
+    response_data = {'http_err_code': req.status_code}
     print('HTTP status code: ' + str(req.status_code))
   return response_data
