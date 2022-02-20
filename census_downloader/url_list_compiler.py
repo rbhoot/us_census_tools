@@ -24,12 +24,14 @@ flags.DEFINE_integer('start_year', 2010,
                     'Start year of the data to be downloaded')
 flags.DEFINE_integer('end_year', 2019,
                     'End year of the data to be downloaded')
-flags.DEFINE_string('geo_map', '',
-                    'Path of JSON file containing the list of summary levels to be downloaded')
+flags.DEFINE_list('summary_levels', [],
+                    'List of summary levels to be downloaded e.g. 040, 060')
 flags.DEFINE_string('output_path', None,
                     'The folder where downloaded data is to be stored. Each table will have a sub directory created within this folder')
 flags.DEFINE_string('api_key', None,
                     'API key sourced from census via https://api.census.gov/data/key_signup.html')
+flags.DEFINE_boolean('all_summaries', False,
+                     'Download data for all available summary levels')
 
 def get_url_variables(year, variables_str, geo_str):
     return f"https://api.census.gov/data/{year}/acs/acs5/subject?for={geo_str}&get={variables_str}"
@@ -332,11 +334,16 @@ def main(argv):
     year_list_int = list(range(FLAGS.start_year, FLAGS.end_year+1))
     year_list = [str(y) for y in year_list_int]
     out_path = os.path.expanduser(FLAGS.output_path)
-    url_list = get_table_url_list(FLAGS.table_id, year_list, out_path, FLAGS.api_key)
+    if FLAGS.summary_levels:
+        s_list = FLAGS.summary_levels
+    else:
+        s_list = 'all'
+    url_list = get_table_url_list(FLAGS.table_id, year_list, out_path, FLAGS.api_key, s_level_list=s_list)
     os.makedirs(os.path.join(out_path, FLAGS.table_id), exist_ok=True)
     with open(os.path.join(out_path, FLAGS.table_id, 'download_status.json'), 'w') as fp:
         json.dump(url_list, fp, indent=2)
 
 if __name__ == '__main__':
   flags.mark_flags_as_required(['table_id', 'output_path', 'api_key'])
+  flags.mark_bool_flags_as_mutual_exclusive(['summary_levels', 'all_summaries'], required=True)
   app.run(main)
