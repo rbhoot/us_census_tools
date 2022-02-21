@@ -247,7 +247,7 @@ def get_geographies(dataset, year_list, api_key: str = '', force_fetch=False) ->
         json.dump(geo_config, fp, indent=2)
     return geo_config
 
-def get_yearwise_variable_column_map(table_id, year_list, store_path = None, force_fetch = True):
+def get_yearwise_variable_column_map(dataset, table_id, year_list, store_path = None, force_fetch = True):
     if not store_path:
         store_path = f'table_variables_map/{table_id.upper()}_variable_column_map.json'
     if not force_fetch and os.path.isfile(store_path):
@@ -342,16 +342,16 @@ def get_variables_url_list(dataset, table_id, variables_year_dict, geo_url_map, 
             if geo_url_map[geo_id]['needsStateID']:
                 for state_id in states_by_year[year]:
                     geo_str_state = geo_str + state_id
-                    for i, curVars in enumerate(variables_chunked):
-                        variable_list_str = ','.join(curVars)
+                    for i, cur_vars in enumerate(variables_chunked):
+                        variable_list_str = ','.join(cur_vars)
                         temp_dict = {}
                         temp_dict['url'] = get_url_variables(dataset, year, 'NAME,' + variable_list_str, geo_str_state)
                         temp_dict['store_path'] = get_file_name_variables(output_path, table_id, year, i, geo_str_state)
                         temp_dict['status'] = 'pending'
                         ret_list.append(temp_dict)
             else:
-                for i, curVars in enumerate(variables_chunked):
-                    variable_list_str = ','.join(curVars)
+                for i, cur_vars in enumerate(variables_chunked):
+                    variable_list_str = ','.join(cur_vars)
                     temp_dict = {}
                     temp_dict['url'] = get_url_variables(dataset, year, 'NAME,' + variable_list_str, geo_str)
                     temp_dict['store_path'] = get_file_name_variables(output_path, table_id, year, i, geo_str)
