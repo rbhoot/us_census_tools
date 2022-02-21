@@ -12,6 +12,11 @@ from aiolimiter import AsyncLimiter
 def create_delay(t):
     time.sleep(t + (random.random() / 2 ))
 
+async def async_save_resp_json(resp, store_path):
+    resp_data = await resp.json()
+    logging.info('Writing downloaded data to file: %s', store_path)
+    json.dump(resp_data, open(store_path, 'w'), indent = 2)
+
 def download_url_list_iterations(url_list, url_api_modifier, api_key, process_and_store, status_path, max_itr = 10, rate_params = {}, retry_failed = True):
     failed_urls_ctr = len(url_list)
     prev_failed_ctr = failed_urls_ctr + 1

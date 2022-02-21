@@ -10,7 +10,7 @@ import base64
 from typing import OrderedDict
 from absl import app
 from absl import flags
-from download_utils import download_url_list_iterations
+from download_utils import download_url_list_iterations, async_save_resp_json
 import itertools
 
 module_dir_ = os.path.dirname(__file__)
@@ -172,6 +172,12 @@ def get_config_temp_filename(year, geo_str, req_str):
 
 def get_yearwise_required_geos(dataset, geo_config: dict, api_key: str = '', force_fetch=False) -> dict:
     output_path = './tmp'
+    status_path = os.path.join(output_path, 'download_status.json')
+    rate_params = {}
+    rate_params['max_parallel_req'] = 50
+    rate_params['limit_per_host'] = 20
+    rate_params['req_per_unit_time'] = 10
+    rate_params['unit_time'] = 1
     for year in geo_config:
         print('required geos', year)
         if 'required_geo_lists' not in geo_config[year]:
@@ -189,9 +195,9 @@ def get_yearwise_required_geos(dataset, geo_config: dict, api_key: str = '', for
                         temp_dict['status'] = 'pending'
                         temp_dict['force_fetch'] = force_fetch
                         url_list.append(temp_dict)
-                    failed_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_json, output_path)
+                    failed_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_json, status_path, rate_params=rate_params)
                     if failed_ctr > 0:
-                        download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_json, output_path)
+                        download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_json, status_path, rate_params=rate_params)
                     for cur_url in url_list:
                         dir, filename = os.path.split(cur_url['store_path'])
                         s = base64.b64decode(filename.encode()).decode("utf-8", errors='ignore')

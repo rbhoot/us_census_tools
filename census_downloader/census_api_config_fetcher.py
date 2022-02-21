@@ -7,7 +7,7 @@ import sys
 import os
 import time
 import random
-from download_utils import download_url_list_iterations
+from download_utils import download_url_list_iterations, async_save_resp_json
 from status_file_utils import get_pending_or_fail_url_list
 
 module_dir_ = os.path.dirname(__file__)
@@ -18,16 +18,6 @@ sys.path.append(os.path.join(module_dir_, '..'))
 from common_utils.requests_wrappers import request_url_json
 
 FLAGS = flags.FLAGS
-
-def save_resp_json(resp, store_path):
-    resp_data = resp.json()
-    logging.info('Writing downloaded data to file: %s', store_path)
-    json.dump(resp_data, open(store_path, 'w'), indent = 2)
-
-async def async_save_resp_json(resp, store_path):
-    resp_data = await resp.json()
-    logging.info('Writing downloaded data to file: %s', store_path)
-    json.dump(resp_data, open(store_path, 'w'), indent = 2)
 
 def _generate_url_prefix(dataset, year=None):
   if year:

@@ -30,6 +30,13 @@ def save_resp_csv(resp, store_path):
     logging.info('Writing downloaded data to file: %s', store_path)
     df.to_csv(store_path, encoding='utf-8', index = False)
 
+async def async_save_resp_csv(resp, store_path):
+    resp_data = await resp.json()
+    headers = resp_data.pop(0)
+    df = pd.DataFrame(resp_data, columns=headers)
+    logging.info('Writing downloaded data to file: %s', store_path)
+    df.to_csv(store_path, encoding='utf-8', index = False)
+
 def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
     # TODO handle multiple download status file for each year
     logging.info('Downloading table:%s to %s', table_id, output_path)
@@ -49,7 +56,13 @@ def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
 
     start = time.time()
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, output_path)
+    rate_params = {}
+    rate_params['max_parallel_req'] = 50
+    rate_params['limit_per_host'] = 20
+    rate_params['req_per_unit_time'] = 10
+    rate_params['unit_time'] = 1
+
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, output_path, rate_params=rate_params)
 
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:
@@ -196,7 +209,13 @@ def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, o
 
     start = time.time()
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, output_path)
+    rate_params = {}
+    rate_params['max_parallel_req'] = 50
+    rate_params['limit_per_host'] = 20
+    rate_params['req_per_unit_time'] = 10
+    rate_params['unit_time'] = 1
+
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, output_path, rate_params=rate_params)
 
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:
@@ -207,6 +226,7 @@ def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, o
     print("The time required to download the", table_id, "dataset :", end-start)
     logging.info('The time required to download the %s dataset : %f', table_id, end-start)
 
+os.makedirs('logs/', exist_ok=True)
 logging.basicConfig(filename=f"logs/acs_download_{datetime.datetime.now().replace(microsecond=0).isoformat().replace(':','')}.log", level=logging.DEBUG, format="%(asctime)s [%(levelname)s]: %(message)s")
 
 def main(argv):
