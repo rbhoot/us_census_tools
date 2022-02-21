@@ -229,7 +229,8 @@ os.makedirs('logs/', exist_ok=True)
 logging.basicConfig(filename=f"logs/acs_download_{datetime.datetime.now().replace(microsecond=0).isoformat().replace(':','')}.log", level=logging.DEBUG, format="%(asctime)s [%(levelname)s]: %(message)s")
 
 def main(argv):
-    year_list = list(range(FLAGS.start_year, FLAGS.end_year+1))
+    year_list_int = list(range(FLAGS.start_year, FLAGS.end_year+1))
+    year_list = [str(y) for y in year_list_int]
     out_path = os.path.expanduser(FLAGS.output_path)
     # TODO force_fetch_data
     download_table(FLAGS.dataset, FLAGS.table_id, year_list, out_path, FLAGS.api_key)
