@@ -4,6 +4,12 @@ from shutil import copy2
 import base64
 
 
+def url_to_download(url_dict: dict):
+    if url_dict['status'] == 'pending' or url_dict['status'].startswith('fail') or url_dict['force_fetch']:
+        return True
+    else:
+        return False
+
 # read status file, reconcile url list
 def read_update_status(filename: str, url_list: list, force_fetch_all: bool = False) -> list:
     filename = os.path.expanduser(filename)

@@ -209,7 +209,7 @@ def fetch_dataset_config_cache(param,
         'w') as fp:
       json.dump(error_dict, fp, indent=2)
     return
-
+  print('Fetching', param, 'config cache files')
   store_path = os.path.abspath(store_path)
 
   dataset_dict = compile_year_map(store_path, force_fetch)
@@ -222,7 +222,6 @@ def fetch_dataset_config_cache(param,
   if not os.path.exists(cache_path):
     os.makedirs(cache_path, exist_ok=True)
 
-  status_file = os.path.join(cache_path, f'{param}_cache_status.json')
   for dataset in dataset_dict:
     if 'years' in dataset_dict[dataset]:
       for year in dataset_dict[dataset]['years']:
@@ -298,6 +297,7 @@ def fetch_dataset_config_cache(param,
   rate_params['limit_per_host'] = 20
   rate_params['req_per_unit_time'] = 10
   rate_params['unit_time'] = 1
+  
   failed_urls_ctr = download_url_list_iterations(url_list, None, '', async_save_resp_json, status_path)
 
   # url_list = url_list_check_downloaded(url_list, force_fetch)
@@ -469,7 +469,7 @@ def compile_geography_map(store_path=config_path_, force_fetch=False):
                 if 'geoLevelId' in cur_geo:
                   s_level = cur_geo['geoLevelId']
                 elif 'geoLevelDisplay' in cur_geo:
-                  s_level = cur_geo['geoLevelId']
+                  s_level = cur_geo['geoLevelDisplay']
                 else:
                   s_level = cur_geo['name']
                   if 'geo_missing_id' not in error_dict:
