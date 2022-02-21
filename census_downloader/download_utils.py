@@ -4,7 +4,7 @@ import os
 import random
 import time
 import pandas as pd
-from status_file_utils import read_update_status, get_pending_or_fail_url_list, get_pending_url_list
+from status_file_utils import read_update_status, get_pending_or_fail_url_list, url_to_download
 import aiohttp
 import asyncio
 from aiolimiter import AsyncLimiter
@@ -28,23 +28,24 @@ def download_url_list_iterations(url_list, url_api_modifier, api_key, process_an
 # req url
 async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store):
 # async def fetch(session, url, semaphore):
-    await semaphore.acquire()
-    async with limiter:
-        final_url = url_api_modifier(cur_url, api_key)
-        async with session.get(final_url) as response:
-            http_code = response.status
-            logging.info('%s response code %d', cur_url['url'], http_code)
-            if http_code == 200:
-                logging.info('Calling function %s with store path : %s', process_and_store.__name__, cur_url['store_path'])
-                await process_and_store(response, cur_url['store_path'])
-                cur_url['status'] = 'ok'
-                cur_url['http_code'] = str(http_code)
-            else:
-                cur_url['status'] = 'fail_http'
-                cur_url['http_code'] = str(http_code)
-                print("HTTP status code: "+str(http_code))
-            semaphore.release()
-            # return response
+    if url_to_download(cur_url):
+        await semaphore.acquire()
+        async with limiter:
+            final_url = url_api_modifier(cur_url, api_key)
+            async with session.get(final_url) as response:
+                http_code = response.status
+                logging.info('%s response code %d', cur_url['url'], http_code)
+                if http_code == 200:
+                    logging.info('Calling function %s with store path : %s', process_and_store.__name__, cur_url['store_path'])
+                    await process_and_store(response, cur_url['store_path'])
+                    cur_url['status'] = 'ok'
+                    cur_url['http_code'] = str(http_code)
+                else:
+                    cur_url['status'] = 'fail_http'
+                    cur_url['http_code'] = str(http_code)
+                    print("HTTP status code: "+str(http_code))
+                semaphore.release()
+                # return response
 
 # async download
 async def _async_download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params, status_path):
