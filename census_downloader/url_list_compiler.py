@@ -11,6 +11,7 @@ from typing import OrderedDict
 from absl import app
 from absl import flags
 from download_utils import download_url_list_iterations, async_save_resp_json
+from status_file_utils import sync_status_list
 import itertools
 
 module_dir_ = os.path.dirname(__file__)
@@ -306,6 +307,7 @@ def get_table_url_list(dataset, table_id, year_list, output_path, api_key, s_lev
                     ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*", output_path))
             else:
                 print('Warning:', s_level, 'not available for year', year)
+    ret_list = sync_status_list([], ret_list)
     return ret_list
 
 def get_yearwise_column_variable_map(dataset, table_id, year_list, store_path = None, force_fetch = True):
