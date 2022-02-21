@@ -23,7 +23,7 @@ def download_url_list_iterations(url_list, url_api_modifier, api_key, process_an
         loop_ctr += 1
     return failed_urls_ctr
 
-def download_url_list(url_list, url_api_modifier, api_key, process_and_store, output_path, ctr, retry_failed = True):
+def download_url_list(url_list, url_api_modifier, api_key, process_and_store, output_path, ctr, chunk_size = 30, chunk_delay = 8, retry_failed = True):
     # logging.debug('Downloading url list %s', ','.join(url_list))
     logging.debug('Output path: %s, Iteration: %d', output_path, ctr)
     
@@ -35,7 +35,7 @@ def download_url_list(url_list, url_api_modifier, api_key, process_and_store, ou
         url_list = get_pending_url_list(url_list_all)
     
     # keep this as the number of parallel requests targeted
-    n = 30
+    n = chunk_size
     urls_chunked = [url_list[i:i + n] for i in range(0, len(url_list), n)]
     fail_ctr = 0
 
@@ -47,6 +47,8 @@ def download_url_list(url_list, url_api_modifier, api_key, process_and_store, ou
         logging.info('Creating 35 sec delay because of > 3 iterations')
     for j, cur_chunk in enumerate(urls_chunked):
         start_t = time.time()
+        if not url_api_modifier:
+            url_api_modifier = lambda u, a : u
         results = grequests.map((grequests.get(url_api_modifier(u, api_key)) for u in cur_chunk), size=n)
         delay_flag = False
         for i, resp in enumerate(results):
@@ -60,7 +62,7 @@ def download_url_list(url_list, url_api_modifier, api_key, process_and_store, ou
                     url_list[j*n+i]['status'] = 'ok'
                     url_list[j*n+i]['http_code'] = str(resp.status_code)
                 else:
-                    url_list[j*n+i]['status'] = 'fail'
+                    url_list[j*n+i]['status'] = 'fail_http'
                     url_list[j*n+i]['http_code'] = str(resp.status_code)
                     print("HTTP status code: "+str(resp.status_code))
             else:
@@ -83,5 +85,5 @@ def download_url_list(url_list, url_api_modifier, api_key, process_and_store, ou
             create_delay(5+3*ctr)
         else:
             logging.info('Creating 8 sec delay')
-            create_delay(8)
+            create_delay(chunk_delay)
     return fail_ctr
