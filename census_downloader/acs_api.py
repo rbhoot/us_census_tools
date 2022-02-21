@@ -18,11 +18,8 @@ from absl import flags
 
 FLAGS = flags.FLAGS
 
-'''
-TODO
-    2010 download county subdivision, zip tabulation
-'''
-
+flags.DEFINE_boolean('force_fetch_data', False,
+                     'Force download of all data from API')
 def url_add_api_key(url_dict: dict, api_key: str) -> str:
     return url_dict['url']+f'&key={api_key}'
 
@@ -34,6 +31,7 @@ def save_resp_csv(resp, store_path):
     df.to_csv(store_path, encoding='utf-8', index = False)
 
 def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
+    # TODO handle multiple download status file for each year
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
     geo_url_map_path = os.path.expanduser(geo_url_map_path)
@@ -214,6 +212,7 @@ logging.basicConfig(filename=f"logs/acs_download_{datetime.datetime.now().replac
 def main(argv):
     year_list = list(range(FLAGS.start_year, FLAGS.end_year+1))
     out_path = os.path.expanduser(FLAGS.output_path)
+    # TODO force_fetch_data
     download_table(FLAGS.table_id, year_list, FLAGS.geo_map, out_path, FLAGS.api_key)
     
 if __name__ == '__main__':
