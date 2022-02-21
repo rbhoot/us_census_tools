@@ -66,8 +66,6 @@ async def _async_download_url_list(url_list, url_api_modifier, api_key, process_
         for cur_url in url_list:
             # final_url = url_api_modifier(cur_url, api_key)
             await fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store)
-            with open(status_path, 'w') as fp:
-                json.dump(url_list, fp, indent=2)
             
 def download_url_list(url_list, url_api_modifier, api_key, process_and_store, status_path, rate_params, retry_failed = True):
     logging.debug('Downloading url list of size %d, status file: %s', len(url_list), status_path)
