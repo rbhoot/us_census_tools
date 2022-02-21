@@ -1,3 +1,4 @@
+from dbm import dumb
 import zipfile
 import json
 import time
@@ -49,7 +50,10 @@ def download_table(dataset, table_id, year_list, output_path, api_key):
     logging.info('compiling list of URLs')
 
     url_list = get_table_url_list(dataset, table_id, year_list, output_path, api_key)
-
+    status_path = os.path.join(output_path, 'download_status.json')
+    with open(status_path, 'w') as fp:
+        json.dump(url_list, fp, indent=2)
+    
     print(len(url_list))
     logging.info("Compiled a list of %d URLs", len(url_list))
 
@@ -61,11 +65,17 @@ def download_table(dataset, table_id, year_list, output_path, api_key):
     rate_params['req_per_unit_time'] = 10
     rate_params['unit_time'] = 1
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, output_path, rate_params=rate_params)
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, status_path, rate_params=rate_params)
+
+    with open(status_path, 'w') as fp:
+        json.dump(url_list, fp, indent=2)
 
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:
         logging.warn('%d urls have failed, output files might be missing data.', failed_urls_ctr)
+
+    with open(status_path, 'w') as fp:
+        json.dump(url_list, fp, indent=2)
 
     consolidate_files(table_id, year_list, output_path)
     
