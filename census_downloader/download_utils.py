@@ -5,12 +5,14 @@ import random
 import time
 import pandas as pd
 from status_file_utils import read_update_status, get_pending_or_fail_url_list, get_pending_url_list
-import grequests
+import aiohttp
+import asyncio
+from aiolimiter import AsyncLimiter
 
 def create_delay(t):
     time.sleep(t + (random.random() / 2 ))
 
-def download_url_list_iterations(url_list, url_api_modifier, api_key, process_and_store, output_path, max_itr = 10, retry_failed = True):
+def download_url_list_iterations(url_list, url_api_modifier, api_key, process_and_store, status_path, max_itr = 10, rate_params = {}, retry_failed = True):
     failed_urls_ctr = len(url_list)
     prev_failed_ctr = failed_urls_ctr + 1
     loop_ctr = 0
@@ -18,72 +20,95 @@ def download_url_list_iterations(url_list, url_api_modifier, api_key, process_an
     while failed_urls_ctr > 0 and loop_ctr < max_itr and prev_failed_ctr > failed_urls_ctr:
         prev_failed_ctr = failed_urls_ctr
         logging.info('downloading URLs iteration:%d', loop_ctr)
-        failed_urls_ctr = download_url_list(url_list, url_api_modifier, api_key, process_and_store, output_path, loop_ctr, retry_failed)
+        failed_urls_ctr = download_url_list(url_list, url_api_modifier, api_key, process_and_store, status_path, rate_params, retry_failed)
         logging.info('failed request count: %d', failed_urls_ctr)
         loop_ctr += 1
     return failed_urls_ctr
 
-def download_url_list(url_list, url_api_modifier, api_key, process_and_store, output_path, ctr, chunk_size = 30, chunk_delay = 8, retry_failed = True):
-    # logging.debug('Downloading url list %s', ','.join(url_list))
-    logging.debug('Output path: %s, Iteration: %d', output_path, ctr)
-    
-    status_path = os.path.join(output_path, 'download_status.json')
-    url_list_all = read_update_status(status_path, url_list)
-    if retry_failed:
-        url_list = get_pending_or_fail_url_list(url_list_all)
-    else:
-        url_list = get_pending_url_list(url_list_all)
-    
-    # keep this as the number of parallel requests targeted
-    n = chunk_size
-    urls_chunked = [url_list[i:i + n] for i in range(0, len(url_list), n)]
-    fail_ctr = 0
-
-    print("Downloading", len(url_list), "urls in chunks of", n, ", iteration:", ctr)
-
-    logging.info("%d URLs to be downloaded for iteration %d", len(url_list), ctr)
-    if ctr > 3:
-        create_delay(35)
-        logging.info('Creating 35 sec delay because of > 3 iterations')
-    for j, cur_chunk in enumerate(urls_chunked):
-        start_t = time.time()
-        if not url_api_modifier:
-            url_api_modifier = lambda u, a : u
-        results = grequests.map((grequests.get(url_api_modifier(u, api_key)) for u in cur_chunk), size=n)
-        delay_flag = False
-        for i, resp in enumerate(results):
-            if resp:
-                # NOTE: use commented line when debug of url with api key is needed 
-                # logging.info('%s response code %d', resp.url, resp.status_code)
-                logging.info('%s response code %d', url_list[j*n+i]['url'], resp.status_code)
-                if resp.status_code == 200:
-                    logging.info('Calling function %s with store path : %s', process_and_store.__name__, cur_chunk[i]['store_path'])
-                    process_and_store(resp, cur_chunk[i]['store_path'])
-                    url_list[j*n+i]['status'] = 'ok'
-                    url_list[j*n+i]['http_code'] = str(resp.status_code)
-                else:
-                    url_list[j*n+i]['status'] = 'fail_http'
-                    url_list[j*n+i]['http_code'] = str(resp.status_code)
-                    print("HTTP status code: "+str(resp.status_code))
+# req url
+async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store):
+# async def fetch(session, url, semaphore):
+    await semaphore.acquire()
+    async with limiter:
+        final_url = url_api_modifier(cur_url, api_key)
+        async with session.get(final_url) as response:
+            http_code = response.status
+            logging.info('%s response code %d', cur_url['url'], http_code)
+            if http_code == 200:
+                logging.info('Calling function %s with store path : %s', process_and_store.__name__, cur_url['store_path'])
+                await process_and_store(response, cur_url['store_path'])
+                cur_url['status'] = 'ok'
+                cur_url['http_code'] = str(http_code)
             else:
-                delay_flag = True
-                print("Error: None reponse obj", cur_chunk[i]['url'])
-                logging.warn('%s responded None', cur_chunk[i]['url'])
-                url_list[j*n+i]['status'] = 'fail'
-                fail_ctr += 1
-        end_t = time.time()
-        logging.debug('Storing download status')
-        with open(status_path, 'w') as fp:
-            json.dump(url_list_all, fp, indent=2)
-        
-        print("The time required to download", n, "URLs :", end_t-start_t)
-        if delay_flag:
-            logging.info('Creating 20 sec delay')
-            create_delay(20)
-        if ctr > 1 and ctr < 3:
-            logging.info('Creating %d sec delay', 5+3*ctr)
-            create_delay(5+3*ctr)
-        else:
-            logging.info('Creating 8 sec delay')
-            create_delay(chunk_delay)
-    return fail_ctr
+                cur_url['status'] = 'fail_http'
+                cur_url['http_code'] = str(http_code)
+                print("HTTP status code: "+str(http_code))
+            semaphore.release()
+            # return response
+
+# async download
+async def _async_download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params, status_path):
+    # create semaphore
+    semaphore = asyncio.Semaphore(rate_params['max_parallel_req'])
+    # limiter
+    limiter = AsyncLimiter(rate_params['req_per_unit_time'], rate_params['unit_time'])
+    # create session
+    conn = aiohttp.TCPConnector(limit_per_host=rate_params['limit_per_host'])
+    async with aiohttp.ClientSession(connector=conn) as session:
+        # loop over each url
+        for cur_url in url_list:
+            # final_url = url_api_modifier(cur_url, api_key)
+            await fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store)
+            with open(status_path, 'w') as fp:
+                json.dump(url_list, fp, indent=2)
+            # resp = await fetch(session, final_url, semaphore)
+            # if resp:
+            #     http_code = resp.status
+            #     logging.info('%s response code %d', cur_url['url'], http_code)
+            #     if http_code == 200:
+            #         logging.info('Calling function %s with store path : %s', process_and_store.__name__, cur_url['store_path'])
+            #         await process_and_store(resp, cur_url['store_path'])
+            #         cur_url['status'] = 'ok'
+            #         cur_url['http_code'] = str(http_code)
+            #     else:
+            #         cur_url['status'] = 'fail_http'
+            #         cur_url['http_code'] = str(http_code)
+            #         print("HTTP status code: "+str(http_code))
+            # else:
+            #     print("Error: None reponse obj", cur_url['url'])
+            #     logging.warn('%s responded None', cur_url['url'])
+            #     cur_url['status'] = 'fail'
+            
+def download_url_list(url_list, url_api_modifier, api_key, process_and_store, status_path, rate_params, retry_failed = True):
+    logging.debug('Downloading url list of size %d, status file: %s', len(url_list), status_path)
+    status_path = os.path.expanduser(status_path)
+    url_list_all = read_update_status(status_path, url_list)
+    url_list = url_list_all
+    # if retry_failed:
+    #     url_list = get_pending_or_fail_url_list(url_list_all)
+    # else:
+    #     url_list = get_pending_url_list(url_list_all)
+    
+    if not url_api_modifier:
+        url_api_modifier = lambda u, a : u['url']
+
+    if 'max_parallel_req' not in rate_params:
+        rate_params['max_parallel_req'] = 500
+    if 'limit_per_host' not in rate_params:
+        rate_params['limit_per_host'] = 0
+    if 'req_per_unit_time' not in rate_params:
+        rate_params['req_per_unit_time'] = 50
+    if 'unit_time' not in rate_params:
+        rate_params['unit_time'] = 1
+
+    start_t = time.time()
+    loop = asyncio.get_event_loop()
+    future = asyncio.ensure_future(_async_download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params, status_path))
+    loop.run_until_complete(future)
+    end_t = time.time()
+    print("The time required to download", len(url_list), "URLs :", end_t-start_t)
+
+    with open(status_path, 'w') as fp:
+        json.dump(url_list, fp, indent=2)
+
+    return len(get_pending_or_fail_url_list(url_list))

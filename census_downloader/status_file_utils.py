@@ -114,6 +114,13 @@ def get_failed_url_list(url_list: list) -> list:
             pending_url_list.append(cur_url)
     return pending_url_list
 
+def get_failed_http_url_list(url_list: list) -> list:
+    pending_url_list = []
+    for cur_url in url_list:
+        if cur_url['status'] == 'fail_http':
+            pending_url_list.append(cur_url)
+    return pending_url_list
+
 def get_pending_or_fail_url_list(url_list: list) -> list:
     pending_url_list = []
     for cur_url in url_list:

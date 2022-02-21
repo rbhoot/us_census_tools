@@ -1,6 +1,5 @@
 from collections import OrderedDict
 import logging
-import requests
 import json
 from absl import app
 from absl import flags
@@ -25,11 +24,16 @@ def save_resp_json(resp, store_path):
     logging.info('Writing downloaded data to file: %s', store_path)
     json.dump(resp_data, open(store_path, 'w'), indent = 2)
 
+async def async_save_resp_json(resp, store_path):
+    resp_data = await resp.json()
+    logging.info('Writing downloaded data to file: %s', store_path)
+    json.dump(resp_data, open(store_path, 'w'), indent = 2)
+
 def _generate_url_prefix(dataset, year=None):
   if year:
-    return f'https://api.census.gov/data/{year}/{dataset}/'
+    return f'http://api.census.gov/data/{year}/{dataset}/'
   else:
-    return f'https://api.census.gov/data/{dataset}/'
+    return f'http://api.census.gov/data/{dataset}/'
 
 
 def generate_url_geography(dataset, year=None):
@@ -56,8 +60,7 @@ def fetch_dataset_config(store_path=config_path_, force_fetch=False):
   store_path = os.path.expanduser(store_path)
   if not os.path.exists(store_path):
     os.makedirs(store_path, exist_ok=True)
-  if force_fetch or not os.path.isfile(
-      os.path.join(store_path, 'dataset_list.json')):
+  if force_fetch or not os.path.isfile(os.path.join(store_path, 'dataset_list.json')):
     datasets = request_url_json('https://api.census.gov/data.json')
     if 'http_err_code' not in datasets:
       with open(os.path.join(store_path, 'dataset_list.json'), 'w') as fp:
@@ -70,121 +73,121 @@ def fetch_dataset_config(store_path=config_path_, force_fetch=False):
 
 def compile_year_map(store_path=config_path_, force_fetch=False):
 
-  if os.path.isfile(os.path.join(store_path, 'dataset_year.json')):
+  if not force_fetch and os.path.isfile(os.path.join(store_path, 'dataset_year.json')):
     dataset_dict = json.load(
         open(os.path.join(store_path, 'dataset_year.json'), 'r'))
   else:
     datasets = fetch_dataset_config(store_path, force_fetch)
     dataset_dict = {}
     error_dict = {}
-    for dataset_dict in datasets['dataset']:
-      dataset = '/'.join(dataset_dict['c_dataset'])
-      if dataset_dict['c_isAvailable']:
-        if dataset not in dataset_dict:
-          dataset_dict[dataset] = {}
-          dataset_dict[dataset]['years'] = {}
+    for cur_dataset_dict in datasets['dataset']:
+      link_tree = '/'.join(cur_dataset_dict['c_dataset'])
+      if cur_dataset_dict['c_isAvailable']:
+        if link_tree not in dataset_dict:
+          dataset_dict[link_tree] = {}
+          dataset_dict[link_tree]['years'] = {}
 
-        identifier = dataset_dict['identifier']
+        identifier = cur_dataset_dict['identifier']
         identifier = identifier[identifier.rfind('/') + 1:]
 
-        if 'c_vintage' in dataset_dict:
-          year = dataset_dict['c_vintage']
-          dataset_dict[dataset]['years'][year] = {}
-          dataset_dict[dataset]['years'][year]['title'] = dataset_dict[
+        if 'c_vintage' in cur_dataset_dict:
+          year = cur_dataset_dict['c_vintage']
+          dataset_dict[link_tree]['years'][year] = {}
+          dataset_dict[link_tree]['years'][year]['title'] = cur_dataset_dict[
               'title']
-          dataset_dict[dataset]['years'][year]['identifier'] = identifier
+          dataset_dict[link_tree]['years'][year]['identifier'] = identifier
 
-        elif 'c_isTimeseries' in dataset_dict and dataset_dict['c_isTimeseries']:
+        elif 'c_isTimeseries' in cur_dataset_dict and cur_dataset_dict['c_isTimeseries']:
           year = None
 
-          if 'title' not in dataset_dict[dataset]:
-            dataset_dict[dataset]['title'] = dataset_dict['title']
-          elif dataset_dict[dataset]['title'] != dataset_dict['title']:
+          if 'title' not in dataset_dict[link_tree]:
+            dataset_dict[link_tree]['title'] = cur_dataset_dict['title']
+          elif dataset_dict[link_tree]['title'] != cur_dataset_dict['title']:
             if 'timeseries_multiple_titles' not in error_dict:
               error_dict['timeseries_multiple_titles'] = []
-            error_dict['timeseries_multiple_titles'].append(dataset)
-            print(dataset, 'found multiple title')
+            error_dict['timeseries_multiple_titles'].append(link_tree)
+            print(link_tree, 'found multiple title')
 
-          if 'identifier' not in dataset_dict[dataset]:
-            dataset_dict[dataset]['identifier'] = identifier
-          elif dataset_dict[dataset]['identifier'] != identifier:
+          if 'identifier' not in dataset_dict[link_tree]:
+            dataset_dict[link_tree]['identifier'] = identifier
+          elif dataset_dict[link_tree]['identifier'] != identifier:
             if 'timeseries_multiple_identifiers' not in error_dict:
               error_dict['timeseries_multiple_identifiers'] = []
-            error_dict['timeseries_multiple_identifiers'].append(dataset)
-            print(dataset, 'found multiple identifiers')
+            error_dict['timeseries_multiple_identifiers'].append(link_tree)
+            print(link_tree, 'found multiple identifiers')
         else:
           year = None
-          if 'dataset_unkown_type' not in error_dict:
-            error_dict['dataset_unkown_type'] = []
-          error_dict['dataset_unkown_type'].append(dataset)
-          print('/'.join(dataset_dict['c_dataset']),
+          if 'linktree_unkown_type' not in error_dict:
+            error_dict['linktree_unkown_type'] = []
+          error_dict['linktree_unkown_type'].append(link_tree)
+          print('/'.join(cur_dataset_dict['c_dataset']),
                 'year not available and not timeseries')
 
-        if dataset_dict['distribution'][0]['accessURL'] != _generate_url_prefix(
-            dataset, year)[:-1]:
+        if cur_dataset_dict['distribution'][0]['accessURL'] != _generate_url_prefix(
+            link_tree, year)[:-1]:
           if 'url_mismatch' not in error_dict:
             error_dict['url_mismatch'] = []
           error_dict['url_mismatch'].append({
-              'expected': _generate_url_prefix(dataset, year)[:-1],
-              'actual': dataset_dict['distribution'][0]['accessURL']
+              'expected': _generate_url_prefix(link_tree, year)[:-1],
+              'actual': cur_dataset_dict['distribution'][0]['accessURL']
           })
-          print(dataset, 'accessURL unexpected')
+          print(link_tree, 'accessURL unexpected')
 
-        if dataset_dict['c_geographyLink'] != generate_url_geography(
-            dataset, year):
+        if cur_dataset_dict['c_geographyLink'] != generate_url_geography(
+            link_tree, year):
           if 'url_mismatch' not in error_dict:
             error_dict['url_mismatch'] = []
           error_dict['url_mismatch'].append({
-              'expected': generate_url_geography(dataset, year),
-              'actual': dataset_dict['c_geographyLink']
+              'expected': generate_url_geography(link_tree, year),
+              'actual': cur_dataset_dict['c_geographyLink']
           })
-          print(dataset, 'c_geographyLink unexpected')
+          print(link_tree, 'c_geographyLink unexpected')
 
-        if dataset_dict['c_groupsLink'] != generate_url_groups(dataset, year):
+        if cur_dataset_dict['c_groupsLink'] != generate_url_groups(link_tree, year):
           if 'url_mismatch' not in error_dict:
             error_dict['url_mismatch'] = []
           error_dict['url_mismatch'].append({
-              'expected': generate_url_groups(dataset, year),
-              'actual': dataset_dict['c_groupsLink']
+              'expected': generate_url_groups(link_tree, year),
+              'actual': cur_dataset_dict['c_groupsLink']
           })
-          print(dataset, 'c_groupsLink unexpected')
+          print(link_tree, 'c_groupsLink unexpected')
 
-        if dataset_dict['c_variablesLink'] != generate_url_variables(
-            dataset, year):
+        if cur_dataset_dict['c_variablesLink'] != generate_url_variables(
+            link_tree, year):
           if 'url_mismatch' not in error_dict:
             error_dict['url_mismatch'] = []
           error_dict['url_mismatch'].append({
-              'expected': generate_url_variables(dataset, year),
-              'actual': dataset_dict['c_variablesLink']
+              'expected': generate_url_variables(link_tree, year),
+              'actual': cur_dataset_dict['c_variablesLink']
           })
-          print(dataset, 'c_variablesLink unexpected')
+          print(link_tree, 'c_variablesLink unexpected')
 
-        if 'c_tagsLink' in dataset_dict:
-          if dataset_dict['c_tagsLink'] != generate_url_tags(dataset, year):
+        if 'c_tagsLink' in cur_dataset_dict:
+          if cur_dataset_dict['c_tagsLink'] != generate_url_tags(link_tree, year):
             if 'url_mismatch' not in error_dict:
               error_dict['url_mismatch'] = []
             error_dict['url_mismatch'].append({
-                'expected': generate_url_tags(dataset, year),
-                'actual': dataset_dict['c_tagsLink']
+                'expected': generate_url_tags(link_tree, year),
+                'actual': cur_dataset_dict['c_tagsLink']
             })
-            print(dataset, 'c_tagsLink unexpected')
+            print(link_tree, 'c_tagsLink unexpected')
 
-        if len(dataset_dict['distribution']) > 1:
-          if 'dataset_multiple_distribution' not in error_dict:
-            error_dict['dataset_multiple_distribution'] = []
-          error_dict['dataset_multiple_distribution'].append(dataset)
-          print(dataset, 'has multiple distribution')
+        if len(cur_dataset_dict['distribution']) > 1:
+          if 'link_tree_multiple_distribution' not in error_dict:
+            error_dict['link_tree_multiple_distribution'] = []
+          error_dict['link_tree_multiple_distribution'].append(link_tree)
+          print(link_tree, 'has multiple distribution')
 
-        if 'c_tagsLink' not in dataset_dict:
+        if 'c_tagsLink' not in cur_dataset_dict:
           if 'missing_tags' not in error_dict:
             error_dict['missing_tags'] = []
-          error_dict['missing_tags'].append(dataset)
-          print(dataset, 'c_tagsLink not present')
+          error_dict['missing_tags'].append(link_tree)
+          print(link_tree, 'c_tagsLink not present')
       else:
-        if 'unavailable_datasets' not in error_dict:
-          error_dict['unavailable_datasets'] = []
-        error_dict['unavailable_datasets'].append(dataset)
-        print(dataset, 'not available')
+        if 'unavailable_link_trees' not in error_dict:
+          error_dict['unavailable_link_trees'] = []
+        error_dict['unavailable_link_trees'].append(link_tree)
+        print(link_tree, 'not available')
 
     with open(os.path.join(store_path, 'dataset_year.json'), 'w') as fp:
       json.dump(dataset_dict, fp, indent=2)
@@ -220,7 +223,6 @@ def fetch_dataset_config_cache(param,
     os.makedirs(cache_path, exist_ok=True)
 
   status_file = os.path.join(cache_path, f'{param}_cache_status.json')
-
   for dataset in dataset_dict:
     if 'years' in dataset_dict[dataset]:
       for year in dataset_dict[dataset]['years']:
@@ -241,7 +243,7 @@ def fetch_dataset_config_cache(param,
         if temp_url:
           temp_dict = {}
           temp_dict['url'] = temp_url
-          temp_dict['output_path'] = file_name
+          temp_dict['store_path'] = file_name
           temp_dict['status'] = 'pending'
           temp_dict['force_fetch'] = force_fetch
           url_list.append(temp_dict)
@@ -253,7 +255,7 @@ def fetch_dataset_config_cache(param,
             if temp_url not in url_list:
               temp_dict = {}
               temp_dict['url'] = temp_url
-              temp_dict['output_path'] = file_name
+              temp_dict['store_path'] = file_name
               temp_dict['status'] = 'pending'
               temp_dict['force_fetch'] = force_fetch
               url_list.append(temp_dict)
@@ -290,7 +292,13 @@ def fetch_dataset_config_cache(param,
             temp_dict['force_fetch'] = force_fetch
             url_list.append(temp_dict)
 
-  failed_urls_ctr = download_url_list_iterations(url_list, None, '', save_resp_json, cache_path)
+  status_path = os.path.join(cache_path, f'{param}_cache_status.json')
+  rate_params = {}
+  rate_params['max_parallel_req'] = 50
+  rate_params['limit_per_host'] = 20
+  rate_params['req_per_unit_time'] = 10
+  rate_params['unit_time'] = 1
+  failed_urls_ctr = download_url_list_iterations(url_list, None, '', async_save_resp_json, status_path)
 
   # url_list = url_list_check_downloaded(url_list, force_fetch)
 
@@ -749,7 +757,6 @@ def compile_dataset_group_years_map(store_path=config_path_,
 
 
 # wrapper functions for finding available options
-
 compile_dataset_based_map()
 fetch_dataset_config_cache('group_variables')
 compile_dataset_group_map()

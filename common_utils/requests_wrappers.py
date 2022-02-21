@@ -14,7 +14,6 @@
 """
 Wrapper functions for easy use of requests library.
 """
-
 import requests
 import json
 import time
@@ -29,9 +28,10 @@ def request_url_json(url: str) -> dict:
     JSON decoded response from the GET call.
       Empty dict is returned in case the call fails.
   """
+  print(url)
   try:
     req = requests.get(url)
-    print(req.url)
+    # print(req.url)
   except requests.exceptions.ReadTimeout:
     time.sleep(10)
     req = requests.get(url)
