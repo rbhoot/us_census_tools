@@ -37,19 +37,18 @@ async def async_save_resp_csv(resp, store_path):
     logging.info('Writing downloaded data to file: %s', store_path)
     df.to_csv(store_path, encoding='utf-8', index = False)
 
-def download_table(table_id, year_list, geo_url_map_path, output_path, api_key):
+def download_table(dataset, table_id, year_list, output_path, api_key):
     # TODO handle multiple download status file for each year
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
-    geo_url_map_path = os.path.expanduser(geo_url_map_path)
-    geo_url_map = json.load(open(geo_url_map_path, 'r'))
     output_path = os.path.join(output_path, table_id)
     logging.debug('creating missing directories in path:%s', output_path)
     if not os.path.exists(output_path):
         os.makedirs(output_path, exist_ok=True)
     
     logging.info('compiling list of URLs')
-    url_list = get_table_url_list(table_id, year_list, geo_url_map, output_path, api_key)
+
+    url_list = get_table_url_list(dataset, table_id, year_list, output_path, api_key)
 
     print(len(url_list))
     logging.info("Compiled a list of %d URLs", len(url_list))
@@ -233,7 +232,7 @@ def main(argv):
     year_list = list(range(FLAGS.start_year, FLAGS.end_year+1))
     out_path = os.path.expanduser(FLAGS.output_path)
     # TODO force_fetch_data
-    download_table(FLAGS.table_id, year_list, FLAGS.geo_map, out_path, FLAGS.api_key)
+    download_table(FLAGS.dataset, FLAGS.table_id, year_list, out_path, FLAGS.api_key)
     
 if __name__ == '__main__':
   flags.mark_flags_as_required(['table_id', 'output_path', 'api_key'])
