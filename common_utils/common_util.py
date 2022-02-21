@@ -304,7 +304,7 @@ def find_missing_tokens(token_list: list,
 
 
 # assumes metadata file or data with overlays file
-def columns_from_CSVreader(csv_reader: csv._reader, is_metadata_file: bool = False) -> list:
+def columns_from_CSVreader(csv_reader, is_metadata_file: bool = False) -> list:
   """Function to get list of all columns given a csv reader object.
 
     Args:
