@@ -699,9 +699,9 @@ def compile_dataset_based_map(store_path=config_path_, force_fetch=False):
 
 def compile_dataset_group_map(store_path=config_path_, force_fetch=False):
   if os.path.isfile(os.path.join(store_path,
-                                 'dataset_groups.json')) and not force_fetch:
+                                 'dataset_groups_list.json')) and not force_fetch:
     out_dict = json.load(
-        open(os.path.join(store_path, 'dataset_groups.json'), 'r'))
+        open(os.path.join(store_path, 'dataset_groups_list.json'), 'r'))
   else:
     dataset_dict = compile_non_group_variables_map(store_path, force_fetch)
     out_dict = {}
@@ -717,7 +717,7 @@ def compile_dataset_group_map(store_path=config_path_, force_fetch=False):
           if group_id not in out_dict[dataset_id]:
             out_dict[dataset_id].append(group_id)
 
-    with open(os.path.join(store_path, 'dataset_groups.json'), 'w') as fp:
+    with open(os.path.join(store_path, 'dataset_groups_list.json'), 'w') as fp:
       json.dump(out_dict, fp, indent=2)
 
   return out_dict

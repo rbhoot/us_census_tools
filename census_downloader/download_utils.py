@@ -29,6 +29,7 @@ def download_url_list_iterations(url_list, url_api_modifier, api_key, process_an
 async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store):
 # async def fetch(session, url, semaphore):
     if url_to_download(cur_url):
+        print(cur_url['url'])
         await semaphore.acquire()
         async with limiter:
             final_url = url_api_modifier(cur_url, api_key)
@@ -62,23 +63,6 @@ async def _async_download_url_list(url_list, url_api_modifier, api_key, process_
             await fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store)
             with open(status_path, 'w') as fp:
                 json.dump(url_list, fp, indent=2)
-            # resp = await fetch(session, final_url, semaphore)
-            # if resp:
-            #     http_code = resp.status
-            #     logging.info('%s response code %d', cur_url['url'], http_code)
-            #     if http_code == 200:
-            #         logging.info('Calling function %s with store path : %s', process_and_store.__name__, cur_url['store_path'])
-            #         await process_and_store(resp, cur_url['store_path'])
-            #         cur_url['status'] = 'ok'
-            #         cur_url['http_code'] = str(http_code)
-            #     else:
-            #         cur_url['status'] = 'fail_http'
-            #         cur_url['http_code'] = str(http_code)
-            #         print("HTTP status code: "+str(http_code))
-            # else:
-            #     print("Error: None reponse obj", cur_url['url'])
-            #     logging.warn('%s responded None', cur_url['url'])
-            #     cur_url['status'] = 'fail'
             
 def download_url_list(url_list, url_api_modifier, api_key, process_and_store, status_path, rate_params, retry_failed = True):
     logging.debug('Downloading url list of size %d, status file: %s', len(url_list), status_path)
