@@ -7,6 +7,7 @@ import sys
 import pandas as pd
 import datetime
 import logging
+from status_file_utils import sync_status_list
 from download_utils import download_url_list_iterations
 from url_list_compiler import get_table_url_list, get_variables_url_list, get_yearwise_variable_column_map
 
@@ -38,18 +39,19 @@ async def async_save_resp_csv(resp, store_path):
     logging.info('Writing downloaded data to file: %s', store_path)
     df.to_csv(store_path, encoding='utf-8', index = False)
 
-def download_table(dataset, table_id, year_list, output_path, api_key):
-    # TODO handle multiple download status file for each year
+def download_table(dataset, table_id, year_list, output_path, api_key, force_fetch_config: bool = False, force_fetch_data: bool = False):
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
+    output_path = os.path.expanduser(output_path)
+    output_path = os.path.join(output_path, dataset)
     output_path = os.path.join(output_path, table_id)
     logging.debug('creating missing directories in path:%s', output_path)
-    if not os.path.exists(output_path):
-        os.makedirs(output_path, exist_ok=True)
+    os.makedirs(output_path, exist_ok=True)
     
     logging.info('compiling list of URLs')
 
-    url_list = get_table_url_list(dataset, table_id, year_list, output_path, api_key)
+    url_list = get_table_url_list(dataset, table_id, year_list, output_path, api_key, force_fetch_config, force_fetch_data)
+    url_list = sync_status_list([], url_list)
     status_path = os.path.join(output_path, 'download_status.json')
     with open(status_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)
@@ -65,7 +67,7 @@ def download_table(dataset, table_id, year_list, output_path, api_key):
     rate_params['req_per_unit_time'] = 10
     rate_params['unit_time'] = 1
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, status_path, rate_params=rate_params)
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, rate_params=rate_params)
 
     with open(status_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)
@@ -189,13 +191,17 @@ def consolidate_files(table_id, year_list, output_path, replace_annotations=True
                 if os.path.isfile(output_path+csv_file):
                      os.remove(output_path+csv_file)
 
-def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, output_path, api_key):
+def download_table_variables(dataset, table_id, year_list, geo_url_map_path, spec_path, output_path, api_key):
     table_id = table_id.upper()
     spec_dict = json.load(open(spec_path, 'r'))
     geo_url_map = json.load(open(geo_url_map_path, 'r'))
+    
+    output_path = os.path.expanduser(output_path)
+    output_path = os.path.join(output_path, dataset)
     output_path = os.path.join(output_path, table_id+'_vars')
-    if not os.path.exists(output_path):
-        os.makedirs(output_path, exist_ok=True)
+    os.makedirs(output_path, exist_ok=True)
+
+    status_path = os.path.join(output_path, 'download_status.json')
     
     variables_year_dict = {}
     variable_col_map = get_yearwise_variable_column_map(table_id, year_list, 'table_variables_map/'+table_id+'_variable_column_map.json')
@@ -212,6 +218,9 @@ def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, o
         print(len(variables_year_dict[year]))
                         
     url_list = get_variables_url_list(table_id, variables_year_dict, geo_url_map, output_path, api_key)
+    url_list = sync_status_list([], url_list)
+    with open(status_path, 'w') as fp:
+        json.dump(url_list, fp, indent=2)
 
     print(len(url_list))
     logging.info("Compiled a list of %d URLs", len(url_list))
@@ -224,7 +233,10 @@ def download_table_variables(table_id, year_list, geo_url_map_path, spec_path, o
     rate_params['req_per_unit_time'] = 10
     rate_params['unit_time'] = 1
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, save_resp_csv, output_path, rate_params=rate_params)
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, rate_params=rate_params)
+
+    with open(status_path, 'w') as fp:
+        json.dump(url_list, fp, indent=2)
 
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:

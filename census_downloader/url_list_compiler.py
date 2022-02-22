@@ -30,7 +30,7 @@ flags.DEFINE_integer('end_year', 2019,
 flags.DEFINE_list('summary_levels', None,
                     'List of summary levels to be downloaded e.g. 040, 060')
 flags.DEFINE_string('output_path', None,
-                    'The folder where downloaded data is to be stored. Each table will have a sub directory created within this folder')
+                    'The folder where downloaded data is to be stored. Each dataset and table will have a sub directory created within this folder')
 flags.DEFINE_string('dataset', 'acs/acs5/subject',
                     'The dataset from which to download data. Default: acs/acs5/subject')
 flags.DEFINE_string('api_key', None,
@@ -196,9 +196,20 @@ def get_yearwise_required_geos(dataset, geo_config: dict, api_key: str = '', for
                         temp_dict['status'] = 'pending'
                         temp_dict['force_fetch'] = force_fetch
                         url_list.append(temp_dict)
-                    failed_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_json, status_path, rate_params=rate_params)
+                    
+                    url_list = sync_status_list([], url_list)
+                    with open(status_path, 'w') as fp:
+                        json.dump(url_list, fp, indent=2)
+                    
+                    failed_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_json, rate_params=rate_params)
+                    with open(status_path, 'w') as fp:
+                        json.dump(url_list, fp, indent=2)
+
                     if failed_ctr > 0:
-                        download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_json, status_path, rate_params=rate_params)
+                        download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_json, rate_params=rate_params)
+                        with open(status_path, 'w') as fp:
+                            json.dump(url_list, fp, indent=2)
+                    
                     for cur_url in url_list:
                         dir, filename = os.path.split(cur_url['store_path'])
                         s = base64.b64decode(filename.encode()).decode("utf-8", errors='ignore')
@@ -275,17 +286,19 @@ def get_yearwise_variable_column_map(dataset, table_id, year_list, store_path = 
                     json.dump(ret_dict, fp, indent=2)
     return ret_dict
 
-def get_url_entry_table(dataset, year, table_id, geo_str, output_path):
-    tempDict = {}
-    tempDict['url'] = get_url_table(dataset, year, table_id, geo_str)
-    tempDict['store_path'] = get_file_name_table(output_path, table_id, year, geo_str)
-    tempDict['status'] = 'pending'
-    return tempDict
+def get_url_entry_table(dataset, year, table_id, geo_str, output_path, force_fetch: bool = False):
+    temp_dict = {}
+    temp_dict['url'] = get_url_table(dataset, year, table_id, geo_str)
+    temp_dict['store_path'] = get_file_name_table(output_path, table_id, year, geo_str)
+    temp_dict['status'] = 'pending'
+    if force_fetch:
+        temp_dict['force_fetch'] = True
+    return temp_dict
 
-def get_table_url_list(dataset, table_id, year_list, output_path, api_key, s_level_list = 'all', force_fetch = False):
+def get_table_url_list(dataset, table_id, year_list, output_path, api_key, s_level_list = 'all', force_fetch_config = False, force_fetch_data = False):
     table_id = table_id.upper()
     ret_list = []
-    geo_config = get_geographies(dataset, year_list, api_key, force_fetch)
+    geo_config = get_geographies(dataset, year_list, api_key, force_fetch_config)
     # get list of all s levels
     if s_level_list == 'all':
         s_level_list = []
@@ -302,9 +315,9 @@ def get_table_url_list(dataset, table_id, year_list, output_path, api_key, s_lev
                 s_dict = geo_config[year]['summary_levels'][s_level]
                 if req_str_list:
                     for geo_req in req_str_list:
-                        ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*{geo_req}", output_path))
+                        ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*{geo_req}", output_path, force_fetch_data))
                 else:
-                    ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*", output_path))
+                    ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*", output_path, force_fetch_data))
             else:
                 print('Warning:', s_level, 'not available for year', year)
     ret_list = sync_status_list([], ret_list)
@@ -331,40 +344,48 @@ def get_yearwise_column_variable_map(dataset, table_id, year_list, store_path = 
                     json.dump(ret_dict, fp, indent=2)
     return ret_dict
 
-def get_variables_url_list(dataset, table_id, variables_year_dict, geo_url_map, output_path, api_key):
+def get_variables_url_list(dataset, table_id, variables_year_dict, output_path, api_key, s_level_list = 'all', force_fetch_config = False, force_fetch_data = False):
     table_id = table_id.upper()
     ret_list = []
+    
+    geo_config = get_geographies(dataset, year_list, api_key, force_fetch_config)
+    # get list of all s levels
+    if s_level_list == 'all':
+        s_level_list = []
+        for year, year_dict in geo_config.items():
+            for s_level in year_dict['summary_levels']:
+                if s_level not in s_level_list:
+                    s_level_list.append(s_level)
     
     year_list = []
     for year in variables_year_dict:
         year_list.append(year)
-
-    states_by_year = get_yearwise_state_list(year_list, 'state_list.json', api_key)
+    
     for year in variables_year_dict:
         # limited to 50 variables including NAME
         n = 49
         variables_chunked = [variables_year_dict[year][i:i + n] for i in range(0, len(variables_year_dict[year]), n)]
-        logging.info('variable list divided into %d chunks for %d', len(variables_chunked), year)
-        for geo_id in geo_url_map:
-            geo_str = geo_url_map[geo_id]['urlStr']
-            if geo_url_map[geo_id]['needsStateID']:
-                for state_id in states_by_year[year]:
-                    geo_str_state = geo_str + state_id
-                    for i, cur_vars in enumerate(variables_chunked):
-                        variable_list_str = ','.join(cur_vars)
-                        temp_dict = {}
-                        temp_dict['url'] = get_url_variables(dataset, year, 'NAME,' + variable_list_str, geo_str_state)
-                        temp_dict['store_path'] = get_file_name_variables(output_path, table_id, year, i, geo_str_state)
-                        temp_dict['status'] = 'pending'
-                        ret_list.append(temp_dict)
-            else:
-                for i, cur_vars in enumerate(variables_chunked):
-                    variable_list_str = ','.join(cur_vars)
-                    temp_dict = {}
-                    temp_dict['url'] = get_url_variables(dataset, year, 'NAME,' + variable_list_str, geo_str)
-                    temp_dict['store_path'] = get_file_name_variables(output_path, table_id, year, i, geo_str)
-                    temp_dict['status'] = 'pending'
-                    ret_list.append(temp_dict)
+        logging.info('variable list divided into %d chunks for year %d', len(variables_chunked), year)
+        # for geo_id in geo_url_map:
+        #     geo_str = geo_url_map[geo_id]['urlStr']
+        #     if geo_url_map[geo_id]['needsStateID']:
+        #         for state_id in states_by_year[year]:
+        #             geo_str_state = geo_str + state_id
+        #             for i, cur_vars in enumerate(variables_chunked):
+        #                 variable_list_str = ','.join(cur_vars)
+        #                 temp_dict = {}
+        #                 temp_dict['url'] = get_url_variables(dataset, year, 'NAME,' + variable_list_str, geo_str_state)
+        #                 temp_dict['store_path'] = get_file_name_variables(output_path, table_id, year, i, geo_str_state)
+        #                 temp_dict['status'] = 'pending'
+        #                 ret_list.append(temp_dict)
+        #     else:
+        #         for i, cur_vars in enumerate(variables_chunked):
+        #             variable_list_str = ','.join(cur_vars)
+        #             temp_dict = {}
+        #             temp_dict['url'] = get_url_variables(dataset, year, 'NAME,' + variable_list_str, geo_str)
+        #             temp_dict['store_path'] = get_file_name_variables(output_path, table_id, year, i, geo_str)
+        #             temp_dict['status'] = 'pending'
+        #             ret_list.append(temp_dict)
     return ret_list
 
 def main(argv):

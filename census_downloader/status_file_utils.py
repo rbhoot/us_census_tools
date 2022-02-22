@@ -3,6 +3,7 @@ import os
 from shutil import copy2
 import base64
 
+_VALID_STATUS = ['pending', 'ok', 'fail', 'fail_http']
 
 def url_to_download(url_dict: dict):
     if url_dict['status'] == 'pending' or url_dict['status'].startswith('fail') or url_dict['force_fetch']:
@@ -31,7 +32,6 @@ def read_update_status(filename: str, url_list: list, force_fetch_all: bool = Fa
 # def sync_status_list(log_list: list, new_list: list, store_path: str = '~/dc_data/') -> list:
 def sync_status_list(log_list: list, new_list: list) -> list:
     ret_list = log_list.copy()
-    file_ctr = 1
     for cur_url in new_list:
         if 'method' not in cur_url:
             cur_url['method'] = 'get'
@@ -103,6 +103,11 @@ def sync_status_list(log_list: list, new_list: list) -> list:
             cur_url.pop('http_code', None)
             ret_list.append(cur_url)
         
+        if 'status' not in cur_url:
+            cur_url['status'] = 'pending'
+        if cur_url['status'] not in _VALID_STATUS:
+            print('Warning: Found invalid status for', cur_url['url'])
+            cur_url['status'] = 'pending'
     return ret_list
 
 # get to be downloaded urls

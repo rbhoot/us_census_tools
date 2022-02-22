@@ -5,10 +5,9 @@ from absl import app
 from absl import flags
 import sys
 import os
-import time
-import random
+
 from download_utils import download_url_list_iterations, async_save_resp_json
-from status_file_utils import get_pending_or_fail_url_list
+from status_file_utils import get_pending_or_fail_url_list, sync_status_list
 
 module_dir_ = os.path.dirname(__file__)
 module_parentdir_ = os.path.join(module_dir_, '..')
@@ -281,14 +280,21 @@ def fetch_dataset_config_cache(param,
             temp_dict['force_fetch'] = force_fetch
             url_list.append(temp_dict)
 
+  url_list = sync_status_list([], url_list)
   status_path = os.path.join(cache_path, f'{param}_cache_status.json')
+  with open(status_path, 'w') as fp:
+    json.dump(url_list, fp, indent=2)
+
   rate_params = {}
   rate_params['max_parallel_req'] = 50
   rate_params['limit_per_host'] = 20
   rate_params['req_per_unit_time'] = 10
   rate_params['unit_time'] = 1
   
-  failed_urls_ctr = download_url_list_iterations(url_list, None, '', async_save_resp_json, status_path)
+  failed_urls_ctr = download_url_list_iterations(url_list, None, '', async_save_resp_json, rate_params=rate_params)
+
+  with open(status_path, 'w') as fp:
+    json.dump(url_list, fp, indent=2)
 
   # url_list = url_list_check_downloaded(url_list, force_fetch)
 
@@ -303,9 +309,7 @@ def fetch_dataset_config_cache(param,
   #     status_file, chunk_size=50, chunk_delay_s=0.8)
 
   if error_dict:
-    with open(
-        os.path.join(store_path, f'errors_dataset_{param}_download.json'),
-        'w') as fp:
+    with open(os.path.join(store_path, f'errors_dataset_{param}_download.json'), 'w') as fp:
       json.dump(get_pending_or_fail_url_list(url_list), fp, indent=2)
 
 
