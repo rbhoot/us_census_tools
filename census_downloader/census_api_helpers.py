@@ -21,26 +21,26 @@ flags.DEFINE_string('api_key', None, 'API key sourced from census via https://ap
 
 def get_list_datasets(force_fetch: bool = False) -> list:
     d = compile_year_map(force_fetch=force_fetch)
-    return list(d.keys())
+    return sorted(list(d.keys()))
 
 def get_dataset_years(dataset: str, force_fetch: bool = False) -> list:
     d = compile_dataset_group_years_map(force_fetch=force_fetch)
     if dataset in d:
-        return d[dataset]['years']
+        return sorted(d[dataset]['years'])
     else:
         return None
 
 def get_dataset_groups(dataset: str, force_fetch: bool = False) -> list:
     d = compile_dataset_group_map(force_fetch=force_fetch)
     if dataset in d:
-        return d[dataset]
+        return sorted(d[dataset])
     else:
         return None
 
 def get_dataset_groups_years(dataset: str, group: str, force_fetch: bool = False) -> list:
     d = compile_dataset_group_years_map(force_fetch=force_fetch)
     if dataset in d and group in d[dataset]['groups']:
-        return d[dataset]['groups'][group]
+        return sorted(d[dataset]['groups'][group])
     else:
         return None
 
@@ -54,7 +54,7 @@ def get_dataset_summary_levels(dataset: str, force_fetch: bool = False) -> list:
                 for s in d[y]['geos']['summary_levels']:
                     if s not in ret_list:
                         ret_list.append(s)
-        return ret_list
+        return sorted(ret_list)
     else:
         return None
 
