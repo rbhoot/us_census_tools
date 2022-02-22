@@ -9,7 +9,7 @@ from status_file_utils import get_pending_or_fail_url_list, url_to_download
 
 async def async_save_resp_json(resp, store_path):
     resp_data = await resp.json()
-    logging.info('Writing downloaded data to file: %s', store_path)
+    logging.debug('Writing downloaded data to file: %s', store_path)
     json.dump(resp_data, open(store_path, 'w'), indent = 2)
 
 def download_url_list_iterations(url_list, url_api_modifier, api_key, process_and_store, max_itr = 10, rate_params = {}):
@@ -37,7 +37,7 @@ async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key,
                 http_code = response.status
                 logging.info('%s response code %d', cur_url['url'], http_code)
                 if http_code == 200:
-                    logging.info('Calling function %s with store path : %s', process_and_store.__name__, cur_url['store_path'])
+                    logging.debug('Calling function %s with store path : %s', process_and_store.__name__, cur_url['store_path'])
                     await process_and_store(response, cur_url['store_path'])
                     cur_url['status'] = 'ok'
                     cur_url['http_code'] = str(http_code)
