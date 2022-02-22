@@ -11,12 +11,15 @@ from status_file_utils import get_pending_or_fail_url_list, sync_status_list
 
 module_dir_ = os.path.dirname(__file__)
 module_parentdir_ = os.path.join(module_dir_, '..')
-config_path_ = os.path.join(module_dir_, 'config_files')
+CONFIG_PATH_ = os.path.join(module_dir_, 'config_files')
 sys.path.append(os.path.join(module_dir_, '..'))
 
 from common_utils.requests_wrappers import request_url_json
 
 FLAGS = flags.FLAGS
+
+flags.DEFINE_boolean('force_fetch_config', False,
+                     'Force download of config and list of required geos from API')
 
 def _generate_url_prefix(dataset, year=None):
   if year:
@@ -45,7 +48,7 @@ def generate_url_group_variables(dataset, group_id, year=None):
   return _generate_url_prefix(dataset, year) + f'groups/{group_id}.json'
 
 
-def fetch_dataset_config(store_path=config_path_, force_fetch=False):
+def fetch_dataset_config(store_path=CONFIG_PATH_, force_fetch=False):
   store_path = os.path.expanduser(store_path)
   if not os.path.exists(store_path):
     os.makedirs(store_path, exist_ok=True)
@@ -60,7 +63,7 @@ def fetch_dataset_config(store_path=config_path_, force_fetch=False):
   return datasets
 
 
-def compile_year_map(store_path=config_path_, force_fetch=False):
+def compile_year_map(store_path=CONFIG_PATH_, force_fetch=False):
 
   if not force_fetch and os.path.isfile(os.path.join(store_path, 'dataset_year.json')):
     dataset_dict = json.load(
@@ -189,7 +192,7 @@ def compile_year_map(store_path=config_path_, force_fetch=False):
 
 
 def fetch_dataset_config_cache(param,
-                                store_path=config_path_,
+                                store_path=CONFIG_PATH_,
                                 force_fetch=False):
   if param not in ['groups', 'geography', 'variables', 'group_variables']:
     error_dict = {'invalid_param': [param]}
@@ -295,25 +298,13 @@ def fetch_dataset_config_cache(param,
 
   with open(status_path, 'w') as fp:
     json.dump(url_list, fp, indent=2)
-
-  # url_list = url_list_check_downloaded(url_list, force_fetch)
-
-  # status_file = os.path.join(cache_path, f'{param}_cache_status.json')
-
-  # with open(status_file, 'w') as fp:
-  #   json.dump(url_list, fp, indent=2)
-
-  # print(len(url_list))
-
-  # error_dict = dowload_url_list_parallel(
-  #     status_file, chunk_size=50, chunk_delay_s=0.8)
-
+  
   if error_dict:
     with open(os.path.join(store_path, f'errors_dataset_{param}_download.json'), 'w') as fp:
       json.dump(get_pending_or_fail_url_list(url_list), fp, indent=2)
 
 
-def compile_groups_map(store_path=config_path_, force_fetch=False):
+def compile_groups_map(store_path=CONFIG_PATH_, force_fetch=False):
   if os.path.isfile(os.path.join(store_path,
                                  'dataset_groups.json')) and not force_fetch:
     dataset_dict = json.load(
@@ -415,7 +406,7 @@ def compile_groups_map(store_path=config_path_, force_fetch=False):
   return dataset_dict
 
 
-def compile_geography_map(store_path=config_path_, force_fetch=False):
+def compile_geography_map(store_path=CONFIG_PATH_, force_fetch=False):
   if os.path.isfile(os.path.join(store_path,
                                  'dataset_geography.json')) and not force_fetch:
     dataset_dict = json.load(
@@ -582,7 +573,7 @@ def compile_geography_map(store_path=config_path_, force_fetch=False):
   return dataset_dict
 
 
-def compile_non_group_variables_map(store_path=config_path_, force_fetch=False):
+def compile_non_group_variables_map(store_path=CONFIG_PATH_, force_fetch=False):
   if os.path.isfile(
       os.path.join(store_path,
                    'dataset_non_group_variables.json')) and not force_fetch:
@@ -668,20 +659,16 @@ def compile_non_group_variables_map(store_path=config_path_, force_fetch=False):
             error_dict['variables_missing'].append(temp_url)
             print(temp_url, 'has no variables section')
 
-    with open(
-        os.path.join(store_path, 'dataset_non_group_variables.json'),
-        'w') as fp:
+    with open(os.path.join(store_path, 'dataset_non_group_variables.json'), 'w') as fp:
       json.dump(dataset_dict, fp, indent=2)
     if error_dict:
-      with open(
-          os.path.join(store_path, 'errors_dataset_non_group_variables.json'),
-          'w') as fp:
+      with open(os.path.join(store_path, 'errors_dataset_non_group_variables.json'), 'w') as fp:
         json.dump(error_dict, fp, indent=2)
 
   return dataset_dict
 
 
-def compile_dataset_based_map(store_path=config_path_, force_fetch=False):
+def compile_dataset_based_map(store_path=CONFIG_PATH_, force_fetch=False):
   # compile_year_map(store_path)
   # compile_groups_map(store_path, force_fetch)
   # compile_geography_map(store_path, force_fetch)
@@ -691,7 +678,7 @@ def compile_dataset_based_map(store_path=config_path_, force_fetch=False):
   return dataset_dict
 
 
-def compile_dataset_group_map(store_path=config_path_, force_fetch=False):
+def compile_dataset_group_map(store_path=CONFIG_PATH_, force_fetch=False):
   if os.path.isfile(os.path.join(store_path,
                                  'dataset_groups_list.json')) and not force_fetch:
     out_dict = json.load(
@@ -717,7 +704,7 @@ def compile_dataset_group_map(store_path=config_path_, force_fetch=False):
   return out_dict
 
 
-def compile_dataset_group_years_map(store_path=config_path_,
+def compile_dataset_group_years_map(store_path=CONFIG_PATH_,
                                      force_fetch=False):
   if os.path.isfile(os.path.join(
       store_path, 'dataset_years_groups.json')) and not force_fetch:
@@ -751,7 +738,11 @@ def compile_dataset_group_years_map(store_path=config_path_,
 
 
 # wrapper functions for finding available options
-compile_dataset_based_map()
-fetch_dataset_config_cache('group_variables')
-compile_dataset_group_map()
-compile_dataset_group_years_map()
+def main(argv):
+  compile_dataset_based_map(force_fetch=FLAGS.force_fetch_config)
+  fetch_dataset_config_cache('group_variables', force_fetch=FLAGS.force_fetch_config)
+  compile_dataset_group_map(force_fetch=FLAGS.force_fetch_config)
+  compile_dataset_group_years_map(force_fetch=FLAGS.force_fetch_config)
+
+if __name__ == '__main__':
+  app.run(main)
