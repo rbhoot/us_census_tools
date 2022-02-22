@@ -240,7 +240,7 @@ def main(argv):
     if FLAGS.available_years:
         print(FLAGS.dataset, 'is available for years:')
         print(json.dumps(get_dataset_years(FLAGS.dataset, force_fetch=FLAGS.force_fetch_config), indent=2))
-    if FLAGS.available_years:
+    if FLAGS.available_groups:
         print(FLAGS.dataset, 'has following tables available:')
         print(json.dumps(get_dataset_groups(FLAGS.dataset, force_fetch=FLAGS.force_fetch_config), indent=2))
     if FLAGS.available_years_group:
