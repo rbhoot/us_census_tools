@@ -53,44 +53,45 @@ def sync_status_list(log_list: list, new_list: list) -> list:
         # search in status
         url_found = False
         for i, log_url in enumerate(log_list):
-            is_same = False
-            # same url
-            if cur_url['url'] == log_url['url']:
-                # same method
-                if cur_url['method'] == log_url['method']:
-                    # same data
-                    if 'data' in cur_url and 'data' in log_url:
-                        if cur_url['data'] == log_url['data']:
+            if not url_found:
+                is_same = False
+                # same url
+                if cur_url['url'] == log_url['url']:
+                    # same method
+                    if cur_url['method'] == log_url['method']:
+                        # same data
+                        if 'data' in cur_url and 'data' in log_url:
+                            if cur_url['data'] == log_url['data']:
+                                is_same = True
+                        # no data
+                        # TODO check, handle case when data is None
+                        elif cur_url['method'].casefold() == 'get':
                             is_same = True
-                    # no data
-                    # TODO check, handle case when data is None
-                    elif cur_url['method'].casefold() == 'get':
-                        is_same = True
-                    elif cur_url['method'].casefold() != 'get' and 'data' not in cur_url and 'data' not in log_url:
-                        is_same = True
-                    
-            if is_same:
-                url_found = True
-                # copy the related data
-                if 'http_code' in log_url:
-                    cur_url['http_code'] = log_url['http_code']
-                if 'force_fetch' not in cur_url: 
-                    cur_url['force_fetch'] = False
-                if cur_url['force_fetch']:
-                    cur_url['status'] = 'pending'
-                    cur_url.pop('http_code', None)
-                else:
-                    # check file existence
-                    if os.path.isfile(cur_url['store_path']):
-                        cur_url['status'] = 'ok'
-                    # copy file if store_path is different and status ok
-                    elif os.path.isfile(log_url['store_path']) and log_url['status'] == 'ok':
-                        copy2(log_url['store_path'], cur_url['store_path'])
-                        cur_url['status'] = 'ok'
-                    else:
+                        elif cur_url['method'].casefold() != 'get' and 'data' not in cur_url and 'data' not in log_url:
+                            is_same = True
+                        
+                if is_same:
+                    url_found = True
+                    # copy the related data
+                    if 'http_code' in log_url:
+                        cur_url['http_code'] = log_url['http_code']
+                    if 'force_fetch' not in cur_url: 
+                        cur_url['force_fetch'] = False
+                    if cur_url['force_fetch']:
                         cur_url['status'] = 'pending'
                         cur_url.pop('http_code', None)
-                ret_list[i] = cur_url
+                    else:
+                        # check file existence
+                        if os.path.isfile(cur_url['store_path']):
+                            cur_url['status'] = 'ok'
+                        # copy file if store_path is different and status ok
+                        elif os.path.isfile(log_url['store_path']) and log_url['status'] == 'ok':
+                            copy2(log_url['store_path'], cur_url['store_path'])
+                            cur_url['status'] = 'ok'
+                        else:
+                            cur_url['status'] = 'pending'
+                            cur_url.pop('http_code', None)
+                    ret_list[i] = cur_url
                     
         if not url_found:
             # force fetch

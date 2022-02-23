@@ -60,7 +60,7 @@ def url_filter(url_list):
     for cur_url in url_list:
         if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
             if 'http_code' in cur_url: 
-                if cur_url['http_code'] != 204:
+                if not (cur_url['http_code'] == 204 or cur_url['http_code'] == '204'):
                     ret_list.append(cur_url)
             else:
                 ret_list.append(cur_url)
@@ -77,11 +77,16 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
     
     logging.info('compiling list of URLs')
     url_list = get_table_url_list(dataset, table_id, q_variable, year_list, output_path, api_key, s_level_list, force_fetch_config, force_fetch_data)
-    url_list = sync_status_list([], url_list)
+    
     status_path = os.path.join(output_path, 'download_status.json')
+    
+    if os.path.isfile(status_path):
+        log_list = json.load(open(status_path))
+    else:
+        log_list = []
+    url_list = sync_status_list(log_list, url_list)
     with open(status_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)
-    
     print(len(url_list))
     logging.info("Compiled a list of %d URLs", len(url_list))
 
@@ -103,9 +108,6 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:
         logging.warning('%d urls have failed, output files might be missing data.', failed_urls_ctr)
-
-    with open(status_path, 'w') as fp:
-        json.dump(url_list, fp, indent=2)
 
     consolidate_files(dataset, table_id, year_list, output_path, 'ACSST5Y')
     
