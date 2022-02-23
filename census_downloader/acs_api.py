@@ -128,7 +128,7 @@ def consolidate_files(table_id, year_list, output_path, replace_annotations=True
     logging.info('consolidating %d files', total_files)
     for year in csv_files_list:
         print(year)
-        logging.info('consolidating %d files for year:%d', len(csv_files_list[year]), year)
+        logging.info('consolidating %d files for year:%s', len(csv_files_list[year]), year)
         df = pd.DataFrame()
         for csv_file in csv_files_list[year]:
             df2 = pd.read_csv(output_path+csv_file,low_memory=False)
