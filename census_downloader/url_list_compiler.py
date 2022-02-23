@@ -1,4 +1,5 @@
 import logging
+from multiprocessing.context import ForkContext
 from operator import ge
 import os
 import json
@@ -9,7 +10,7 @@ from absl import app
 from absl import flags
 
 from status_file_utils import sync_status_list
-from census_api_helpers import get_str_list_required, get_summary_level_config
+from census_api_helpers import *
 
 
 module_dir_ = os.path.dirname(__file__)
@@ -64,27 +65,6 @@ def get_file_name_variables(output_path, table_id, year, chunk_id, geoStr):
     file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+goestr_to_file_name(geoStr)+'_'+str(chunk_id)+'.csv')
     return file_name
 
-def get_yearwise_variable_column_map(dataset, table_id, year_list, store_path = None, force_fetch = True):
-    if not store_path:
-        store_path = f'table_variables_map/{table_id.upper()}_variable_column_map.json'
-    if not force_fetch and os.path.isfile(store_path):
-        temp_dict = json.load(open(store_path, 'r'))
-        ret_dict = {}
-        for year in temp_dict:
-            ret_dict[int(year)] = temp_dict[year]
-    else:
-        table_id = table_id.upper()
-        ret_dict = {}
-        for year in year_list:
-            temp = request_url_json(f"https://api.census.gov/data/{year}/{dataset}/groups/{table_id}.json")
-            if 'http_err_code' not in temp:    
-                ret_dict[year] = {}
-                for var in temp['variables']:
-                    ret_dict[year][var] = temp['variables'][var]['label']
-                with open(store_path, 'w') as fp:
-                    json.dump(ret_dict, fp, indent=2)
-    return ret_dict
-
 def get_url_entry_table(dataset, year, table_id, geo_str, output_path, force_fetch: bool = False):
     temp_dict = {}
     temp_dict['url'] = get_url_table(dataset, year, table_id, geo_str)
@@ -96,7 +76,13 @@ def get_url_entry_table(dataset, year, table_id, geo_str, output_path, force_fet
 
 def get_table_url_list(dataset, table_id, q_variable, year_list, output_path, api_key, s_level_list = 'all', force_fetch_config = False, force_fetch_data = False):
     table_id = table_id.upper()
-    ret_list = []
+    if dataset not in get_list_datasets(force_fetch=force_fetch_config):
+        print(dataset, 'not found')
+        return []
+    if table_id not in get_dataset_groups(dataset, force_fetch=force_fetch_config):
+        print(table_id, 'not found in ', dataset)
+        return []
+    available_years = get_dataset_groups_years(dataset, table_id, force_fetch=force_fetch_config)
     geo_config = get_summary_level_config(dataset, q_variable, api_key, force_fetch_config)
     # get list of all s levels
     if s_level_list == 'all':
@@ -105,43 +91,23 @@ def get_table_url_list(dataset, table_id, q_variable, year_list, output_path, ap
             for s_level in year_dict['summary_levels']:
                 if s_level not in s_level_list:
                     s_level_list.append(s_level)
-    
+    ret_list = []
     for year in year_list:
-        print('urls ', year)
-        for s_level in s_level_list:
-            if s_level in geo_config[year]['summary_levels']:
-                req_str_list = get_str_list_required(geo_config[year], s_level)
-                s_dict = geo_config[year]['summary_levels'][s_level]
-                if req_str_list:
-                    for geo_req in req_str_list:
-                        ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*{geo_req}", output_path, force_fetch_data))
+        if year in available_years:
+            print('urls ', year)
+            for s_level in s_level_list:
+                if s_level in geo_config[year]['summary_levels']:
+                    req_str_list = get_str_list_required(geo_config[year], s_level)
+                    s_dict = geo_config[year]['summary_levels'][s_level]
+                    if req_str_list:
+                        for geo_req in req_str_list:
+                            ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*{geo_req}", output_path, force_fetch_data))
+                    else:
+                        ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*", output_path, force_fetch_data))
                 else:
-                    ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*", output_path, force_fetch_data))
-            else:
-                print('Warning:', s_level, 'not available for year', year)
+                    print('Warning:', s_level, 'not available for year', year)
     ret_list = sync_status_list([], ret_list)
     return ret_list
-
-def get_yearwise_column_variable_map(dataset, table_id, year_list, store_path = None, force_fetch = True):
-    if not store_path:
-        store_path = f'table_variables_map/{table_id.upper()}_column_variable_map.json'
-    if not force_fetch and os.path.isfile(store_path):
-        temp_dict = json.load(open(store_path, 'r'))
-        ret_dict = {}
-        for year in temp_dict:
-            ret_dict[int(year)] = temp_dict[year]
-    else:
-        table_id = table_id.upper()
-        ret_dict = {}
-        for year in year_list:
-            temp = request_url_json(f"https://api.census.gov/data/{year}/{dataset}/groups/{table_id}.json")
-            if 'http_err_code' not in temp:    
-                ret_dict[year] = {}
-                for var in temp['variables']:
-                    ret_dict[year][temp['variables'][var]['label']] = var
-                with open(store_path, 'w') as fp:
-                    json.dump(ret_dict, fp, indent=2)
-    return ret_dict
 
 def get_variables_url_list(dataset, table_id, q_variable, variables_year_dict, output_path, api_key, s_level_list = 'all', force_fetch_config = False, force_fetch_data = False):
     table_id = table_id.upper()
