@@ -75,7 +75,8 @@ async def _async_download_url_list(url_list, url_api_modifier, api_key, process_
     limiter = AsyncLimiter(rate_params['req_per_unit_time'], rate_params['unit_time'])
     # create session
     conn = aiohttp.TCPConnector(limit_per_host=rate_params['limit_per_host'])
-    async with aiohttp.ClientSession(connector=conn, timeout=900) as session:
+    timeout = aiohttp.ClientTimeout(total=900)
+    async with aiohttp.ClientSession(connector=conn, timeout=timeout) as session:
         # loop over each url
         fut_list = []
         for cur_url in url_list:
