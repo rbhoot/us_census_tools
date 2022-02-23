@@ -38,8 +38,7 @@ async def async_save_resp_csv(resp, store_path):
         resp_data = await resp.json()
     except asyncio.TimeoutError:
         try:
-            resp_data = resp.json()
-            asyncio.wait_for(resp_data , timeout=600)
+            resp_data = asyncio.wait_for(resp.json() , timeout=600)
         except asyncio.TimeoutError:
             print('Error: Response parsing timing out after 600s.')
     headers = resp_data.pop(0)
