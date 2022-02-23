@@ -33,6 +33,9 @@ async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key,
         await semaphore.acquire()
         async with limiter:
             final_url = url_api_modifier(cur_url, api_key)
+            # TODO try except, 
+            #      status update for fail, 
+            #      check response from process_and_store
             async with session.get(final_url) as response:
                 http_code = response.status
                 logging.info('%s response code %d', cur_url['url'], http_code)
@@ -58,8 +61,11 @@ async def _async_download_url_list(url_list, url_api_modifier, api_key, process_
     conn = aiohttp.TCPConnector(limit_per_host=rate_params['limit_per_host'])
     async with aiohttp.ClientSession(connector=conn) as session:
         # loop over each url
+        fut_list = []
         for cur_url in url_list:
-            await fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store)
+            fut_list.append(fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store))
+        for fut in fut_list:
+            await fut
             
 def download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params):
     logging.debug('Downloading url list of size %d', len(url_list))

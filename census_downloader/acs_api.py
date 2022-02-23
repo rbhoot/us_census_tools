@@ -32,17 +32,19 @@ def save_resp_csv(resp, store_path):
     df = pd.DataFrame(resp_data, columns=headers)
     logging.info('Writing downloaded data to file: %s', store_path)
     df.to_csv(store_path, encoding='utf-8', index = False)
+    return 0
 
 async def async_save_resp_csv(resp, store_path):
     try:
         resp_data = await asyncio.wait_for(resp.json() , timeout=1000)
     except asyncio.TimeoutError:
-        print('Error: Response parsing timing out after 600s.')
-        return
+        print('Error: Response parsing timing out after 1000s.')
+        return -1
     headers = resp_data.pop(0)
     df = pd.DataFrame(resp_data, columns=headers)
     logging.info('Writing downloaded data to file: %s', store_path)
     df.to_csv(store_path, encoding='utf-8', index = False)
+    return 0
 
 def download_table(dataset, table_id, q_variable, year_list, output_path, api_key, s_level_list = 'all', force_fetch_config: bool = False, force_fetch_data: bool = False):
     logging.info('Downloading table:%s to %s', table_id, output_path)
