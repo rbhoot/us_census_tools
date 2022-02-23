@@ -37,9 +37,9 @@ def save_resp_csv(resp_data, store_path):
 
 async def async_save_resp_csv(resp, store_path):
     try:
-        resp_data = await asyncio.wait_for(resp.json() , timeout=1000)
+        resp_data = await resp.json()
     except asyncio.TimeoutError:
-        print('Error: Response parsing timing out after 1000s.')
+        print('Error: Response parsing timing out.')
         return -1
     headers = resp_data.pop(0)
     df = pd.DataFrame(resp_data, columns=headers)
