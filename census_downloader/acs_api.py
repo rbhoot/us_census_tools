@@ -8,10 +8,10 @@ import sys
 import pandas as pd
 import datetime
 import logging
-from census_api_helpers import get_identifier
+from census_api_helpers import get_identifier, get_yearwise_variable_column_map
 from status_file_utils import sync_status_list
 from download_utils import download_url_list_iterations
-from url_list_compiler import get_table_url_list, get_variables_url_list, get_yearwise_variable_column_map
+from url_list_compiler import get_table_url_list, get_variables_url_list
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
@@ -145,7 +145,9 @@ def consolidate_files(dataset, table_id, year_list, output_path, replace_annotat
         for file in filenames:
             if file.endswith('.csv'):
                 for year in year_list:
-                    if str(year) in file and 'ACS' not in file:
+                    # TODO generalise
+                    identifier = get_identifier(dataset, year)
+                    if str(year) in file and identifier not in file:
                         if year in csv_files_list:
                             csv_files_list[year].append(file)
                         else:
@@ -194,7 +196,7 @@ def consolidate_files(dataset, table_id, year_list, output_path, replace_annotat
                 logging.error('GEO_ID missing data in file:%s', cur_csv_path)
 
             if df.empty:
-                var_col_lookup = get_yearwise_variable_column_map(dataset, table_id, year_list, 'table_variables_map/'+table_id+'_variable_column_map.json')
+                var_col_lookup = get_yearwise_variable_column_map(dataset, table_id, year_list)
                 new_row = []
                 for column_name in list(df2):
                     if column_name == 'GEO_ID':
@@ -256,7 +258,7 @@ def download_table_variables(dataset, table_id, year_list, geo_url_map_path, spe
     status_path = os.path.join(output_path, 'download_status.json')
     
     variables_year_dict = {}
-    variable_col_map = get_yearwise_variable_column_map(table_id, year_list, 'table_variables_map/'+table_id+'_variable_column_map.json')
+    variable_col_map = get_yearwise_variable_column_map(dataset, table_id, year_list)
     print(list(variable_col_map))
     for year in year_list:
         variables_year_dict[year] = []
