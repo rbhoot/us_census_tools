@@ -119,6 +119,27 @@ def get_table_url_list(dataset, table_id, q_variable, year_list, output_path, ap
     ret_list = sync_status_list([], ret_list)
     return ret_list
 
+def get_yearwise_variable_column_map(dataset, table_id, year_list, store_path = None, force_fetch = True):
+    if not store_path:
+        store_path = f'table_variables_map/{table_id.upper()}_variable_column_map.json'
+    if not force_fetch and os.path.isfile(store_path):
+        temp_dict = json.load(open(store_path, 'r'))
+        ret_dict = {}
+        for year in temp_dict:
+            ret_dict[int(year)] = temp_dict[year]
+    else:
+        table_id = table_id.upper()
+        ret_dict = {}
+        for year in year_list:
+            temp = request_url_json(f"https://api.census.gov/data/{year}/{dataset}/groups/{table_id}.json")
+            if 'http_err_code' not in temp:    
+                ret_dict[year] = {}
+                for var in temp['variables']:
+                    ret_dict[year][var] = temp['variables'][var]['label']
+                with open(store_path, 'w') as fp:
+                    json.dump(ret_dict, fp, indent=2)
+    return ret_dict
+
 def get_variables_url_list(dataset, table_id, q_variable, variables_year_dict, output_path, api_key, s_level_list = 'all', force_fetch_config = False, force_fetch_data = False):
     table_id = table_id.upper()
     ret_list = []
