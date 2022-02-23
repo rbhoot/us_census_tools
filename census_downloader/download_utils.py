@@ -24,9 +24,9 @@ def download_url_list_iterations(url_list, url_api_modifier, api_key, process_an
         prev_failed_ctr = failed_urls_ctr
         logging.info('downloading URLs iteration:%d', loop_ctr)
         download_url_list(cur_url_list, url_api_modifier, api_key, process_and_store, rate_params)
-        logging.info('failed request count: %d', failed_urls_ctr)
         cur_url_list = url_filter(cur_url_list)
         failed_urls_ctr = len(cur_url_list)
+        logging.info('failed request count: %d', failed_urls_ctr)
         loop_ctr += 1
     return failed_urls_ctr
 

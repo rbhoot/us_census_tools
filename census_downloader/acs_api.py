@@ -14,6 +14,7 @@ from url_list_compiler import get_table_url_list, get_variables_url_list, get_ye
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
+from common_utils.requests_wrappers import request_url_json
 from common_utils.common_util import column_to_be_ignored
 
 from absl import app
@@ -60,7 +61,7 @@ def url_filter(url_list):
     for cur_url in url_list:
         if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
             if 'http_code' in cur_url: 
-                if not (cur_url['http_code'] == 204 or cur_url['http_code'] == '204'):
+                if cur_url['http_code'] != '204':
                     ret_list.append(cur_url)
             else:
                 ret_list.append(cur_url)
@@ -104,8 +105,25 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
 
     with open(status_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)
-
+    
     # check status before consolidate, warn if any URL status contains fail
+    if failed_urls_ctr > 0:
+        logging.warning('%d urls have failed, trying with requests.', failed_urls_ctr)
+        cur_url_list = url_filter(url_list)
+        for cur_url in cur_url_list:
+            resp = request_url_json(url_add_api_key(cur_url, api_key))
+            if 'http_err_code' in resp:
+                cur_url['status'] = 'fail_http'
+                cur_url['http_code'] = str(resp['http_err_code'])
+            else:
+                save_resp_csv(resp, cur_url['store_path'])
+                cur_url['status'] = 'ok'
+                cur_url['http_code'] = '200'
+        
+        with open(status_path, 'w') as fp:
+            json.dump(url_list, fp, indent=2)
+    
+    failed_urls_ctr = len(url_filter(url_list))
     if failed_urls_ctr > 0:
         logging.warning('%d urls have failed, output files might be missing data.', failed_urls_ctr)
 
