@@ -27,21 +27,21 @@ def url_add_api_key(url_dict: dict, api_key: str) -> str:
     return url_dict['url']+f'&key={api_key}'
 
 def save_resp_csv(resp, store_path):
-    try:
-        resp_data = resp.json()
-    except asyncio.TimeoutError:
-        try:
-            asyncio.wait_for(resp_data = resp.json(), timeout=60)
-        except asyncio.TimeoutError:
-            print('Error: Response parsing timing out after 60s.')
-
+    resp_data = resp.json()
     headers = resp_data.pop(0)
     df = pd.DataFrame(resp_data, columns=headers)
     logging.info('Writing downloaded data to file: %s', store_path)
     df.to_csv(store_path, encoding='utf-8', index = False)
 
 async def async_save_resp_csv(resp, store_path):
-    resp_data = await resp.json()
+    try:
+        resp_data = await resp.json()
+    except asyncio.TimeoutError:
+        try:
+            resp_data = resp.json()
+            asyncio.wait_for(resp_data , timeout=600)
+        except asyncio.TimeoutError:
+            print('Error: Response parsing timing out after 600s.')
     headers = resp_data.pop(0)
     df = pd.DataFrame(resp_data, columns=headers)
     logging.info('Writing downloaded data to file: %s', store_path)
