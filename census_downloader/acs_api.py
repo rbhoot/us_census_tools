@@ -91,8 +91,8 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
     rate_params['unit_time'] = 1
 
     failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, url_filter=url_filter, rate_params=rate_params)
-    
-    asyncio.run(update_status_periodically(15, log_to_status(url_list, status_path)))
+    # TODO log at regular interval
+    # asyncio.run(update_status_periodically(15, log_to_status(url_list, status_path)))
 
     with open(status_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)
