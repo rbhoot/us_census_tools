@@ -41,6 +41,7 @@ async def async_save_resp_csv(resp, store_path):
             resp_data = await asyncio.wait_for(resp.json() , timeout=600)
         except asyncio.TimeoutError:
             print('Error: Response parsing timing out after 600s.')
+            return
     headers = resp_data.pop(0)
     df = pd.DataFrame(resp_data, columns=headers)
     logging.info('Writing downloaded data to file: %s', store_path)
