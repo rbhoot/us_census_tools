@@ -1,3 +1,4 @@
+import asyncio
 from dbm import dumb
 import zipfile
 import json
@@ -26,7 +27,14 @@ def url_add_api_key(url_dict: dict, api_key: str) -> str:
     return url_dict['url']+f'&key={api_key}'
 
 def save_resp_csv(resp, store_path):
-    resp_data = resp.json()
+    try:
+        resp_data = resp.json()
+    except asyncio.TimeoutError:
+        try:
+            asyncio.wait_for(resp_data = resp.json(), timeout=60)
+        except asyncio.TimeoutError:
+            print('Error: Response parsing timing out after 60s.')
+
     headers = resp_data.pop(0)
     df = pd.DataFrame(resp_data, columns=headers)
     logging.info('Writing downloaded data to file: %s', store_path)
