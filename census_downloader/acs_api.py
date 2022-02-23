@@ -39,7 +39,7 @@ async def async_save_resp_csv(resp, store_path):
     logging.info('Writing downloaded data to file: %s', store_path)
     df.to_csv(store_path, encoding='utf-8', index = False)
 
-def download_table(dataset, table_id, q_variable, year_list, output_path, api_key, force_fetch_config: bool = False, force_fetch_data: bool = False):
+def download_table(dataset, table_id, q_variable, year_list, output_path, api_key, s_level_list = 'all', force_fetch_config: bool = False, force_fetch_data: bool = False):
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
     output_path = os.path.expanduser(output_path)
@@ -49,8 +49,7 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
     os.makedirs(output_path, exist_ok=True)
     
     logging.info('compiling list of URLs')
-
-    url_list = get_table_url_list(dataset, table_id, q_variable, year_list, output_path, api_key, force_fetch_config, force_fetch_data)
+    url_list = get_table_url_list(dataset, table_id, q_variable, year_list, output_path, api_key, s_level_list, force_fetch_config, force_fetch_data)
     url_list = sync_status_list([], url_list)
     status_path = os.path.join(output_path, 'download_status.json')
     with open(status_path, 'w') as fp:
@@ -254,7 +253,11 @@ def main(argv):
     year_list_int = list(range(FLAGS.start_year, FLAGS.end_year+1))
     year_list = [str(y) for y in year_list_int]
     out_path = os.path.expanduser(FLAGS.output_path)
-    download_table(FLAGS.dataset, FLAGS.table_id, FLAGS.q_variable, year_list, out_path, FLAGS.api_key, FLAGS.force_fetch_config, FLAGS.force_fetch_data)
+    if FLAGS.summary_levels:
+        s_list = FLAGS.summary_levels
+    else:
+        s_list = 'all'
+    download_table(FLAGS.dataset, FLAGS.table_id, FLAGS.q_variable, year_list, out_path, FLAGS.api_key, s_list, FLAGS.force_fetch_config, FLAGS.force_fetch_data)
     
 if __name__ == '__main__':
   flags.mark_flags_as_required(['table_id', 'output_path', 'api_key'])
