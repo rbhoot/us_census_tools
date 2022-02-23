@@ -64,8 +64,8 @@ async def _async_download_url_list(url_list, url_api_modifier, api_key, process_
         fut_list = []
         for cur_url in url_list:
             fut_list.append(fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store))
-        for fut in fut_list:
-            await fut
+        responses = asyncio.gather(*fut_list)
+        await responses
             
 def download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params):
     logging.debug('Downloading url list of size %d', len(url_list))
