@@ -88,6 +88,8 @@ def sync_status_list(log_list: list, new_list: list) -> list:
                         elif os.path.isfile(log_url['store_path']) and log_url['status'] == 'ok':
                             copy2(log_url['store_path'], cur_url['store_path'])
                             cur_url['status'] = 'ok'
+                        elif log_url['status'] == 'fail_http' or log_url['status'] == 'fail':
+                            cur_url['status'] = log_url['status']
                         else:
                             cur_url['status'] = 'pending'
                             cur_url.pop('http_code', None)
