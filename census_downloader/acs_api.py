@@ -59,7 +59,10 @@ def url_filter(url_list):
     ret_list = []
     for cur_url in url_list:
         if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
-            if 'http_code' in cur_url and cur_url['http_code'] != 204:
+            if 'http_code' in cur_url: 
+                if cur_url['http_code'] != 204:
+                    ret_list.append(cur_url)
+            else:
                 ret_list.append(cur_url)
     return ret_list
 
@@ -104,13 +107,13 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
     with open(status_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)
 
-    consolidate_files(table_id, year_list, output_path)
+    consolidate_files(dataset, table_id, year_list, output_path, 'ACSST5Y')
     
     end = time.time()
     print("The time required to download the", table_id, "dataset :", end-start)
     logging.info('The time required to download the %s dataset : %f', table_id, end-start)
 
-def consolidate_files(table_id, year_list, output_path, replace_annotations=True, drop_annotations=True, keep_originals=True):
+def consolidate_files(dataset, table_id, year_list, output_path, identifier, replace_annotations=True, drop_annotations=True, keep_originals=True):
     logging.info('consolidating files to create yearwise files in %s', output_path)
     logging.info('table:%s keep_originals:%d', table_id, keep_originals)
     table_id = table_id.upper()
@@ -139,7 +142,8 @@ def consolidate_files(table_id, year_list, output_path, replace_annotations=True
         logging.info('consolidating %d files for year:%s', len(csv_files_list[year]), year)
         df = pd.DataFrame()
         for csv_file in csv_files_list[year]:
-            df2 = pd.read_csv(os.path.join(output_path, csv_file),low_memory=False)
+            cur_csv_path = os.path.join(output_path, csv_file)
+            df2 = pd.read_csv(cur_csv_path,low_memory=False)
             print("Collecting",csv_file)
             # remove extra columns
             drop_list = []
@@ -161,14 +165,14 @@ def consolidate_files(table_id, year_list, output_path, replace_annotations=True
             # if df2.lt(0).any().any():
             #     print("Warning: Check", output_path+csv_file, "file contains negative values")
             if 'GEO_ID' not in list(df2) or 'NAME' not in list(df2):
-                print("Error: Check", output_path+csv_file, "GEO_ID or NAME column missing")
-                logging.error('GEO_ID or NAME column missing in file:%s', output_path+csv_file)
+                print("Error: Check", cur_csv_path, "GEO_ID or NAME column missing")
+                logging.error('GEO_ID or NAME column missing in file:%s', cur_csv_path)
             if df2['GEO_ID'].isnull().any():
-                print("Error: Check", output_path+csv_file, "GEO_ID column missing has missing data")
-                logging.error('GEO_ID missing data in file:%s', output_path+csv_file)
+                print("Error: Check", cur_csv_path, "GEO_ID column missing has missing data")
+                logging.error('GEO_ID missing data in file:%s', cur_csv_path)
 
             if df.empty:
-                var_col_lookup = get_yearwise_variable_column_map(table_id, year_list, 'table_variables_map/'+table_id+'_variable_column_map.json')
+                var_col_lookup = get_yearwise_variable_column_map(dataset, table_id, year_list, 'table_variables_map/'+table_id+'_variable_column_map.json')
                 new_row = []
                 for column_name in list(df2):
                     if column_name == 'GEO_ID':
@@ -185,7 +189,7 @@ def consolidate_files(table_id, year_list, output_path, replace_annotations=True
                 df2.sort_index(inplace=True)
             df = pd.concat([df, df2], ignore_index = True)
         if not df.empty:
-            out_file_name = f"{output_path}ACSST5Y{year}.{table_id}_data_with_overlays_1111-11-11T111111.csv"
+            out_file_name = os.path.join(output_path, f"{identifier}{year}.{table_id}_data_with_overlays_1111-11-11T111111.csv")
             
             if df.iloc[0].isnull().any():
                 print("Error: Check", out_file_name, "column name missing for some variable")
@@ -200,7 +204,7 @@ def consolidate_files(table_id, year_list, output_path, replace_annotations=True
     print("zipppin")
     print(out_csv_list)
     logging.info('zipping output files')
-    with zipfile.ZipFile(output_path+table_id+'.zip', 'w') as zipMe:        
+    with zipfile.ZipFile(os.path.join(output_path, table_id+'.zip'), 'w') as zipMe:        
         for file in out_csv_list:
             zipMe.write(file, arcname=file.replace(output_path,''), compress_type=zipfile.ZIP_DEFLATED)
     
@@ -211,10 +215,11 @@ def consolidate_files(table_id, year_list, output_path, replace_annotations=True
             print("Deleting", len(csv_files_list[year]), "files of year", year)
             logging.info('deleting %d files of year %d', len(csv_files_list[year]), year)
             for csv_file in csv_files_list[year]:
-                print("Deleting", output_path+csv_file)
-                logging.info('deleting %s', output_path+csv_file)
-                if os.path.isfile(output_path+csv_file):
-                     os.remove(output_path+csv_file)
+                cur_csv_path = os.path.join(output_path, csv_file)
+                print("Deleting", cur_csv_path)
+                logging.info('deleting %s', cur_csv_path)
+                if os.path.isfile(cur_csv_path):
+                     os.remove(cur_csv_path)
 
 def download_table_variables(dataset, table_id, year_list, geo_url_map_path, spec_path, output_path, api_key):
     table_id = table_id.upper()
@@ -266,7 +271,7 @@ def download_table_variables(dataset, table_id, year_list, geo_url_map_path, spe
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:
         logging.warn('%d urls have failed, output files might be missing data.', failed_urls_ctr)
-    consolidate_files(table_id, year_list, output_path)
+    consolidate_files(dataset, table_id, year_list, output_path, 'ACSST5Y')
 
     end = time.time()
     print("The time required to download the", table_id, "dataset :", end-start)
