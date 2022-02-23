@@ -100,18 +100,8 @@ def get_table_url_list(dataset, table_id, q_variable, year_list, output_path, ap
                     req_str_list = get_str_list_required(geo_config[year], s_level)
                     s_dict = geo_config[year]['summary_levels'][s_level]
                     if req_str_list:
-                        skip_geo = False
-                        if len(req_str_list) > 1000:
-                            test_url = get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*{req_str_list[0]}", output_path, force_fetch_data)
-                            resp = request_url_json(test_url['url'])
-                            # TODO this might not be a good way to skip unavailable data, optimisation is needed 
-                            #      as a subset of rquired places could be available (e.g. only peurto rico) 
-                            if 'http_err_code' in resp and resp['http_err_code'] == 204:
-                                skip_geo = True
-                                print('Warning: skipping', s_level, 'for year', year, 'because of 204 resp to test url.')
-                        if not skip_geo:
-                            for geo_req in req_str_list:
-                                ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*{geo_req}", output_path, force_fetch_data))
+                        for geo_req in req_str_list:
+                            ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*{geo_req}", output_path, force_fetch_data))
                     else:
                         ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*", output_path, force_fetch_data))
                 else:
