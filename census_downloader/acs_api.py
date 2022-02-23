@@ -8,6 +8,7 @@ import sys
 import pandas as pd
 import datetime
 import logging
+from census_api_helpers import get_identifier
 from status_file_utils import sync_status_list
 from download_utils import download_url_list_iterations
 from url_list_compiler import get_table_url_list, get_variables_url_list, get_yearwise_variable_column_map
@@ -27,8 +28,7 @@ flags.DEFINE_boolean('force_fetch_data', False,
 def url_add_api_key(url_dict: dict, api_key: str) -> str:
     return url_dict['url']+f'&key={api_key}'
 
-def save_resp_csv(resp, store_path):
-    resp_data = resp.json()
+def save_resp_csv(resp_data, store_path):
     headers = resp_data.pop(0)
     df = pd.DataFrame(resp_data, columns=headers)
     logging.info('Writing downloaded data to file: %s', store_path)
@@ -127,13 +127,13 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
     if failed_urls_ctr > 0:
         logging.warning('%d urls have failed, output files might be missing data.', failed_urls_ctr)
 
-    consolidate_files(dataset, table_id, year_list, output_path, 'ACSST5Y')
+    consolidate_files(dataset, table_id, year_list, output_path)
     
     end = time.time()
     print("The time required to download the", table_id, "dataset :", end-start)
     logging.info('The time required to download the %s dataset : %f', table_id, end-start)
 
-def consolidate_files(dataset, table_id, year_list, output_path, identifier, replace_annotations=True, drop_annotations=True, keep_originals=True):
+def consolidate_files(dataset, table_id, year_list, output_path, replace_annotations=True, drop_annotations=True, keep_originals=True):
     logging.info('consolidating files to create yearwise files in %s', output_path)
     logging.info('table:%s keep_originals:%d', table_id, keep_originals)
     table_id = table_id.upper()
@@ -159,6 +159,8 @@ def consolidate_files(dataset, table_id, year_list, output_path, identifier, rep
     logging.info('consolidating %d files', total_files)
     for year in csv_files_list:
         print(year)
+        # TODO error handling when identifier is missing
+        identifier = get_identifier(dataset, year)
         logging.info('consolidating %d files for year:%s', len(csv_files_list[year]), year)
         df = pd.DataFrame()
         for csv_file in csv_files_list[year]:
@@ -177,7 +179,7 @@ def consolidate_files(dataset, table_id, year_list, output_path, identifier, rep
                 if column_name not in ['GEO_ID', 'NAME'] and table_id not in column_name:
                     if column_name not in drop_list:
                         drop_list.append(column_name)
-                        logging.debug('dropping %s column in file:%s', column_name, output_path+csv_file)
+                        logging.debug('dropping %s column in file:%s', column_name, cur_csv_path)
             df2.drop(drop_list, axis=1, inplace=True)
             
             # if df2.lt(-100).any().any():
@@ -209,7 +211,7 @@ def consolidate_files(dataset, table_id, year_list, output_path, identifier, rep
                 df2.sort_index(inplace=True)
             df = pd.concat([df, df2], ignore_index = True)
         if not df.empty:
-            out_file_name = os.path.join(output_path, f"{identifier}{year}.{table_id}_data_with_overlays_1111-11-11T111111.csv")
+            out_file_name = os.path.join(output_path, f"{identifier}.{table_id}_data_with_overlays_1111-11-11T111111.csv")
             
             if df.iloc[0].isnull().any():
                 print("Error: Check", out_file_name, "column name missing for some variable")
@@ -291,7 +293,7 @@ def download_table_variables(dataset, table_id, year_list, geo_url_map_path, spe
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:
         logging.warn('%d urls have failed, output files might be missing data.', failed_urls_ctr)
-    consolidate_files(dataset, table_id, year_list, output_path, 'ACSST5Y')
+    consolidate_files(dataset, table_id, year_list, output_path)
 
     end = time.time()
     print("The time required to download the", table_id, "dataset :", end-start)

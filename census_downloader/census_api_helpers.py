@@ -58,6 +58,16 @@ def get_dataset_summary_levels(dataset: str, force_fetch: bool = False) -> list:
     else:
         return None
 
+def get_identifier(dataset: str, year: str, force_fetch: bool = False) -> str:
+    d = compile_groups_map(force_fetch = force_fetch)
+    if dataset in d:
+        if 'years' in d[dataset] and year in d[dataset]['years']:
+            return d[dataset]['years'][year]['identifier']
+        else:
+            return None
+    else:
+        return None
+
 def url_add_api_key(url_dict: dict, api_key: str) -> str:
     return (url_dict['url']+f'&key={api_key}').replace(' ', '%20')
 
