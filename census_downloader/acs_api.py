@@ -46,6 +46,15 @@ async def async_save_resp_csv(resp, store_path):
     df.to_csv(store_path, encoding='utf-8', index = False)
     return 0
 
+async def update_status_periodically(interval, periodic_function):
+    while True:
+        await asyncio.gather(asyncio.sleep(interval))
+        periodic_function()
+
+def log_to_status(url_list, store_path):
+    with open(store_path, 'w') as fp:
+        json.dump(url_list, fp, indent=2)
+
 def download_table(dataset, table_id, q_variable, year_list, output_path, api_key, s_level_list = 'all', force_fetch_config: bool = False, force_fetch_data: bool = False):
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
@@ -74,13 +83,15 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
     rate_params['unit_time'] = 1
 
     failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, rate_params=rate_params)
+    
+    asyncio.run(update_status_periodically(15, log_to_status(url_list, status_path)))
 
     with open(status_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)
 
     # check status before consolidate, warn if any URL status contains fail
     if failed_urls_ctr > 0:
-        logging.warn('%d urls have failed, output files might be missing data.', failed_urls_ctr)
+        logging.warning('%d urls have failed, output files might be missing data.', failed_urls_ctr)
 
     with open(status_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)

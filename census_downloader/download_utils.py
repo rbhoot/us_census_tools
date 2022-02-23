@@ -26,6 +26,8 @@ def download_url_list_iterations(url_list, url_api_modifier, api_key, process_an
     return failed_urls_ctr
 
 # req url
+# TODO add back off decorator with aiohttp.ClientConnectionError as the trigger exception, 
+#      try except might need to change for decorator to work
 async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store):
 # async def fetch(session, url, semaphore):
     if url_to_download(cur_url):
@@ -33,23 +35,31 @@ async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key,
         await semaphore.acquire()
         async with limiter:
             final_url = url_api_modifier(cur_url, api_key)
-            # TODO try except, 
-            #      status update for fail, 
-            #      check response from process_and_store
-            async with session.get(final_url) as response:
-                http_code = response.status
-                logging.info('%s response code %d', cur_url['url'], http_code)
-                if http_code == 200:
-                    logging.debug('Calling function %s with store path : %s', process_and_store.__name__, cur_url['store_path'])
-                    await process_and_store(response, cur_url['store_path'])
-                    cur_url['status'] = 'ok'
-                    cur_url['http_code'] = str(http_code)
-                else:
-                    cur_url['status'] = 'fail_http'
-                    cur_url['http_code'] = str(http_code)
-                    print("HTTP status code: "+str(http_code))
-                semaphore.release()
-                # return response
+            try:
+                async with session.get(final_url) as response:
+                    http_code = response.status
+                    logging.info('%s response code %d', cur_url['url'], http_code)
+                    # TODO allow custom call back function that returns boolean value for success
+                    if http_code == 200:
+                        logging.debug('Calling function %s with store path : %s', process_and_store.__name__, cur_url['store_path'])
+                        store_ret = await process_and_store(response, cur_url['store_path'])
+                        if store_ret < 0:
+                            cur_url['status'] = 'fail'
+                        else:    
+                            cur_url['status'] = 'ok'
+                        cur_url['http_code'] = str(http_code)
+                    else:
+                        cur_url['status'] = 'fail_http'
+                        cur_url['http_code'] = str(http_code)
+                        print("HTTP status code: "+str(http_code))
+                    semaphore.release()
+                    # return response
+            except Exception as e:
+                cur_url['status'] = 'fail'
+                cur_url.pop('http_code', None)
+                logging.error('%s failed fetch with exception %s', cur_url['url'], type(e).__name__)
+
+
 
 # async download
 async def _async_download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params):
