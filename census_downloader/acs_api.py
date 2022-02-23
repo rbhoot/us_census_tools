@@ -55,6 +55,14 @@ def log_to_status(url_list, store_path):
     with open(store_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)
 
+def url_filter(url_list):
+    ret_list = []
+    for cur_url in url_list:
+        if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
+            if 'http_code' in cur_url and cur_url['http_code'] != 204:
+                ret_list.append(cur_url)
+    return ret_list
+
 def download_table(dataset, table_id, q_variable, year_list, output_path, api_key, s_level_list = 'all', force_fetch_config: bool = False, force_fetch_data: bool = False):
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
@@ -82,7 +90,7 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
     rate_params['req_per_unit_time'] = 10
     rate_params['unit_time'] = 1
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, rate_params=rate_params)
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, url_filter=url_filter, rate_params=rate_params)
     
     asyncio.run(update_status_periodically(15, log_to_status(url_list, status_path)))
 
@@ -131,7 +139,7 @@ def consolidate_files(table_id, year_list, output_path, replace_annotations=True
         logging.info('consolidating %d files for year:%s', len(csv_files_list[year]), year)
         df = pd.DataFrame()
         for csv_file in csv_files_list[year]:
-            df2 = pd.read_csv(output_path+csv_file,low_memory=False)
+            df2 = pd.read_csv(os.path.join(output_path, csv_file),low_memory=False)
             print("Collecting",csv_file)
             # remove extra columns
             drop_list = []
@@ -250,7 +258,7 @@ def download_table_variables(dataset, table_id, year_list, geo_url_map_path, spe
     rate_params['req_per_unit_time'] = 10
     rate_params['unit_time'] = 1
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, rate_params=rate_params)
+    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, url_filter=url_filter, rate_params=rate_params)
 
     with open(status_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)

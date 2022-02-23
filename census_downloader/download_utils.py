@@ -12,16 +12,21 @@ async def async_save_resp_json(resp, store_path):
     logging.debug('Writing downloaded data to file: %s', store_path)
     json.dump(resp_data, open(store_path, 'w'), indent = 2)
 
-def download_url_list_iterations(url_list, url_api_modifier, api_key, process_and_store, max_itr = 10, rate_params = {}):
+def download_url_list_iterations(url_list, url_api_modifier, api_key, process_and_store, url_filter = None, max_itr = 3, rate_params = {}):
     failed_urls_ctr = len(url_list)
     prev_failed_ctr = failed_urls_ctr + 1
     loop_ctr = 0
+    if not url_filter:
+        url_filter = lambda url_list: url_list
     logging.info('downloading URLs')
+    cur_url_list = url_filter(url_list)
     while failed_urls_ctr > 0 and loop_ctr < max_itr and prev_failed_ctr > failed_urls_ctr:
         prev_failed_ctr = failed_urls_ctr
         logging.info('downloading URLs iteration:%d', loop_ctr)
-        failed_urls_ctr = download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params)
+        download_url_list(cur_url_list, url_api_modifier, api_key, process_and_store, rate_params)
         logging.info('failed request count: %d', failed_urls_ctr)
+        cur_url_list = url_filter(cur_url_list)
+        failed_urls_ctr = len(cur_url_list)
         loop_ctr += 1
     return failed_urls_ctr
 
@@ -36,6 +41,7 @@ async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key,
         async with limiter:
             final_url = url_api_modifier(cur_url, api_key)
             try:
+                # TODO allow other methods like POST
                 async with session.get(final_url) as response:
                     http_code = response.status
                     logging.info('%s response code %d', cur_url['url'], http_code)
@@ -75,6 +81,7 @@ async def _async_download_url_list(url_list, url_api_modifier, api_key, process_
         for cur_url in url_list:
             fut_list.append(fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store))
         responses = asyncio.gather(*fut_list)
+        # TODO update download_status file at regular intervals if feasible
         await responses
             
 def download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params):
