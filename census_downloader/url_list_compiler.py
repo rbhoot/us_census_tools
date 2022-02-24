@@ -12,7 +12,6 @@ from absl import flags
 from status_file_utils import sync_status_list
 from census_api_helpers import *
 
-
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
 

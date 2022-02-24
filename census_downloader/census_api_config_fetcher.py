@@ -737,9 +737,6 @@ def compile_dataset_group_years_map(store_path=CONFIG_PATH_,
   return out_dict
 
 def get_variables_name(dataset: str, table_id: str, year: str, store_path=CONFIG_PATH_, force_fetch: bool = False):
-  print('fetching cache', year)
-  fetch_dataset_config_cache('group_variables', force_fetch=force_fetch)
-  print('cache fetched', year)
   if year:
     ret_path = os.path.join(store_path, dataset, year, f'{table_id.upper()}.json')
   else:
@@ -748,7 +745,11 @@ def get_variables_name(dataset: str, table_id: str, year: str, store_path=CONFIG
   if os.path.isfile(ret_path):
     return json.load(open(ret_path))
   else:
-    return None
+    fetch_dataset_config_cache('group_variables', force_fetch=force_fetch)
+    if os.path.isfile(ret_path):
+      return json.load(open(ret_path))
+    else:
+      return None
 
 def main(argv):
   compile_dataset_based_map(force_fetch=FLAGS.force_fetch_config)
