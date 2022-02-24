@@ -15,7 +15,6 @@ from census_api_helpers import *
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
-from common_utils.requests_wrappers import request_url_json
 
 FLAGS = flags.FLAGS
 

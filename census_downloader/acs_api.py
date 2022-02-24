@@ -6,20 +6,18 @@ import time
 import os
 import sys
 import pandas as pd
-import datetime
 import logging
+from absl import app
+from absl import flags
+
 from census_api_helpers import get_identifier, get_yearwise_variable_column_map
 from status_file_utils import sync_status_list
 from download_utils import download_url_list_iterations
-from url_list_compiler import get_table_url_list, get_variables_url_list
+from url_list_compiler import get_table_url_list
 
 module_dir_ = os.path.dirname(__file__)
 sys.path.append(os.path.join(module_dir_, '..'))
 from common_utils.requests_wrappers import request_url_json
-from common_utils.common_util import column_to_be_ignored
-
-from absl import app
-from absl import flags
 
 FLAGS = flags.FLAGS
 
@@ -248,60 +246,61 @@ def consolidate_files(dataset, table_id, year_list, output_path, replace_annotat
                      os.remove(cur_csv_path)
 
 def download_table_variables(dataset, table_id, year_list, geo_url_map_path, spec_path, output_path, api_key):
-    table_id = table_id.upper()
-    spec_dict = json.load(open(spec_path, 'r'))
-    geo_url_map = json.load(open(geo_url_map_path, 'r'))
+    pass
+#     table_id = table_id.upper()
+#     spec_dict = json.load(open(spec_path, 'r'))
+#     geo_url_map = json.load(open(geo_url_map_path, 'r'))
     
-    output_path = os.path.expanduser(output_path)
-    output_path = os.path.join(output_path, dataset)
-    output_path = os.path.join(output_path, table_id+'_vars')
-    os.makedirs(output_path, exist_ok=True)
+#     output_path = os.path.expanduser(output_path)
+#     output_path = os.path.join(output_path, dataset)
+#     output_path = os.path.join(output_path, table_id+'_vars')
+#     os.makedirs(output_path, exist_ok=True)
 
-    status_path = os.path.join(output_path, 'download_status.json')
+#     status_path = os.path.join(output_path, 'download_status.json')
     
-    variables_year_dict = {}
-    variable_col_map = get_yearwise_variable_column_map(dataset, table_id, year_list)
-    print(list(variable_col_map))
-    for year in year_list:
-        variables_year_dict[year] = []
-        for variable_id in variable_col_map[year]:
-            column_name = variable_col_map[year][variable_id]
-            t_flag = True
-            if not column_to_be_ignored(column_name, spec_dict):
-                variables_year_dict[year].append(variable_id)
-                variables_year_dict[year].append(variable_id+'A')
-        print(year)
-        print(len(variables_year_dict[year]))
+#     variables_year_dict = {}
+#     variable_col_map = get_yearwise_variable_column_map(dataset, table_id, year_list)
+#     print(list(variable_col_map))
+#     for year in year_list:
+#         variables_year_dict[year] = []
+#         for variable_id in variable_col_map[year]:
+#             column_name = variable_col_map[year][variable_id]
+#             t_flag = True
+#             if not column_to_be_ignored(column_name, spec_dict):
+#                 variables_year_dict[year].append(variable_id)
+#                 variables_year_dict[year].append(variable_id+'A')
+#         print(year)
+#         print(len(variables_year_dict[year]))
                         
-    url_list = get_variables_url_list(table_id, variables_year_dict, geo_url_map, output_path, api_key)
-    url_list = sync_status_list([], url_list)
-    with open(status_path, 'w') as fp:
-        json.dump(url_list, fp, indent=2)
+#     url_list = get_variables_url_list(table_id, variables_year_dict, geo_url_map, output_path, api_key)
+#     url_list = sync_status_list([], url_list)
+#     with open(status_path, 'w') as fp:
+#         json.dump(url_list, fp, indent=2)
 
-    print(len(url_list))
-    logging.info("Compiled a list of %d URLs", len(url_list))
+#     print(len(url_list))
+#     logging.info("Compiled a list of %d URLs", len(url_list))
 
-    start = time.time()
+#     start = time.time()
 
-    rate_params = {}
-    rate_params['max_parallel_req'] = 50
-    rate_params['limit_per_host'] = 20
-    rate_params['req_per_unit_time'] = 10
-    rate_params['unit_time'] = 1
+#     rate_params = {}
+#     rate_params['max_parallel_req'] = 50
+#     rate_params['limit_per_host'] = 20
+#     rate_params['req_per_unit_time'] = 10
+#     rate_params['unit_time'] = 1
 
-    failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, url_filter=url_filter, rate_params=rate_params)
+#     failed_urls_ctr = download_url_list_iterations(url_list, url_add_api_key, api_key, async_save_resp_csv, url_filter=url_filter, rate_params=rate_params)
 
-    with open(status_path, 'w') as fp:
-        json.dump(url_list, fp, indent=2)
+#     with open(status_path, 'w') as fp:
+#         json.dump(url_list, fp, indent=2)
 
-    # check status before consolidate, warn if any URL status contains fail
-    if failed_urls_ctr > 0:
-        logging.warn('%d urls have failed, output files might be missing data.', failed_urls_ctr)
-    consolidate_files(dataset, table_id, year_list, output_path)
+#     # check status before consolidate, warn if any URL status contains fail
+#     if failed_urls_ctr > 0:
+#         logging.warn('%d urls have failed, output files might be missing data.', failed_urls_ctr)
+#     consolidate_files(dataset, table_id, year_list, output_path)
 
-    end = time.time()
-    print("The time required to download the", table_id, "dataset :", end-start)
-    logging.info('The time required to download the %s dataset : %f', table_id, end-start)
+#     end = time.time()
+#     print("The time required to download the", table_id, "dataset :", end-start)
+#     logging.info('The time required to download the %s dataset : %f', table_id, end-start)
 
 os.makedirs('logs/', exist_ok=True)
 logging.basicConfig(filename=f"logs/acs_download_{datetime.datetime.now().replace(microsecond=0).isoformat().replace(':','')}.log", level=logging.DEBUG, format="%(asctime)s [%(levelname)s]: %(message)s")

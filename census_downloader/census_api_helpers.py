@@ -69,10 +69,13 @@ def get_identifier(dataset: str, year: str, force_fetch: bool = False) -> str:
         return None
 
 def get_yearwise_variable_column_map(dataset, table_id, year_list, force_fetch = False):
+    print('get lookup called')
     ret_dict = {}
     for year in year_list:
         ret_dict[(year)] = {}
+        print('fetching variables name', year)
         temp_dict = get_variables_name(dataset, table_id, year, force_fetch=force_fetch)
+        print('variables name fetched', year)
         if temp_dict:
             for var in temp_dict['variables']:
                 ret_dict[year][var] = temp_dict['variables'][var]['label']
