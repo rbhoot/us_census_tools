@@ -141,12 +141,15 @@ def consolidate_files(dataset, table_id, year_list, output_path, replace_annotat
     csv_files_list = {}
     out_csv_list = []
 
+    identifier_dict = {}
+    for year in year_list:
+        identifier_dict[year] = get_identifier(dataset, year)
+
     for (dirpath, dirnames, filenames) in os.walk(output_path):
         for file in filenames:
             if file.endswith('.csv'):
                 for year in year_list:
-                    # TODO generalise
-                    identifier = get_identifier(dataset, year)
+                    identifier = identifier_dict[year]
                     if str(year) in file and identifier not in file:
                         if year in csv_files_list:
                             csv_files_list[year].append(file)
@@ -163,7 +166,7 @@ def consolidate_files(dataset, table_id, year_list, output_path, replace_annotat
     for year in csv_files_list:
         print(year)
         # TODO error handling when identifier is missing
-        identifier = get_identifier(dataset, year)
+        identifier = identifier_dict[year]
         logging.info('consolidating %d files for year:%s', len(csv_files_list[year]), year)
         df = pd.DataFrame()
         for csv_file in csv_files_list[year]:
@@ -214,7 +217,6 @@ def consolidate_files(dataset, table_id, year_list, output_path, replace_annotat
             df = pd.concat([df, df2], ignore_index = True)
         if not df.empty:
             out_file_name = os.path.join(output_path, f"{identifier}.{table_id}_data_with_overlays_1111-11-11T111111.csv")
-            
             if df.iloc[0].isnull().any():
                 print("Error: Check", out_file_name, "column name missing for some variable")
                 logging.error('some column names missing in:%s', out_file_name)
