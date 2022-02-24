@@ -738,9 +738,9 @@ def compile_dataset_group_years_map(store_path=CONFIG_PATH_,
 
 def get_variables_name(dataset: str, table_id: str, year: str, store_path=CONFIG_PATH_, force_fetch: bool = False):
   if year:
-    ret_path = os.path.join(store_path, dataset, year, f'{table_id.upper()}.json')
+    ret_path = os.path.join(store_path, 'api_cache', dataset, year, f'{table_id.upper()}.json')
   else:
-    ret_path = os.path.join(store_path, dataset, f'{table_id.upper()}.json')
+    ret_path = os.path.join(store_path, 'api_cache', dataset, f'{table_id.upper()}.json')
   
   if os.path.isfile(ret_path):
     return json.load(open(ret_path))
