@@ -148,7 +148,7 @@ def get_str_list_required(geo_config_year: dir, s_level: str):
     else:
         req_str_list = ['']
     
-    return req_str_list
+    return list(set(req_str_list))
 
 def get_config_temp_filename(year, geo_str, req_str):
     s = f"{year}__{geo_str}__{req_str}"
