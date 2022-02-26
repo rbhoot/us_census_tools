@@ -3,23 +3,24 @@ import logging
 import time
 import asyncio
 import aiohttp
+from typing import Any, Callable, Union
 from aiolimiter import AsyncLimiter
 
 from status_file_utils import get_pending_or_fail_url_list, url_to_download
 
-async def async_save_resp_json(resp, store_path):
+async def async_save_resp_json(resp: Any, store_path: str):
     resp_data = await resp.json()
     logging.debug('Writing downloaded data to file: %s', store_path)
     json.dump(resp_data, open(store_path, 'w'), indent = 2)
 
-def default_url_filter(url_list):
+def default_url_filter(url_list: list) -> list:
     ret_list = []
     for cur_url in url_list:
         if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
             ret_list.append(cur_url)
     return ret_list
 
-def download_url_list_iterations(url_list, url_api_modifier, api_key, process_and_store, url_filter = None, max_itr = 3, rate_params = {}):
+def download_url_list_iterations(url_list: list, url_api_modifier: Callable[[dict], str], api_key: str, process_and_store: Callable[[Any, str], int], url_filter: Union[Callable[[list], list], None] = None, max_itr: int = 3, rate_params: dict = {}) -> int:
     loop_ctr = 0
     if not url_filter:
         url_filter = default_url_filter
@@ -41,7 +42,7 @@ def download_url_list_iterations(url_list, url_api_modifier, api_key, process_an
 # req url
 # TODO add back off decorator with aiohttp.ClientConnectionError as the trigger exception, 
 #      try except might need to change for decorator to work
-async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key, process_and_store):
+async def fetch(session: Any, cur_url: str, semaphore: Any, limiter: Any, url_api_modifier: Callable[[dict], str], api_key: str, process_and_store: Callable[[Any, str], int]):
 # async def fetch(session, url, semaphore):
     if url_to_download(cur_url):
         print(cur_url['url'])
@@ -76,7 +77,7 @@ async def fetch(session, cur_url, semaphore, limiter, url_api_modifier, api_key,
 
 
 # async download
-async def _async_download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params):
+async def _async_download_url_list(url_list: list, url_api_modifier: Callable[[dict], str], api_key: str, process_and_store: Callable[[Any, str], int], rate_params: dict):
     # create semaphore
     semaphore = asyncio.Semaphore(rate_params['max_parallel_req'])
     # limiter
@@ -93,7 +94,7 @@ async def _async_download_url_list(url_list, url_api_modifier, api_key, process_
         # TODO update download_status file at regular intervals if feasible
         await responses
             
-def download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params):
+def download_url_list(url_list: list, url_api_modifier: Callable[[dict], str], api_key: str, process_and_store: Callable[[Any, str], int], rate_params: dict):
     logging.debug('Downloading url list of size %d', len(url_list))
     
     if not url_api_modifier:
