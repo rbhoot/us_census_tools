@@ -149,11 +149,14 @@ def consolidate_files(dataset, table_id, year_list, output_path, replace_annotat
             if file.endswith('.csv'):
                 for year in year_list:
                     identifier = identifier_dict[year]
-                    if str(year) in file and identifier not in file:
-                        if year in csv_files_list:
-                            csv_files_list[year].append(file)
-                        else:
-                            csv_files_list[year] = [file]
+                    if '_' in file and identifier not in file:
+                        file_tokens = file.split('_')
+                        file_year = file_tokens[1]
+                        if file_year == str(year):
+                            if year in csv_files_list:
+                                csv_files_list[year].append(file)
+                            else:
+                                csv_files_list[year] = [file]
     
     total_files = 0
     for year in csv_files_list:
