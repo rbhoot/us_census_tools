@@ -21,34 +21,34 @@ FLAGS = flags.FLAGS
 flags.DEFINE_boolean('force_fetch_config', False,
                      'Force download of config and list of required geos from API')
 
-def _generate_url_prefix(dataset, year=None):
+def _generate_url_prefix(dataset: str, year: str = None) -> str:
   if year:
     return f'http://api.census.gov/data/{year}/{dataset}/'
   else:
     return f'http://api.census.gov/data/{dataset}/'
 
 
-def generate_url_geography(dataset, year=None):
+def generate_url_geography(dataset: str, year: str = None) -> str:
   return _generate_url_prefix(dataset, year) + 'geography.json'
 
 
-def generate_url_groups(dataset, year=None):
+def generate_url_groups(dataset: str, year: str = None) -> str:
   return _generate_url_prefix(dataset, year) + 'groups.json'
 
 
-def generate_url_variables(dataset, year=None):
+def generate_url_variables(dataset: str, year: str = None) -> str:
   return _generate_url_prefix(dataset, year) + 'variables.json'
 
 
-def generate_url_tags(dataset, year=None):
+def generate_url_tags(dataset: str, year: str = None) -> str:
   return _generate_url_prefix(dataset, year) + 'tags.json'
 
 
-def generate_url_group_variables(dataset, group_id, year=None):
+def generate_url_group_variables(dataset: str, group_id: str, year: str = None) -> str:
   return _generate_url_prefix(dataset, year) + f'groups/{group_id}.json'
 
 
-def fetch_dataset_config(store_path=CONFIG_PATH_, force_fetch=False):
+def fetch_dataset_config(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
   store_path = os.path.expanduser(store_path)
   if not os.path.exists(store_path):
     os.makedirs(store_path, exist_ok=True)
@@ -63,7 +63,7 @@ def fetch_dataset_config(store_path=CONFIG_PATH_, force_fetch=False):
   return datasets
 
 
-def compile_year_map(store_path=CONFIG_PATH_, force_fetch=False):
+def compile_year_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
 
   if not force_fetch and os.path.isfile(os.path.join(store_path, 'dataset_year.json')):
     dataset_dict = json.load(
@@ -191,9 +191,7 @@ def compile_year_map(store_path=CONFIG_PATH_, force_fetch=False):
   return dataset_dict
 
 
-def fetch_dataset_config_cache(param,
-                                store_path=CONFIG_PATH_,
-                                force_fetch=False):
+def fetch_dataset_config_cache(param: str, store_path: str = CONFIG_PATH_, force_fetch: bool = False):
   if param not in ['groups', 'geography', 'variables', 'group_variables']:
     error_dict = {'invalid_param': [param]}
     with open(
@@ -304,7 +302,7 @@ def fetch_dataset_config_cache(param,
       json.dump(get_pending_or_fail_url_list(url_list), fp, indent=2)
 
 
-def compile_groups_map(store_path=CONFIG_PATH_, force_fetch=False):
+def compile_groups_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
   if os.path.isfile(os.path.join(store_path,
                                  'dataset_groups.json')) and not force_fetch:
     dataset_dict = json.load(
@@ -406,7 +404,7 @@ def compile_groups_map(store_path=CONFIG_PATH_, force_fetch=False):
   return dataset_dict
 
 
-def compile_geography_map(store_path=CONFIG_PATH_, force_fetch=False):
+def compile_geography_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
   if os.path.isfile(os.path.join(store_path,
                                  'dataset_geography.json')) and not force_fetch:
     dataset_dict = json.load(
@@ -573,7 +571,7 @@ def compile_geography_map(store_path=CONFIG_PATH_, force_fetch=False):
   return dataset_dict
 
 
-def compile_non_group_variables_map(store_path=CONFIG_PATH_, force_fetch=False):
+def compile_non_group_variables_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
   if os.path.isfile(
       os.path.join(store_path,
                    'dataset_non_group_variables.json')) and not force_fetch:
@@ -668,7 +666,7 @@ def compile_non_group_variables_map(store_path=CONFIG_PATH_, force_fetch=False):
   return dataset_dict
 
 
-def compile_dataset_based_map(store_path=CONFIG_PATH_, force_fetch=False):
+def compile_dataset_based_map(store_path:str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
   # compile_year_map(store_path)
   # compile_groups_map(store_path, force_fetch)
   # compile_geography_map(store_path, force_fetch)
@@ -678,7 +676,7 @@ def compile_dataset_based_map(store_path=CONFIG_PATH_, force_fetch=False):
   return dataset_dict
 
 
-def compile_dataset_group_map(store_path=CONFIG_PATH_, force_fetch=False):
+def compile_dataset_group_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
   if os.path.isfile(os.path.join(store_path,
                                  'dataset_groups_list.json')) and not force_fetch:
     out_dict = json.load(
@@ -704,8 +702,7 @@ def compile_dataset_group_map(store_path=CONFIG_PATH_, force_fetch=False):
   return out_dict
 
 
-def compile_dataset_group_years_map(store_path=CONFIG_PATH_,
-                                     force_fetch=False):
+def compile_dataset_group_years_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
   if os.path.isfile(os.path.join(
       store_path, 'dataset_years_groups.json')) and not force_fetch:
     out_dict = json.load(
@@ -735,7 +732,7 @@ def compile_dataset_group_years_map(store_path=CONFIG_PATH_,
 
   return out_dict
 
-def get_variables_name(dataset: str, table_id: str, year: str, store_path=CONFIG_PATH_, force_fetch: bool = False):
+def get_variables_name(dataset: str, table_id: str, year: str, store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
   if year:
     ret_path = os.path.join(store_path, 'api_cache', dataset, year, f'{table_id.upper()}.json')
   else:
