@@ -12,19 +12,27 @@ async def async_save_resp_json(resp, store_path):
     logging.debug('Writing downloaded data to file: %s', store_path)
     json.dump(resp_data, open(store_path, 'w'), indent = 2)
 
+def default_url_filter(url_list):
+    ret_list = []
+    for cur_url in url_list:
+        if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
+            ret_list.append(cur_url)
+    return ret_list
+
 def download_url_list_iterations(url_list, url_api_modifier, api_key, process_and_store, url_filter = None, max_itr = 3, rate_params = {}):
-    failed_urls_ctr = len(url_list)
-    prev_failed_ctr = failed_urls_ctr + 1
     loop_ctr = 0
     if not url_filter:
-        url_filter = lambda url_list: url_list
+        url_filter = default_url_filter
     logging.info('downloading URLs')
+    
     cur_url_list = url_filter(url_list)
+    failed_urls_ctr = len(url_list)
+    prev_failed_ctr = failed_urls_ctr + 1
     while failed_urls_ctr > 0 and loop_ctr < max_itr and prev_failed_ctr > failed_urls_ctr:
         prev_failed_ctr = failed_urls_ctr
         logging.info('downloading URLs iteration:%d', loop_ctr)
         download_url_list(cur_url_list, url_api_modifier, api_key, process_and_store, rate_params)
-        cur_url_list = url_filter(cur_url_list)
+        cur_url_list = url_filter(url_list)
         failed_urls_ctr = len(cur_url_list)
         logging.info('failed request count: %d', failed_urls_ctr)
         loop_ctr += 1

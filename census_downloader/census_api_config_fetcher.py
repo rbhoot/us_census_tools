@@ -730,8 +730,7 @@ def compile_dataset_group_years_map(store_path=CONFIG_PATH_,
             out_dict[dataset_id]['groups'][group_id] = []
           out_dict[dataset_id]['groups'][group_id].append(year)
 
-    with open(os.path.join(store_path, 'dataset_years_groups.json'),
-              'w') as fp:
+    with open(os.path.join(store_path, 'dataset_years_groups.json'), 'w') as fp:
       json.dump(out_dict, fp, indent=2)
 
   return out_dict
