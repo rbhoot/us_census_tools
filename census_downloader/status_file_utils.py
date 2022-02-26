@@ -5,7 +5,7 @@ import base64
 
 _VALID_STATUS = ['pending', 'ok', 'fail', 'fail_http']
 
-def url_to_download(url_dict: dict):
+def url_to_download(url_dict: dict) -> bool:
     if url_dict['status'] == 'pending' or url_dict['status'].startswith('fail') or url_dict['force_fetch']:
         return True
     else:

@@ -1,5 +1,4 @@
 import asyncio
-from dbm import dumb
 import zipfile
 import json
 import time
@@ -8,6 +7,7 @@ import sys
 import pandas as pd
 import logging
 import datetime
+from typing import Any, Callable, Union
 from absl import app
 from absl import flags
 
@@ -27,14 +27,14 @@ flags.DEFINE_boolean('force_fetch_data', False,
 def url_add_api_key(url_dict: dict, api_key: str) -> str:
     return url_dict['url']+f'&key={api_key}'
 
-def save_resp_csv(resp_data, store_path):
+def save_resp_csv(resp_data: list, store_path: str) -> int:
     headers = resp_data.pop(0)
     df = pd.DataFrame(resp_data, columns=headers)
     logging.info('Writing downloaded data to file: %s', store_path)
     df.to_csv(store_path, encoding='utf-8', index = False)
     return 0
 
-async def async_save_resp_csv(resp, store_path):
+async def async_save_resp_csv(resp: Any, store_path: str) -> int:
     try:
         resp_data = await resp.json()
     except asyncio.TimeoutError:
@@ -46,16 +46,16 @@ async def async_save_resp_csv(resp, store_path):
     df.to_csv(store_path, encoding='utf-8', index = False)
     return 0
 
-async def update_status_periodically(interval, periodic_function):
+async def update_status_periodically(interval: int, periodic_function: Callable[[], None]):
     while True:
         await asyncio.gather(asyncio.sleep(interval))
         periodic_function()
 
-def log_to_status(url_list, store_path):
+def log_to_status(url_list: list, store_path: str):
     with open(store_path, 'w') as fp:
         json.dump(url_list, fp, indent=2)
 
-def url_filter(url_list):
+def url_filter(url_list: list) -> list:
     ret_list = []
     for cur_url in url_list:
         if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
@@ -66,7 +66,7 @@ def url_filter(url_list):
                 ret_list.append(cur_url)
     return ret_list
 
-def download_table(dataset, table_id, q_variable, year_list, output_path, api_key, s_level_list = 'all', force_fetch_config: bool = False, force_fetch_data: bool = False):
+def download_table(dataset: str, table_id: str, q_variable: str, year_list: list, output_path: str, api_key: str, s_level_list: Union[str, list] = 'all', force_fetch_config: bool = False, force_fetch_data: bool = False):
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
     output_path = os.path.expanduser(output_path)
@@ -132,7 +132,7 @@ def download_table(dataset, table_id, q_variable, year_list, output_path, api_ke
     print("The time required to download the", table_id, "dataset :", end-start)
     logging.info('The time required to download the %s dataset : %f', table_id, end-start)
 
-def consolidate_files(dataset, table_id, year_list, output_path, replace_annotations=True, drop_annotations=True, keep_originals=True):
+def consolidate_files(dataset: str, table_id: str, year_list: list, output_path: str, replace_annotations: bool = True, drop_annotations: bool = True, keep_originals: bool = True):
     logging.info('consolidating files to create yearwise files in %s', output_path)
     logging.info('table:%s keep_originals:%d', table_id, keep_originals)
     table_id = table_id.upper()
