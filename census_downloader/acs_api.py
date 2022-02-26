@@ -164,7 +164,7 @@ def consolidate_files(dataset, table_id, year_list, output_path, replace_annotat
 
     print(len(csv_files_list), total_files)    
     logging.info('consolidating %d files', total_files)
-    var_col_lookup = get_yearwise_variable_column_map(dataset, table_id, year_list)
+    var_col_lookup = get_yearwise_variable_column_map(dataset, table_id, list(csv_files_list))
     for year in csv_files_list:
         print(year)
         # TODO error handling when identifier is missing
