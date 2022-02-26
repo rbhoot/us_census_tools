@@ -68,7 +68,7 @@ def get_identifier(dataset: str, year: str, force_fetch: bool = False) -> str:
     else:
         return None
 
-def get_yearwise_variable_column_map(dataset, table_id, year_list, force_fetch = False):
+def get_yearwise_variable_column_map(dataset: str, table_id: str, year_list: list, force_fetch: bool = False) -> dict:
     ret_dict = {}
     for year in year_list:
         ret_dict[(year)] = {}
@@ -81,13 +81,13 @@ def get_yearwise_variable_column_map(dataset, table_id, year_list, force_fetch =
 def url_add_api_key(url_dict: dict, api_key: str) -> str:
     return (url_dict['url']+f'&key={api_key}').replace(' ', '%20')
 
-def find_summary_level(s_level_dict, geo_str):
+def find_summary_level(s_level_dict: dict, geo_str: str) -> str:
     for s_level in s_level_dict:
         if s_level_dict[s_level]['str'] == geo_str:
             return s_level
     return ''
 
-def is_required_hierarchical(req_list, geo_config_year):
+def is_required_hierarchical(req_list: list, geo_config_year: dict) -> bool:
     last_geo = req_list[-1]
     last_geo_id  = find_summary_level(geo_config_year['summary_levels'], last_geo)
     return (req_list[:-1] == geo_config_year['summary_levels'][last_geo_id]['geo_filters'])
@@ -109,7 +109,7 @@ def compile_hierarchy_req_str_list(geo_list: dict, str_list: list) -> list:
             ret_list.append(f'{str_list[0]}{k}')
     return ret_list
 
-def geo_get_all_id(geo_list: dict, geo_str: str):
+def geo_get_all_id(geo_list: dict, geo_str: str) -> list:
     ret_list = []
     for k, v in geo_list.items():
         if isinstance(v, dict):
@@ -129,7 +129,7 @@ def compile_non_hierarchy_req_str_list(all_geo_list: dict, req_geos: dict) -> li
     return ret_list
 
 # NOTE: code assumes that all fields appear in sequence and dependent geo levels are already present if list
-def get_str_list_required(geo_config_year: dir, s_level: str):
+def get_str_list_required(geo_config_year: dir, s_level: str) -> list:
     req_list = geo_config_year['summary_levels'][s_level]['requires'].copy()
     if len(req_list) > 0:
         str_list = []
@@ -150,12 +150,12 @@ def get_str_list_required(geo_config_year: dir, s_level: str):
     
     return list(set(req_str_list))
 
-def get_config_temp_filename(year, geo_str, req_str):
+def get_config_temp_filename(year: str, geo_str: str, req_str: str) -> str:
     s = f"{year}__{geo_str}__{req_str}"
     s = base64.b64encode(s.encode()).decode("utf-8", errors='ignore')
     return f"{s}.json"
 
-def update_geo_list(json_resp, geo_config, year, geo_str, s_level):
+def update_geo_list(json_resp: list, geo_config: dict, year: str, geo_str: str, s_level: str):
     if geo_str not in geo_config[year]['required_geo_lists']:
         geo_config[year]['required_geo_lists'][geo_str] = {}
     
@@ -173,7 +173,7 @@ def update_geo_list(json_resp, geo_config, year, geo_str, s_level):
             d = d[t[req_i]]
         d[t[geo_i]] = t[name_i]
 
-def get_yearwise_required_geos(dataset, geo_config: dict, q_variable: str, api_key: str = '', force_fetch=False) -> dict:
+def get_yearwise_required_geos(dataset: str, geo_config: dict, q_variable: str, api_key: str = '', force_fetch=False) -> dict:
     output_path = os.path.expanduser(CONFIG_PATH_)
     output_path = os.path.join(output_path, 'api_cache', dataset, 'required_geos')
     status_path = os.path.join(output_path, 'download_status.json')
@@ -223,7 +223,7 @@ def get_yearwise_required_geos(dataset, geo_config: dict, q_variable: str, api_k
                 print('Warning:', geo_str, 'not found')
     return geo_config
 
-def get_summary_level_config(dataset, q_variable, api_key: str = '', force_fetch=False) -> dict:
+def get_summary_level_config(dataset: str, q_variable: str, api_key: str = '', force_fetch: bool = False) -> dict:
     output_path = os.path.expanduser(CONFIG_PATH_)
     output_path = os.path.join(output_path, 'api_cache', dataset)
     basic_cache_path = os.path.join(output_path, 'yearwise_summary_level_config_basic.json')
