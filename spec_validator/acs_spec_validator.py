@@ -1,3 +1,20 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""
+Perform sanity checks on the JSON specification of import configuration.
+"""
+
 import zipfile
 import csv
 import io
@@ -27,13 +44,21 @@ flags.DEFINE_list('zip_list', None,
 flags.DEFINE_string('column_list_path', None,
                     'Path of json file containing list of all columns')
 
-# finds any extra tokens that appear in the spec as a lookup but not as a part of any of the column names
-# requires column list before ignored columns are removed
-
-
 def find_extra_tokens(column_name_list: list,
                       spec_dict: dict,
                       delimiter: str = '!!') -> list:
+  """Find any extra tokens that appear in the spec as 
+      a lookup but not as a part of any of the column names
+    NOTE: requires column list before ignored columns are removed
+    
+    Args:
+      column_name_list: List of all columns.
+      spec_dict: Dict obj containing configurations for the import.
+      delimiter: delimiter seperating tokens within single column name string.
+    
+    Returns:
+      List of tokens that present in the spec but not in the columns from data source.
+  """
   ret_list = []
   # get list of unique tokens across all columns
   token_list = get_tokens_list_from_column_list(column_name_list, delimiter)
@@ -53,12 +78,19 @@ def find_extra_tokens(column_name_list: list,
         ret_list.remove(token)
   return ret_list
 
-
-# finds all columns that do not assign any property a value
-# assumes columnNameList does not contain columns to be ignored
 def find_columns_with_no_properties(column_name_list: list,
                                     spec_dict: dict,
                                     delimiter: str = '!!') -> list:
+  """Find all columns that do not assign any property a value
+    
+    Args:
+      column_name_list: List of all columns after dropping ignored columns.
+      spec_dict: Dict obj containing configurations for the import.
+      delimiter: delimiter seperating tokens within single column name string.
+    
+    Returns:
+      List of columns that do not assign any value to any property.
+  """
   ret_list = []
   for column_name in column_name_list:
     no_prop_flag = True
@@ -74,9 +106,17 @@ def find_columns_with_no_properties(column_name_list: list,
   return ret_list
 
 
-# returns list of tokens that appear in ignoreColumn as well as a PV
-# checks only tokens, ignores long column names
 def find_ignore_conflicts(spec_dict: dict, delimiter: str = '!!') -> list:
+  """Find list of tokens that appear in ignoreColumn as well as a lookup for PV
+    NOTE: checks only tokens, ignores long column names
+
+    Args:
+      spec_dict: Dict obj containing configurations for the import.
+      delimiter: delimiter seperating tokens within single column name string.
+    
+    Returns:
+      List of tokens that are part of ignoreColumns as well as pv section.
+  """
   ret_list = []
 
   new_dict = copy.deepcopy(spec_dict)
@@ -97,13 +137,23 @@ def find_ignore_conflicts(spec_dict: dict, delimiter: str = '!!') -> list:
 
   return ret_list
 
-
-# if multiple tokens match same property, they should appear as enumspecialisation
-# the token that appears later in the name should be the specialisation of one one encountered before
-# assumes columnNameList does not contain columns to be ignored
 def find_missing_enum_specialisation(column_name_list: list,
                                      spec_dict: dict,
                                      delimiter: str = '!!') -> dict:
+  """Check for missing entries in the enumSpecializations section of the spec
+      If multiple tokens match same property, they should appear as enumspecialisation
+      the token that appears later in the name should be the specialisation of one one encountered before
+    
+    Args:
+      column_name_list: List of all columns after dropping ignored columns.
+      spec_dict: Dict obj containing configurations for the import.
+      delimiter: delimiter seperating tokens within single column name string.
+    
+    Returns:
+      Dictionary with lookup token as key value. Each token has a dict associated with following keys:
+        - column: List of columns where the token appears.
+        - possibleParents: List of possible values of the property that might be replacable.
+  """
   ret_dict = {}
   for column_name in column_name_list:
     temp_dict = {}
@@ -159,6 +209,16 @@ def find_missing_enum_specialisation(column_name_list: list,
 def find_multiple_measurement(column_name_list: list,
                               spec_dict: dict,
                               delimiter: str = '!!') -> list:
+  """Check if any column is getting multiple measurement associated.
+
+      Args:
+        column_name_list: List of all columns after dropping ignored columns.
+        spec_dict: Dict obj containing configurations for the import.
+        delimiter: delimiter seperating tokens within single column name string.
+      
+      Returns:
+        List of columns that have multiple measurement associated with it.
+  """
   ret_list = []
 
   # tokenList = getTokensListFromColumnList(columnNameList, delimiter)
@@ -176,6 +236,16 @@ def find_multiple_measurement(column_name_list: list,
 def find_multiple_population(column_name_list: list,
                              spec_dict: dict,
                              delimiter: str = '!!') -> list:
+  """Check if any column is getting multiple population types associated.
+
+      Args:
+        column_name_list: List of all columns after dropping ignored columns.
+        spec_dict: Dict obj containing configurations for the import.
+        delimiter: delimiter seperating tokens within single column name string.
+      
+      Returns:
+        List of columns that have multiple populationTypes associated with it.
+  """
   ret_list = []
 
   # tokenList = getTokensListFromColumnList(columnNameList, delimiter)
@@ -198,6 +268,16 @@ def find_multiple_population(column_name_list: list,
 def find_missing_denominator_total_column(column_name_list: list,
                                           spec_dict: dict,
                                           delimiter: str = '!!') -> list:
+  """Check if all the columns that are listed as a total are present in the source csv.
+
+      Args:
+        column_name_list: List of all columns after dropping ignored columns.
+        spec_dict: Dict obj containing configurations for the import.
+        delimiter: delimiter seperating tokens within single column name string.
+      
+      Returns:
+        List of columns that appear as total in denominator section but are not present in the csv.
+  """
   ret_list = []
 
   token_list = get_tokens_list_from_column_list(column_name_list, delimiter)
@@ -215,6 +295,16 @@ def find_missing_denominator_total_column(column_name_list: list,
 def find_missing_denominators(column_name_list: list,
                               spec_dict: dict,
                               delimiter: str = '!!') -> list:
+  """Check if all the columns that are listed as a percentage are present in the source csv.
+
+      Args:
+        column_name_list: List of all columns after dropping ignored columns.
+        spec_dict: Dict obj containing configurations for the import.
+        delimiter: delimiter seperating tokens within single column name string.
+      
+      Returns:
+        List of columns that appear as percentage in denominator section but are not present in the csv.
+  """
   ret_list = []
 
   token_list = get_tokens_list_from_column_list(column_name_list, delimiter)
@@ -231,6 +321,16 @@ def find_missing_denominators(column_name_list: list,
 
 
 def find_repeating_denominators(spec_dict: dict, delimiter: str = '!!') -> list:
+  """Check if all the columns that are listed as a percentage are present under single total column.
+
+      Args:
+        column_name_list: List of all columns after dropping ignored columns.
+        spec_dict: Dict obj containing configurations for the import.
+        delimiter: delimiter seperating tokens within single column name string.
+      
+      Returns:
+        List of columns that appear as percentage and have multiple totals associated.
+  """
   ret_list = []
   appeared_list = []
 
@@ -243,16 +343,23 @@ def find_repeating_denominators(spec_dict: dict, delimiter: str = '!!') -> list:
           appeared_list.append(cur_denominator)
   return ret_list
 
-
-# runs all the tests related to tokens and columns and prints relevant output
-# requires column list before ignored columns are removed
-# raiseWarningsOnly is used mainly in case of yearwise processing, it prevents raising of false errors
-# TODO do not use list as default arg, use tuple and convert it to list
 def test_column_name_list(column_name_list: list,
                           spec_dict: dict,
-                          test_list: list = ['all'],
+                          test_list: list = ('all'),
                           raise_warnings_only: bool = False,
                           delimiter: str = '!!') -> dict:
+  """Runs requested list of tests related to tokens and column names and returns their combined result.
+
+      Args:
+        column_name_list: List of all columns before dropping ignored columns.
+        spec_dict: Dict obj containing configurations for the import.
+        test_list: List of tests to perform. If 'all' is present, all the possible tests are run.
+        raise_warnings_only: Boolean value to surpress raising errors. Useful when running tests on individual year only.
+        delimiter: delimiter seperating tokens within single column name string.
+      
+      Returns:
+        Dict with name of the test as key and it's result as value.
+  """
   ret_dict = {}
 
   # remove ignore columns
@@ -385,6 +492,14 @@ def test_column_name_list(column_name_list: list,
 
 
 def find_extra_inferred_properties(spec_dict: dict) -> list:
+  """Finds if there are any inferred properties which are used.
+    
+    Args:
+      spec_dict: Dict obj containing configurations for the import.
+
+    Returns:
+      List of properties that appear in inferredSpec but are not part of 'pvs' section.
+  """
   ret_list = []
   if 'inferredSpec' in spec_dict:
     for property_name in spec_dict['inferredSpec']:
@@ -392,13 +507,21 @@ def find_extra_inferred_properties(spec_dict: dict) -> list:
         ret_list.append(property_name)
   return ret_list
 
-
-# calls all methods to check the spec
-# TODO do not use list as default arg, use tuple and convert it to list
 def test_spec(column_name_list: list,
               spec_dict: dict,
-              test_list: list = ['all'],
+              test_list: list = ('all'),
               delimiter: str = '!!') -> dict:
+  """Runs requested list of tests  to test the lookups present in spec and returns their combined result.
+
+      Args:
+        column_name_list: List of all columns before dropping ignored columns.
+        spec_dict: Dict obj containing configurations for the import.
+        test_list: List of tests to perform. If 'all' is present, all the possible tests are run.
+        delimiter: delimiter seperating tokens within single column name string.
+      
+      Returns:
+        Dict with name of the test as key and it's result as value.
+  """
   ret_dict = {}
   if 'all' in test_list or 'extra_tokens' in test_list:
     temp_list = find_extra_tokens(column_name_list, spec_dict)
@@ -433,16 +556,24 @@ def test_spec(column_name_list: list,
 
   return ret_dict
 
-
-# TODO do not use list as default arg, use tuple and convert it to list
 def run_tests_column_dict(columns_dict: dict,
                           spec_dict: dict,
-                          test_list: list = ['all'],
+                          test_list: list = ('all'),
                           output_path: str = '../output/',
                           filewise: bool = False,
                           show_summary: bool = False,
                           delimiter: str = '!!') -> None:
+  """Runs requested list of tests and returns their combined result.
 
+      Args:
+        columns_dict: Dict with list of all columns before dropping ignored columns mapped to file name.
+        spec_dict: Dict obj containing configurations for the import.
+        test_list: List of tests to perform. If 'all' is present, all the possible tests are run.
+        output_path: Path of the folder to store the outputs of the tests.
+        filewise: Boolean value to print filewise summaries.
+        show_summary: Boolean value to print final summaries. Will be automatically printed if filewise is not set.
+        delimiter: delimiter seperating tokens within single column name string.
+  """
   test_results = {}
   for filename in columns_dict:
     if filename != 'all':
@@ -511,17 +642,26 @@ def run_tests_column_dict(columns_dict: dict,
 
   print('End of test')
 
-
-# assumes all files are data overlay type if not flagged
-# TODO do not use list as default arg, use tuple and convert it to list
 def test_CSVfile_list(csv_path_list: list,
                       spec_path: str,
-                      test_list: list = ['all'],
+                      test_list: list = ('all'),
                       output_path: str = '../output/',
                       filewise: bool = False,
                       show_summary: bool = False,
                       is_metadata: list = [False],
                       delimiter: str = '!!') -> None:
+  """Runs requested list of tests on a list of csvs and spec and returns their combined result.
+
+      Args:
+        csv_path_list: List of source data csv files to be processed.
+        spec_path: Path of file having dict obj containing configurations for the import.
+        test_list: List of tests to perform. If 'all' is present, all the possible tests are run.
+        output_path: Path of the folder to store the outputs of the tests.
+        filewise: Boolean value to print filewise summaries.
+        show_summary: Boolean value to print final summaries. Will be automatically printed if filewise is not set.
+        is_metadata: Boolean list which sets the type of parsing to be used depending on the type of file.
+        delimiter: delimiter seperating tokens within single column name string.
+  """
   # clean the file paths
   spec_path = os.path.expanduser(spec_path)
   output_path = os.path.expanduser(output_path)
@@ -563,15 +703,26 @@ def test_CSVfile_list(csv_path_list: list,
 
 
 #TODO this will overwrite outputs if filenames repeat across zip files
-# TODO do not use list as default arg, use tuple and convert it to list
 def test_zip_file_list(zip_path_list: list,
                        spec_path: str,
-                       test_list: list = ['all'],
+                       test_list: list = ('all'),
                        output_path: str = '../output/',
                        filewise: bool = False,
                        show_summary: bool = False,
                        check_metadata: bool = False,
                        delimiter: str = '!!'):
+  """Runs requested list of tests on a list of zip files and spec and returns their combined result.
+
+      Args:
+        zip_path_list: List of source data zip files to be processed.
+        spec_path: Path of file having dict obj containing configurations for the import.
+        test_list: List of tests to perform. If 'all' is present, all the possible tests are run.
+        output_path: Path of the folder to store the outputs of the tests.
+        filewise: Boolean value to print filewise summaries.
+        show_summary: Boolean value to print final summaries. Will be automatically printed if filewise is not set.
+        check_metadata: Boolean value which sets the type of parsing to be used depending on the type of file.
+        delimiter: delimiter seperating tokens within single column name string.
+  """
   # clean the file paths
   spec_path = os.path.expanduser(spec_path)
   output_path = os.path.expanduser(output_path)
@@ -615,12 +766,20 @@ def test_zip_file_list(zip_path_list: list,
                         filewise, show_summary, delimiter)
 
 
-# TODO do not use list as default arg, use tuple and convert it to list
 def test_column_list(column_list_path: str,
                      spec_path: str,
-                     test_list: list = ['all'],
+                     test_list: list = ('all'),
                      output_path: str = '../output/',
                      delimiter: str = '!!') -> None:
+  """Runs requested list of tests on a list of columns and spec and returns their combined result.
+
+      Args:
+        column_list_path: Path of JSON file containing list of columns.
+        spec_path: Path of file having dict obj containing configurations for the import.
+        test_list: List of tests to perform. If 'all' is present, all the possible tests are run.
+        output_path: Path of the folder to store the outputs of the tests.
+        delimiter: delimiter seperating tokens within single column name string.
+  """
   # clean the file paths
   column_list_path = os.path.expanduser(column_list_path)
   spec_path = os.path.expanduser(spec_path)
