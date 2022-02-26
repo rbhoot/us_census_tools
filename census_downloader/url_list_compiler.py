@@ -1,11 +1,10 @@
 import logging
-from multiprocessing.context import ForkContext
 from operator import ge
 import os
 import json
 import sys
 import base64
-from typing import OrderedDict
+from typing import Any, Union
 from absl import app
 from absl import flags
 
@@ -28,17 +27,17 @@ flags.DEFINE_string('output_path', None,
 flags.DEFINE_boolean('all_summaries', None,
                      'Download data for all available summary levels')
 
-def get_url_variables(dataset, year, variables_str, geo_str):
+def get_url_variables(dataset: str, year: str, variables_str: str, geo_str: str) -> str:
     return f"https://api.census.gov/data/{year}/{dataset}?for={geo_str}&get={variables_str}"
-def get_url_table(dataset, year, table_id, geo_str):
+def get_url_table(dataset: str, year: str, table_id: str, geo_str: str) -> str:
     return f"https://api.census.gov/data/{year}/{dataset}?get=group({table_id})&for={geo_str}"
 
-def save_resp_json(resp, store_path):
+def save_resp_json(resp: Any, store_path: str):
     resp_data = resp.json()
     logging.info('Writing downloaded data to file: %s', store_path)
     json.dump(resp_data, open(store_path, 'w'), indent = 2)
 
-def goestr_to_file_name(geo_str):
+def goestr_to_file_name(geo_str: str) -> str:
     geo_str = geo_str.replace(':*', '')
     geo_str = geo_str.replace('%20', '-')
     geo_str = geo_str.replace(' ', '-')
@@ -48,7 +47,7 @@ def goestr_to_file_name(geo_str):
     geo_str = geo_str.replace(':', '')
     return geo_str
 
-def get_file_name_table(output_path, table_id, year, geo_str):
+def get_file_name_table(output_path: str, table_id: str, year: str, geo_str: str) -> str:
     table_id = table_id.upper()
     output_path = os.path.expanduser(output_path)
     output_path = os.path.abspath(output_path)
@@ -56,14 +55,14 @@ def get_file_name_table(output_path, table_id, year, geo_str):
     file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+goestr_to_file_name(geo_str)+'.csv')
     return file_name
 
-def get_file_name_variables(output_path, table_id, year, chunk_id, geoStr):
+def get_file_name_variables(output_path: str, table_id: str, year: str, chunk_id: int, geoStr: str) -> str:
     table_id = table_id.upper()
     output_path = os.path.expanduser(output_path)
     output_path = os.path.abspath(output_path)
     file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+goestr_to_file_name(geoStr)+'_'+str(chunk_id)+'.csv')
     return file_name
 
-def get_url_entry_table(dataset, year, table_id, geo_str, output_path, force_fetch: bool = False):
+def get_url_entry_table(dataset: str, year: str, table_id: str, geo_str: str, output_path: str, force_fetch: bool = False) -> dict:
     temp_dict = {}
     temp_dict['url'] = get_url_table(dataset, year, table_id, geo_str)
     temp_dict['store_path'] = get_file_name_table(output_path, table_id, year, geo_str)
@@ -72,7 +71,7 @@ def get_url_entry_table(dataset, year, table_id, geo_str, output_path, force_fet
         temp_dict['force_fetch'] = True
     return temp_dict
 
-def get_table_url_list(dataset, table_id, q_variable, year_list, output_path, api_key, s_level_list = 'all', force_fetch_config = False, force_fetch_data = False):
+def get_table_url_list(dataset: str, table_id: str, q_variable: str, year_list: list, output_path: str, api_key: str, s_level_list: Union[list, str] = 'all', force_fetch_config: bool = False, force_fetch_data: bool = False) -> list:
     table_id = table_id.upper()
     if dataset not in get_list_datasets(force_fetch=force_fetch_config):
         print(dataset, 'not found')
@@ -107,28 +106,29 @@ def get_table_url_list(dataset, table_id, q_variable, year_list, output_path, ap
     ret_list = sync_status_list([], ret_list)
     return ret_list
 
-def get_variables_url_list(dataset, table_id, q_variable, variables_year_dict, output_path, api_key, s_level_list = 'all', force_fetch_config = False, force_fetch_data = False):
-    table_id = table_id.upper()
-    ret_list = []
+def get_variables_url_list(dataset: str, table_id, q_variable, variables_year_dict, output_path, api_key, s_level_list = 'all', force_fetch_config = False, force_fetch_data = False):
+    pass
+    # table_id = table_id.upper()
+    # ret_list = []
     
-    geo_config = get_summary_level_config(dataset, q_variable, api_key, force_fetch_config)
-    # get list of all s levels
-    if s_level_list == 'all':
-        s_level_list = []
-        for year, year_dict in geo_config.items():
-            for s_level in year_dict['summary_levels']:
-                if s_level not in s_level_list:
-                    s_level_list.append(s_level)
+    # geo_config = get_summary_level_config(dataset, q_variable, api_key, force_fetch_config)
+    # # get list of all s levels
+    # if s_level_list == 'all':
+    #     s_level_list = []
+    #     for year, year_dict in geo_config.items():
+    #         for s_level in year_dict['summary_levels']:
+    #             if s_level not in s_level_list:
+    #                 s_level_list.append(s_level)
     
-    year_list = []
-    for year in variables_year_dict:
-        year_list.append(year)
+    # year_list = []
+    # for year in variables_year_dict:
+    #     year_list.append(year)
     
-    for year in variables_year_dict:
-        # limited to 50 variables including NAME
-        n = 49
-        variables_chunked = [variables_year_dict[year][i:i + n] for i in range(0, len(variables_year_dict[year]), n)]
-        logging.info('variable list divided into %d chunks for year %d', len(variables_chunked), year)
+    # for year in variables_year_dict:
+    #     # limited to 50 variables including NAME
+    #     n = 49
+    #     variables_chunked = [variables_year_dict[year][i:i + n] for i in range(0, len(variables_year_dict[year]), n)]
+    #     logging.info('variable list divided into %d chunks for year %d', len(variables_chunked), year)
         # for geo_id in geo_url_map:
         #     geo_str = geo_url_map[geo_id]['urlStr']
         #     if geo_url_map[geo_id]['needsStateID']:
