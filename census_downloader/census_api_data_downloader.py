@@ -41,10 +41,29 @@ FLAGS = flags.FLAGS
 
 flags.DEFINE_boolean('force_fetch_data', False,
                      'Force download of all data from API')
+
 def url_add_api_key(url_dict: dict, api_key: str) -> str:
+    """Attaches the api key to a given url
+
+        Args:
+            url_dict: Dict with the request url and it's relevant metadata.
+            api_key: User's API key provided by US Census.
+        
+        Returns:
+            URL with attached API key information.
+    """
     return url_dict['url']+f'&key={api_key}'
 
 def save_resp_csv(resp_data: list, store_path: str) -> int:
+    """Saves given census data response to a file.
+
+        Args:
+            resp_data: List of list returned by census API.
+            store_path: Path to store the response as a file.
+        
+        Returns:
+            0 always.
+    """
     headers = resp_data.pop(0)
     df = pd.DataFrame(resp_data, columns=headers)
     logging.info('Writing downloaded data to file: %s', store_path)
@@ -52,6 +71,16 @@ def save_resp_csv(resp_data: list, store_path: str) -> int:
     return 0
 
 async def async_save_resp_csv(resp: Any, store_path: str) -> int:
+    """Saves given census data response to a file in async manner.
+
+        Args:
+            resp_data: Response object recieved from the API call.
+            store_path: Path to store the response as a file.
+        
+        Returns:
+            -1 on Timeout,
+            0 on success.
+    """
     try:
         resp_data = await resp.json()
     except asyncio.TimeoutError:
@@ -73,6 +102,14 @@ def log_to_status(url_list: list, store_path: str):
         json.dump(url_list, fp, indent=2)
 
 def url_filter(url_list: list) -> list:
+    """Filters out URLs that are to be queried.
+
+        Args:
+            url_list: List of URL with metadata dict object.
+        
+        Returns:
+            List of URL with metadata dict object that need to be queried.
+    """
     ret_list = []
     for cur_url in url_list:
         if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
@@ -84,6 +121,21 @@ def url_filter(url_list: list) -> list:
     return ret_list
 
 def download_table(dataset: str, table_id: str, q_variable: str, year_list: list, output_path: str, api_key: str, s_level_list: Union[str, list] = 'all', force_fetch_config: bool = False, force_fetch_data: bool = False):
+    """Compiles list of URLs to be queried, downloads the responses and combines them to yearwise files and zip.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            table_id: ID of the US census group that needs to be downloaded.
+            q_variable: Variable to be used to find list of available geo IDs.
+            year_list: list of years for which the data is to be downloaded.
+            output_path: Folder under which the downloaded data needs to be stored.
+                            NOTE: sub folders would be created for dataset and group.
+            api_key: User's API key provided by US Census.
+            s_level_list: List of summary level IDs for which the data is to be downloaded. 
+                            'all' for all available summary levels
+            force_fetch_config: Boolean value to force recomputation of API config of US census.
+            force_fetch_data: Boolean value to force download of all relevant URLs.
+    """
     logging.info('Downloading table:%s to %s', table_id, output_path)
     table_id = table_id.upper()
     output_path = os.path.expanduser(output_path)
@@ -151,6 +203,17 @@ def download_table(dataset: str, table_id: str, q_variable: str, year_list: list
 
 # TODO make the function faster by parallel processing for each year
 def consolidate_files(dataset: str, table_id: str, year_list: list, output_path: str, replace_annotations: bool = True, drop_annotations: bool = True, keep_originals: bool = True):
+    """Compiles list of URLs to be queried, downloads the responses and combines them to yearwise files and zip.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            table_id: ID of the US census group that needs to be downloaded.
+            year_list: list of years for which the data is present.
+            output_path: Folder under which the combined data needs to be stored.
+            replace_annotations: Boolean value to replace the special values with their string annotation.
+            drop_annotations: Boolean value to drop annotation columns from the combined data.
+            keep_originals: Boolean value to preserve or delete individual files after combinations.
+    """
     logging.info('consolidating files to create yearwise files in %s', output_path)
     logging.info('table:%s keep_originals:%d', table_id, keep_originals)
     table_id = table_id.upper()

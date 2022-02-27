@@ -15,7 +15,6 @@
 Common utilities helpful for processing US census data.
 """
 
-import requests
 import json
 import zipfile
 import csv
@@ -139,7 +138,7 @@ def column_to_be_ignored(column_name: str,
   ret_value = False
   if 'ignoreColumns' in spec_dict:
     for ignore_token in spec_dict['ignoreColumns']:
-      if delimiter in ignore_token and ignore_token == column_name:
+      if delimiter in ignore_token and ignore_token.lower() == column_name.lower():
         ret_value = True
       elif token_in_list_ignore_case(ignore_token,
                                      column_name.split(delimiter)):
