@@ -29,7 +29,7 @@ def read_update_status(filename: str, url_list: list, force_fetch_all: bool = Fa
     return final_list
 
 # add urls or sync 2 url list
-# def sync_status_list(log_list: list, new_list: list, store_path: str = '~/dc_data/') -> list:
+# TODO optimise the implementation, takes more than 10 hours if both lists are ~600k
 def sync_status_list(log_list: list, new_list: list) -> list:
     ret_list = log_list.copy()
     for cur_url in new_list:

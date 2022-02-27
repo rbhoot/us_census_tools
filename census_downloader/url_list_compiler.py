@@ -27,6 +27,11 @@ flags.DEFINE_string('output_path', None,
 flags.DEFINE_boolean('all_summaries', None,
                      'Download data for all available summary levels')
 
+"""TODO
+    - Add support for specific geos. e.g. a particular state.
+    - Accept a config to create data sample download. (A set of specific geos from each summary level)
+"""
+
 def get_url_variables(dataset: str, year: str, variables_str: str, geo_str: str) -> str:
     return f"https://api.census.gov/data/{year}/{dataset}?for={geo_str}&get={variables_str}"
 def get_url_table(dataset: str, year: str, table_id: str, geo_str: str) -> str:
@@ -107,6 +112,7 @@ def get_table_url_list(dataset: str, table_id: str, q_variable: str, year_list: 
     return ret_list
 
 def get_variables_url_list(dataset: str, table_id, q_variable, variables_year_dict, output_path, api_key, s_level_list = 'all', force_fetch_config = False, force_fetch_data = False):
+    # TODO implement the method
     pass
     # table_id = table_id.upper()
     # ret_list = []
@@ -149,7 +155,7 @@ def get_variables_url_list(dataset: str, table_id, q_variable, variables_year_di
         #             temp_dict['store_path'] = get_file_name_variables(output_path, table_id, year, i, geo_str)
         #             temp_dict['status'] = 'pending'
         #             ret_list.append(temp_dict)
-    return ret_list
+    # return ret_list
 
 def main(argv):
     # geo_url_map = json.load(open(FLAGS.geo_map))

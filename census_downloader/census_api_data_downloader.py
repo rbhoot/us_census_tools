@@ -132,6 +132,7 @@ def download_table(dataset: str, table_id: str, q_variable: str, year_list: list
     print("The time required to download the", table_id, "dataset :", end-start)
     logging.info('The time required to download the %s dataset : %f', table_id, end-start)
 
+# TODO make the function faster by parallel processing for each year
 def consolidate_files(dataset: str, table_id: str, year_list: list, output_path: str, replace_annotations: bool = True, drop_annotations: bool = True, keep_originals: bool = True):
     logging.info('consolidating files to create yearwise files in %s', output_path)
     logging.info('table:%s keep_originals:%d', table_id, keep_originals)
@@ -250,6 +251,7 @@ def consolidate_files(dataset: str, table_id: str, year_list: list, output_path:
                      os.remove(cur_csv_path)
 
 def download_table_variables(dataset, table_id, year_list, geo_url_map_path, spec_path, output_path, api_key):
+    # TODO implement the method
     pass
 #     table_id = table_id.upper()
 #     spec_dict = json.load(open(spec_path, 'r'))
