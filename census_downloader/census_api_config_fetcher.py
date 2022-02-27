@@ -66,6 +66,15 @@ def generate_url_group_variables(dataset: str, group_id: str, year: str = None) 
 
 
 def fetch_dataset_config(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
+  """Fetches primary entry point for API config, extracts list of datasets and their detailed config links.
+
+    Args:
+      store_path: Path where the config is to be stored.
+      force_fetch: Boolean value to force API config update rather than using the cache.
+
+    Returns:
+      Dict object received from API.
+  """
   store_path = os.path.expanduser(store_path)
   if not os.path.exists(store_path):
     os.makedirs(store_path, exist_ok=True)
@@ -81,7 +90,15 @@ def fetch_dataset_config(store_path: str = CONFIG_PATH_, force_fetch: bool = Fal
 
 
 def compile_year_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
+  """Extracts basic dataset and year information from API config.
 
+    Args:
+      store_path: Path where the config is to be stored.
+      force_fetch: Boolean value to force API config update rather than using the cache.
+
+    Returns:
+      Dict object with dataset, available years, dataset identifier and title.
+  """
   if not force_fetch and os.path.isfile(os.path.join(store_path, 'dataset_year.json')):
     dataset_dict = json.load(
         open(os.path.join(store_path, 'dataset_year.json'), 'r'))
@@ -209,6 +226,13 @@ def compile_year_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) 
 
 
 def fetch_dataset_config_cache(param: str, store_path: str = CONFIG_PATH_, force_fetch: bool = False):
+  """Fetches detailed information about passed paramater for each dataset from API.
+
+    Args:
+      param: Parameter to get details about. (Can be one of 'groups', 'geography', 'variables', 'group_variables')
+      store_path: Path where the config is to be stored.
+      force_fetch: Boolean value to force API config update rather than using the cache.
+  """
   if param not in ['groups', 'geography', 'variables', 'group_variables']:
     error_dict = {'invalid_param': [param]}
     with open(
@@ -320,6 +344,15 @@ def fetch_dataset_config_cache(param: str, store_path: str = CONFIG_PATH_, force
 
 
 def compile_groups_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
+  """Fetches detailed information about groups available in a dataset from API.
+
+    Args:
+      store_path: Path where the config is to be stored.
+      force_fetch: Boolean value to force API config update rather than using the cache.
+
+    Returns:
+      Dict object with dataset, available years, dataset identifier and title, available groups.
+  """
   if os.path.isfile(os.path.join(store_path,
                                  'dataset_groups.json')) and not force_fetch:
     dataset_dict = json.load(
@@ -422,6 +455,16 @@ def compile_groups_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False
 
 
 def compile_geography_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
+  """Fetches detailed information about geography available in a dataset from API.
+
+    Args:
+      store_path: Path where the config is to be stored.
+      force_fetch: Boolean value to force API config update rather than using the cache.
+
+    Returns:
+      Dict object with dataset, available years, dataset identifier and title, 
+        available groups, geography information.
+  """
   if os.path.isfile(os.path.join(store_path,
                                  'dataset_geography.json')) and not force_fetch:
     dataset_dict = json.load(
@@ -589,6 +632,16 @@ def compile_geography_map(store_path: str = CONFIG_PATH_, force_fetch: bool = Fa
 
 
 def compile_non_group_variables_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
+  """Fetches detailed information about dataset without groups available in a dataset from API.
+
+    Args:
+      store_path: Path where the config is to be stored.
+      force_fetch: Boolean value to force API config update rather than using the cache.
+
+    Returns:
+      Dict object with dataset, available years, dataset identifier and title, 
+        available groups, geography information, non group variables.
+  """
   if os.path.isfile(
       os.path.join(store_path,
                    'dataset_non_group_variables.json')) and not force_fetch:
@@ -694,6 +747,15 @@ def compile_dataset_based_map(store_path:str = CONFIG_PATH_, force_fetch: bool =
 
 
 def compile_dataset_group_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
+  """Extracts list of groups available in each dataset.
+
+    Args:
+      store_path: Path where the config is to be stored.
+      force_fetch: Boolean value to force API config update rather than using the cache.
+
+    Returns:
+      Dict object with dataset as key and list of available groups as value.
+  """
   if os.path.isfile(os.path.join(store_path,
                                  'dataset_groups_list.json')) and not force_fetch:
     out_dict = json.load(
@@ -720,6 +782,15 @@ def compile_dataset_group_map(store_path: str = CONFIG_PATH_, force_fetch: bool 
 
 
 def compile_dataset_group_years_map(store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
+  """Extracts list of available years for dataset and each group available in each dataset.
+
+    Args:
+      store_path: Path where the config is to be stored.
+      force_fetch: Boolean value to force API config update rather than using the cache.
+
+    Returns:
+      Dict object with dataset as key and list of available years, list of available years for each group as value.
+  """
   if os.path.isfile(os.path.join(
       store_path, 'dataset_years_groups.json')) and not force_fetch:
     out_dict = json.load(
@@ -750,6 +821,18 @@ def compile_dataset_group_years_map(store_path: str = CONFIG_PATH_, force_fetch:
   return out_dict
 
 def get_variables_name(dataset: str, table_id: str, year: str, store_path: str = CONFIG_PATH_, force_fetch: bool = False) -> dict:
+  """Extracts mapping of variable id to it's string name.
+
+    Args:
+      dataset: Dataset of US census(e.g. acs/acs5/subject).
+      table_id: ID of the US census group that needs to be downloaded.
+      year: Year for which the variable lookup is required.
+      store_path: Path where the config is to be stored.
+      force_fetch: Boolean value to force API config update rather than using the cache.
+
+    Returns:
+      Dict object with dataset as key and list of available years, list of available years for each group as value.
+  """
   if year:
     ret_path = os.path.join(store_path, 'api_cache', dataset, year, f'{table_id.upper()}.json')
   else:
