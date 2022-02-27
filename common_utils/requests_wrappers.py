@@ -33,12 +33,16 @@ def request_url_json(url: str) -> dict:
     req = requests.get(url)
     # print(req.url)
   except requests.exceptions.ReadTimeout:
+    print('Timeout occoured, retrying after 10s.')
     time.sleep(10)
-    req = requests.get(url)
+    try:
+      req = requests.get(url)
+    except requests.exceptions.ReadTimeout:
+      print('Timeout occoured, request failed.')
+      return {}
 
   if req.status_code == requests.codes.ok:
     response_data = req.json()
-    #print(response_data)
   else:
     response_data = {'http_err_code': req.status_code}
     print('HTTP status code: ' + str(req.status_code))
