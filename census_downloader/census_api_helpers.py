@@ -37,10 +37,27 @@ flags.DEFINE_string('q_variable', 'S0101_C01_001E', 'Variable to be used to comp
 flags.DEFINE_string('api_key', None, 'API key sourced from census via https://api.census.gov/data/key_signup.html')
 
 def get_list_datasets(force_fetch: bool = False) -> list:
+    """Extracts the list of datasets present in the API.
+
+        Args:
+            force_fetch: Boolean value to force API config update rather than using the cache.
+
+        Returns:
+            List of datasets available in the API.
+    """
     d = compile_year_map(force_fetch=force_fetch)
     return sorted(list(d.keys()))
 
 def get_dataset_years(dataset: str, force_fetch: bool = False) -> list:
+    """Extracts the list of available years for a given dataset present in the API.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            force_fetch: Boolean value to force API config update rather than using the cache.
+
+        Returns:
+            List of available years in a dataset in the API.
+    """
     d = compile_dataset_group_years_map(force_fetch=force_fetch)
     if dataset in d:
         return sorted(d[dataset]['years'])
@@ -48,6 +65,15 @@ def get_dataset_years(dataset: str, force_fetch: bool = False) -> list:
         return None
 
 def get_dataset_groups(dataset: str, force_fetch: bool = False) -> list:
+    """Extracts the list of available groups/tables for a given dataset present in the API.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            force_fetch: Boolean value to force API config update rather than using the cache.
+
+        Returns:
+            List of available groups in a dataset available in the API.
+    """
     d = compile_dataset_group_map(force_fetch=force_fetch)
     if dataset in d:
         return sorted(d[dataset])
@@ -55,6 +81,16 @@ def get_dataset_groups(dataset: str, force_fetch: bool = False) -> list:
         return None
 
 def get_dataset_groups_years(dataset: str, group: str, force_fetch: bool = False) -> list:
+    """Extracts the list of available years given a group for a given dataset present in the API.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            group: ID of the US census group that needs to be downloaded.
+            force_fetch: Boolean value to force API config update rather than using the cache.
+
+        Returns:
+            List of available years for given dataset, group available in the API.
+    """
     d = compile_dataset_group_years_map(force_fetch=force_fetch)
     if dataset in d and group in d[dataset]['groups']:
         return sorted(d[dataset]['groups'][group])
@@ -62,6 +98,15 @@ def get_dataset_groups_years(dataset: str, group: str, force_fetch: bool = False
         return None
 
 def get_dataset_summary_levels(dataset: str, force_fetch: bool = False) -> list:
+    """Extracts the list of available summary levels for a given dataset present in the API.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            force_fetch: Boolean value to force API config update rather than using the cache.
+
+        Returns:
+            List of available summary levels given a dataset available in the API.
+    """
     ret_list = []
     dataset_geo = compile_geography_map(force_fetch = force_fetch)
     if dataset in dataset_geo:
@@ -76,6 +121,16 @@ def get_dataset_summary_levels(dataset: str, force_fetch: bool = False) -> list:
         return None
 
 def get_identifier(dataset: str, year: str, force_fetch: bool = False) -> str:
+    """Extracts the identifier for a given dataset present in the API.(Useful for file name creation)
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            year: Year for which to extract the identifier.
+            force_fetch: Boolean value to force API config update rather than using the cache.
+
+        Returns:
+            Idendifier string given a dataset, year available in the API.
+    """
     d = compile_groups_map(force_fetch = force_fetch)
     if dataset in d:
         if 'years' in d[dataset] and year in d[dataset]['years']:
@@ -86,6 +141,17 @@ def get_identifier(dataset: str, year: str, force_fetch: bool = False) -> str:
         return None
 
 def get_yearwise_variable_column_map(dataset: str, table_id: str, year_list: list, force_fetch: bool = False) -> dict:
+    """Extracts the variable ID to name mapping for a given dataset, table_id, yearlist present in the API.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            table_id: ID of the US census group that needs to be downloaded.
+            year_list: List of years for which to extract the variable information.
+            force_fetch: Boolean value to force API config update rather than using the cache.
+
+        Returns:
+            Dictionary with mapping from variable ID to variable name.
+    """
     ret_dict = {}
     for year in year_list:
         ret_dict[(year)] = {}
@@ -96,6 +162,15 @@ def get_yearwise_variable_column_map(dataset: str, table_id: str, year_list: lis
     return ret_dict
 
 def url_add_api_key(url_dict: dict, api_key: str) -> str:
+    """Attaches the api key to a given url
+
+        Args:
+            url_dict: Dict with the request url and it's relevant metadata.
+            api_key: User's API key provided by US Census.
+        
+        Returns:
+            URL with attached API key information.
+    """
     return (url_dict['url']+f'&key={api_key}').replace(' ', '%20')
 
 def find_summary_level(s_level_dict: dict, geo_str: str) -> str:
@@ -116,6 +191,24 @@ def is_required_hierarchical(req_list: list, geo_config_year: dict) -> bool:
     # return is_hierarchy
 
 def compile_hierarchy_req_str_list(geo_list: dict, str_list: list) -> list:
+    """Recursively go through geo config to get list ids and combine with their str.
+        An example of hierarchial required geo ids would be:
+        county subdivision:
+        {
+            '<state id>': {
+                '<county id>': {
+                    '<county subdivision id>': '<county subdivision name>'
+                }
+
+            }
+        }
+        Args:
+            geo_list: Dict of geo ids required for a particular summary level.
+            str_list: List API query prefix string for each level of dict.
+        
+        Returns:
+            List of required geo strings to be added to API call.
+    """
     ret_list = []
     for k, v in geo_list.items():
         if isinstance(v, dict):
@@ -136,6 +229,15 @@ def geo_get_all_id(geo_list: dict, geo_str: str) -> list:
     return ret_list
 
 def compile_non_hierarchy_req_str_list(all_geo_list: dict, req_geos: dict) -> list:
+    """Fetches a list of all geo ids present for a given list of summary level and creates all combinations of the two.
+        
+        Args:
+            all_geo_list: Dict with list of geos ids previously fetched.
+            req_geos: Dict with list of all required geos with it's dependent geos.
+        
+        Returns:
+            List of required geo strings to be added to API call.
+    """
     id_list = []
     for cur_geo in req_geos:
         cur_id_list = geo_get_all_id(all_geo_list[cur_geo], req_geos[cur_geo])
@@ -147,6 +249,17 @@ def compile_non_hierarchy_req_str_list(all_geo_list: dict, req_geos: dict) -> li
 
 # NOTE: code assumes that all fields appear in sequence and dependent geo levels are already present if list
 def get_str_list_required(geo_config_year: dir, s_level: str) -> list:
+    """Compiles a list of all required geo id strings for a given summary level.
+
+        Args:
+            geo_config_year: Compiled geo configurations from API data.
+                NOTE: code assumes that all fields in required section appear in sequence 
+                        and dependent geo levels are already present in the list.
+            s_level: Summary level id to be queried.
+        
+        Returns:
+            List of required geo strings to be attached to API call.
+    """
     req_list = geo_config_year['summary_levels'][s_level]['requires'].copy()
     if len(req_list) > 0:
         str_list = []
@@ -167,12 +280,12 @@ def get_str_list_required(geo_config_year: dir, s_level: str) -> list:
     
     return list(set(req_str_list))
 
-def get_config_temp_filename(year: str, geo_str: str, req_str: str) -> str:
+def _get_config_temp_filename(year: str, geo_str: str, req_str: str) -> str:
     s = f"{year}__{geo_str}__{req_str}"
     s = base64.b64encode(s.encode()).decode("utf-8", errors='ignore')
     return f"{s}.json"
 
-def update_geo_list(json_resp: list, geo_config: dict, year: str, geo_str: str, s_level: str):
+def _update_geo_list(json_resp: list, geo_config: dict, year: str, geo_str: str, s_level: str):
     if geo_str not in geo_config[year]['required_geo_lists']:
         geo_config[year]['required_geo_lists'][geo_str] = {}
     
@@ -191,6 +304,18 @@ def update_geo_list(json_resp: list, geo_config: dict, year: str, geo_str: str, 
         d[t[geo_i]] = t[name_i]
 
 def get_yearwise_required_geos(dataset: str, geo_config: dict, q_variable: str, api_key: str = '', force_fetch=False) -> dict:
+    """Compiles a list of all the available geo IDs for list of summary levels needed to to make API calls.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            geo_config: Dict containing the list of summary levels and their dependencies.
+            q_variable: Variable to be used to find list of available geo IDs.
+            api_key: User's API key provided by US Census.
+            force_fetch: Boolean value to force recomputation of API config of US census.
+        
+        Returns:
+            Dict containing the list of summary levels and their dependencies along with a list of required geo IDs.
+    """
     output_path = os.path.expanduser(CONFIG_PATH_)
     output_path = os.path.join(output_path, 'api_cache', dataset, 'required_geos')
     status_path = os.path.join(output_path, 'download_status.json')
@@ -212,7 +337,7 @@ def get_yearwise_required_geos(dataset: str, geo_config: dict, q_variable: str, 
                     for req_str in req_str_list:
                         temp_dict = {}
                         temp_dict['url'] = f"https://api.census.gov/data/{year}/{dataset}?get=NAME,{q_variable}&for={geo_str}:*{req_str}"
-                        temp_dict['store_path'] = os.path.join(output_path, get_config_temp_filename(year, geo_str, req_str))
+                        temp_dict['store_path'] = os.path.join(output_path, _get_config_temp_filename(year, geo_str, req_str))
                         temp_dict['status'] = 'pending'
                         temp_dict['force_fetch'] = force_fetch
                         url_list.append(temp_dict)
@@ -235,12 +360,23 @@ def get_yearwise_required_geos(dataset: str, geo_config: dict, q_variable: str, 
                         s = base64.b64decode(filename.encode()).decode("utf-8", errors='ignore')
                         arg = s.split('__')
                         temp = json.load(open(cur_url['store_path']))
-                        update_geo_list(temp, geo_config, arg[0], arg[1], s_level)
+                        _update_geo_list(temp, geo_config, arg[0], arg[1], s_level)
             else:
                 print('Warning:', geo_str, 'not found')
     return geo_config
 
 def get_summary_level_config(dataset: str, q_variable: str, api_key: str = '', force_fetch: bool = False) -> dict:
+    """Computes a list of summary levels available, their dependencies and list of required geo IDs for API calls.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            q_variable: Variable to be used to find list of available geo IDs.
+            api_key: User's API key provided by US Census.
+            force_fetch: Boolean value to force recomputation of API config of US census.
+        
+        Returns:
+            Dict containing the list of summary levels and their dependencies along with a list of required geo IDs.
+    """
     output_path = os.path.expanduser(CONFIG_PATH_)
     output_path = os.path.join(output_path, 'api_cache', dataset)
     basic_cache_path = os.path.join(output_path, 'yearwise_summary_level_config_basic.json')
