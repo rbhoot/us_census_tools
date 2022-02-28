@@ -23,6 +23,14 @@ import base64
 _VALID_STATUS = ['pending', 'ok', 'fail', 'fail_http']
 
 def url_to_download(url_dict: dict) -> bool:
+    """Check if the URL needs be requested.
+
+        Args:
+            url_dict: Dictionary object with URL and relevant metadata.
+        
+        Returns:
+            Boolean value which is set if URL needs to be requested.
+    """
     if url_dict['status'] == 'pending' or url_dict['status'].startswith('fail') or url_dict['force_fetch']:
         return True
     else:
@@ -30,6 +38,18 @@ def url_to_download(url_dict: dict) -> bool:
 
 # read status file, reconcile url list
 def read_update_status(filename: str, url_list: list, force_fetch_all: bool = False) -> list:
+    """Read a status file and sync it with the given url list.
+        Sync checks if the file still exists, force fetch, new store path and
+            updates the status according to those conditions.
+        
+        Args:
+            filename: Path of the status file.
+            url_list: New URL list.
+            force_fetch_all: Boolean value to force download of all the URLs.
+
+        Returns:
+            List of URL with metadata dict objects.
+    """
     filename = os.path.expanduser(filename)
     
     if filename and os.path.isfile(filename):
@@ -48,6 +68,13 @@ def read_update_status(filename: str, url_list: list, force_fetch_all: bool = Fa
 # add urls or sync 2 url list
 # TODO optimise the implementation, takes more than 10 hours if both lists are ~600k
 def sync_status_list(log_list: list, new_list: list) -> list:
+    """Syncs two URL lists to checks if the file still exists, force fetch, new store path and
+            update the status according to those conditions.
+        
+        Args:
+            log_list: Existing/base URL list.
+            new_list: List of new URLs.
+    """
     ret_list = log_list.copy()
     for cur_url in new_list:
         if 'method' not in cur_url:
@@ -132,6 +159,14 @@ def sync_status_list(log_list: list, new_list: list) -> list:
 
 # get to be downloaded urls
 def get_pending_url_list(url_list: list) -> list:
+    """Filters URLs with pending status.
+
+        Args:
+            url_list: List of URL with metadata dict object.
+
+        Returns:
+            List of URL dict objects that are pending.
+    """
     pending_url_list = []
     for cur_url in url_list:
         if cur_url['status'] == 'pending':
@@ -139,6 +174,14 @@ def get_pending_url_list(url_list: list) -> list:
     return pending_url_list
 
 def get_failed_url_list(url_list: list) -> list:
+    """Filters URLs with failed(any kind) status.
+
+        Args:
+            url_list: List of URL with metadata dict object.
+
+        Returns:
+            List of URL dict objects that have failed(any kind).
+    """
     pending_url_list = []
     for cur_url in url_list:
         if cur_url['status'].startswith('fail'):
@@ -146,6 +189,14 @@ def get_failed_url_list(url_list: list) -> list:
     return pending_url_list
 
 def get_failed_http_url_list(url_list: list) -> list:
+    """Filters URLs with HTTP failure status.
+
+        Args:
+            url_list: List of URL with metadata dict object.
+
+        Returns:
+            List of URL dict objects that have HTTP failure.
+    """
     pending_url_list = []
     for cur_url in url_list:
         if cur_url['status'] == 'fail_http':
@@ -153,6 +204,14 @@ def get_failed_http_url_list(url_list: list) -> list:
     return pending_url_list
 
 def get_pending_or_fail_url_list(url_list: list) -> list:
+    """Filters URLs with pending or failed status.
+
+        Args:
+            url_list: List of URL with metadata dict object.
+
+        Returns:
+            List of URL dict objects that are pending or failed.
+    """
     pending_url_list = []
     for cur_url in url_list:
         if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
