@@ -55,11 +55,17 @@ def get_url_table(dataset: str, year: str, table_id: str, geo_str: str) -> str:
     return f"https://api.census.gov/data/{year}/{dataset}?get=group({table_id})&for={geo_str}"
 
 def save_resp_json(resp: Any, store_path: str):
+    """Parses and stores json response to a file.
+
+        Args:
+            resp: Response object recieved from aiohttp call.
+            store_path: Path of the file to store the result.
+    """
     resp_data = resp.json()
     logging.info('Writing downloaded data to file: %s', store_path)
     json.dump(resp_data, open(store_path, 'w'), indent = 2)
 
-def goestr_to_file_name(geo_str: str) -> str:
+def _goestr_to_file_name(geo_str: str) -> str:
     geo_str = geo_str.replace(':*', '')
     geo_str = geo_str.replace('%20', '-')
     geo_str = geo_str.replace(' ', '-')
@@ -74,17 +80,17 @@ def get_file_name_table(output_path: str, table_id: str, year: str, geo_str: str
     output_path = os.path.expanduser(output_path)
     output_path = os.path.abspath(output_path)
     # TODO use base64 for long filename
-    file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+goestr_to_file_name(geo_str)+'.csv')
+    file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+_goestr_to_file_name(geo_str)+'.csv')
     return file_name
 
 def get_file_name_variables(output_path: str, table_id: str, year: str, chunk_id: int, geoStr: str) -> str:
     table_id = table_id.upper()
     output_path = os.path.expanduser(output_path)
     output_path = os.path.abspath(output_path)
-    file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+goestr_to_file_name(geoStr)+'_'+str(chunk_id)+'.csv')
+    file_name = os.path.join(output_path, table_id+'_'+str(year)+'_'+_goestr_to_file_name(geoStr)+'_'+str(chunk_id)+'.csv')
     return file_name
 
-def get_url_entry_table(dataset: str, year: str, table_id: str, geo_str: str, output_path: str, force_fetch: bool = False) -> dict:
+def _get_url_entry_table(dataset: str, year: str, table_id: str, geo_str: str, output_path: str, force_fetch: bool = False) -> dict:
     temp_dict = {}
     temp_dict['url'] = get_url_table(dataset, year, table_id, geo_str)
     temp_dict['store_path'] = get_file_name_table(output_path, table_id, year, geo_str)
@@ -94,6 +100,24 @@ def get_url_entry_table(dataset: str, year: str, table_id: str, geo_str: str, ou
     return temp_dict
 
 def get_table_url_list(dataset: str, table_id: str, q_variable: str, year_list: list, output_path: str, api_key: str, s_level_list: Union[list, str] = 'all', force_fetch_config: bool = False, force_fetch_data: bool = False) -> list:
+    """Compile a list of URLs that need to requested to download a group/table in census dataset.
+
+        Args:
+            dataset: Dataset of US census(e.g. acs/acs5/subject).
+            table_id: ID of the US census group that needs to be downloaded.
+            q_variable: Variable to be used to find list of available geo IDs.
+            year_list: list of years for which the data is to be downloaded.
+            output_path: Folder under which the downloaded data needs to be stored.
+                            NOTE: sub folders would be created for dataset and group.
+            api_key: User's API key provided by US Census.
+            s_level_list: List of summary level IDs for which the data is to be downloaded. 
+                            'all' for all available summary levels
+            force_fetch_config: Boolean value to force recomputation of API config of US census.
+            force_fetch_data: Boolean value to force download of all relevant URLs.
+        
+        Returns:
+            List of URL metadata dict objects that need to requested to download data.
+    """
     table_id = table_id.upper()
     if dataset not in get_list_datasets(force_fetch=force_fetch_config):
         print(dataset, 'not found')
@@ -120,9 +144,9 @@ def get_table_url_list(dataset: str, table_id: str, q_variable: str, year_list: 
                     s_dict = geo_config[year]['summary_levels'][s_level]
                     if req_str_list:
                         for geo_req in req_str_list:
-                            ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*{geo_req}", output_path, force_fetch_data))
+                            ret_list.append(_get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*{geo_req}", output_path, force_fetch_data))
                     else:
-                        ret_list.append(get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*", output_path, force_fetch_data))
+                        ret_list.append(_get_url_entry_table(dataset, year, table_id, f"{s_dict['str']}:*", output_path, force_fetch_data))
                 else:
                     print('Warning:', s_level, 'not available for year', year)
     ret_list = sync_status_list([], ret_list)
