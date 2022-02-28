@@ -102,7 +102,7 @@ def log_to_status(url_list: list, store_path: str):
         json.dump(url_list, fp, indent=2)
 
 def url_filter(url_list: list) -> list:
-    """Filters out URLs that are to be queried.
+    """Filters out URLs that are to be queried, skipping URLs that responded with 204 HTTP code.
 
         Args:
             url_list: List of URL with metadata dict object.
