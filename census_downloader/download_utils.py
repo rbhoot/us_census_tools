@@ -26,11 +26,25 @@ from aiolimiter import AsyncLimiter
 from status_file_utils import get_pending_or_fail_url_list, url_to_download
 
 async def async_save_resp_json(resp: Any, store_path: str):
+    """Parses and stores json response to a file in async manner.
+
+        Args:
+            resp: Response object recieved from aiohttp call.
+            store_path: Path of the file to store the result.
+    """
     resp_data = await resp.json()
     logging.debug('Writing downloaded data to file: %s', store_path)
     json.dump(resp_data, open(store_path, 'w'), indent = 2)
 
 def default_url_filter(url_list: list) -> list:
+    """Filters out URLs that are to be queried.
+
+        Args:
+            url_list: List of URL with metadata dict object.
+        
+        Returns:
+            List of URL with metadata dict object that need to be queried.
+    """
     ret_list = []
     for cur_url in url_list:
         if cur_url['status'] == 'pending' or cur_url['status'].startswith('fail'):
@@ -38,6 +52,23 @@ def default_url_filter(url_list: list) -> list:
     return ret_list
 
 def download_url_list_iterations(url_list: list, url_api_modifier: Callable[[dict], str], api_key: str, process_and_store: Callable[[Any, str], int], url_filter: Union[Callable[[list], list], None] = None, max_itr: int = 3, rate_params: dict = {}) -> int:
+    """Attempt to download a list of URLs in multiple iteration.
+        Each iteration attempts to download calls that failed in previous iteration.
+        NOTE: An extra iteration might occour to attempt failed calls using requests library rather than parallel calls.
+
+        Args:
+            url_list: List of URL with metadata dict object.
+            url_api_modifier: Function to attach API key to url.
+            api_key: User's API key provided by US Census.
+            process_and_store: Function to parse, process and store the response to the passed store path.
+            url_filter: Function to filter out URLs that are to be requested.
+            max_itr: Maximum number iterations to be performed.
+                NOTE: An extra iteration might occour to attempt failed calls using requests library rather than parallel calls.
+            rate_params: Dict with parameters to set parallel request rate limits.
+        
+        Returns:
+            Count of url requests that failed.
+    """
     loop_ctr = 0
     if not url_filter:
         url_filter = default_url_filter
@@ -61,6 +92,17 @@ def download_url_list_iterations(url_list: list, url_api_modifier: Callable[[dic
 #      try except might need to change for decorator to work
 async def fetch(session: Any, cur_url: str, semaphore: Any, limiter: Any, url_api_modifier: Callable[[dict], str], api_key: str, process_and_store: Callable[[Any, str], int]):
 # async def fetch(session, url, semaphore):
+    """Fetch a single URL in async fashion.
+
+        Args:
+            session: aiohttp ClientSession object.
+            cur_url: URL to be requested.
+            semaphore: asyncio Semaphore object.
+            limiter: AsyncLimiter object.
+            url_api_modifier: Function to attach API key to url.
+            api_key: User's API key provided by US Census.
+            process_and_store: Function to parse, process and store the response to the passed store path.
+    """
     if url_to_download(cur_url):
         print(cur_url['url'])
         await semaphore.acquire()
@@ -94,14 +136,24 @@ async def fetch(session: Any, cur_url: str, semaphore: Any, limiter: Any, url_ap
 
 
 # async download
-async def _async_download_url_list(url_list: list, url_api_modifier: Callable[[dict], str], api_key: str, process_and_store: Callable[[Any, str], int], rate_params: dict):
+async def async_download_url_list(url_list: list, url_api_modifier: Callable[[dict], str], api_key: str, process_and_store: Callable[[Any, str], int], rate_params: dict):
+    """Creates async ClientSession and relevent objects for rate limiting.
+        Initiate request for each URL, and wait for them to complete.
+
+        Args:
+            url_list: List of URL with metadata dict object.
+            url_api_modifier: Function to attach API key to url.
+            api_key: User's API key provided by US Census.
+            process_and_store: Function to parse, process and store the response to the passed store path.
+            rate_params: Dict with parameters to set parallel request rate limits.
+    """
     # create semaphore
     semaphore = asyncio.Semaphore(rate_params['max_parallel_req'])
     # limiter
     limiter = AsyncLimiter(rate_params['req_per_unit_time'], rate_params['unit_time'])
     # create session
     conn = aiohttp.TCPConnector(limit_per_host=rate_params['limit_per_host'])
-    timeout = aiohttp.ClientTimeout(total=1200)
+    timeout = aiohttp.ClientTimeout(total=1800)
     async with aiohttp.ClientSession(connector=conn, timeout=timeout) as session:
         # loop over each url
         fut_list = []
@@ -112,6 +164,18 @@ async def _async_download_url_list(url_list: list, url_api_modifier: Callable[[d
         await responses
             
 def download_url_list(url_list: list, url_api_modifier: Callable[[dict], str], api_key: str, process_and_store: Callable[[Any, str], int], rate_params: dict):
+    """Synchronous wrapper to the function for making asynchrous calls?
+
+        Args:
+            url_list: List of URL with metadata dict object.
+            url_api_modifier: Function to attach API key to url.
+            api_key: User's API key provided by US Census.
+            process_and_store: Function to parse, process and store the response to the passed store path.
+            rate_params: Dict with parameters to set parallel request rate limits.
+        
+        Returns:
+            Count of URL requests that failed.
+    """
     logging.debug('Downloading url list of size %d', len(url_list))
     
     if not url_api_modifier:
@@ -128,7 +192,7 @@ def download_url_list(url_list: list, url_api_modifier: Callable[[dict], str], a
 
     start_t = time.time()
     loop = asyncio.get_event_loop()
-    future = asyncio.ensure_future(_async_download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params))
+    future = asyncio.ensure_future(async_download_url_list(url_list, url_api_modifier, api_key, process_and_store, rate_params))
     loop.run_until_complete(future)
     end_t = time.time()
     print("The time required to download", len(url_list), "URLs :", end_t-start_t)
