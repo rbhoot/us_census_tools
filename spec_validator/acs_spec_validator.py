@@ -314,9 +314,11 @@ def find_missing_denominators(column_name_list: list,
       for cur_denominator in spec_dict['denominators'][total_column]:
         if delimiter in cur_denominator:
           if cur_denominator not in column_name_list:
-            ret_list.append(cur_denominator)
+            if cur_denominator not in ret_list:
+              ret_list.append(cur_denominator)
         elif not token_in_list_ignore_case(cur_denominator, token_list):
-          ret_list.append(cur_denominator)
+          if cur_denominator not in ret_list:
+            ret_list.append(cur_denominator)
   return ret_list
 
 
